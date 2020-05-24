@@ -14,3 +14,5 @@ class WordList extends React.Component {
     );
   }
 };
+
+export default WordList;

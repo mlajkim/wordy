@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Word from '../Word/Word';
+import WordList from '../WordList/WordList';
 
 class App extends React.Component {
   render() {
     return (
-      <Word />
+      <WordList />
     );
   };
 }
