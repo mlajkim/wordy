@@ -17,15 +17,10 @@ class Word extends React.Component {
     return (
       <div>
         <h1>{word.word}</h1>
-        <p>{word.owner_id}</p>
-        <p>{word.owner_id}</p>
-        <p>{word.pronunciation}</p>
-        <p>{word.example_sentence}</p>
-        <h1>{word.owner_id}</h1>
-        <p>{word.date_created}</p>
-        <p>{word.year}</p>
-        <p>{word.semester}</p>
-        <p>{word.category_id}</p>
+        <p>[{word.pronunciation}] {word.example_sentence}</p>
+        <h1>Owner id: {word.owner_id}</h1>
+        <p>{word.year}-{word.semester}_{word.category_id}</p>
+        <p>Date Created: {word.date_created}</p>
       </div>
     );
   }
