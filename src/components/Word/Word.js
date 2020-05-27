@@ -8,7 +8,7 @@ class Word extends React.Component {
         <Card.Header>Owner: {this.props.word.owner_id}</Card.Header>
         <Card.Body>
           <Card.Title>{this.props.word.word} [{this.props.word.pronunciation}]</Card.Title>
-          <Card.Text>{this.props.word.example_sentence} <br />Owner:{this.props.word.owner_id}</Card.Text>
+          <Card.Text>{this.props.word.example_sentence} <br /><br />Owner:{this.props.word.owner_id}</Card.Text>
         </Card.Body>
       </Card>
     );
