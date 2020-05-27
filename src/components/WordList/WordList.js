@@ -8,11 +8,9 @@ class WordList extends React.Component {
     return ( // Simply render 5 word for now
       <div>
         <CardGroup>
-          <Word />
-          <Word />
-          <Word />
-          <Word />
-          <Word />
+          {this.props.words.map(word => {
+            return <Word word={word}/>
+          })}
         </CardGroup>
       </div>
     );
