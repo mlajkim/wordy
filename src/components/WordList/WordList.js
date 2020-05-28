@@ -9,7 +9,7 @@ class WordList extends React.Component {
       <div>
         <CardGroup>
           {this.props.words.map(word => {
-            return <Word word={word}/>
+            return <Word words={word}/>
           })}
         </CardGroup>
       </div>

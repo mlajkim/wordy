@@ -5,6 +5,7 @@ import NavBar from '../NavBar/NavBar';
 // Pages Import
 import WordList from '../WordList/WordList';
 import Home from '../pages/Home/Home';
+import QuickReview from '../pages/QuickReview/QuickReview';
 
 //Hard coded word
 const word = {
@@ -40,7 +41,7 @@ class App extends React.Component {
 
   returnCurrentPage(){
     if(this.state.page === 'QuickReview'){
-      return <WordList words={words}/>;
+      return <QuickReview words={words} />;
     }else if(this.state.page === 'Home'){
       return <Home />;
     }
