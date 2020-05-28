@@ -6,9 +6,6 @@ import NavBar from '../NavBar/NavBar';
 import WordList from '../WordList/WordList';
 import Home from '../pages/Home/Home';
 
-// For test
-import Button from 'react-bootstrap/Button'
-
 //Hard coded word
 const word = {
   owner_id: 1,
@@ -34,8 +31,7 @@ class App extends React.Component {
     };
 
     this.changePage = this.changePage.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-
+    this.returnCurrentPage = this.returnCurrentPage.bind(this);
   }
 
   changePage(newPage){
@@ -50,18 +46,10 @@ class App extends React.Component {
     }
   }
 
-  handleClick(event) {
-    const newPage = event.target.newPage;
-    this.changePage(newPage);
-    
-    event.preventDefault();
-
-  }
-
   render() {
     return (
       <div>
-        <NavBar handleClick={this.handleClick} currentPage={this.state.page} />
+        <NavBar changePage={this.changePage} currentPage={this.state.page} />
         {this.returnCurrentPage()}
       </div>
     );
