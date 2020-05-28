@@ -6,36 +6,26 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
-  }
+    this.handleChangePage = this.handleChangePage.bind(this);
+  } // Constructor ends
 
-  handleClick(e) {
-    const newPage = e.target.newPage;
+  handleChangePage(newPage) {
     this.props.changePage(newPage);
-  }
+  } // handleChangePage ends
 
   render() {
     return (
       <div>
         <Navbar bg="dark" variant="dark">
-          <Navbar.Brand newPage="Home" onClick={this.handleClick} >
-            <img
-              alt=""
-              src="/logo.svg"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            {this.props.currentPage}
-          </Navbar.Brand> 
           <Nav className="mr-auto">
-            <Nav.Link onClick={this.handleClick} newPage="Home">Home</Nav.Link>
-            <Nav.Link onClick={this.handleClick} newPage="QuickReview">Quick Review</Nav.Link>
+            <Nav.Link onClick={() => this.handleChangePage("Home")}>Home</Nav.Link>
+            <Nav.Link onClick={() => this.handleChangePage("QuickReview")}>Quick Review</Nav.Link>
           </Nav>
         </Navbar>
       </div>
     );
-  }
+  } // Render ends
+  
 }
 
 export default NavBar;
