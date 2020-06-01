@@ -1,6 +1,5 @@
 // Import the basics
 const express = require('express');
-const app = require('../../index');
 
 // Initiate the basics
 const apiRouter = express.Router();

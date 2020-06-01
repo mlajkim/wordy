@@ -4,7 +4,6 @@ const path = require('path');
 
 // Initiate the express app and Export it
 const app = express();
-module.exports = app;
 const PORT = process.env.PORT || 5000;
 
 // Connecting to Wordy
