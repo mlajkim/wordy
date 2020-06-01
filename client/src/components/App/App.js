@@ -3,36 +3,30 @@ import './App.css';
 import NavBar from '../NavBar/NavBar';
 
 // Pages Import
-import WordList from '../WordList/WordList';
 import Home from '../pages/Home/Home';
 import QuickReview from '../pages/QuickReview/QuickReview';
-
-//Hard coded word
-const word = {
-  owner_id: 1,
-  date_created: 1590297520459, // May 24, 2020 (Sun)
-  year: 2020,
-  semester: 2,
-  category_id: 2,
-  word: 'revenous',
-  pronunciation: 'reh-vuh-nus',
-  definition: 'extremely hungry',
-  example_sentence: 'I am revenous, where is my supper?'
-};
-
-//Hard coded words
-const words = [word, word, word, word, word];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      page: 'QuickReview'
+      page: 'QuickReview',
+      words: []
     };
 
     this.changePage = this.changePage.bind(this);
     this.returnCurrentPage = this.returnCurrentPage.bind(this);
+  }
+
+  componentDidMount() {
+    this.getWords();
+  }
+
+  getWords(){
+    fetch('/api/getWords')
+    .then(res => res.json())
+    .then(words => this.setState({words}))
   }
 
   changePage(newPage){
@@ -41,7 +35,7 @@ class App extends React.Component {
 
   returnCurrentPage(){
     if(this.state.page === 'QuickReview'){
-      return <QuickReview words={words} />;
+      return <QuickReview words={this.state.words} />;
     }else if(this.state.page === 'Home'){
       return <Home />;
     }
