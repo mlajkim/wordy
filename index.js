@@ -1,32 +1,20 @@
-// Implement the basics
+// Import the basics
 const express = require('express');
 const path = require('path');
 
-// Initiate App
+// Initiate the express app and Export it
 const app = express();
+module.exports = app;
 const PORT = process.env.PORT || 5000;
 
 // Connecting to Wordy
 app.use(express.static(path.join(__dirname, './client/build')));
 
-//Hard coded word
-const word = {
-  owner_id: 1,
-  date_created: 1590297520459, // May 24, 2020 (Sun)
-  year: 2020,
-  semester: 2,
-  category_id: 2,
-  word: 'revenous',
-  pronunciation: 'reh-vuh-nus',
-  definition: 'extremely hungry',
-  example_sentence: 'I am revenous, where is my supper?'
-};
+// Bring the routers into the app
+const apiRouter = require('./routes/api/api');
 
-// Basic returning api
-app.get('/api/getWords', (req, res) => {
-  const words = [word, word, word, word, word];
-  res.json(words);
-});
+// Put the remote routers available for app
+app.use('/api', apiRouter);
 
 // Begin the express server
 app.listen(PORT, () => {
