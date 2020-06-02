@@ -2,6 +2,7 @@
 
 #AJ Personal
 data.sqlite
+data.sqlite-journal
 
 # dependencies
 /node_modules
