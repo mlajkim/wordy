@@ -1,5 +1,6 @@
+// Import the necessity
 import React from 'react';
-import './App.css';
+import {BrowserRouter , Route, Switch} from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 
 // Pages Import
@@ -11,12 +12,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      page: 'QuickReview',
       words: []
     };
-
-    this.changePage = this.changePage.bind(this);
-    this.returnCurrentPage = this.returnCurrentPage.bind(this);
   }
 
   componentDidMount() {
@@ -29,23 +26,25 @@ class App extends React.Component {
     .then(words => this.setState({words}))
   }
 
-  changePage(newPage){
-    this.setState({page: newPage});
-  }
-
-  returnCurrentPage(){
-    if(this.state.page === 'QuickReview'){
-      return <QuickReview words={this.state.words} />;
-    }else if(this.state.page === 'Home'){
-      return <Home />;
-    }
+  showCurrentPage() {
+    return (
+      <BrowserRouter>
+        <Switch>
+        <Route exact path='/' component={Home} />
+          <Route exact path='/home' component={Home} />
+          <Route exact path='/quickReview' render={(props) => {
+            return <QuickReview words={this.state.words}/>
+          }} />
+        </Switch>
+      </BrowserRouter>
+    );
   }
 
   render() {
     return (
       <div>
         <NavBar changePage={this.changePage} currentPage={this.state.page} />
-        {this.returnCurrentPage()}
+        {this.showCurrentPage()}
       </div>
     );
   };

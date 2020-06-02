@@ -18,8 +18,8 @@ class NavBar extends React.Component {
       <div>
         <Navbar bg="dark" variant="dark">
           <Nav className="mr-auto">
-            <Nav.Link onClick={() => this.handleChangePage("Home")}>Home</Nav.Link>
-            <Nav.Link onClick={() => this.handleChangePage("QuickReview")}>Quick Review</Nav.Link>
+            <Nav.Link href="/home" onClick={() => this.handleChangePage("Home")}>Home</Nav.Link>
+            <Nav.Link href="/quickReview" onClick={() => this.handleChangePage("QuickReview")}>Quick Review</Nav.Link>
           </Nav>
         </Navbar>
       </div>
