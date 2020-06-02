@@ -11,13 +11,9 @@ app.use(express.static(path.join(__dirname, './client/build')));
 
 // Bring the routers into the app
 const apiRouter = require('./routes/api/api');
-const homeRouter = require('./routes/pages/home');
-const quickReviewRouter = require('./routes/pages/quickReview');
 
 // Put the remote routers available for app
 app.use('/api', apiRouter);
-app.use('/home', homeRouter);
-app.use('/quickReview', quickReviewRouter);
 
 // Begin the express server
 app.listen(PORT, () => {
