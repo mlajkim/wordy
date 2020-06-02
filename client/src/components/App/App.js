@@ -33,7 +33,7 @@ class App extends React.Component {
   setCurrentWordId(newWordId){
     console.log(`I got thjis number: ${newWordId}`)
     this.setState({currentWordId: newWordId});
-    this.componentDidMount(); // Hmm... I don't like it to be honest.
+    this.getWords(); // Hmm... I don't like it to be honest.
   }
 
   showCurrentPage() {
