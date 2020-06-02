@@ -3,18 +3,19 @@ import React from 'react';
 // React-Bootstrap Import
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
+import Image from 'react-bootstrap/Image';
 
 class Word extends React.Component {
   render() {
+    const word = this.props.word.word;
+    const pronunciation = this.props.word.pronunciation ? ` [${this.props.word.pronunciation}] ` : ' [] ';
+    const definition = this.props.word.definition ? ` ${this.props.word.definition} ` : '';
+    const exampleSentence = this.props.word.exampleSentence ? `= ${this.props.word.definition}` : '';
+
     return (
-      <Card border="secondary" style={{ width: '18rem' }}>
-        <Card.Header>Owner: {this.props.word.owner_id}</Card.Header>
-        <Card.Body>
-          <Card.Title>{this.props.word.word} [{this.props.word.pronunciation}]</Card.Title>
-          <Card.Text>{this.props.word.example_sentence} <br /><br />Owner:{this.props.word.owner_id}</Card.Text>
-        </Card.Body>
-      </Card>
+      <Card>
+        <Card.Body>{word}{pronunciation}{definition}{exampleSentence}</Card.Body>
+      </Card> 
     );
   }
 }
@@ -23,12 +24,19 @@ class QuickReview extends React.Component {
   render() {
     return (
       <div>
-        <CardGroup>
-          {this.props.words.map(word => {
-            return <Word word={word}/>
-          })}
-        </CardGroup>
-        <Button variant="success">Next!</Button>
+        <Card className="text-center">
+          <Card.Header>
+            My Words!
+          </Card.Header>
+          <Card.Body>
+            {this.props.words.map(word => {
+              return <Word word={word}/>
+            })}
+          </Card.Body>
+          <Card.Footer className="text-muted">
+           <Button variant="outline-success">Next ⇒</Button>
+          </Card.Footer>
+        </Card>
       </div>
     );
   };
