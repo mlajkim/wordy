@@ -19,29 +19,20 @@ const word = {
   example_sentence: 'I am revenous, where is my supper?'
 };
 
-// Read specific data from database
-// Returns an array of words
-const readData = (id, many) => {
+// Basic returning api, now with SQL 
+apiRouter.get('/getWords', (req, res) => {
   const statement = db.prepare(`
     SELECT * FROM word
     WHERE id >= ?
     LIMIT ?
   `);
 
-  statement.all([id, many], (err, rows) => {
+  statement.all([269, 5], (err, rows) => {
     if(err) {
-      console.log(err);
-    }else{
-      console.log(rows);
-      return rows;
+      throw new Error(err);
     }
+    res.json(rows);
   })
-}
-
-// Basic returning api
-apiRouter.get('/getWords', (req, res) => {
-  const words = readData(269, 5);
-  res.json(words);
 }); 
 
 // Export the router
