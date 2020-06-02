@@ -3,7 +3,6 @@ import React from 'react';
 // React-Bootstrap Import
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
-import Image from 'react-bootstrap/Image';
 
 class Word extends React.Component {
   render() {
@@ -20,7 +19,17 @@ class Word extends React.Component {
   }
 }
 
-class QuickReview extends React.Component {
+class QuickReview extends React.Component { 
+  constructor(props){
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  } 
+
+  handleClick(e) {
+    this.props.setCurrentWordId(this.props.words[4].id + 1);
+  }
+
   render() {
     return (
       <div>
@@ -34,7 +43,7 @@ class QuickReview extends React.Component {
             })}
           </Card.Body>
           <Card.Footer className="text-muted">
-           <Button variant="outline-success">Next ⇒</Button>
+           <Button variant="outline-success" onClick={this.handleClick}>Next ⇒</Button>
           </Card.Footer>
         </Card>
       </div>

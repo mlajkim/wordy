@@ -12,8 +12,12 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      words: []
+      words: [],
+      currentWordId: 174
     };
+
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.setCurrentWordId = this.setCurrentWordId.bind(this);
   }
 
   componentDidMount() {
@@ -21,9 +25,15 @@ class App extends React.Component {
   }
 
   getWords(){
-    fetch('/api/getWords')
+    fetch(`/api/getWords/${this.state.currentWordId}`)
     .then(res => res.json())
     .then(words => this.setState({words}))
+  }
+
+  setCurrentWordId(newWordId){
+    console.log(`I got thjis number: ${newWordId}`)
+    this.setState({currentWordId: newWordId});
+    this.componentDidMount(); // Hmm... I don't like it to be honest.
   }
 
   showCurrentPage() {
@@ -33,7 +43,7 @@ class App extends React.Component {
         <Route exact path='/' component={Home} />
           <Route exact path='/home' component={Home} />
           <Route exact path='/quickReview' render={(props) => {
-            return <QuickReview words={this.state.words}/>
+            return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
           }} />
         </Switch>
       </BrowserRouter>
