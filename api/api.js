@@ -7,14 +7,14 @@ const db = new sqlite3.Database('./data.sqlite');
 const apiRouter = express.Router();
 
 // Basic returning api, now with SQL 
-apiRouter.get('/getWords', (req, res) => {
+apiRouter.get('/getWords/:id', (req, res) => {
   const statement = db.prepare(`
     SELECT * FROM word
     WHERE id >= ?
     LIMIT ?
   `);
 
-  statement.all([274, 5], (err, rows) => {
+  statement.all([req.params.id, 5], (err, rows) => {
     if(err) {
       throw new Error(err);
     }
