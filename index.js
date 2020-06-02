@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, './client/build')));
 app.use(morgan('dev'));
 
 // Bring the routers into the app
-const apiRouter = require('./routes/api/api');
+const apiRouter = require('./api/api');
 
 // Put the remote routers available for app
 app.use('/api', apiRouter);
