@@ -1,12 +1,12 @@
 // Import the necessity
 import React from 'react';
 import {BrowserRouter , Route, Switch} from 'react-router-dom';
-import NavBar from '../NavBar/NavBar';
+import NavBar from './NavBar';
 
 // Pages Import
-import Home from '../pages/Home/Home';
-import QuickReview from '../pages/QuickReview/QuickReview';
-import CarefulReview from '../CarefulReview';
+import Home from './Home';
+import QuickReview from './QuickReview';
+import CarefulReview from './CarefulReview';
 
 class App extends React.Component {
   constructor(props) {
