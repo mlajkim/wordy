@@ -3,11 +3,11 @@
  */
 
 // Import the necessary
-import React from 'react';
+import React, {Component} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
-class NavBar extends React.Component {
+class NavBar extends Component {
   render() {
     return (
       <div>
