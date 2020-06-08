@@ -14,7 +14,8 @@ class App extends React.Component {
 
     this.state = {
       words: [],
-      currentWordId: 174
+      currentWordId: 174,
+      allWords: []
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
