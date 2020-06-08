@@ -44,10 +44,10 @@ class App extends React.Component {
         <Switch>
         <Route exact path='/' component={Home} />
           <Route exact path='/home' component={Home} />
-          <Route exact path='/quickReview' render={(props) => {
+          <Route exact path='/review/quick' render={(props) => {
             return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
           }} />
-          <Route exact path='/carefulReview' component={CarefulReview}/>
+          <Route exact path='/review/careful' component={CarefulReview}/>
         </Switch>
       </BrowserRouter>
     );
