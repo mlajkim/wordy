@@ -15,6 +15,7 @@ class NavBar extends React.Component {
           <Nav className="mr-auto">
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/quickReview">Quick Review</Nav.Link>
+            <Nav.Link href="/carefulReview">Careful Review</Nav.Link>
           </Nav>
         </Navbar>
       </div>

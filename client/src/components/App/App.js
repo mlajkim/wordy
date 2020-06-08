@@ -6,6 +6,7 @@ import NavBar from '../NavBar/NavBar';
 // Pages Import
 import Home from '../pages/Home/Home';
 import QuickReview from '../pages/QuickReview/QuickReview';
+import CarefulReview from '../CarefulReview';
 
 class App extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class App extends React.Component {
           <Route exact path='/quickReview' render={(props) => {
             return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
           }} />
+          <Route exact path='/carefulReview' component={CarefulReview}/>
         </Switch>
       </BrowserRouter>
     );

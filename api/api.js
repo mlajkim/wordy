@@ -22,5 +22,19 @@ apiRouter.get('/getWords/:id', (req, res) => {
   })
 }); 
 
+// This extracts all the data from the database
+apiRouter.get('/getWords', (req, res) => {
+  const statement = db.prepare(`
+    SELECT * FROM word
+  `);
+
+  statement.all([], (err, rows) => {
+    if(err) {
+      throw new Error(err);
+    }
+    res.json(rows);
+  })
+});
+
 // Export the router
 module.exports = apiRouter;
