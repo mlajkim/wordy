@@ -4,10 +4,10 @@ const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./data.sqlite');
 
 // Initiate the basics
-const apiRouter = express.Router();
+const logRouter = express.Router();
 
 // Get all logs
-apiRouter.get('/getAllLog/:userId/:reviewType', (req, res) => {
+logRouter.get('/getAllLog/:userId/:reviewType', (req, res) => {
   const statement = db.prepare(`
   SELECT * FROM log
   WHERE user_id = ?
@@ -24,7 +24,7 @@ statement.all([req.params.userId, req.params.reviewType], (err, row) => {
 })
 
 // This api reads the last log of the user
-apiRouter.get('/getLog/:userId/:reviewType', (req, res) => {
+logRouter.get('/getLog/:userId/:reviewType', (req, res) => {
   const statement = db.prepare(`
     SELECT * FROM log
     WHERE user_id = ?
@@ -42,7 +42,7 @@ apiRouter.get('/getLog/:userId/:reviewType', (req, res) => {
 });
 
 // This api writes log
-apiRouter.get('/writeLog/:userId/:reviewType/:headWordId/:howMany', (req, res) => {
+logRouter.get('/writeLog/:userId/:reviewType/:headWordId/:howMany', (req, res) => {
   db.serialize(() => {
     // Loop through according to how many times it should run
     for(let i = 0 ; i < req.params.howMany ; i++){
@@ -71,35 +71,5 @@ apiRouter.get('/writeLog/:userId/:reviewType/:headWordId/:howMany', (req, res) =
   })
 })
 
-// Basic returning api, now with SQL 
-apiRouter.get('/getWords/:id', (req, res) => {
-  const statement = db.prepare(`
-    SELECT * FROM word
-    WHERE id >= ?
-    LIMIT ?
-  `);
-
-  statement.all([req.params.id, 5], (err, rows) => {
-    if(err) {
-      throw new Error(err);
-    }
-    res.json(rows);
-  })
-}); 
-
-// This extracts all the data from the database
-apiRouter.get('/getWords', (req, res) => {
-  const statement = db.prepare(`
-    SELECT * FROM word
-  `);
-
-  statement.all([], (err, rows) => {
-    if(err) {
-      throw new Error(err);
-    }
-    res.json(rows);
-  })
-});
-
 // Export the router
-module.exports = apiRouter;
+module.exports = logRouter;
