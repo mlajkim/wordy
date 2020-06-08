@@ -20,6 +20,7 @@ class App extends React.Component {
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.setCurrentWordId = this.setCurrentWordId.bind(this);
+    this.getAllWords = this.getAllWords.bind(this);
   }
 
   componentDidMount() {
