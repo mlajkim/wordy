@@ -26,6 +26,12 @@ class App extends React.Component {
     this.getWords();
   }
 
+  getAllWords() {
+    fetch('/api/getWords')
+    .then(res => res.json())
+    .then(allWords => this.setState({allWords}))
+  }
+
   getWords(){
     fetch(`/api/getWords/${this.state.currentWordId}`)
     .then(res => res.json())
@@ -47,7 +53,9 @@ class App extends React.Component {
           <Route exact path='/review/quick' render={(props) => {
             return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
           }} />
-          <Route exact path='/review/careful' component={CarefulReview}/>
+          <Route exact path='/review/careful' render={(props) => {
+            return <CarefulReview words={this.state.allWords} getAllWords={this.getAllWords}/>
+          }}/>
         </Switch>
       </BrowserRouter>
     );

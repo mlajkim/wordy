@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
+import Review from './Review';
 
 class CarefulReview extends Component {
   render() {
     return (
-      <div>Hello Careful Review!</div>
+      <div>
+        <h1>Hello Careful Review!</h1>
+        <Review />
+      </div>
     );
   }
 }

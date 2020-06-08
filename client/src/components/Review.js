@@ -6,10 +6,26 @@
  // Import the necessary
 import React, {Component} from 'react';
 
+// React-Bootstrap Import
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card';
+
 class Review extends Component {
   render() {
     return (
-      <div>Hellow Review!</div>
+      <div>
+        <Card className="text-center">
+          <Card.Header>
+            My Words!
+          </Card.Header>
+          <Card.Body>
+            Hey word!
+          </Card.Body>
+          <Card.Footer className="text-muted">
+           <Button variant="outline-success" onClick={this.handleClick}>Next ⇒</Button>
+          </Card.Footer>
+        </Card>
+      </div>
     )
   }
 }
