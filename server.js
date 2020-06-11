@@ -7,7 +7,7 @@ const morgan = require('morgan');
 
 // Initiate the express app and Export it
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // Connecting to Wordy
 app.use(express.static(path.join(__dirname, './client/build')));
