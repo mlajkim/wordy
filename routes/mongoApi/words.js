@@ -6,118 +6,39 @@ const mongoose = require('mongoose')
 const yourDatabaseName = 'wordy-local'
 const url = `mongodb://127.0.0.1:27017/${yourDatabaseName}`;
 
+// Import Mongoose Models
+const wordSchema = require('../../models/Word');
+
+// Import required algorithm-helpers
+const parsingEngine = require('../helper/parsingEngine');
+
 // Here
-wordsRouter.get('/', (req, res) => {
-  res.send('Hello words!')
+wordsRouter.get('/', async (req, res) => {
+  const data = await wordSchema.find()
+  console.log(data);
+  res.send('Umm data?: ' + data);
 });
 
 wordsRouter.post('/', (req, res) => {
+  const parsedProperties = parsingEngine(req.body.parsetarget);
+  saveIt(parsedProperties);
 
-  const state = smallEngine(req.body.parsetarget);
+  // Save this as well! 
+  const testWord = new wordSchema({
+    word: 'This is the test',
+    definition: 'Okay, the testing definition'
+  })
+
+  testWord.save()
+  .then(document => console.log(document))
+  .catch(err => console.log(err))
   
   const message = {
-    state: state,
-    contents: req.body.parsetarget
+    state: 'success'
   }
 
   res.send(message);
 });
-
-const smallEngine = data => {
-  // 1) Split the recieved data & Filters blank data 
-  const dataArr = data.split("\n").filter(element => {
-    if(element !== '') return true; // Only when it is not empty string
-    else return false; 
-  }).map(element => element.trim());
-
-  // 2) Parse into properties
-  const parsedPropertiesArr = dataArr.map(element => {
-    // Simply Parseit 
-    const parsedProperty = parseIt(element);
-        
-    // Let express server viewer knows it has been parsed.
-    console.log(parsedProperty.word);
-
-    return parsedProperty;
-        
-  });
-
-  // 3) Save into MongoDB
-  saveIt(parsedPropertiesArr);
-
-  if(!parsedPropertiesArr){
-    //if Blank (fail)
-    return 'failed'
-  }else{
-    return 'success'
-  }
-}
-
-// Parsing Engine
-const parseIt = (targetSentence) => {
-  const parsedProperty = {};
-
-  let isPronunciated = false;
-  let isDefined = false;
-  let isExamplified = false;
-
-  if(targetSentence.search(/\[/g) >= 0) isPronunciated = true;
-  if(targetSentence.search(/[[-]/g) >= 0) isDefined = true;
-  if(targetSentence.search(/=/g) >= 0) isExamplified = true;
-
-  // Example Clear
-  if(isExamplified){
-    parsedProperty.exampleSentence = targetSentence.split('=')[1].trim();
-  }
-
-  // Pronunciation Clear
-  if(isPronunciated){
-    const regex = /.*\[(?<pronunciation>.*)\s*\]/g;
-    parsedProperty.pronunciation = regex.exec(targetSentence).groups['pronunciation'].trim();
-  }
-
-  // Get Word - Definition
-  if(isDefined && isPronunciated){
-    const regex = /\s*(?<word>.*)\s*\[.*\]\s*(?<definition>\S.*)/g;
-    const group = regex.exec(targetSentence).groups;
-
-    parsedProperty.word = group.word.trim();
-    parsedProperty.definition = group.definition.split('=')[0].trim();
-  }else if(isDefined && !isPronunciated){
-    const regex = /\s*(?<word>.*)\s*-\s*(?<definition>\S.*)/g;
-    const group = regex.exec(targetSentence).groups;
-
-    parsedProperty.word = group.word.trim();
-    parsedProperty.definition = group.definition.split('=')[0].trim();
-  }
-
-  if(isPronunciated && isDefined && isExamplified){
-    const regex = /\s*(?<word>.*)\s*\[.*\]\s*(?<definition>.*)\s*=/g;
-    const group = regex.exec(targetSentence).groups;
-
-    parsedProperty.word = group.word.trim();
-    parsedProperty.definition = group.definition.trim();
-
-  }else if(isPronunciated && isDefined && !isExamplified){
-    const regex = /\s*(?<word>.*)\s*\[.*\]\s*(?<definition>.*)\s*/g;
-    const group = regex.exec(targetSentence).groups;
-
-    parsedProperty.word = group.word.trim();
-    parsedProperty.definition = group.definition.trim();
-  }
-
-  // just_love_it Clear
-  if(!isDefined){
-    parsedProperty.word = targetSentence;
-
-  }
-
-  // Date added
-  parsedProperty.dateAdded = Date.now();
-
-  return parsedProperty;
-
-};
 
 // Saving data into MongoDB Engine
 const saveIt = (parsedProperties) => {
