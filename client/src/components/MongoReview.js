@@ -35,25 +35,23 @@ class MongoReview extends Component {
     });
   }
 
-  async handleClickNextIndex() {
-    await this.setState({
-      index: this.state.index + this.state.howMany
+  handleClickNextIndex() {
+    const newIndex = this.state.index + this.state.howMany;
+    this.setState({
+      index: newIndex
+    }, () => {
+      this.setState({
+        wordsNow: this.state.words.slice(newIndex, newIndex + this.state.howMany)
+      })
     })
-    await this.setState({
-      wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
-    })
-
 
     //Check if it reached the index
-    if(this.state.words.length - this.state.howMany - 1 < this.state.index){
+    if(this.state.words.length - this.state.howMany - 1 < newIndex){
       this.setState({
         index: 0,
-        wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
+        wordsNow: this.state.words.slice(0, this.state.howMany)
       })
     }
-
-    //Testing
-    console.log(this.state.words.length +'index' +  this.state.index)
   }
 
   handleClickRefresh() {
