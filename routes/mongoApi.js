@@ -10,9 +10,9 @@ const logsRouter = require('./mongoApi/logs');
 const usersRouter = require('./mongoApi/logs');
 
 // Apply routers 
-apiRouter.use('/words', wordsRouter);
-apiRouter.use('/logs', logsRouter);
-apiRouter.use('/users', usersRouter);
+mongoApiRouter.use('/words', wordsRouter);
+mongoApiRouter.use('/logs', logsRouter);
+mongoApiRouter.use('/users', usersRouter);
 
 // Export the router
 module.exports = mongoApiRouter;
