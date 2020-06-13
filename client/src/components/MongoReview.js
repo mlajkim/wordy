@@ -12,21 +12,43 @@ class MongoReview extends Component {
       howMany: 5
     }
 
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.handleClickNextIndex = this.handleClickNextIndex.bind(this);
     this.handleClickRefresh = this.handleClickRefresh.bind(this);
   }
 
-  handleClickNextIndex() {
-    this.setState({
-      index: this.state.index + this.state.howMany,
-      wordsNow: this.state.words.slice(this.state.index, this.state.index + 5)
+  async componentDidMount() {
+    // Load data
+    fetch('/mongoApi/words', {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+    .then(res => res.json())
+    .then(result => {
+      this.setState({
+        words: result
+      })
+      this.setState({
+        wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
+
+      })
+    });
+  }
+
+  async handleClickNextIndex() {
+    await this.setState({
+      index: this.state.index + this.state.howMany
+    })
+    await this.setState({
+      wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
     })
 
+
     //Check if it reached the index
-    if(this.state.words.length-6 < this.state.index){
+    if(this.state.words.length - this.state.howMany - 1 < this.state.index){
       this.setState({
         index: 0,
-        wordsNow: this.state.words.slice(this.state.index, this.state.index + 5)
+        wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
       })
     }
 
