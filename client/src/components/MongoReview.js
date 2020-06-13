@@ -9,19 +9,30 @@ class MongoReview extends Component {
       words: [],
       wordsNow: ['hey', 'hey', 'hey', 'hey', 'hey']
     }
+
+    this.handleClickRefresh = this.handleClickRefresh.bind(this);
   }
 
   wordCard = (
     <div>
-      <Card body>This is some text within a card body.</Card>
+      <Card body bg="light">This is some text within a card body.</Card>
     </div>
   );
+
+  handleClickRefresh() {
+    fetch('/mongoApi/words', {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+    .then(res => res.json())
+    .then(result => console.log(result));
+  }
 
   render() {
     return (
       <div>
         <Card className="text-center">
-          <Card.Header>Featured</Card.Header>
+          <Card.Header><Button variant="outline-warning" onClick={this.handleClickRefresh}>Refresh</Button></Card.Header>
           <Card.Body>
             <Card.Title>2020-2 English</Card.Title>
             {this.state.wordsNow.map(element => {
