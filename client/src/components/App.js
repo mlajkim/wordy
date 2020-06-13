@@ -18,10 +18,14 @@ class App extends React.Component {
       allWords: []
     };
 
+
+    // The belows are the SQLite Function
     this.componentDidMount = this.componentDidMount.bind(this);
     this.setCurrentWordId = this.setCurrentWordId.bind(this);
     this.getAllWords = this.getAllWords.bind(this);
   }
+
+  // The belows are the SQLite functions
 
   componentDidMount() {
     this.getWords();
