@@ -26,12 +26,7 @@ class MongoReview extends Component {
     })
     .then(res => res.json())
     .then(result => {
-      this.setState({words: result}, () => {
-        this.setState({
-          wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
-  
-        })
-      })
+      this.setState({words: result})
     })
     .catch(err => {
       // No log, set to 0
