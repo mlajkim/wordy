@@ -45,7 +45,7 @@ class MongoReview extends Component {
     })
     .then(res => res.json())
     .then(result => {
-        const foundIndex = this.state.words.findIndex(element => element._id === result.wordId)
+        const foundIndex = this.state.words.findIndex(element => element._id === result.wordId) + 1 // Add one for the next!
         console.log(this.state.words); // Test
         console.log(result); // Test
         console.log(foundIndex); // Test
