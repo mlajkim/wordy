@@ -17,9 +17,11 @@ app.use(morgan('dev'));
 
 // Bring the routers into the app
 const apiRouter = require('./routes/api');
+const mongoApiRouter = require('./routes/mongoApi');
 
 // Put the remote routers available for app
 app.use('/api', apiRouter);
+app.use('/mongoApi', mongoApiRouter);
 
 // Begin the express server
 app.listen(PORT, () => {
