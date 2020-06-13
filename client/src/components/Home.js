@@ -24,13 +24,15 @@ class Home extends React.Component {
   
   // Initiated when the button is clicked for the parsing!
   handleSubmit(e){
-    const {parsetarget} = this.state;
-
-    /* fetch('/mongoApi/words', {
+    fetch('/mongoApi/words', {
       method: 'POST',
-      body: JSON.stringify(parsetarget)
+      headers: {'Content-Type':'application/json'}, // super important
+      body: JSON.stringify({
+        "parsetarget": this.state.parsetarget
+      })
     })
-    .then(res => res.json()) */
+    .then(res => res.json())
+    .then(data => console.log(data));
     
   }
 
