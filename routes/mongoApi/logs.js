@@ -15,6 +15,13 @@ logsRouter.use((req, res, next) => {
   next();
 })
 
+// GET the LAST LOG
+logsRouter.get('/lastLog', async (req, res) => {
+  const data = await logSchema.find().limit(1).sort({$natural:-1})
+
+  res.send(data);
+})
+
 // GET
 logsRouter.get('/', async (req, res) => {
   const data = await logSchema.find()
@@ -29,7 +36,7 @@ logsRouter.post('/', (req, res) => {
     wordId: req.body.wordId
   })
 
-  tempWordSchema.save()
+  tempLogSchema.save()
     .then(document => console.log(document))
     .catch(err => console.log(err))
 
