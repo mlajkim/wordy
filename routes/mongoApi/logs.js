@@ -17,7 +17,7 @@ logsRouter.use((req, res, next) => {
 
 // GET the LAST LOG
 logsRouter.get('/lastLog', async (req, res) => {
-  const data = await logSchema.find().limit(1).sort({$natural:-1})
+  const data = await logSchema.findOne().sort({$natural:-1})
 
   res.send(data);
 })
