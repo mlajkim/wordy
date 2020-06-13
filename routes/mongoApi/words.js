@@ -18,7 +18,7 @@ wordsRouter.use((req, res, next) => {
   next();
 })
 
-// Here
+// GET
 wordsRouter.get('/', async (req, res) => {
   const data = await wordSchema.find()
   res.send(data);
@@ -45,8 +45,8 @@ wordsRouter.post('/', (req, res) => {
       })
 
       tempWordSchema.save()
-      .then(document => console.log(document))
-      .catch(err => console.log(err))
+        .then(document => console.log(document))
+        .catch(err => console.log(err))
     }) // parsedProperties loop ends 
   })   
   
