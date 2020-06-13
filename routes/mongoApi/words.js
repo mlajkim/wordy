@@ -21,8 +21,7 @@ wordsRouter.use((req, res, next) => {
 // Here
 wordsRouter.get('/', async (req, res) => {
   const data = await wordSchema.find()
-  console.log(data);
-  res.send('Umm data?: ' + data);
+  res.send(data);
 });
 
 wordsRouter.post('/', (req, res) => {

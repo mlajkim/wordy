@@ -9,4 +9,4 @@ const wordSchema = new Schema({
   exampleSentence: String
 });
 
-module.exports = mongoose.model('Word', wordSchema);
+module.exports = mongoose.model('words', wordSchema); // the String value is the collection name

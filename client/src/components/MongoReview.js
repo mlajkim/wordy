@@ -7,17 +7,13 @@ class MongoReview extends Component {
     super(props);
     this.state = {
       words: [],
-      wordsNow: ['hey', 'hey', 'hey', 'hey', 'hey']
+      wordsNow: []
     }
 
     this.handleClickRefresh = this.handleClickRefresh.bind(this);
   }
 
-  wordCard = (
-    <div>
-      <Card body bg="light">This is some text within a card body.</Card>
-    </div>
-  );
+  
 
   handleClickRefresh() {
     fetch('/mongoApi/words', {
@@ -25,9 +21,14 @@ class MongoReview extends Component {
       headers: {'Content-Type':'application/json'}
     })
     .then(res => res.json())
-    .then(result => console.log(result));
+    .then(result => {
+      this.setState({
+        words: result,
+        wordsNow: result // test
+      })
+    });
   }
-
+  
   render() {
     return (
       <div>
@@ -36,7 +37,7 @@ class MongoReview extends Component {
           <Card.Body>
             <Card.Title>2020-2 English</Card.Title>
             {this.state.wordsNow.map(element => {
-              return this.wordCard;
+              return <Card key={element._id} body bg="light">{element.word} [{element.pronunciation}] {element.definition} = {element.exampleSentence}</Card>
             })}
             <Button variant="primary">Next</Button>
           </Card.Body>
