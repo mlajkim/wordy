@@ -39,8 +39,8 @@ class Home extends React.Component {
   render() {
     return (
       <Form.Group controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Example textarea</Form.Label>
-        <Form.Control name="parsetarget" as="textarea" rows="3" onChange={this.onChange}/>
+        <Form.Label>Place your parsing targets here</Form.Label>
+        <Form.Control name="parsetarget" as="textarea" rows="25" onChange={this.onChange}/>
         <Button onClick={this.handleSubmit}>Parse it!</Button>
       </Form.Group>      
     );
