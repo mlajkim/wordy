@@ -7,13 +7,32 @@ class MongoReview extends Component {
     super(props);
     this.state = {
       words: [],
-      wordsNow: []
+      wordsNow: [],
+      index: 0,
+      howMany: 5
     }
 
+    this.handleClickNextIndex = this.handleClickNextIndex.bind(this);
     this.handleClickRefresh = this.handleClickRefresh.bind(this);
   }
 
-  
+  handleClickNextIndex() {
+    this.setState({
+      index: this.state.index + this.state.howMany,
+      wordsNow: this.state.words.slice(this.state.index, this.state.index + 5)
+    })
+
+    //Check if it reached the index
+    if(this.state.words.length-6 < this.state.index){
+      this.setState({
+        index: 0,
+        wordsNow: this.state.words.slice(this.state.index, this.state.index + 5)
+      })
+    }
+
+    //Testing
+    console.log(this.state.words.length +'index' +  this.state.index)
+  }
 
   handleClickRefresh() {
     fetch('/mongoApi/words', {
@@ -23,8 +42,7 @@ class MongoReview extends Component {
     .then(res => res.json())
     .then(result => {
       this.setState({
-        words: result,
-        wordsNow: result // test
+        words: result
       })
     });
   }
@@ -39,7 +57,7 @@ class MongoReview extends Component {
             {this.state.wordsNow.map(element => {
               return <Card key={element._id} body bg="light">{element.word} [{element.pronunciation}] {element.definition} = {element.exampleSentence}</Card>
             })}
-            <Button variant="primary">Next</Button>
+            <Button variant="primary" onClick={this.handleClickNextIndex}>Next</Button>
           </Card.Body>
           <Card.Footer className="text-muted">2 days ago</Card.Footer>
         </Card>
