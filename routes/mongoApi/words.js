@@ -114,7 +114,7 @@ const parseIt = (targetSentence) => {
 
 // Saving data into MongoDB Engine
 const saveIt = (parsedProperties) => {
-  mongoose.connect(url, { useNewUrlParser: true })
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
   const db = mongoose.connection;
   db.once('open', _ => {
