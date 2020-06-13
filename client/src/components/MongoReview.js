@@ -19,20 +19,17 @@ class MongoReview extends Component {
 
   async componentDidMount() {
     // Load data
-    fetch('/mongoApi/words', {
+    const res = await fetch('/mongoApi/words', {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     })
-    .then(res => res.json())
-    .then(result => {
-      this.setState({
-        words: result
-      })
+    const result = await res.json();
+    this.setState({words: result}, () => {
       this.setState({
         wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
 
       })
-    });
+    })
   }
 
   handleClickNextIndex() {
