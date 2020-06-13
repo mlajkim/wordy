@@ -13,10 +13,10 @@ wordsRouter.get('/', (req, res) => {
 
 wordsRouter.post('/', (req, res) => {
 
-  smallEngine(req.body.parsetarget);
+  const state = smallEngine(req.body.parsetarget);
   
   const message = {
-    state: 'success',
+    state: state,
     contents: req.body.parsetarget
   }
 
@@ -44,6 +44,13 @@ const smallEngine = data => {
 
   // 3) Save into MongoDB
   saveIt(parsedPropertiesArr);
+
+  if(!parsedPropertiesArr){
+    //if Blank (fail)
+    return 'failed'
+  }else{
+    return 'success'
+  }
 }
 
 // Parsing Engine
