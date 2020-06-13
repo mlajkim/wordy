@@ -9,7 +9,8 @@ class MongoReview extends Component {
       words: [],
       wordsNow: [],
       index: 0,
-      howMany: 5
+      howMany: 5,
+      userId: '5ee4ccfa4b391e1e931c4b64'
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -31,6 +32,9 @@ class MongoReview extends Component {
   
         })
       })
+    })
+    .catch(err => {
+      // No log, set to 0
     })    
   }
 
@@ -58,6 +62,21 @@ class MongoReview extends Component {
   }
 
   handleClickNextIndex() {
+    // Write the current logs
+    const tempWordsNow = this.state.wordsNow;
+    tempWordsNow.forEach(element => {
+      fetch('/mongoApi/logs', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          userId: this.state.userId,
+          dateReviewed: Date.now(),
+          wordId: element._id
+        })
+      })
+    })
+
+    // Change to new words
     const newIndex = this.state.index + this.state.howMany;
     this.setState({
       index: newIndex
@@ -66,6 +85,8 @@ class MongoReview extends Component {
         wordsNow: this.state.words.slice(newIndex, newIndex + this.state.howMany)
       })
     })
+    
+    
 
     //Check if it reached the index
     if(this.state.words.length - this.state.howMany - 1 < newIndex){
