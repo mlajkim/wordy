@@ -28,7 +28,11 @@ class Home extends React.Component {
       method: 'POST',
       headers: {'Content-Type':'application/json'}, // super important
       body: JSON.stringify({
-        "parsetarget": this.state.parsetarget
+        "parsetarget": this.state.parsetarget,
+        "parsetargetEnglish": this.state.parsetargetEnglish,
+        "parsetargetChinese": this.state.parsetargetChinese,
+        "parsetargetJapanese": this.state.parsetargetJapanese,
+        
       })
     })
     .then(res => res.json())
@@ -41,7 +45,16 @@ class Home extends React.Component {
       <Form.Group controlId="exampleForm.ControlTextarea1">
         <Form.Label>Place your parsing targets here</Form.Label> 
         <Button onClick={this.handleSubmit}>Parse it!</Button>
-        <Form.Control name="parsetarget" as="textarea" rows="25" onChange={this.onChange}/>
+        <br />
+        <Form.Label>KOREAN</Form.Label> 
+        <Form.Control style={{marginBottom: 15}} name="parsetarget" as="textarea" rows="4" onChange={this.onChange}/>
+        <Form.Label>ENGLISH</Form.Label> 
+        <Form.Control style={{marginBottom: 15}} name="parsetargetEnglish" as="textarea" rows="4" onChange={this.onChange}/>
+        <Form.Label>CHINESE</Form.Label> 
+        <Form.Control style={{marginBottom: 15}} name="parsetargetChinese" as="textarea" rows="4" onChange={this.onChange}/>
+        <Form.Label>JAPANESE</Form.Label> 
+        <Form.Control style={{marginBottom: 15}} name="parsetargetJapanese" as="textarea" rows="4" onChange={this.onChange}/>
+
       </Form.Group>      
     );
   };
