@@ -34,6 +34,25 @@ class MongoReview extends Component {
     })    
   }
 
+  handleClickRefresh() {
+    fetch('/mongoApi/logs/lastLog', {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+    .then(res => res.json())
+    .then(result => {
+        const foundIndex = this.state.words.findIndex(element => element._id === result.wordId)
+        console.log(foundIndex); // Test
+      this.setState({
+        // First
+        index: foundIndex
+      }, () => {
+        // Then
+        wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
+      })
+    })
+  }
+
   handleClickNextIndex() {
     const newIndex = this.state.index + this.state.howMany;
     this.setState({
@@ -51,19 +70,6 @@ class MongoReview extends Component {
         wordsNow: this.state.words.slice(0, this.state.howMany)
       })
     }
-  }
-
-  handleClickRefresh() {
-    fetch('/mongoApi/words', {
-      method: 'GET',
-      headers: {'Content-Type':'application/json'}
-    })
-    .then(res => res.json())
-    .then(result => {
-      this.setState({
-        words: result
-      })
-    });
   }
   
   render() {
