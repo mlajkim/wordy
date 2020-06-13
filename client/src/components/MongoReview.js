@@ -42,13 +42,17 @@ class MongoReview extends Component {
     .then(res => res.json())
     .then(result => {
         const foundIndex = this.state.words.findIndex(element => element._id === result.wordId)
+        console.log(this.state.words); // Test
+        console.log(result); // Test
         console.log(foundIndex); // Test
       this.setState({
         // First
         index: foundIndex
       }, () => {
         // Then
-        wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
+        this.setState({
+          wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
+        })
       })
     })
   }
