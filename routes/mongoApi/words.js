@@ -25,32 +25,32 @@ wordsRouter.get('/', async (req, res) => {
 });
 
 wordsRouter.post('/', (req, res) => {
-  // The responding message
-  const message = {
-    state: 'success'
-  }
+  // Hard coded language order
+  const languageOrder = ['Korean', 'English', 'Chinese', 'Japanese'];
 
-  // The Parsed Properties.
-  const parsedProperties = parsingEngine(req.body.parsetarget);
+  // Loop through the languages
+  req.body.parsetarget.forEach((language, index) => {
+    const parsedProperties = parsingEngine(language);
 
-  // Loop through
-  parsedProperties.forEach(parsedProperty => {
-    const tempWordSchema = new wordSchema({
-      dateAdded: parsedProperty.dateAdded,
-      word: parsedProperty.word,
-      definition: parsedProperty.definition,
-      pronunciation: parsedProperty.pronunciation,
-      definition: parsedProperty.definition,
-      exampleSentence: parsedProperty.exampleSentence
-    })
+    // Loop through
+    parsedProperties.forEach(parsedProperty => {
+      const tempWordSchema = new wordSchema({
+        dateAdded: parsedProperty.dateAdded,
+        word: parsedProperty.word,
+        definition: parsedProperty.definition,
+        pronunciation: parsedProperty.pronunciation,
+        definition: parsedProperty.definition,
+        exampleSentence: parsedProperty.exampleSentence,
+        language: languageOrder[index]
+      })
 
-    tempWordSchema.save()
-    .then(document => console.log(document))
-    .catch(err => console.log(err))
-  }) // parsedProperties loop ends 
+      tempWordSchema.save()
+      .then(document => console.log(document))
+      .catch(err => console.log(err))
+    }) // parsedProperties loop ends 
+  })   
   
-  
-  res.send(message);
+  res.send({state: 'success'});
 });
 
 // Export the router

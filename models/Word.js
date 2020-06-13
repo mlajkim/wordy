@@ -6,7 +6,8 @@ const wordSchema = new Schema({
   word: String,
   pronunciation: String,
   definition: String,
-  exampleSentence: String
+  exampleSentence: String,
+  language: String
 });
 
 module.exports = mongoose.model('words', wordSchema); // the String value is the collection name

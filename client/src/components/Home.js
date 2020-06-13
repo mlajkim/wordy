@@ -28,10 +28,12 @@ class Home extends React.Component {
       method: 'POST',
       headers: {'Content-Type':'application/json'}, // super important
       body: JSON.stringify({
-        "parsetarget": this.state.parsetarget,
-        "parsetargetEnglish": this.state.parsetargetEnglish,
-        "parsetargetChinese": this.state.parsetargetChinese,
-        "parsetargetJapanese": this.state.parsetargetJapanese,
+        "parsetarget": [
+          this.state.parsetarget,
+          this.state.parsetargetEnglish,
+          this.state.parsetargetChinese,
+          this.state.parsetargetJapanese
+        ]
         
       })
     })
