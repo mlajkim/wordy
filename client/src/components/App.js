@@ -8,6 +8,7 @@ import Home from './Home';
 import QuickReview from './QuickReview';
 import CarefulReview from './CarefulReview';
 import MongoReview from './MongoReview';
+import SignIn from './SignIn';
 
 class App extends React.Component {
   constructor(props) {
@@ -63,6 +64,7 @@ class App extends React.Component {
           <Route exact path='/review/careful' render={(props) => {
             return <CarefulReview words={this.state.allWords} getAllWords={this.getAllWords}/>
           }}/>
+          <Route exact path='/signin' component={SignIn} />
         </Switch>
       </BrowserRouter>
     );
