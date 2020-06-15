@@ -48,6 +48,21 @@ class Home extends React.Component {
         <Form.Label>Place your parsing targets here</Form.Label> 
         <Button onClick={this.handleSubmit}>Parse it!</Button>
         <br />
+        <br />
+        <div key="checkbox" className="mb-3">
+          <Form.Check inline label="2017" type="checkbox" id="yearCheckbox1"/>
+          <Form.Check inline label="2018" type="checkbox" id="yearCheckbox2" />
+          <Form.Check inline label="2019" type="checkbox" id="yearCheckbox3" />
+          <Form.Check inline label="2020" type="checkbox" id="yearCheckbox4" />
+        </div>
+
+        <div key="checkbox" className="mb-3">
+          <Form.Check inline label="1st semester" type="checkbox" id="semCheckbox1"/>
+          <Form.Check inline label="2nd semester" type="checkbox" id="semCheckbox2" />
+          <Form.Check inline label="3rd semester" type="checkbox" id="semCheckbox3" />
+          <Form.Check inline label="4th semester" type="checkbox" id="semCheckbox4" />
+        </div>
+        
         <Form.Label>KOREAN</Form.Label> 
         <Form.Control style={{marginBottom: 15}} name="parsetarget" as="textarea" rows="4" onChange={this.onChange}/>
         <Form.Label>ENGLISH</Form.Label> 
