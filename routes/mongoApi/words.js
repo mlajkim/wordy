@@ -28,6 +28,13 @@ wordsRouter.post('/', (req, res) => {
   // Hard coded language order
   const languageOrder = ['Korean', 'English', 'Chinese', 'Japanese'];
 
+  // Check if year or semester is given, else, will be today's date!
+  // The non-selected will be 'default'
+  const currentTime = new Date();
+  const yearCalculated = req.body.userPreference.year === 'default' ? currentTime.getFullYear() : req.body.userPreference.year
+  const semCalculated = req.body.userPreference.semester === 'default' ? Math.floor(currentTime.getMonth() / 3) + 1 : req.body.userPreference.year
+
+
   // Loop through the languages
   req.body.parsetarget.forEach((language, index) => {
     const parsedProperties = parsingEngine(language);
@@ -36,12 +43,15 @@ wordsRouter.post('/', (req, res) => {
     parsedProperties.forEach(parsedProperty => {
       const tempWordSchema = new wordSchema({
         dateAdded: parsedProperty.dateAdded,
+        year: yearCalculated,
+        semester: semCalculated,  
+        language: languageOrder[index],
         word: parsedProperty.word,
         definition: parsedProperty.definition,
         pronunciation: parsedProperty.pronunciation,
         definition: parsedProperty.definition,
-        exampleSentence: parsedProperty.exampleSentence,
-        language: languageOrder[index]
+        exampleSentence: parsedProperty.exampleSentence
+        
       })
 
       tempWordSchema.save()

@@ -10,11 +10,15 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      parsetarget: ''
+      parsetarget: '',
+      checkboxYear: 'default',
+      checkboxSem: 'default'
     }
     
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onClickCheckbox = this.onClickCheckbox.bind(this);
+
   }
 
   // Handles the change of form with the correct data!
@@ -32,14 +36,22 @@ class Home extends React.Component {
           this.state.parsetarget,
           this.state.parsetargetEnglish,
           this.state.parsetargetChinese,
-          this.state.parsetargetJapanese
-        ]
+          this.state.parsetargetJapanese,
+        ],
+        "userPreference": {
+          year: this.state.checkboxYear,
+          semester: this.state.checkboxSem
+        }
         
       })
     })
     .then(res => res.json())
     .then(data => console.log(data));
     
+  }
+
+  onClickCheckbox(e){
+    this.setState({[e.target.name]: e.target.value})
   }
 
   render() {
@@ -49,18 +61,18 @@ class Home extends React.Component {
         <Button onClick={this.handleSubmit}>Parse it!</Button>
         <br />
         <br />
-        <div key="checkbox" className="mb-3">
-          <Form.Check inline label="2017" type="checkbox" id="yearCheckbox1"/>
-          <Form.Check inline label="2018" type="checkbox" id="yearCheckbox2" />
-          <Form.Check inline label="2019" type="checkbox" id="yearCheckbox3" />
-          <Form.Check inline label="2020" type="checkbox" id="yearCheckbox4" />
+        <div key="checkboxYear" className="mb-3">
+          <Form.Check inline label="2017" onClick={this.onClickCheckbox} name="checkboxYear" value="2017" id="yearCheckbox1" />
+          <Form.Check inline label="2018" onClick={this.onClickCheckbox} name="checkboxYear" value="2018" id="yearCheckbox2" />
+          <Form.Check inline label="2019" onClick={this.onClickCheckbox} name="checkboxYear" value="2019" id="yearCheckbox3" />
+          <Form.Check inline label="2020" onClick={this.onClickCheckbox} name="checkboxYear" value="2020" id="yearCheckbox4" />
         </div>
 
-        <div key="checkbox" className="mb-3">
-          <Form.Check inline label="1st semester" type="checkbox" id="semCheckbox1"/>
-          <Form.Check inline label="2nd semester" type="checkbox" id="semCheckbox2" />
-          <Form.Check inline label="3rd semester" type="checkbox" id="semCheckbox3" />
-          <Form.Check inline label="4th semester" type="checkbox" id="semCheckbox4" />
+        <div key="checkboxSem" className="mb-3" >
+          <Form.Check inline label="1st semester" onClick={this.onClickCheckbox} name="checkboxSem" value="1"id="semCheckbox1"/>
+          <Form.Check inline label="2nd semester" onClick={this.onClickCheckbox} name="checkboxSem" value="2" id="semCheckbox2" />
+          <Form.Check inline label="3rd semester" onClick={this.onClickCheckbox} name="checkboxSem" value="3" id="semCheckbox3" />
+          <Form.Check inline label="4th semester" onClick={this.onClickCheckbox} name="checkboxSem" value="2017" id="semCheckbox4" />
         </div>
         
         <Form.Label>KOREAN</Form.Label> 

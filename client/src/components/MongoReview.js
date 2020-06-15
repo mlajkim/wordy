@@ -95,7 +95,7 @@ class MongoReview extends Component {
         <Card className="text-center">
           <Card.Header><Button variant="outline-warning" onClick={this.handleClickRefresh}>Refresh</Button></Card.Header>
           <Card.Body>
-            <Card.Title>2020-2 English</Card.Title>
+            <Card.Title>Card title</Card.Title>
             {this.state.wordsNow.map(element => {
               return <Card key={element._id} body bg="light">{element.word} [{element.pronunciation}] {element.definition} = {element.exampleSentence}</Card>
             })}
