@@ -5,9 +5,10 @@ import NavBar from './NavBar';
 
 // Pages Import
 import Home from './Home';
+import MongoReview from './MongoReview';
+import List from './List';
 import QuickReview from './QuickReview';
 import CarefulReview from './CarefulReview';
-import MongoReview from './MongoReview';
 import SignIn from './SignIn';
 
 class App extends React.Component {
@@ -57,7 +58,8 @@ class App extends React.Component {
         <Switch>
         <Route exact path='/' component={Home} />
           <Route exact path='/home' component={Home} />
-          <MongoReview exact path='/mongoReview' component={Home} />
+          <Route exact path='/mongoReview' component={MongoReview} />
+          <Route exact path='/list' component={List} />
           <Route exact path='/review/quick' render={(props) => {
             return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
           }} />
