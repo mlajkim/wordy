@@ -66,13 +66,17 @@ class Home extends React.Component {
           <Form.Check inline label="2018" onClick={this.onClickCheckbox} name="checkboxYear" value="2018" id="yearCheckbox2" />
           <Form.Check inline label="2019" onClick={this.onClickCheckbox} name="checkboxYear" value="2019" id="yearCheckbox3" />
           <Form.Check inline label="2020" onClick={this.onClickCheckbox} name="checkboxYear" value="2020" id="yearCheckbox4" />
+          <Form.Check inline label="default" onClick={this.onClickCheckbox} name="checkboxYear" value="default" id="yearCheckbox5" />
+
         </div>
 
         <div key="checkboxSem" className="mb-3" >
           <Form.Check inline label="1st semester" onClick={this.onClickCheckbox} name="checkboxSem" value="1"id="semCheckbox1"/>
           <Form.Check inline label="2nd semester" onClick={this.onClickCheckbox} name="checkboxSem" value="2" id="semCheckbox2" />
           <Form.Check inline label="3rd semester" onClick={this.onClickCheckbox} name="checkboxSem" value="3" id="semCheckbox3" />
-          <Form.Check inline label="4th semester" onClick={this.onClickCheckbox} name="checkboxSem" value="2017" id="semCheckbox4" />
+          <Form.Check inline label="4th semester" onClick={this.onClickCheckbox} name="checkboxSem" value="4" id="semCheckbox4" />
+          <Form.Check inline label="default" onClick={this.onClickCheckbox} name="checkboxSem" value="default" id="semCheckbox5" />
+
         </div>
         
         <Form.Label>KOREAN</Form.Label> 
