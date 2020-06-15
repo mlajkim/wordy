@@ -4,7 +4,8 @@ class SignIn extends Component {
   render(){
     return (
       <div>
-        Hello Sign in!
+        <div className="g-signin2" data-onsuccess="onSignIn"></div>
+
       </div>
     )
   }
