@@ -42,6 +42,7 @@ wordsRouter.post('/', (req, res) => {
     // Loop through
     parsedProperties.forEach(parsedProperty => {
       const tempWordSchema = new wordSchema({
+        owner: parsedProperty.owner,
         dateAdded: parsedProperty.dateAdded,
         year: yearCalculated,
         semester: semCalculated,  
@@ -50,8 +51,8 @@ wordsRouter.post('/', (req, res) => {
         definition: parsedProperty.definition,
         pronunciation: parsedProperty.pronunciation,
         definition: parsedProperty.definition,
-        exampleSentence: parsedProperty.exampleSentence
-        
+        exampleSentence: parsedProperty.exampleSentence,
+        isPublic: parsedProperty.isPublic
       })
 
       tempWordSchema.save()

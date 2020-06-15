@@ -12,7 +12,8 @@ class Home extends React.Component {
     this.state = {
       parsetarget: '',
       checkboxYear: 'default',
-      checkboxSem: 'default'
+      checkboxSem: 'default',
+      userId: '5ee4ccfa4b391e1e931c4b64'
     }
     
     this.onChange = this.onChange.bind(this);
@@ -39,8 +40,10 @@ class Home extends React.Component {
           this.state.parsetargetJapanese,
         ],
         "userPreference": {
+          owner: this.state.userId,
           year: this.state.checkboxYear,
-          semester: this.state.checkboxSem
+          semester: this.state.checkboxSem,
+          isPublic: false
         }
         
       })

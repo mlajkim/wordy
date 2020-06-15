@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const wordSchema = new Schema({
+  owner: String,
   dateAdded: Number,
   year: Number,
   semester: Number,
@@ -10,6 +11,7 @@ const wordSchema = new Schema({
   pronunciation: String,
   definition: String,
   exampleSentence: String,
+  isPublic: Boolean
   
 });
 
