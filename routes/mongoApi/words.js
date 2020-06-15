@@ -26,7 +26,37 @@ wordsRouter.get('/', async (req, res) => {
 });
 
 wordsRouter.get('/semesterized', async (req, res) => {
+  // Get the data first
+  const semesterData = await semesterSchema.find();
+  const wordsDataChunk = await wordSchema.find();
 
+  // Algorithm will fill the following
+  const wordsDataArr = [];
+
+  semesterData.forEach(data => {
+    const foundYear = data.year;
+    const foundSem = data.semester;
+
+    // Iterate through the words Data
+    wordsDataArr.push(wordsDataChunk.filter(word => {
+      if(word.year === foundYear && word.semester === foundSem){
+        //if it matches,
+        return true;
+      }else{
+        //if it does not match
+        return false;
+      }
+    }))// wordsDataArr.push ends
+
+  })
+
+  // sending data
+  const jsonSendingData = {
+    words: wordsDataArr,
+    semesters: semesterData
+  }
+
+  res.send(jsonSendingData);
 });
 
 wordsRouter.post('/', (req, res) => {
