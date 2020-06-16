@@ -12,36 +12,37 @@ class List extends Component {
     super(props);
     this.state = {
       words: [],
-      semesters: ['2018-1', '2018-2', '2018-3'],
+      semesters: [{
+        year: 2017,
+        semester: 4
+      },{
+        year: 2018,
+        semester: 1
+      }],
       userId: '5ee4ccfa4b391e1e931c4b64'
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.organizeTerms = this.organizeTerms.bind(this);
   }
 
   componentDidMount() {
-     // Load data
-     fetch('/mongoApi/words/semesterized', {
+    // Load Semesters Data First
+    fetch('/mongoApi/semesters', {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     })
-    .then(res => res.json())
-    .then(result => {
-      this.setState({
-        words: result.words,
-        semesters: result.semesters
-      })
-    }, () => {
-      this.organizeTerms();
-    })
-    .catch(err => {
-      // No log, set to 0
-    }) 
-  }
+    .then(result => result.json())
+    .then(data => this.setState({semesters: data}))
+    .catch(err => console.log(err))
 
-  // This function organizes the terms 
-  organizeTerms() {
+    // Load Words Data
+    fetch('/mongoApi/words/semesterized', {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+    .then(result => result.json())
+    .then(data => this.setState({words: data}))
+    .catch(err => console.log(err))
 
   }
 
@@ -52,23 +53,25 @@ class List extends Component {
           <Row>
             <Col sm={3}>
               <Nav variant="pills" className="flex-column">
-                {this.state.semesters.map((semester, index) => {
-                  return (
+                {this.state.semesters.map(semester => {
+                  return(
                     <Nav.Item>
-                      <Nav.Link eventKey={`${index}`}>{semester}</Nav.Link>
+                      <Nav.Link eventKey={`${semester.year}-${semester.semester}`}>{`${semester.year}-${semester.semester}`}</Nav.Link>
                     </Nav.Item>
                   )
                 })}
+                  
               </Nav>
             </Col>
             <Col sm={9}>
               <Tab.Content>
-                <Tab.Pane eventKey="0">
-                  <UpperTab name='helloTab' />
-                </Tab.Pane>
-                <Tab.Pane eventKey="1">
-                  <UpperTab name='hehe'/>
-                </Tab.Pane>
+                {this.state.semesters.map((semester, index) => {
+                  return(
+                    <Tab.Pane eventKey={`${semester.year}-${semester.semester}`}>
+                      <UpperTab words={this.state.words[index]}/>
+                    </Tab.Pane>
+                  )
+                })}
               </Tab.Content>
             </Col>
           </Row>
@@ -95,6 +98,14 @@ class UpperTab extends Component {
           meh
         </Tab>
       </Tabs>
+    )
+  }
+}
+
+class EachWord extends Component {
+  render(){
+    return (
+      <div></div>
     )
   }
 }
