@@ -50,13 +50,7 @@ wordsRouter.get('/semesterized', async (req, res) => {
 
   })
 
-  // sending data
-  const jsonSendingData = {
-    words: wordsDataArr,
-    semesters: semesterData
-  }
-
-  res.send(jsonSendingData);
+  res.send(wordsDataArr);
 });
 
 wordsRouter.post('/', (req, res) => {
