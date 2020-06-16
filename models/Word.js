@@ -15,4 +15,5 @@ const wordSchema = new Schema({
   
 });
 
-module.exports = mongoose.model('words', wordSchema); // the String value is the collection name
+// the String value is the collection name
+module.exports = mongoose.model('words', wordSchema); 
