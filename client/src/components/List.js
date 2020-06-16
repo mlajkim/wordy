@@ -6,6 +6,8 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
+import Card from 'react-bootstrap/Card';
+import Badge from 'react-bootstrap/Badge';
 
 class List extends Component {
   constructor(props){
@@ -60,12 +62,11 @@ class List extends Component {
                     </Nav.Item>
                   )
                 })}
-                  
               </Nav>
             </Col>
             <Col sm={9}>
               <Tab.Content>
-                {this.state.semesters.map((semester, index) => {
+                {this.state.semesters.map((semester, index) => {                  
                   return(
                     <Tab.Pane eventKey={`${semester.year}-${semester.semester}`}>
                       <UpperTab words={this.state.words[index]}/>
@@ -82,30 +83,56 @@ class List extends Component {
 }
 
 class UpperTab extends Component {
+
   render() {
+    // Looping languages
+    const languages = ['Korean', 'English', 'Chinese', 'Japanese'];
+
+    
+
     return (
       <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-        <Tab eventKey="Korean" title="Korean">
-         meh
-        </Tab>
-        <Tab eventKey="English" title="English">
-          meh
-        </Tab>
-        <Tab eventKey="Chinese" title="Chinese">
-          meh
-        </Tab>
-        <Tab eventKey="Japanese" title="Japanese">
-          meh
-        </Tab>
+        {languages.map(language => {
+          return(
+            <Tab eventKey={language} title={language}>
+              <EachWord words='sampleWord Meh!'/>
+            </Tab>
+          )
+        })}
       </Tabs>
     )
   }
 }
 
 class EachWord extends Component {
+  // Sample hard coded words
   render(){
+    const words = [{
+      word: "this is sample",
+      definition: 'yes!'
+    },{
+      word: "what is sample",
+      definition: 'noo!'
+    },{
+      word: "that is sample",
+      definition: 'huah!'
+    }]
+
     return (
-      <div></div>
+      <div>
+        {words.map(word => {
+          return (
+            <Card className="text-center">
+              <Card.Body>
+                <Card.Text>
+                  {word.word} - {word.definition}
+                  <Badge style={{marginLeft: 24}} variant="warning">Change</Badge>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          )
+        })}
+      </div>
     )
   }
 }
