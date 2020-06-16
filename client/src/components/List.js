@@ -117,7 +117,7 @@ class EachWord extends Component {
       word: "that is sample",
       definition: 'huah!'
     }]
-
+    
     return (
       <div>
         {words.map(word => {
@@ -127,6 +127,7 @@ class EachWord extends Component {
                 <Card.Text>
                   {word.word} - {word.definition}
                   <Badge style={{marginLeft: 24}} variant="warning">Edit</Badge>
+                  <Badge style={{marginLeft: 12}} variant="success">Review</Badge>{' '}
                 </Card.Text>
               </Card.Body>
             </Card>
