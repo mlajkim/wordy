@@ -126,7 +126,7 @@ class EachWord extends Component {
               <Card.Body>
                 <Card.Text>
                   {word.word} - {word.definition}
-                  <Badge style={{marginLeft: 24}} variant="warning">Change</Badge>
+                  <Badge style={{marginLeft: 24}} variant="warning">Edit</Badge>
                 </Card.Text>
               </Card.Body>
             </Card>
