@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
+import Spinner from 'react-bootstrap/Spinner';
 
 // Handles the leftside Tab
 class List extends Component {
@@ -43,8 +44,17 @@ class List extends Component {
         </Tab.Container>
       </div>
     );
-    else return <div>Loading...</div>
+    else return <SpinnerAnimation />
   };
+}
+
+// Spinner
+const SpinnerAnimation = (props) => {
+  return(
+    <Spinner animation="border" variant="success"  role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
+  )
 }
 
 // Stateless Functional Component
