@@ -9,6 +9,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 
+// Handles the leftside Tab
 class List extends Component {
   render() {
     return (
@@ -45,6 +46,7 @@ class List extends Component {
 }
 
 // Stateless Functional Component
+// Handles the upper tab and distribute correct words to the EachWord
 const UpperTab = (props) => {
   // Looping languages
   const languages = ['Korean', 'English', 'Chinese', 'Japanese'];
@@ -52,9 +54,10 @@ const UpperTab = (props) => {
   return (
     <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
       {languages.map(language => {
+        const words = props.words.filter(word => word.language === language)
         return(
           <Tab eventKey={language} title={language}>
-            <EachWord words='sampleWord Meh!'/>
+            <EachWord words={words}/>
           </Tab>
         )
       })}
@@ -64,20 +67,9 @@ const UpperTab = (props) => {
 
 // Stateless Functional Component
 const EachWord = (props) => {
-  const words = [{
-    word: "this is sample",
-    definition: 'yes!'
-  },{
-    word: "what is sample",
-    definition: 'noo!'
-  },{
-    word: "that is sample",
-    definition: 'huah!'
-  }]
-
   return (
     <div>
-      {words.map(word => {
+      {props.words.map(word => {
         return (
           <Card className="text-center">
             <Card.Body>

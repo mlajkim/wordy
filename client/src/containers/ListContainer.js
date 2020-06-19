@@ -9,13 +9,7 @@ class ListContainer extends Component {
     super(props);
     this.state = {
       words: [],
-      semesters: [{
-        year: 2017,
-        semester: 4
-      },{
-        year: 2018,
-        semester: 1
-      }],
+      semesters: [],
       userId: '5ee4ccfa4b391e1e931c4b64'
     }
 
