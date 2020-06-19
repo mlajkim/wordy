@@ -6,7 +6,7 @@ import NavBar from './NavBar';
 // Pages Import
 import Home from './Home';
 import MongoReviewContainer from '../containers/MongoReviewContainer';
-import List from './List';
+import ListContainer from '../containers/ListContainer';
 import QuickReview from './QuickReview';
 import CarefulReview from './CarefulReview';
 import SignIn from './SignIn';
@@ -59,7 +59,7 @@ class App extends React.Component {
         <Route exact path='/' component={Home} />
           <Route exact path='/home' component={Home} />
           <Route exact path='/mongoReview' component={MongoReviewContainer} />
-          <Route exact path='/list' component={List} />
+          <Route exact path='/list' component={ListContainer} />
           <Route exact path='/review/quick' render={(props) => {
             return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
           }} />
