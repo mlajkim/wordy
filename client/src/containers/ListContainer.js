@@ -19,10 +19,10 @@ class ListContainer extends Component {
       userId: '5ee4ccfa4b391e1e931c4b64'
     }
 
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // Load Semesters Data First
     fetch('/mongoApi/semesters', {
       method: 'GET',
@@ -47,10 +47,9 @@ class ListContainer extends Component {
     return (
       <div>
         <List 
-        componentDidMount={this.componentDidMount}
-        semesters={this.state.semesters}
-        words={this.state.words}
-        userId={this.state.userId}
+          semesters={this.state.semesters}
+          words={this.state.words}
+          userId={this.state.userId}
         />
       </div>
     );
