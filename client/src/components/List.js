@@ -11,8 +11,9 @@ import Badge from 'react-bootstrap/Badge';
 
 // Handles the leftside Tab
 class List extends Component {
+
   render() {
-    return (
+    if(this.props.isLoaded) return (
       <div>
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
           <Row>
@@ -42,7 +43,8 @@ class List extends Component {
         </Tab.Container>
       </div>
     );
-  }
+    else return <div>Loading...</div>
+  };
 }
 
 // Stateless Functional Component
