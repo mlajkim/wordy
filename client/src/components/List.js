@@ -20,9 +20,9 @@ class List extends Component {
           <Row>
             <Col sm={3}>
               <Nav variant="pills" className="flex-column">
-                {this.props.semesters.map(semester => {
+                {this.props.semesters.map((semester, index) => {
                   return(
-                    <Nav.Item>
+                    <Nav.Item key={index}>
                       <Nav.Link eventKey={`${semester.year}-${semester.semester}`}>{`${semester.year}-${semester.semester}`}</Nav.Link>
                     </Nav.Item>
                   )
@@ -33,7 +33,7 @@ class List extends Component {
               <Tab.Content>
                 {this.props.semesters.map((semester, index) => {                  
                   return(
-                    <Tab.Pane eventKey={`${semester.year}-${semester.semester}`}>
+                    <Tab.Pane key={index} eventKey={`${semester.year}-${semester.semester}`}>
                       <UpperTab words={this.props.words[index]}/>
                     </Tab.Pane>
                   )
@@ -65,10 +65,10 @@ const UpperTab = (props) => {
     
   return (
     <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-      {languages.map(language => {
+      {languages.map((language, index) => {
         const words = props.words.filter(word => word.language === language)
         return(
-          <Tab eventKey={language} title={language}>
+          <Tab key={index} eventKey={language} title={language}>
             <EachWord words={words}/>
           </Tab>
         )
@@ -81,9 +81,9 @@ const UpperTab = (props) => {
 const EachWord = (props) => {
   return (
     <div>
-      {props.words.map(word => {
+      {props.words.map((word, index) => {
         return (
-          <Card className="text-center">
+          <Card className="text-center" key={index}>
             <Card.Body>
               <Card.Text>
                 {word.word} - {word.definition}
