@@ -4,13 +4,15 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 //STATELESS FUNCTIONAL COMPONENTS
-export const MongoReview = (props) => {
-  return (
+export function MongoReview (props) {
+  if(props.isLoaded) return (
     <div>
       <Card className="text-center">
-        <Card.Header><Button variant="outline-warning" onClick={props.handleClickRefresh}>Refresh</Button></Card.Header>
+        <Card.Header></Card.Header>
         <Card.Body>
-          <Card.Title>Card title</Card.Title>
+          <Card.Title>
+            {props.wordsNow[0].year}-{props.wordsNow[0].semester} "{props.wordsNow[0].language}"
+          </Card.Title>
           {props.wordsNow.map(element => {
             return <Card key={element._id} body bg="light">{element.word} [{element.pronunciation}] {element.definition} = {element.exampleSentence}</Card>
           })}
@@ -19,6 +21,9 @@ export const MongoReview = (props) => {
         <Card.Footer className="text-muted">2 days ago</Card.Footer>
       </Card>
     </div>
+  );
+  else return(
+    <div>Loading...</div>
   );
 }
 

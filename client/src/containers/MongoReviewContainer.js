@@ -1,13 +1,26 @@
 // Import the basics
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 // Import Rendering Component
 import {MongoReview} from '../components/MongoReview';
+
+const propType = {
+  isLoaded: PropTypes.bool,
+  wordsNow: PropTypes.array,
+  handleClickNextIndex: PropTypes.func.isRequired
+}
+
+const defaultProps = {
+  isLoaded: false,
+  wordsNow: []
+};
 
 class MongoReviewContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
+      isLoaded: false,
       words: [],
       wordsNow: [],
       index: 0,
@@ -17,43 +30,32 @@ class MongoReviewContainer extends Component {
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleClickNextIndex = this.handleClickNextIndex.bind(this);
-    this.handleClickRefresh = this.handleClickRefresh.bind(this);
   } // constructor(props) ends
 
-  componentDidMount() {
+  async componentDidMount() {
     // Load data
-    fetch('/mongoApi/words', {
+    const response = await fetch('/mongoApi/words', {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     })
-    .then(res => res.json())
-    .then(result => {
-      this.setState({words: result})
-    })
-    .catch(err => {
-      // No log, set to 0
-    })    
-  } // componentDidMount() ends
+    const wordsDataArr = await response.json();
 
-  handleClickRefresh() {
-    fetch('/mongoApi/logs/lastLog', {
+    const responseLastLog = await fetch('/mongoApi/logs/lastLog', {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     })
-    .then(res => res.json())
-    .then(result => {
-        const foundIndex = this.state.words.findIndex(element => element._id === result.wordId) + 1 // Add one for the next!
-      this.setState({
-        // First
-        index: foundIndex
-      }, () => {
-        // Then
-        this.setState({
-          wordsNow: this.state.words.slice(this.state.index, this.state.index + this.state.howMany)
-        })
-      })
+    const lastLogData = await responseLastLog.json();
+
+    const foundIndex = wordsDataArr.findIndex(word => word._id === lastLogData.wordId) + 1
+    
+    // Set the value
+    this.setState({
+      words: wordsDataArr,
+      index: foundIndex,
+      wordsNow: wordsDataArr.slice(foundIndex, foundIndex + this.state.howMany),
+      isLoaded: true
     })
-  } // handleClickRefresh() ends
+  } // componentDidMount() ends
 
   handleClickNextIndex() {
     // Write the current logs
@@ -92,14 +94,17 @@ class MongoReviewContainer extends Component {
   render() {
     return (
       <div>
-        <MongoReview 
+        <MongoReview
+          isLoaded={this.state.isLoaded} 
           wordsNow={this.state.wordsNow}
-          handleClickRefresh={this.handleClickRefresh}
           handleClickNextIndex={this.handleClickNextIndex}
          />
       </div>
     );
   } // render() ends
 }
+
+MongoReviewContainer.propType = propType;
+MongoReviewContainer.defaultProps = defaultProps;
 
 export default MongoReviewContainer;

@@ -76,6 +76,6 @@ class HomeContainer extends React.Component {
 }
 
 HomeContainer.propType = propType;
-HomeContainer.defaultProps  = defaultProps;
+HomeContainer.defaultProps = defaultProps;
 
 export default HomeContainer;
