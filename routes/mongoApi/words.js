@@ -63,45 +63,49 @@ wordsRouter.post('/', (req, res) => {
   const yearCalculated = req.body.userPreference.year === 'default' ? currentTime.getFullYear() : req.body.userPreference.year
   const semCalculated = req.body.userPreference.semester === 'default' ? Math.floor(currentTime.getMonth() / 3) + 1 : req.body.userPreference.semester
 
-
   // Loop through the languages
   req.body.parsetarget.forEach((language, index) => {
-    const parsedProperties = parsingEngine(language);
+    if(language){ // Run parsing engine only when it is NOT empty.
+      const parsedProperties = parsingEngine(language);
 
-    // Loop through
-    parsedProperties.forEach(parsedProperty => {
-      const tempWordSchema = new wordSchema({
-        owner: req.body.userPreference.owner,
-        dateAdded: currentTime,
-        year: yearCalculated,
-        semester: semCalculated,  
-        language: languageOrder[index],
-        word: parsedProperty.word,
-        definition: parsedProperty.definition,
-        pronunciation: parsedProperty.pronunciation,
-        definition: parsedProperty.definition,
-        exampleSentence: parsedProperty.exampleSentence,
-        isPublic: req.body.userPreference.isPublic
-      })
+      // Loop through
+      parsedProperties.forEach(parsedProperty => {
+        const tempWordSchema = new wordSchema({
+          owner: req.body.userPreference.owner,
+          dateAdded: currentTime,
+          year: yearCalculated,
+          semester: semCalculated,  
+          language: languageOrder[index],
+          word: parsedProperty.word,
+          definition: parsedProperty.definition,
+          pronunciation: parsedProperty.pronunciation,
+          definition: parsedProperty.definition,
+          exampleSentence: parsedProperty.exampleSentence,
+          isPublic: req.body.userPreference.isPublic
+        })
 
-      tempWordSchema.save()
-        .catch(err => console.log(err))
-    }) // parsedProperties loop ends 
+        tempWordSchema.save()
+          .catch(err => console.log(err))
+      }) // parsedProperties loop ends 
+    } // if(language) ends 
   })
   
   // Check if semester exists, if not, add!
   semesterSchema.find()
-  .then(result => {
-    let found = false;
-    console.log(result);
-    result.forEach(element => {
+  .then(semesters => {
+
+    // if this becomes true, it means the same thing is found.
+    // Also means, it does not have to create new one.
+    let found = false; 
+
+    semesters.forEach(semester => {
       // Loop through the semester data
-      if(element.year === yearCalculated && element.semester === semCalculated){
+      if(semester.year == yearCalculated && semester.semester == semCalculated){
         found = true;
       }
     })
-    console.log(found);
-    if(!found){
+
+    if(!found){ // run only when it is not found.
       //if not found, it means it is the new semester!
     const newSemesterSchema = new semesterSchema({
       owner: req.body.userPreference.owner,
