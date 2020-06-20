@@ -3,6 +3,9 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
+// Import styles
+import LoadingAnimationStyle from '../styles/LoadingAnimationStyle'
+
 //STATELESS FUNCTIONAL COMPONENTS
 export function MongoReview (props) {
   if(props.isLoaded) return (
@@ -23,7 +26,7 @@ export function MongoReview (props) {
     </div>
   );
   else return(
-    <div>Loading...</div>
+    <LoadingAnimationStyle />
   );
 }
 

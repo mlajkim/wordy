@@ -6,10 +6,10 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
-import Spinner from 'react-bootstrap/Spinner';
 
 // Import the shared style of wordcard
 import WordCardStyle from '../styles/WordCardStyle';
+import LoadingAnimationStyle from '../styles/LoadingAnimationStyle'
 
 // Handles the leftside Tab
 class List extends Component {
@@ -44,7 +44,7 @@ class List extends Component {
         </Tab.Container>
       </div>
     );
-    else return <SpinnerAnimation />
+    else return <LoadingAnimationStyle />
   };
 }
 
@@ -79,15 +79,6 @@ function EachWord (props) {
         />
       )}
     </div>
-  )
-}
-
-// Spinner
-function SpinnerAnimation (props) {
-  return(
-    <Spinner animation="border" variant="success"  role="status">
-      <span className="sr-only">Loading...</span>
-    </Spinner>
   )
 }
 
