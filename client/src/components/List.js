@@ -12,7 +12,6 @@ import Spinner from 'react-bootstrap/Spinner';
 
 // Handles the leftside Tab
 class List extends Component {
-
   render() {
     if(this.props.isLoaded) return (
       <div>
@@ -49,7 +48,7 @@ class List extends Component {
 }
 
 // Spinner
-const SpinnerAnimation = (props) => {
+function SpinnerAnimation (props) {
   return(
     <Spinner animation="border" variant="success"  role="status">
       <span className="sr-only">Loading...</span>
@@ -59,7 +58,7 @@ const SpinnerAnimation = (props) => {
 
 // Stateless Functional Component
 // Handles the upper tab and distribute correct words to the EachWord
-const UpperTab = (props) => {
+function UpperTab (props) {
   // Looping languages
   const languages = ['Korean', 'English', 'Chinese', 'Japanese'];
     
@@ -78,7 +77,7 @@ const UpperTab = (props) => {
 }
 
 // Stateless Functional Component
-const EachWord = (props) => {
+function EachWord (props) {
   return (
     <div>
       {props.words.map((word, index) => {
