@@ -4,6 +4,14 @@ import PropTypes from 'prop-types';
 // Compoenent import
 import Home from '../components/Home'
 
+const propType = {
+  handleSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onClickCheckbox: PropTypes.func.isRequired
+}
+
+const defaultProps = {};
+
 class HomeContainer extends React.Component {
   constructor(props){
     super(props);
@@ -18,14 +26,8 @@ class HomeContainer extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
-
   }
 
-  // Handles the change of form with the correct data!
-  onChange(e) {
-    this.setState({[e.target.name]: e.target.value})
-  }
-  
   // Initiated when the button is clicked for the parsing!
   handleSubmit(e){
     fetch('/mongoApi/words', {
@@ -49,7 +51,11 @@ class HomeContainer extends React.Component {
     })
     .then(res => res.json())
     .then(data => console.log(data));
-    
+  }
+
+  // Handles the change of form with the correct data!
+  onChange(e) {
+    this.setState({[e.target.name]: e.target.value})
   }
 
   onClickCheckbox(e){
@@ -60,8 +66,8 @@ class HomeContainer extends React.Component {
     return ( 
       <div>
         <Home 
-          onChange={this.onChange}
           handleSubmit={this.handleSubmit}
+          onChange={this.onChange}
           onClickCheckbox={this.onClickCheckbox}
         />
       </div>
@@ -69,10 +75,7 @@ class HomeContainer extends React.Component {
   };
 }
 
-HomeContainer.propType = {
-  onChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  onClickCheckbox: PropTypes.func.isRequired
-}
+HomeContainer.propType = propType;
+HomeContainer.defaultProps  = defaultProps;
 
 export default HomeContainer;
