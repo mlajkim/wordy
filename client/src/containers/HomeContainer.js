@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Compoenent import
 import Home from '../components/Home'
 
 class HomeContainer extends React.Component {
@@ -64,6 +67,12 @@ class HomeContainer extends React.Component {
       </div>
     );
   };
+}
+
+HomeContainer.propType = {
+  onChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  onClickCheckbox: PropTypes.func.isRequired
 }
 
 export default HomeContainer;

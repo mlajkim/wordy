@@ -60,12 +60,16 @@ class App extends React.Component {
           <Route exact path='/home' component={HomeContainer} />
           <Route exact path='/mongoReview' component={MongoReviewContainer} />
           <Route exact path='/list' component={ListContainer} />
-          <Route exact path='/review/quick' render={(props) => {
-            return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
-          }} />
-          <Route exact path='/review/careful' render={(props) => {
-            return <CarefulReview words={this.state.allWords} getAllWords={this.getAllWords}/>
-          }}/>
+          <Route exact path='/review/quick' 
+            render={(props) => {
+              return <QuickReview words={this.state.words} setCurrentWordId={this.setCurrentWordId}/>
+            }} 
+          />
+          <Route exact path='/review/careful' 
+            render={(props) => {
+              return <CarefulReview words={this.state.allWords} getAllWords={this.getAllWords}/>
+            }}
+          />
           <Route exact path='/signin' component={SignIn} />
         </Switch>
       </BrowserRouter>

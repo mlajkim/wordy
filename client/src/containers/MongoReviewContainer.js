@@ -92,9 +92,11 @@ class MongoReviewContainer extends Component {
   render() {
     return (
       <div>
-        <MongoReview wordsNow={this.state.wordsNow}
-         handleClickRefresh={this.handleClickRefresh}
-         handleClickNextIndex={this.handleClickNextIndex}/>
+        <MongoReview 
+          wordsNow={this.state.wordsNow}
+          handleClickRefresh={this.handleClickRefresh}
+          handleClickNextIndex={this.handleClickNextIndex}
+         />
       </div>
     );
   } // render() ends
