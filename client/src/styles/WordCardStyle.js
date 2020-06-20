@@ -20,8 +20,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// Import Syle
+// Import Style
 import StringifyStyle from './StringifyStyle';
+import EditWordStyle from './EditWordStyle';
 
 function WordCardStyle (props) {
   const [open, setOpen] = React.useState(false);
@@ -52,7 +53,7 @@ function WordCardStyle (props) {
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Hello World
+            <EditWordStyle />
           </DialogContentText>
           <TextField
             autoFocus
