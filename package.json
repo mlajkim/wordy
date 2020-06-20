@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "gcp-metadata": "^4.1.0",
     "google-auth-library": "^6.0.2",
+    "googleapis": "^52.1.0",
     "mongoose": "^5.9.18",
     "negotiator": "^0.6.2",
     "path": "^0.12.7",
