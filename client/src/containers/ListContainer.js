@@ -15,6 +15,7 @@ class ListContainer extends Component {
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleClickEdit = this.handleClickEdit.bind(this);
   }
 
   async componentDidMount() {
@@ -39,6 +40,10 @@ class ListContainer extends Component {
 
   }
 
+  handleClickEdit() {
+    console.log('hi')
+  }
+
   render() {
     return (
       <div>
@@ -47,6 +52,7 @@ class ListContainer extends Component {
           words={this.state.words}
           isLoaded={this.state.isLoaded}
           userId={this.state.userId}
+          handleClickEdit={this.handleClickEdit}
         />
       </div>
     );

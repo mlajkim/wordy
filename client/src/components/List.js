@@ -10,6 +10,10 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Spinner from 'react-bootstrap/Spinner';
 
+// Material UI Import
+import IconButton from '@material-ui/core/IconButton';
+import EditRounded from '@material-ui/icons/EditRounded';
+
 // Handles the leftside Tab
 class List extends Component {
   render() {
@@ -33,7 +37,7 @@ class List extends Component {
                 {this.props.semesters.map((semester, index) => {                  
                   return(
                     <Tab.Pane key={index} eventKey={`${semester.year}-${semester.semester}`}>
-                      <UpperTab words={this.props.words[index]}/>
+                      <UpperTab words={this.props.words[index]} handleClickEdit={this.props.handleClickEdit}/>
                     </Tab.Pane>
                   )
                 })}
@@ -68,7 +72,7 @@ function UpperTab (props) {
         const words = props.words.filter(word => word.language === language)
         return(
           <Tab key={index} eventKey={language} title={language}>
-            <EachWord words={words}/>
+            <EachWord words={words} handleClickEdit={props.handleClickEdit}/>
           </Tab>
         )
       })}
@@ -86,7 +90,9 @@ function EachWord (props) {
             <Card.Body>
               <Card.Text>
                 {word.word} - {word.definition}
-                <Badge style={{marginLeft: 24}} variant="warning">Edit</Badge>
+                <IconButton aria-label="edit" onClick={props.handleClickEdit}>
+                  <EditRounded />
+                </IconButton>
                 <Badge style={{marginLeft: 12}} variant="success">Review</Badge>{' '}
               </Card.Text>
             </Card.Body>
