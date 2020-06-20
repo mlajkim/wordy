@@ -6,13 +6,10 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
-import Card from 'react-bootstrap/Card';
-import Badge from 'react-bootstrap/Badge';
 import Spinner from 'react-bootstrap/Spinner';
 
-// Material UI Import
-import IconButton from '@material-ui/core/IconButton';
-import EditRounded from '@material-ui/icons/EditRounded';
+// Import the shared style of wordcard
+import WordCardStyle from '../styles/WordCardStyle';
 
 // Handles the leftside Tab
 class List extends Component {
@@ -51,15 +48,6 @@ class List extends Component {
   };
 }
 
-// Spinner
-function SpinnerAnimation (props) {
-  return(
-    <Spinner animation="border" variant="success"  role="status">
-      <span className="sr-only">Loading...</span>
-    </Spinner>
-  )
-}
-
 // Stateless Functional Component
 // Handles the upper tab and distribute correct words to the EachWord
 function UpperTab (props) {
@@ -84,22 +72,22 @@ function UpperTab (props) {
 function EachWord (props) {
   return (
     <div>
-      {props.words.map((word, index) => {
-        return (
-          <Card className="text-center" key={index}>
-            <Card.Body>
-              <Card.Text>
-                {word.word} - {word.definition}
-                <IconButton aria-label="edit" onClick={props.handleClickEdit}>
-                  <EditRounded />
-                </IconButton>
-                <Badge style={{marginLeft: 12}} variant="success">Review</Badge>{' '}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        )
-      })}
+      {props.words.map((word) => 
+        <WordCardStyle 
+          handleClickEdit={props.handleClickEdit}
+          word={word}
+        />
+      )}
     </div>
+  )
+}
+
+// Spinner
+function SpinnerAnimation (props) {
+  return(
+    <Spinner animation="border" variant="success"  role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
   )
 }
 
