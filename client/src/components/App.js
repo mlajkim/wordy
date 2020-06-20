@@ -4,7 +4,7 @@ import {BrowserRouter , Route, Switch} from 'react-router-dom';
 import NavBar from './NavBar';
 
 // Pages Import
-import Home from './Home';
+import HomeContainer from '../containers/HomeContainer';
 import MongoReviewContainer from '../containers/MongoReviewContainer';
 import ListContainer from '../containers/ListContainer';
 import QuickReview from './QuickReview';
@@ -56,8 +56,8 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-        <Route exact path='/' component={Home} />
-          <Route exact path='/home' component={Home} />
+        <Route exact path='/' component={HomeContainer} />
+          <Route exact path='/home' component={HomeContainer} />
           <Route exact path='/mongoReview' component={MongoReviewContainer} />
           <Route exact path='/list' component={ListContainer} />
           <Route exact path='/review/quick' render={(props) => {
