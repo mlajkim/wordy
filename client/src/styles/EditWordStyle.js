@@ -8,6 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+// Switch
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 class EditWordStyle extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +20,8 @@ class EditWordStyle extends React.Component {
       word: 'this', 
       pronunciation: 'is',
       definition: 'sample',
-      exampleSentence: 'example'
+      exampleSentence: 'example',
+      isPublic: false
     }
 
     this.handleClickSave = this.handleClickSave.bind(this);
@@ -78,6 +83,17 @@ class EditWordStyle extends React.Component {
 function RepeatingTextField (props) {
   const wordType = ['word', 'pronunciation', 'definition', 'exampleSentence'];
   const word = props.word;
+  const isPublicOfTheWord = props.word.isPublic;
+
+  // Switch 
+  const [state, setState] = React.useState({
+    checked: isPublicOfTheWord
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
   return (
     <div>
       {wordType.map(wordType => {
@@ -92,6 +108,20 @@ function RepeatingTextField (props) {
           />
         )
       })}
+      <FormControlLabel
+        control={
+          <Switch
+            checked={state.checkedB}
+            onChange={handleChange}
+            color="Secondary"
+            name="checked"
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+          />
+        }
+        label="Make it public"
+        labelPlacement="end"
+      />
+      
     </div>
   );
 }
