@@ -74,6 +74,7 @@ function EachWord (props) {
     <div>
       {props.words.map((word) => 
         <WordCardStyle 
+          key={word._id}
           handleClickEdit={props.handleClickEdit}
           word={word}
         />
