@@ -6,28 +6,44 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+function RepeatingTextField (props) {
+  const wordType = ['word', 'pronunciation', 'definition', 'exampleSentence'];
+  const word = props.word;
+  return (
+    <div>
+      {wordType.map(wordType => {
+        return (
+          <TextField
+            key={wordType}
+            margin="dense"
+            id={wordType}
+            value = {word[wordType]}
+            label={wordType}
+            fullWidth
+          />
+        )
+      })}
+    </div>
+  );
+}
+
 class EditWordStyle extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
   render() {
     // Word Data
     const word = this.props.word;
 
     return(
       <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            hi~
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
+          <RepeatingTextField 
+            word={word}
           />
         </DialogContent>
         <DialogActions>
