@@ -43,7 +43,8 @@ function WordCardStyle (props) {
           </Card.Text>
         </Card.Body>
       </Card>
-      <EditWordStyle 
+      <EditWordStyle
+        word={word} 
         open={open} 
         handleClose={handleClose} 
         aria-labelledby="form-dialog-title"

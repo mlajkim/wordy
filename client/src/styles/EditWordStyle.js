@@ -11,6 +11,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 class EditWordStyle extends React.Component {
   render() {
+    // Word Data
+    const word = this.props.word;
+
     return(
       <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
