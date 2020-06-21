@@ -96,9 +96,22 @@ wordsRouter.get('/', async (req, res) => {
 });
 
 wordsRouter.put('/', async (req, res) => {
-  const message = req.body;
-  console.log(message);
-  res.sendStatus(201);
+  //Testing code
+  const wordData = req.body;
+  console.log(wordData);
+
+  // Algorithm
+  const query = {_id: wordData.wordId}
+  await wordSchema.findByIdAndUpdate(query, {
+    word: wordData.word,
+    pronunciation: wordData.pronunciation,
+    definition: wordData.definition,
+    exampleSentence: wordData.exampleSentence,
+    isPublic: wordData.isPublic
+  })
+
+  // Temporary sending status
+  res.status(201).send({message: "success"});
 });
 
 wordsRouter.get('/semesterized', async (req, res) => {
