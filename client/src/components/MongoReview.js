@@ -17,7 +17,7 @@ export function MongoReview (props) {
           <Card.Title>
             {props.wordsNow[0].year}-{props.wordsNow[0].semester} "{props.wordsNow[0].language}"
           </Card.Title>
-          {props.wordsNow.map(word => <WordCardStyle word={word}/>)}
+          {props.wordsNow.map(word => <WordCardStyle word={word} key={word._id} />)}
           <Button variant="primary" onClick={props.handleClickNextIndex}>Next</Button>
         </Card.Body>
         <Card.Footer className="text-muted">2 days ago</Card.Footer>
