@@ -17,8 +17,6 @@ class NavBar extends Component {
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/mongoReview">Quick Review (MongoDB)</Nav.Link>
             <Nav.Link href="/list">List</Nav.Link>
-            <Nav.Link href="/review/quick">Quick Review (SQLite)</Nav.Link>
-            <Nav.Link href="/review/careful">Careful Review (SQLite)</Nav.Link>
           </Nav>
           <Nav>
             <Button href="/signin" variant="outline-light">Sign in</Button>{' '}
