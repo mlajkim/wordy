@@ -19,40 +19,6 @@ wordsRouter.use((req, res, next) => {
   next();
 })
 
-// GET
-wordsRouter.get('/', async (req, res) => {
-  const data = await wordSchema.find()
-  res.send(data);
-});
-
-wordsRouter.get('/semesterized', async (req, res) => {
-  // Get the data first
-  const semesterData = await semesterSchema.find();
-  const wordsDataChunk = await wordSchema.find();
-
-  // Algorithm will fill the following
-  const wordsDataArr = [];
-
-  semesterData.forEach(data => {
-    const foundYear = data.year;
-    const foundSem = data.semester;
-
-    // Iterate through the words Data
-    wordsDataArr.push(wordsDataChunk.filter(word => {
-      if(word.year === foundYear && word.semester === foundSem){
-        //if it matches,
-        return true;
-      }else{
-        //if it does not match
-        return false;
-      }
-    }))// wordsDataArr.push ends
-
-  })
-
-  res.send(wordsDataArr);
-});
-
 wordsRouter.post('/', (req, res) => {
   // Hard coded language order
   const languageOrder = ['Korean', 'English', 'Chinese', 'Japanese'];
@@ -124,7 +90,44 @@ wordsRouter.post('/', (req, res) => {
   res.send({state: 'success'});
 });
 
+wordsRouter.get('/', async (req, res) => {
+  const data = await wordSchema.find()
+  res.send(data);
+});
 
+wordsRouter.put('/', async (req, res) => {
+  const message = req.body;
+  console.log(message);
+  res.sendStatus(201);
+});
+
+wordsRouter.get('/semesterized', async (req, res) => {
+  // Get the data first
+  const semesterData = await semesterSchema.find();
+  const wordsDataChunk = await wordSchema.find();
+
+  // Algorithm will fill the following
+  const wordsDataArr = [];
+
+  semesterData.forEach(data => {
+    const foundYear = data.year;
+    const foundSem = data.semester;
+
+    // Iterate through the words Data
+    wordsDataArr.push(wordsDataChunk.filter(word => {
+      if(word.year === foundYear && word.semester === foundSem){
+        //if it matches,
+        return true;
+      }else{
+        //if it does not match
+        return false;
+      }
+    }))// wordsDataArr.push ends
+
+  })
+
+  res.send(wordsDataArr);
+});
 
 // Export the router
 module.exports = wordsRouter;

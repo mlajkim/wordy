@@ -8,35 +8,37 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-function RepeatingTextField (props) {
-  const wordType = ['word', 'pronunciation', 'definition', 'exampleSentence'];
-  const word = props.word;
-  return (
-    <div>
-      {wordType.map(wordType => {
-        return (
-          <TextField
-            key={wordType}
-            margin="dense"
-            id={wordType}
-            value = {word[wordType]}
-            label={wordType}
-            fullWidth
-          />
-        )
-      })}
-    </div>
-  );
-}
-
 class EditWordStyle extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      word: '', 
+      pronunciation: '',
+      definition: '',
+      exampleSentence: ''
+    }
+
     this.handleClickSave = this.handleClickSave.bind(this);
+
+  }
+
+  handleChange(e) {
+    this.setState({});
   }
 
   async handleClickSave() {
-    console.log("Saved!")
+    console.log("Saved!") // Delete this test code
+
+    const response = await fetch('/mongoApi/words', {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        "message": "Successful!"
+      })
+    })
+
+    
 
     // Finally close it
     this.props.handleClose();
@@ -65,6 +67,27 @@ class EditWordStyle extends React.Component {
       </Dialog>
     );
   }
+}
+
+function RepeatingTextField (props) {
+  const wordType = ['word', 'pronunciation', 'definition', 'exampleSentence'];
+  const word = props.word;
+  return (
+    <div>
+      {wordType.map(wordType => {
+        return (
+          <TextField
+            key={wordType}
+            margin="dense"
+            id={wordType}
+            value = {word[wordType]}
+            label={wordType}
+            fullWidth
+          />
+        )
+      })}
+    </div>
+  );
 }
 
 export default EditWordStyle;
