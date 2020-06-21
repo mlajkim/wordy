@@ -13,10 +13,10 @@ class EditWordStyle extends React.Component {
     super(props);
 
     this.state = {
-      word: '', 
-      pronunciation: '',
-      definition: '',
-      exampleSentence: ''
+      word: 'this', 
+      pronunciation: 'is',
+      definition: 'sample',
+      exampleSentence: 'example'
     }
 
     this.handleClickSave = this.handleClickSave.bind(this);
@@ -30,15 +30,16 @@ class EditWordStyle extends React.Component {
   async handleClickSave() {
     console.log("Saved!") // Delete this test code
 
-    const response = await fetch('/mongoApi/words', {
+    await fetch('/mongoApi/words', {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        "message": "Successful!"
+        word: this.state.word,
+        pronunciation: this.state.pronunciation,
+        definition: this.state.definition,
+        exampleSentence: this.state.exampleSentence
       })
     })
-
-    
 
     // Finally close it
     this.props.handleClose();
