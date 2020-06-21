@@ -102,7 +102,7 @@ wordsRouter.put('/', async (req, res) => {
 
   // Algorithm
   const query = {_id: wordData.wordId}
-  await wordSchema.findByIdAndUpdate(query, {
+  await wordSchema.updateOne(query, {
     word: wordData.word,
     pronunciation: wordData.pronunciation,
     definition: wordData.definition,
