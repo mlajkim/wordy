@@ -20,7 +20,7 @@ class EditWordStyle extends React.Component {
     }
 
     this.handleClickSave = this.handleClickSave.bind(this);
-
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
@@ -50,7 +50,12 @@ class EditWordStyle extends React.Component {
     const word = this.props.word;
 
     return(
-      <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
+      <Dialog 
+        open={this.props.open} 
+        onClose={this.props.handleClose} 
+        aria-labelledby="form-dialog-title"
+        maxWidth="md"  
+      >
         <DialogTitle id="form-dialog-title">Edit</DialogTitle>
         <DialogContent>
           <RepeatingTextField 
