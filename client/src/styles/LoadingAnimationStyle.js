@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
 function LoadingAnimationStyle () {
   const classes = useStyles();
-
+  const makeItTure = true;
   return(
-    <Backdrop className={classes.backdrop} open="true">
+    <Backdrop className={classes.backdrop} open={makeItTure}>
       <CircularProgress color="inherit" />
     </Backdrop>
   )
