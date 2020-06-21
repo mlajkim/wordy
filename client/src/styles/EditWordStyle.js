@@ -26,14 +26,16 @@ class EditWordStyle extends React.Component {
 
     this.handleClickSave = this.handleClickSave.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClickSwitch = this.handleClickSwitch.bind(this);
   }
 
   handleChange(e) {
     this.setState({[e.target.id]: [e.target.value]});
   }
 
-  handleChangeSwitch(e) {
-    console.log('Clicked!')
+  handleClickSwitch() {
+    let previousValue = this.state.isPublic;
+    this.setState({isPublic: !previousValue});
   }
 
   async handleClickSave() {
@@ -85,8 +87,8 @@ class EditWordStyle extends React.Component {
           <FormControlLabel
             control={
               <Switch
-                onChange={this.handleChange}
-                checked={word.isPublic}
+                onClick={this.handleClickSwitch}
+                checked={this.state.isPublic}
                 color="Secondary"
                 name="checked"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
