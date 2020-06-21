@@ -96,9 +96,7 @@ wordsRouter.get('/', async (req, res) => {
 });
 
 wordsRouter.put('/', async (req, res) => {
-  //Testing code
   const wordData = req.body;
-  console.log(wordData);
 
   // Algorithm
   const query = {_id: wordData.wordId}
