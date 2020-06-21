@@ -17,11 +17,11 @@ class EditWordStyle extends React.Component {
     super(props);
 
     this.state = {
-      word: 'this', 
-      pronunciation: 'is',
-      definition: 'sample',
-      exampleSentence: 'example',
-      isPublic: false
+      word: props.word.word, 
+      pronunciation: props.word.pronunciation,
+      definition: props.word.definition,
+      exampleSentence: props.word.exampleSentence,
+      isPublic: props.word.isPublic
     }
 
     this.handleClickSave = this.handleClickSave.bind(this);
@@ -29,7 +29,11 @@ class EditWordStyle extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({});
+    this.setState({[e.target.id]: [e.target.value]});
+  }
+
+  handleChangeSwitch(e) {
+    console.log('Clicked!')
   }
 
   async handleClickSave() {
@@ -42,7 +46,8 @@ class EditWordStyle extends React.Component {
         word: this.state.word,
         pronunciation: this.state.pronunciation,
         definition: this.state.definition,
-        exampleSentence: this.state.exampleSentence
+        exampleSentence: this.state.exampleSentence,
+        isPublic: this.state.isPublic
       })
     })
 
@@ -52,6 +57,7 @@ class EditWordStyle extends React.Component {
 
   render() {
     // Word Data
+    const wordType = ['word', 'pronunciation', 'definition', 'exampleSentence'];
     const word = this.props.word;
 
     return(
@@ -63,8 +69,31 @@ class EditWordStyle extends React.Component {
       >
         <DialogTitle id="form-dialog-title">Edit</DialogTitle>
         <DialogContent>
-          <RepeatingTextField 
-            word={word}
+          {wordType.map(wordType => {
+            return (
+              <TextField
+                onChange={this.handleChange}
+                key={wordType}
+                margin="dense"
+                id={wordType}
+                defaultValue = {word[wordType]}
+                label={wordType}
+                fullWidth
+              />
+            )
+          })}
+          <FormControlLabel
+            control={
+              <Switch
+                onChange={this.handleChange}
+                checked={word.isPublic}
+                color="Secondary"
+                name="checked"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+              />
+            }
+            label="Make it public"
+            labelPlacement="end"
           />
         </DialogContent>
         <DialogActions>
@@ -78,52 +107,6 @@ class EditWordStyle extends React.Component {
       </Dialog>
     );
   }
-}
-
-function RepeatingTextField (props) {
-  const wordType = ['word', 'pronunciation', 'definition', 'exampleSentence'];
-  const word = props.word;
-  const isPublicOfTheWord = props.word.isPublic;
-
-  // Switch 
-  const [state, setState] = React.useState({
-    checked: isPublicOfTheWord
-  });
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  return (
-    <div>
-      {wordType.map(wordType => {
-        return (
-          <TextField
-            key={wordType}
-            margin="dense"
-            id={wordType}
-            value = {word[wordType]}
-            label={wordType}
-            fullWidth
-          />
-        )
-      })}
-      <FormControlLabel
-        control={
-          <Switch
-            checked={state.checkedB}
-            onChange={handleChange}
-            color="Secondary"
-            name="checked"
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-        }
-        label="Make it public"
-        labelPlacement="end"
-      />
-      
-    </div>
-  );
 }
 
 export default EditWordStyle;
