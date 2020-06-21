@@ -32,8 +32,16 @@ function RepeatingTextField (props) {
 class EditWordStyle extends React.Component {
   constructor(props) {
     super(props);
-
+    this.handleClickSave = this.handleClickSave.bind(this);
   }
+
+  async handleClickSave() {
+    console.log("Saved!")
+
+    // Finally close it
+    this.props.handleClose();
+  }
+
   render() {
     // Word Data
     const word = this.props.word;
@@ -50,7 +58,7 @@ class EditWordStyle extends React.Component {
           <Button onClick={this.props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.props.handleClose} color="primary">
+          <Button onClick={this.handleClickSave} color="primary">
             Save
           </Button>
         </DialogActions>
