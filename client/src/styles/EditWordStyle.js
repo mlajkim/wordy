@@ -17,6 +17,7 @@ class EditWordStyle extends React.Component {
     super(props);
 
     this.state = {
+      wordId: props.word._id,
       word: props.word.word, 
       pronunciation: props.word.pronunciation,
       definition: props.word.definition,
@@ -30,7 +31,7 @@ class EditWordStyle extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({[e.target.id]: [e.target.value]});
+    this.setState({[e.target.id]: e.target.value});
   }
 
   handleClickSwitch() {
@@ -45,6 +46,7 @@ class EditWordStyle extends React.Component {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
+        wordId: this.state.wordId,
         word: this.state.word,
         pronunciation: this.state.pronunciation,
         definition: this.state.definition,
