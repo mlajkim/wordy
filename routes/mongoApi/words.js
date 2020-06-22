@@ -93,6 +93,11 @@ wordsRouter.post('/', (req, res) => {
 wordsRouter.get('/', async (req, res) => {
   const data = await wordSchema.find()
   res.send(data);
+}); //5ee7437a908c1c3c080c4043
+
+wordsRouter.get('/:wordId', async (req, res) => {
+  const data = await wordSchema.findOne({_id: req.params.wordId})
+  res.send(data);
 });
 
 wordsRouter.put('/', async (req, res) => {

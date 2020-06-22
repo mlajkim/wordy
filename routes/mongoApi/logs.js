@@ -15,17 +15,17 @@ logsRouter.use((req, res, next) => {
   next();
 })
 
-// GET the LAST LOG
-logsRouter.get('/lastLog', async (req, res) => {
-  const data = await logSchema.findOne().sort({$natural:-1})
-
-  res.send(data);
+// (Type: Quick) GET the LAST LOG
+logsRouter.get('/lastLog/:type', async (req, res) => {
+  const data = await logSchema.find({type: req.params.type}).sort({$natural:-1}).limit(1);
+  const arrayRemovedData = data[0];
+  res.send(arrayRemovedData);
 })
 
 // GET
 logsRouter.get('/', async (req, res) => {
   const data = await logSchema.find()
-  res.send(data);
+  res.send(data); // Remove the array
 })
 
 // POST

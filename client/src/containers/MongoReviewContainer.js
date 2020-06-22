@@ -30,9 +30,6 @@ class MongoReviewContainer extends Component {
       userId: '5ee4ccfa4b391e1e931c4b64'
     }
 
-    // Testing
-    console.log(this.state.type);
-
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleClickNextIndex = this.handleClickNextIndex.bind(this);
   } // constructor(props) ends
@@ -45,14 +42,16 @@ class MongoReviewContainer extends Component {
     })
     const wordsDataArr = await response.json();
 
-    const responseLastLog = await fetch('/mongoApi/logs/lastLog', {
+    // Get the lastLog corresponding to the last log
+    const responseLastLog = await fetch(`/mongoApi/logs/lastLog/${this.state.type}`, {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     })
     const lastLogData = await responseLastLog.json();
 
+    // Find the next upcomming index accordingly
     const foundIndex = wordsDataArr.findIndex(word => word._id === lastLogData.wordId) + 1
-    
+
     // Set the value
     this.setState({
       words: wordsDataArr,
