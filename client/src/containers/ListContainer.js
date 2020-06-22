@@ -40,10 +40,6 @@ class ListContainer extends Component {
 
   }
 
-  handleClickEdit() {
-    console.log('hi')
-  }
-
   render() {
     return (
       <div>
