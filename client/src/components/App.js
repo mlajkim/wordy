@@ -8,7 +8,7 @@ import HomeContainer from '../containers/HomeContainer';
 import MongoReviewContainer from '../containers/MongoReviewContainer';
 import ListContainer from '../containers/ListContainer';
 import ProgressContainer from '../containers/ProgressContainer';
-
+// carefulReview
 import SignIn from './SignIn';
 
 function showCurrentPage() {
@@ -21,6 +21,12 @@ function showCurrentPage() {
           exact path='/quickReview'
           render={(props) => (
             <MongoReviewContainer {...props} type="quick" />
+          )}
+        />
+        <Route 
+          exact path='/carefulReview'
+          render={(props) => (
+            <MongoReviewContainer {...props} type="careful" />
           )}
         />
         <Route exact path='/list' component={ListContainer} />
