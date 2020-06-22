@@ -7,6 +7,8 @@ import NavBar from './NavBar';
 import HomeContainer from '../containers/HomeContainer';
 import MongoReviewContainer from '../containers/MongoReviewContainer';
 import ListContainer from '../containers/ListContainer';
+import ProgressContainer from '../containers/ProgressContainer';
+
 import SignIn from './SignIn';
 
 function showCurrentPage() {
@@ -17,6 +19,7 @@ function showCurrentPage() {
         <Route exact path='/home' component={HomeContainer} />
         <Route exact path='/mongoReview' component={MongoReviewContainer} />
         <Route exact path='/list' component={ListContainer} />
+        <Route exact path='/progress' component={ProgressContainer} />
         <Route exact path='/signin' component={SignIn} />
       </Switch>
     </BrowserRouter>
