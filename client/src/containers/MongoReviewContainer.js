@@ -19,7 +19,9 @@ const defaultProps = {
 class MongoReviewContainer extends Component {
   constructor(props){
     super(props);
+    
     this.state = {
+      type: this.props.type,
       isLoaded: false,
       words: [],
       wordsNow: [],
@@ -27,6 +29,9 @@ class MongoReviewContainer extends Component {
       howMany: 5,
       userId: '5ee4ccfa4b391e1e931c4b64'
     }
+
+    // Testing
+    console.log(this.state.type);
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleClickNextIndex = this.handleClickNextIndex.bind(this);

@@ -17,7 +17,12 @@ function showCurrentPage() {
       <Switch>
       <Route exact path='/' component={HomeContainer} />
         <Route exact path='/home' component={HomeContainer} />
-        <Route exact path='/mongoReview' component={MongoReviewContainer} />
+        <Route 
+          exact path='/quickReview'
+          render={(props) => (
+            <MongoReviewContainer {...props} type="quick" />
+          )}
+        />
         <Route exact path='/list' component={ListContainer} />
         <Route exact path='/progress' component={ProgressContainer} />
         <Route exact path='/signin' component={SignIn} />

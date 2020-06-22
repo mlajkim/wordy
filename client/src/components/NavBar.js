@@ -15,7 +15,7 @@ class NavBar extends Component {
         <Navbar bg="dark" variant="dark">
           <Nav className="mr-auto">
             <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/mongoReview">Quick Review (MongoDB)</Nav.Link>
+            <Nav.Link href="/quickReview">Quick Review</Nav.Link>
             <Nav.Link href="/list">List</Nav.Link>
             <Nav.Link href="/progress">Progress</Nav.Link>
           </Nav>
