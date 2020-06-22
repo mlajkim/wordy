@@ -19,7 +19,7 @@ const defaultProps = {
 class MongoReviewContainer extends Component {
   constructor(props){
     super(props);
-    
+
     this.state = {
       type: this.props.type,
       isLoaded: false,
@@ -71,6 +71,7 @@ class MongoReviewContainer extends Component {
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
           userId: this.state.userId,
+          type: this.state.type,
           dateReviewed: Date.now(),
           wordId: element._id
         })

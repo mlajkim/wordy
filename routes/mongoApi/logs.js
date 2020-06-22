@@ -32,6 +32,7 @@ logsRouter.get('/', async (req, res) => {
 logsRouter.post('/', (req, res) => {
   const tempLogSchema = new logSchema({
     userId: req.body.userId,
+    type: req.body.type,
     dateReviewed: req.body.dateReviewed,
     wordId: req.body.wordId
   })

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const logSchema = new Schema({
   userId: String,
+  type: String,
   dateReviewed: Number,
   wordId: String
 });
