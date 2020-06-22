@@ -95,11 +95,6 @@ wordsRouter.get('/', async (req, res) => {
   res.send(data);
 }); //5ee7437a908c1c3c080c4043
 
-wordsRouter.get('/:wordId', async (req, res) => {
-  const data = await wordSchema.findOne({_id: req.params.wordId})
-  res.send(data);
-});
-
 wordsRouter.put('/', async (req, res) => {
   const wordData = req.body;
 
@@ -143,6 +138,11 @@ wordsRouter.get('/semesterized', async (req, res) => {
   })
 
   res.send(wordsDataArr);
+});
+
+wordsRouter.get('/searchId/:wordId', async (req, res) => {
+  const data = await wordSchema.findOne({_id: req.params.wordId})
+  res.send(data);
 });
 
 // Export the router

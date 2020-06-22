@@ -15,7 +15,6 @@ class ListContainer extends Component {
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.handleClickEdit = this.handleClickEdit.bind(this);
   }
 
   async componentDidMount() {
@@ -33,6 +32,8 @@ class ListContainer extends Component {
       headers: {'Content-Type':'application/json'}
     })
     const jsonData = await responseData.json();
+
+    // Write the result of the data
     this.setState({
       words: jsonData,
       isLoaded: true
