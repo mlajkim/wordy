@@ -9,7 +9,7 @@ import SlowMotionVideoIcon from '@material-ui/icons/SlowMotionVideo';
 function BeginReviewStyle (props) {
   return (
     <dev>
-      <IconButton aria-label="quick">
+      <IconButton aria-label={props.type} >
         {props.type === 'quick' && <SpeedIcon />}
         {props.type === 'careful' && <SlowMotionVideoIcon />}
       </IconButton>
