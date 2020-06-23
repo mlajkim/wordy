@@ -1,12 +1,26 @@
 import React from 'react';
+
+// Material UI Import
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Typography from '@material-ui/core/Typography';
+
+// Material UI Icon Import (Outside)
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+// Material UI Icon Import (Inside)
+import EditRounded from '@material-ui/icons/EditRounded';
+import SpeedIcon from '@material-ui/icons/Speed';
+import SlowMotionVideoIcon from '@material-ui/icons/SlowMotionVideo';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
 const options = [
-  'None',
-  'Atria'
+  'Edit',
+  'Quick',
+  'Careful',
+  'Delete'
 ];
 
 const ITEM_HEIGHT = 48;
@@ -48,7 +62,15 @@ export default function WordMenuStyle() {
       >
         {options.map((option) => (
           <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
+            <ListItemIcon>
+              {option === 'Edit' && <EditRounded fontSize="small" />}
+              {option === 'Quick' && <SpeedIcon fontSize="small" />}
+              {option === 'Careful' && <SlowMotionVideoIcon fontSize="small" />}
+              {option === 'Delete' && <DeleteForeverIcon fontSize="small" />}
+            </ListItemIcon>
+            <Typography variant="inherit">
+              {option}
+            </Typography>
           </MenuItem>
         ))}
       </Menu>
