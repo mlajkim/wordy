@@ -12,6 +12,7 @@ const semesterSchema = require('../../models/Semester');
 
 // Import required algorithm-helpers
 const parsingEngine = require('../helper/parsingEngine');
+const { parse } = require('path');
 
 wordsRouter.use((req, res, next) => {
   // Actually required LOL.. (Connects to DB)
@@ -111,6 +112,34 @@ wordsRouter.put('/', async (req, res) => {
   // Temporary sending status
   res.status(201).send({message: "success"});
 });
+
+wordsRouter.get('/parsedToday', async (req, res) => {
+  const today = new Date(Date.now())
+  const dateToday = today.getDate(); // Will be one btwn 1~31
+  const monthToday = today.getMonth(); // Will be one btwn 1~12
+  const yearToday = today.getYear(); // Year of 2012 = 112***
+
+  // Just find all the data from word list
+  const data = await wordSchema.find();
+
+  // Declare an array of words that has been parsed today.
+  const arrayOfDataSending = [];
+
+  // Compare each data, then push if it fits.
+  data.forEach(word => {
+    const parsedDateOftheWord = new Date(word.dateAdded);
+    if(
+      dateToday === parsedDateOftheWord.getDate() && 
+      monthToday === parsedDateOftheWord.getMonth() &&
+      yearToday === parsedDateOftheWord.getYear()  
+      )
+      {
+        arrayOfDataSending.push(word);
+      }
+  })
+
+  res.send(arrayOfDataSending);
+}); //5ee7437a908c1c3c080c4043
 
 wordsRouter.get('/semesterized', async (req, res) => {
   // Get the data first
