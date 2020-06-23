@@ -16,8 +16,7 @@ import EditRounded from '@material-ui/icons/EditRounded';
 // Import Style
 import StringifyStyle from './wordCardStyle/StringifyStyle';
 import EditWordStyle from './wordCardStyle/EditWordStyle';
-import BeginQuickReviewStyle from './wordCardStyle/BeginQuickReviewStyle';
-import BeginCarefulReviewStyle from './wordCardStyle/BeginCarefulReviewStyle';
+import BeginReviewStyle from './wordCardStyle/BeginReviewStyle';
 
 function WordCardStyle (props) {
   const [open, setOpen] = React.useState(false);
@@ -40,8 +39,8 @@ function WordCardStyle (props) {
             <IconButton aria-label="edit" onClick={handleClickOpen}>
               <EditRounded />
             </IconButton>
-            <BeginQuickReviewStyle word={word}/>
-            <BeginCarefulReviewStyle word={word} />
+            <BeginReviewStyle word={word} type="quick"/>
+            <BeginReviewStyle word={word} type="careful"/>
             <Badge style={{marginLeft: 12}} variant="success">Review</Badge>{' '}
           </Card.Text>
         </Card.Body>
