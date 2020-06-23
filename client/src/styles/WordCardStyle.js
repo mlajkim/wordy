@@ -1,5 +1,8 @@
 /**
  * This wordCard.js contains styling of a card word
+ * 
+ * This WordCardStyle requires 
+ *  1. One word data
  */
 
 // Import the basics

@@ -2,14 +2,18 @@ import React from 'react';
 
 // Import from ./progress
 import Chart from './progress/Chart'
+import ParsedToday from './progress/ParsedToday'
 
-function Progress (props) {
-  return (
-    <div>
-      Hello Progress.
-      <Chart />
-    </div>
-  )
+class Progress extends React.Component {
+  render() {
+    return (
+      <div>
+        Hello Progress.
+        <Chart />
+        <ParsedToday />
+      </div>
+    )
+  }
 }
 
 export default Progress;
