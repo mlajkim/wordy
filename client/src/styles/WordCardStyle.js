@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditRounded from '@material-ui/icons/EditRounded';
 
 // Import Style
+import WordMenuStyle from './wordCardStyle/WordMenuStyle'
 import StringifyStyle from './wordCardStyle/StringifyStyle';
 import EditWordStyle from './wordCardStyle/EditWordStyle';
 import BeginReviewStyle from './wordCardStyle/BeginReviewStyle';
@@ -35,6 +36,7 @@ function WordCardStyle (props) {
         <Card.Body>
           <Card.Text>
             <StringifyStyle word={word} />
+            <WordMenuStyle />
             <IconButton aria-label="edit" onClick={handleClickOpen}>
               <EditRounded />
             </IconButton>
