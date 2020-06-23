@@ -16,7 +16,7 @@ import EditRounded from '@material-ui/icons/EditRounded';
 
 // Import Style
 import StringifyStyle from './StringifyStyle';
-import EditWordStyle from './EditWordStyle';
+import EditWordStyle from './wordCardStyle/EditWordStyle';
 
 function WordCardStyle (props) {
   const [open, setOpen] = React.useState(false);
