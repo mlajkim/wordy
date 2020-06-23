@@ -15,7 +15,7 @@ import EditRounded from '@material-ui/icons/EditRounded';
 
 
 // Import Style
-import StringifyStyle from './StringifyStyle';
+import StringifyStyle from './wordCardStyle/StringifyStyle';
 import EditWordStyle from './wordCardStyle/EditWordStyle';
 
 function WordCardStyle (props) {
