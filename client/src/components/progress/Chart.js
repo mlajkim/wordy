@@ -5,25 +5,25 @@ import {
 
 const data = [
   {
-    name: 'Today', uv: 4000, pv: 2400, amt: 2400,
+    name: 'Wed ', Quick: 12, Careful: 14,
   },
   {
-    name: '22 Mon', uv: 3000, pv: 1398, amt: 2210,
+    name: 'Thu', Quick: 58, Careful: 13
   },
   {
-    name: '21 Sun', uv: 2000, pv: 9800, amt: 2290,
+    name: 'Fri', Quick: 112, Careful: 14,
   },
   {
-    name: '20 Sat', uv: 2780, pv: 3908, amt: 2000,
+    name: 'Sat', Quick: 88, Careful: 25,
   },
   {
-    name: '19 Fri', uv: 1890, pv: 4800, amt: 2181,
+    name: 'Sun', Quick: 34, Careful: 14,
   },
   {
-    name: '18 Thu', uv: 2390, pv: 3800, amt: 2500,
+    name: 'Mon', Quick: 54, Careful: 25,
   },
   {
-    name: '17 Wed', uv: 3490, pv: 4300, amt: 2100,
+    name: 'Today', Quick: 67, Careful: 14,
   },
 ];
 
@@ -45,8 +45,8 @@ export default class Example extends PureComponent {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="pv" fill="#8884d8" />
-        <Bar dataKey="uv" fill="#82ca9d" />
+        <Bar dataKey="Quick" fill="#8884d8" />
+        <Bar dataKey="Careful" fill="#82ca9d" />
       </BarChart>
     );
   }
