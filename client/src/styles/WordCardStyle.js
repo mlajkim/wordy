@@ -13,11 +13,11 @@ import Badge from 'react-bootstrap/Badge';
 import IconButton from '@material-ui/core/IconButton';
 import EditRounded from '@material-ui/icons/EditRounded';
 
-
 // Import Style
 import StringifyStyle from './wordCardStyle/StringifyStyle';
 import EditWordStyle from './wordCardStyle/EditWordStyle';
 import BeginQuickReviewStyle from './wordCardStyle/BeginQuickReviewStyle';
+import BeginCarefulReviewStyle from './wordCardStyle/BeginCarefulReviewStyle';
 
 function WordCardStyle (props) {
   const [open, setOpen] = React.useState(false);
@@ -41,6 +41,7 @@ function WordCardStyle (props) {
               <EditRounded />
             </IconButton>
             <BeginQuickReviewStyle word={word}/>
+            <BeginCarefulReviewStyle word={word} />
             <Badge style={{marginLeft: 12}} variant="success">Review</Badge>{' '}
           </Card.Text>
         </Card.Body>
