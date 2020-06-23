@@ -7,23 +7,14 @@ import SpeedIcon from '@material-ui/icons/Speed';
 import SlowMotionVideoIcon from '@material-ui/icons/SlowMotionVideo';
 
 function BeginReviewStyle (props) {
-  if(props.type === 'quick'){
-    return (
-      <dev>
-        <IconButton aria-label="quick">
-          <SpeedIcon />
-        </IconButton>
-      </dev>
-    )
-  }else if(props.type === 'careful'){
-    return (
-      <dev>
-        <IconButton aria-label="careful">
-          <SlowMotionVideoIcon />
-        </IconButton>
-      </dev>
-    )
-  }
+  return (
+    <dev>
+      <IconButton aria-label="quick">
+        {props.type === 'quick' && <SpeedIcon />}
+        {props.type === 'careful' && <SlowMotionVideoIcon />}
+      </IconButton>
+    </dev>
+  )
 }
 
 export default BeginReviewStyle;
