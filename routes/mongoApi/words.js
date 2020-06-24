@@ -1,24 +1,12 @@
 // Import and Declare the Router
 const wordsRouter = require('express').Router();
 
-// Import MongoDB related and its related declaratin
-const mongoose = require('mongoose')
-const yourDatabaseName = 'wordy-local'
-const url = `mongodb://127.0.0.1:27017/${yourDatabaseName}`;
-
 // Import Mongoose Models
 const wordSchema = require('../../models/Word');
 const semesterSchema = require('../../models/Semester');
 
 // Import required algorithm-helpers
 const parsingEngine = require('../helper/parsingEngine');
-const { parse } = require('path');
-
-wordsRouter.use((req, res, next) => {
-  // Actually required LOL.. (Connects to DB)
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }) 
-  next();
-})
 
 wordsRouter.post('/', (req, res) => {
   // Hard coded language order
