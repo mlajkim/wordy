@@ -11,6 +11,9 @@ import React from 'react';
 // Bootstrap Import
 import Card from 'react-bootstrap/Card';
 
+// Material UI Cores
+import Grid from '@material-ui/core/Grid';
+
 // Material UI Icons Import
 import IconButton from '@material-ui/core/IconButton';
 import EditRounded from '@material-ui/icons/EditRounded';
@@ -36,6 +39,7 @@ function WordCardStyle (props) {
   const handleClose = () => {
     setOpen(false);
   };
+  // Functions Styles Ends
 
   // Delete Functions
   const [deleteOpen, setDeleteOpen] = React.useState(false);
@@ -57,23 +61,31 @@ function WordCardStyle (props) {
     // Then Close the Deletion Warning
     handleCloseDelete();
   }
+  // Delete Styles Ends
 
   return(
     <div>
       <Card className="text-center" key={word._id}>
         <Card.Body>
           <Card.Text>
-            <StringifyStyle word={word} />
-            <IconButton aria-label="edit" onClick={handleClickOpen}>
-              <EditRounded />
-            </IconButton>
-            {/* Handles Review Button */}
-            <BeginReviewStyle word={word} type="quick"/>
-            <BeginReviewStyle word={word} type="careful"/>
-            {/* Handles the delete button */}
-            <IconButton aria-label="edit" onClick={handleClickDelete}>
-              <DeleteForeverIcon />
-            </IconButton>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <StringifyStyle word={word} />
+              <IconButton aria-label="edit" onClick={handleClickOpen}>
+                <EditRounded />
+              </IconButton>
+              {/* Handles Review Button */}
+              <BeginReviewStyle word={word} type="quick"/>
+              <BeginReviewStyle word={word} type="careful"/>
+              {/* Handles the delete button */}
+              <IconButton aria-label="edit" onClick={handleClickDelete}>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Grid>
           </Card.Text>
         </Card.Body>
       </Card>
