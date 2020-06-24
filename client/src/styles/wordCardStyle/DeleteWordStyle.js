@@ -7,9 +7,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function DeleteWordStyle(props) {
-  // The Word Data
-  const word = props.word;
-
   return (
     <div>
       <Dialog
@@ -21,7 +18,7 @@ export default function DeleteWordStyle(props) {
         <DialogTitle id="alert-dialog-title">{"Delete?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This action is irreversible and cannot be undone.
+            The action is irreversible and cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

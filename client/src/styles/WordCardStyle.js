@@ -20,7 +20,6 @@ import EditRounded from '@material-ui/icons/EditRounded';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 // Import Style
-import WordMenuStyle from './wordCardStyle/WordMenuStyle'
 import StringifyStyle from './wordCardStyle/StringifyStyle';
 import EditWordStyle from './wordCardStyle/EditWordStyle';
 import DeleteWordStyle from './wordCardStyle/DeleteWordStyle'
