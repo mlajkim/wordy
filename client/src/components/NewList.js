@@ -1,9 +1,13 @@
 import React from 'react'
 
+import LeftTab from './newList/LeftTab'
+
 export default class NewList extends React.Component {
   render() {
     return (
-      <div> Hello New List </div>
+      <div>
+        <LeftTab />
+      </div>
     )
   }
 }
