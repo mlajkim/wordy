@@ -18,8 +18,11 @@ class ListContainer extends Component {
   }
 
   async componentDidMount() {
+    // User Id
+    const userId = this.state.userId;
+
     // Load Semesters Data First
-    const response = await fetch('/mongoApi/semesters', {
+    const response = await fetch('/mongoApi/semesters/' + userId, {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     })
