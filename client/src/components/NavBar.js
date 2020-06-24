@@ -17,7 +17,6 @@ class NavBar extends Component {
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/quickReview">Quick Review</Nav.Link>
             <Nav.Link href="/carefulReview">Careful Review</Nav.Link>
-            <Nav.Link href="/NewList">New List</Nav.Link>
             <Nav.Link href="/list">List</Nav.Link>
             <Nav.Link href="/progress">Progress</Nav.Link>
           </Nav>

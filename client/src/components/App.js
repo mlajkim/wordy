@@ -10,7 +10,6 @@ import ListContainer from '../containers/ListContainer';
 import ProgressContainer from '../containers/ProgressContainer';
 // carefulReview
 import SignIn from './SignIn';
-import NewListContainer from '../containers/NewListContainer';
 
 function showCurrentPage() {
   return (
@@ -30,7 +29,6 @@ function showCurrentPage() {
             <MongoReviewContainer {...props} type="careful" />
           )}
         />
-        <Route exact path='/newList' component={NewListContainer} />
         <Route exact path='/list' component={ListContainer} />
         <Route exact path='/progress' component={ProgressContainer} />
         <Route exact path='/signin' component={SignIn} />
