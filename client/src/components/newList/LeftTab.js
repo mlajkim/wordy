@@ -6,6 +6,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+// Import UpperTab
+import UpperTab from './UpperTab';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -44,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    height: 224,
+    height: 544, // Changes the length of the left tab
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -81,7 +84,7 @@ export default function LeftTab (props) {
 
       {semesters.length !== 0 && semesters.map((semester, index) => (
           <TabPanel value={value} index={index}>
-            haha: {semester}
+            <UpperTab />
           </TabPanel>
         ))}
     </div>
