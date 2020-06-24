@@ -90,11 +90,24 @@ wordsRouter.post('/', (req, res) => {
   // Send back the message 'success'
   res.send({state: 'success'});
 });
-
+// inSemester
 wordsRouter.get('/', async (req, res) => {
   const data = await wordSchema.find()
   res.send(data);
 }); //5ee7437a908c1c3c080c4043
+
+wordsRouter.get('/inSemester/:year/:semester/:userId', async (req, res) => {
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+
+  const query = {
+    year: req.params.year,
+    semester: req.params.semester,
+    owner: req.params.userId,
+  }
+  const data = await wordSchema.find(query)
+  res.send(data);
+}); //5ee7437a908c1c3c080c4043
+
 
 wordsRouter.put('/', async (req, res) => {
   const wordData = req.body;
