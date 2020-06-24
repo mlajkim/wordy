@@ -113,6 +113,12 @@ wordsRouter.put('/', async (req, res) => {
   res.status(201).send({message: "success"});
 });
 
+wordsRouter.delete('/', async (req, res) => {
+  const wordId = req.body.wordId;
+  await wordSchema.deleteOne({_id: wordId})
+  res.sendStatus(204);
+}); //5ee7437a908c1c3c080c4043
+
 wordsRouter.get('/parsedToday', async (req, res) => {
   const today = new Date(Date.now())
   const dateToday = today.getDate(); // Will be one btwn 1~31
