@@ -27,8 +27,17 @@ const data = [
   },
 ];
 
-export default class Example extends PureComponent {
+export default class Chart extends PureComponent {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/30763kr7/';
+
+  constructor(props){
+    super(props);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  componentDidMount() {
+    
+  }
 
   render() {
     return (
