@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 const logSchema = new Schema({
   userId: String,
   type: String,
+  year: Number,
+  month: Number,
+  date: Number,
+  day: Number,
   dateReviewed: Number,
   wordId: String
 });
