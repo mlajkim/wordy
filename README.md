@@ -2,10 +2,10 @@
 Wordy helps you save your lovely professional terms and useful expressions into your database.
 
 # Version 1.0
-Back-End ExpressJS + NodeJS
-Front-End Javascript + React
-Database MongoDB, 
-Deleted yet Implemented SQLite
+1. Back-End ExpressJS + NodeJS
+2. Front-End Javascript + React
+3. Database MongoDB, 
+4. Deleted yet Implemented SQLite
 
 # Main Features
 1. Parsing automatically saves data into correct properties such as 'definition', 'pronunciation' etc.
