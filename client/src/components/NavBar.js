@@ -21,6 +21,7 @@ class NavBar extends Component {
             <Nav.Link href="/progress">Progress</Nav.Link>
           </Nav>
           <Nav>
+            <Nav.Link >v1.0</Nav.Link>
             <Button href="/signin" variant="outline-light">Sign in</Button>{' '}
           </Nav>
         </Navbar>

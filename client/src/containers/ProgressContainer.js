@@ -14,7 +14,6 @@ class ProgressContainer extends React.Component {
   render(){
     return(
       <div>
-        Hello ProgressContainer!
         <Progress />
       </div>
     )

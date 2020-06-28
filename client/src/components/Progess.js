@@ -8,7 +8,6 @@ class Progress extends React.Component {
   render() {
     return (
       <div>
-        Hello Progress.
         <Chart />
         <ParsedToday />
       </div>
