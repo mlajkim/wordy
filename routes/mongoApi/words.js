@@ -5,79 +5,13 @@ const wordsRouter = require('express').Router();
 const wordSchema = require('../../models/Word');
 const semesterSchema = require('../../models/Semester');
 
-// Import required algorithm-helpers
-const parsingEngine = require('../helper/parsingEngine');
+// import routers
+const wordsPostRouter = require('./words/post');
 
-wordsRouter.post('/', (req, res) => {
-  // Hard coded language order
-  const languageOrder = ['Korean', 'English', 'Chinese', 'Japanese'];
+// Use the routers
+wordsRouter.use('/post', wordsPostRouter);
+// #1
 
-  // Check if year or semester is given, else, will be today's date!
-  // The non-selected will be 'default'
-  const currentTime = new Date();
-  const yearCalculated = req.body.userPreference.year === 'default' ? currentTime.getFullYear() : req.body.userPreference.year
-  const semCalculated = req.body.userPreference.semester === 'default' ? Math.floor(currentTime.getMonth() / 3) + 1 : req.body.userPreference.semester
-
-  // Loop through the languages
-  req.body.parsetarget.forEach((language, index) => {
-    if(language){ // Run parsing engine only when it is NOT empty.
-      const parsedProperties = parsingEngine(language);
-
-      // Loop through
-      parsedProperties.forEach(parsedProperty => {
-        const tempWordSchema = new wordSchema({
-          owner: req.body.userPreference.owner,
-          dateAdded: currentTime,
-          year: yearCalculated,
-          semester: semCalculated,  
-          language: languageOrder[index],
-          word: parsedProperty.word,
-          definition: parsedProperty.definition,
-          pronunciation: parsedProperty.pronunciation,
-          definition: parsedProperty.definition,
-          exampleSentence: parsedProperty.exampleSentence,
-          isPublic: req.body.userPreference.isPublic
-        })
-
-        tempWordSchema.save()
-          .catch(err => console.log(err))
-      }) // parsedProperties loop ends 
-    } // if(language) ends 
-  })
-  
-  // Check if semester exists, if not, add!
-  semesterSchema.find()
-  .then(semesters => {
-
-    // if this becomes true, it means the same thing is found.
-    // Also means, it does not have to create new one.
-    let found = false; 
-
-    semesters.forEach(semester => {
-      // Loop through the semester data
-      if(semester.year == yearCalculated && semester.semester == semCalculated){
-        found = true;
-      }
-    })
-
-    if(!found){ // run only when it is not found.
-      //if not found, it means it is the new semester!
-    const newSemesterSchema = new semesterSchema({
-      owner: req.body.userPreference.owner,
-      year: yearCalculated,
-      semester: semCalculated
-    })
-    
-    newSemesterSchema.save()
-      .then(document => console.log(document))
-      .catch(err => console.log(err))
-    }
-    
-  }) // End of POST word
-
-  // Send back the message 'success'
-  res.send({state: 'success'});
-});
 // inSemester
 wordsRouter.get('/', async (req, res) => {
   const data = await wordSchema.find()
@@ -96,7 +30,7 @@ wordsRouter.get('/inSemester/:year/:semester/:userId', async (req, res) => {
   res.send(data);
 }); //5ee7437a908c1c3c080c4043
 
-
+// #2
 wordsRouter.put('/', async (req, res) => {
   const wordData = req.body;
 
@@ -114,6 +48,7 @@ wordsRouter.put('/', async (req, res) => {
   res.status(201).send({message: "success"});
 });
 
+// #3
 wordsRouter.delete('/', async (req, res) => {
   const wordId = req.body.wordId;
   await wordSchema.deleteOne({_id: wordId})
@@ -148,6 +83,7 @@ wordsRouter.get('/parsedToday', async (req, res) => {
   res.send(arrayOfDataSending);
 }); //5ee7437a908c1c3c080c4043
 
+// #4
 wordsRouter.get('/semesterized', async (req, res) => {
   // Get the data first
   const semesterData = await semesterSchema.find();

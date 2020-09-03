@@ -30,7 +30,7 @@ class HomeContainer extends React.Component {
 
   // Initiated when the button is clicked for the parsing!
   handleSubmit(e){
-    fetch('/mongoApi/words', {
+    fetch('/mongoApi/words/post', {
       method: 'POST',
       headers: {'Content-Type':'application/json'}, // super important
       body: JSON.stringify({
