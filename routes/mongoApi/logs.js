@@ -1,19 +1,8 @@
 // Import and Declare the Router
 const logsRouter = require('express').Router();
 
-// Import MongoDB related and its related declaratin
-const mongoose = require('mongoose')
-const yourDatabaseName = 'wordy-local'
-const url = `mongodb://127.0.0.1:27017/${yourDatabaseName}`;
-
 // Import Mongoose Models
 const logSchema = require('../../models/Log');
-
-// Connects to DB
-logsRouter.use((req, res, next) => {
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }) 
-  next();
-})
 
 // (Type: Quick) GET the LAST LOG
 logsRouter.get('/lastLog/:type', async (req, res) => {

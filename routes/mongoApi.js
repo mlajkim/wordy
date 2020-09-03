@@ -1,17 +1,17 @@
 // Import the basics
 const express = require('express');
+const {mongoDbUrl} = require('../credential');
 
 // Import MongoDB related and its related declaratin
-const mongoose = require('mongoose')
-const yourDatabaseName = 'wordy-local'
-const url = `mongodb://127.0.0.1:27017/${yourDatabaseName}`;
+const mongoose = require('mongoose');
 
 // Initiate the basics
 const mongoApiRouter = express.Router();
 
 mongoApiRouter.use((req, res, next) => {
   // Actually required LOL.. (Connects to DB)
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  // This allows everything under mongoApi Routers connected to the route.
+  mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   next();
 })
 
