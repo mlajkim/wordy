@@ -2,6 +2,7 @@
 
 #AJ Personal
 data.sqlite
+credential.js
 
 # dependencies
 /node_modules

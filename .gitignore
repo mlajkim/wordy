@@ -3,6 +3,7 @@
 #AJ Personal
 data.sqlite
 data.sqlite-journal
+credential.js
 
 # dependencies
 /node_modules
