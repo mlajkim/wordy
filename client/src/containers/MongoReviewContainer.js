@@ -50,10 +50,18 @@ class MongoReviewContainer extends Component {
     const lastLogData = await responseLastLog.json();
 
     // Find the next upcomming index accordingly
-    const foundIndex = wordsDataArr.findIndex(word => word._id === lastLogData.wordId) + 1
+    let foundIndex;
 
+    if(lastLogData.dbStatus === 'notFound') {
+      //if not found
+      foundIndex = 0;
+      
+    }else{
+      foundIndex = wordsDataArr.findIndex(word => word._id === lastLogData.wordId) + 1
+    }
+    
     // Set the value
-    this.setState({
+    this.setState({ 
       words: wordsDataArr,
       index: foundIndex,
       wordsNow: wordsDataArr.slice(foundIndex, foundIndex + this.state.howMany),

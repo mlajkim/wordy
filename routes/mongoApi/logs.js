@@ -8,6 +8,9 @@ const logSchema = require('../../models/Log');
 logsRouter.get('/lastLog/:type', async (req, res) => {
   const data = await logSchema.find({type: req.params.type}).sort({$natural:-1}).limit(1);
   const arrayRemovedData = data[0];
+
+  // if null, send this
+  if(!arrayRemovedData) res.send({dbStatus: 'notFound'});
   res.send(arrayRemovedData);
 })
 
