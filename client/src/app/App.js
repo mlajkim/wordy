@@ -21,11 +21,23 @@ export default class App extends React.Component {
       words: [],
       
     }
-  }
+    this.retrieveWords = this.retrieveWords.bind(this);
+
+  };
 
   async retrieveWords() {
-    console.log("just retireved the words!");
-  }
+    // Will eventually develop the below
+    // const userId = this.state.userId;
+
+    let response = await fetch('/mongoApi/words', {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+
+    const words = await response.json();
+    this.setState({words: words});
+
+  };
 
   render() {
     return (
@@ -48,13 +60,17 @@ export default class App extends React.Component {
             <Route 
               exact path='/quickReview'
               render={(props) => (
-                <MongoReviewContainer {...props} type="quick" />
+                <MongoReviewContainer {...props}
+                  type="quick" 
+                />
               )}
             />
             <Route 
               exact path='/carefulReview'
               render={(props) => (
-                <MongoReviewContainer {...props} type="careful" />
+                <MongoReviewContainer {...props}
+                  type="careful" 
+                />
               )}
             />
             <Route exact path='/list' component={ListContainer} />
