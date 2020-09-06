@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 // Compoenent import
 import Home from '../components/Home'
 
+// import
+import Retrieve from '../components/retrieve/Retrieve';
+
 const propType = {
   handleSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -65,6 +68,9 @@ class HomeContainer extends React.Component {
   render() {
     return ( 
       <div>
+        <Retrieve 
+          retrieveWords={this.props.retrieveWords}
+        />
         <Home 
           handleSubmit={this.handleSubmit}
           onChange={this.onChange}

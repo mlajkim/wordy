@@ -17,43 +17,52 @@ export default class App extends React.Component {
 
     // 5ee7437a908c1c3c080c4043
     this.state = {
-      userId: '',
+      userId: '5ee7437a908c1c3c080c4043',
       words: [],
       
     }
   }
+
+  async retrieveWords() {
+    console.log("just retireved the words!");
+  }
+
   render() {
     return (
       <div>
         <NavBar />
-        {showCurrentPage()}
+        <BrowserRouter>
+          <Switch>
+            <Route 
+              exact path='/'
+              render={(props) => (
+                <HomeContainer {...props} retrieveWords={this.retrieveWords}/>
+              )}
+            />
+            <Route 
+              exact path='/home'
+              render={(props) => (
+                <HomeContainer {...props} retrieveWords={this.retrieveWords}/>
+              )}
+            />
+            <Route 
+              exact path='/quickReview'
+              render={(props) => (
+                <MongoReviewContainer {...props} type="quick" />
+              )}
+            />
+            <Route 
+              exact path='/carefulReview'
+              render={(props) => (
+                <MongoReviewContainer {...props} type="careful" />
+              )}
+            />
+            <Route exact path='/list' component={ListContainer} />
+            <Route exact path='/progress' component={ProgressContainer} />
+            <Route exact path='/signin' component={SignIn} />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   };
-}
-
-function showCurrentPage() {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path='/' component={HomeContainer} />
-        <Route exact path='/home' component={HomeContainer} />
-        <Route 
-          exact path='/quickReview'
-          render={(props) => (
-            <MongoReviewContainer {...props} type="quick" />
-          )}
-        />
-        <Route 
-          exact path='/carefulReview'
-          render={(props) => (
-            <MongoReviewContainer {...props} type="careful" />
-          )}
-        />
-        <Route exact path='/list' component={ListContainer} />
-        <Route exact path='/progress' component={ProgressContainer} />
-        <Route exact path='/signin' component={SignIn} />
-      </Switch>
-    </BrowserRouter>
-  );
 }
