@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const loadingStyle = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
+
+function LoadingAnimation() {
+  const classes = loadingStyle();
+
+  return (
+    <div className={classes.root}>
+      <CircularProgress />
+      <CircularProgress color="inherit" />
+    </div>
+  );
+}
+
+
 export default function Appbar(props) {
   const classes = useStyles();
 
@@ -28,6 +50,8 @@ export default function Appbar(props) {
     props.setUserId('');
   }
 
+  let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
+
   let displayLoginSeciton;
   if(!props.userId) displayLoginSeciton = (
     <div>
@@ -36,6 +60,7 @@ export default function Appbar(props) {
   )
   else displayLoginSeciton = (
     <>
+      {displayLoadingAnimation} 
       Welcome, {props.userId}
       <Button color="inherit" onClick={() => handleLogout()}>logout</Button>
     </>

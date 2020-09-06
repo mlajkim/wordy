@@ -21,12 +21,15 @@ import Popup from '../popups/Popup'
 export default function App (props) {
 
   const [userId, setUserId] = React.useState('');
+  const [isDataLoading, setDataLoading] = React.useState(true);
   const [words, setWords] = React.useState([]);
   const [popup, setPopup] = React.useState('');
 
   return (
     <div>
       <Appbar userId={userId}
+              isDataLoading={isDataLoading}
+              setDataLoading={setDataLoading}
               setUserId={setUserId}
               setPopup={setPopup}/>
       <Popup userId={userId}

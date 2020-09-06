@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -74,6 +73,7 @@ export default function Popup(props) {
   const handleClose = (value) => {
     props.setPopup('');
     props.setUserId(value);
+    
   };
 
   return (
