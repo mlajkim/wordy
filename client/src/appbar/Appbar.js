@@ -48,6 +48,7 @@ export default function Appbar(props) {
   const handleLogout = () => {
     props.setPopup('');
     props.setUserId('');
+    props.setWords([]);
   }
 
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;

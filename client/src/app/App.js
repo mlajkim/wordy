@@ -18,12 +18,21 @@ import SignIn from '../components/SignIn';
 import Appbar from '../appbar/Appbar'
 import Popup from '../popups/Popup'
 
+import RetrieveAllWords from './AppSupport';
+
 export default function App (props) {
 
   const [userId, setUserId] = React.useState('');
-  const [isDataLoading, setDataLoading] = React.useState(true);
+  const [isDataLoading, setDataLoading] = React.useState(false);
   const [words, setWords] = React.useState([]);
   const [popup, setPopup] = React.useState('');
+
+  const retrieveAllWords = async (givenUserId) => {
+    setDataLoading(true);
+    const words = await RetrieveAllWords(givenUserId);
+    await setWords(words);
+    setDataLoading(false);
+  }
 
   return (
     <div>
@@ -31,11 +40,14 @@ export default function App (props) {
               isDataLoading={isDataLoading}
               setDataLoading={setDataLoading}
               setUserId={setUserId}
+              setWords={setWords}
               setPopup={setPopup}/>
+      {words.length}
       <Popup userId={userId}
              setUserId={setUserId}
              popup={popup}
-             setPopup={setPopup}/>
+             setPopup={setPopup}
+             retrieveAllWords={retrieveAllWords}/>
     </div>
   );
 }

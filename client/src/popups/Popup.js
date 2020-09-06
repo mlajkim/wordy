@@ -13,7 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 
-const emails = ['blank', '5ee7437a908c1c3c080c4043'];
+const emails = ['blank', '5ee4ccfa4b391e1e931c4b64'];
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],
@@ -73,7 +73,7 @@ export default function Popup(props) {
   const handleClose = (value) => {
     props.setPopup('');
     props.setUserId(value);
-    
+    props.retrieveAllWords(value);
   };
 
   return (
