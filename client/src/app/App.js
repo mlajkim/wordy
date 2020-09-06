@@ -19,10 +19,15 @@ import Appbar from '../appbar/Appbar'
 import Popup from '../popups/Popup'
 
 import RetrieveAllWords from './AppSupport';
-import Wordcard from '../components/Wordcard/Wordcard';
+
+import Button from '@material-ui/core/Button'
+
+// import pages //ShowCurrentPage
+import ShowCurrentPage from '../pages/ShowCurrentPage';
 
 export default function App (props) {
 
+  const [page, setPage] = React.useState('');
   const [userId, setUserId] = React.useState('');
   const [isDataLoading, setDataLoading] = React.useState(false);
   const [words, setWords] = React.useState([]);
@@ -35,13 +40,7 @@ export default function App (props) {
     setDataLoading(false);
   }
 
-  let body = words.map(word => {
-    return <Wordcard key={word._id}
-                     word={word.word}
-                     pronunciation={word.pronunciation}
-                     definition={word.definition}
-                     exampleSentence={word.exampleSentence}/>
-  })
+  
 
   return (
     <div>
@@ -51,13 +50,17 @@ export default function App (props) {
               setUserId={setUserId}
               setWords={setWords}
               setPopup={setPopup}/>
-      {words.length}
+      {words.length} <br></br>
+      Page: {page}
       <Popup userId={userId}
              setUserId={setUserId}
              popup={popup}
              setPopup={setPopup}
              retrieveAllWords={retrieveAllWords}/>
-      {body}
+      <Button onClick={() => {setPage('list')}}>Go To My List</Button>
+      <ShowCurrentPage page={page}
+                       setPage={setPage}
+                       words={words}/>
     </div>
   );
 }
