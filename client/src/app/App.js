@@ -19,6 +19,7 @@ import Appbar from '../appbar/Appbar'
 import Popup from '../popups/Popup'
 
 import RetrieveAllWords from './AppSupport';
+import Wordcard from '../components/Wordcard/Wordcard';
 
 export default function App (props) {
 
@@ -34,6 +35,14 @@ export default function App (props) {
     setDataLoading(false);
   }
 
+  let body = words.map(word => {
+    return <Wordcard key={word._id}
+                     word={word.word}
+                     pronunciation={word.pronunciation}
+                     definition={word.definition}
+                     exampleSentence={word.exampleSentence}/>
+  })
+
   return (
     <div>
       <Appbar userId={userId}
@@ -48,6 +57,7 @@ export default function App (props) {
              popup={popup}
              setPopup={setPopup}
              retrieveAllWords={retrieveAllWords}/>
+      {body}
     </div>
   );
 }
