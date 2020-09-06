@@ -14,7 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 
-const emails = ['', '5ee7437a908c1c3c080c4043'];
+const emails = ['blank', '5ee7437a908c1c3c080c4043'];
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],

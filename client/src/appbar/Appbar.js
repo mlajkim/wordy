@@ -21,8 +21,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Appbar(props) {
   const classes = useStyles();
-  let displayingId = props.userId ? props.userId : 'login'
 
+  // Handles the top right side of appbar
+  const handleLogout = () => {
+    props.setPopup('');
+    props.setUserId('');
+  }
+
+  let displayLoginSeciton;
+  if(!props.userId) displayLoginSeciton = (
+    <div>
+      <Button color="inherit" onClick={() => props.setPopup('login')}>login</Button>
+    </div>
+  )
+  else displayLoginSeciton = (
+    <>
+      Welcome, {props.userId}
+      <Button color="inherit" onClick={() => handleLogout()}>logout</Button>
+    </>
+  )
+  
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -33,7 +51,7 @@ export default function Appbar(props) {
           <Typography variant="h6" className={classes.title}>
             Wordy Project
           </Typography>
-          <Button color="inherit" onClick={() => props.setPopup('login')}>{displayingId}</Button>
+          {displayLoginSeciton}
         </Toolbar>
       </AppBar>
     </div>

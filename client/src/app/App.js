@@ -18,17 +18,16 @@ import SignIn from '../components/SignIn';
 import Appbar from '../appbar/Appbar'
 import Popup from '../popups/Popup'
 
-const ids = ['', '5ee7437a908c1c3c080c4043'];
-
 export default function App (props) {
 
-  const [userId, setUserId] = React.useState(ids[0]);
+  const [userId, setUserId] = React.useState('');
   const [words, setWords] = React.useState([]);
   const [popup, setPopup] = React.useState('');
 
   return (
     <div>
       <Appbar userId={userId}
+              setUserId={setUserId}
               setPopup={setPopup}/>
       <Popup userId={userId}
              setUserId={setUserId}
