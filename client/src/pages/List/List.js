@@ -6,10 +6,7 @@ import Button from '@material-ui/core/Button'
 export default function List(props) {
   let body = props.words.map(word => {
     return <Wordcard key={word._id}
-                     word={word.word}
-                     pronunciation={word.pronunciation}
-                     definition={word.definition}
-                     exampleSentence={word.exampleSentence}/>
+                     word={word}/>
   })
 
   return (

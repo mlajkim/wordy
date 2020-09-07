@@ -25,24 +25,40 @@ const useStyles = makeStyles({
 
 export default function Wordcard(props) {
   const classes = useStyles();
+  const word = props.word;
+
+  let wordInCard, pronunciation, definition, exampleSentence;
+
+  wordInCard = <Typography variant="h5" component="h2">{word.word}</Typography>;
+  if(props.pronunciation) {
+    pronunciation = <Typography className={classes.pos} color="textSecondary"> {word.pronunciation}</Typography>
+  }
+  if(props.exampleSentence) {
+    exampleSentence = (
+      <div>
+        <br />
+        "{word.exampleSentence}"
+      </div>
+    );
+  }
+  if(props.definition) {
+    definition = (
+      <Typography variant="body2" component="p">
+        {word.definition}
+        {exampleSentence}
+      </Typography>
+    )
+  }
 
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Word of the Day
+          {word.semester}th semester of {word.year}
         </Typography>
-        <Typography variant="h5" component="h2">
-          {props.word}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {props.pronunciation}
-        </Typography>
-        <Typography variant="body2" component="p">
-          {props.meaning}
-          <br />
-          "{props.exampleSentence}"
-        </Typography>
+        {wordInCard}
+        {pronunciation}
+        {definition}
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
