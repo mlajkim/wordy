@@ -27,7 +27,7 @@ import ShowCurrentPage from '../pages/ShowCurrentPage';
 
 export default function App (props) {
 
-  const [page, setPage] = React.useState('');
+  const [page, setPage] = React.useState('welcome');
   const [userId, setUserId] = React.useState('');
   const [isDataLoading, setDataLoading] = React.useState(false);
   const [words, setWords] = React.useState([]);
@@ -38,6 +38,13 @@ export default function App (props) {
     const words = await RetrieveAllWords(givenUserId);
     await setWords(words);
     setDataLoading(false);
+  }
+
+  const handleGoogleSignin = async () => {
+    const response = await fetch('/api/authentication/googleSignin', {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
   }
 
   

@@ -4,6 +4,7 @@
 data.sqlite
 data.sqlite-journal
 credential.js
+config.js
 
 # dependencies
 /node_modules
