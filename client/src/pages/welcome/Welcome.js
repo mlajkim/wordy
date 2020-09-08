@@ -6,10 +6,14 @@ import Signin from '../../components/signin/Signin';
 export default function Welcome() {
   return (
     <div>
-      Welcome to Wordy! 
-      You will be multi langualar easy, fast and for free
+      <h1>
+        Welcome to Wordy! 
+        You will be multi langualar easy, fast and for free
 
-      Join and become the part of our community!
+        Join and become the part of our community!
+      </h1>
+      <br />
+      <h3> Click the button below and join right NOW!!</h3>
 
       <Signin />
     </div>

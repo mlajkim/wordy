@@ -42,17 +42,19 @@ function LoadingAnimation() {
 
 
 export default function Appbar(props) {
+  // Styles
   const classes = useStyles();
 
-  // Handles the top right side of appbar
-  const handleLogout = () => {
-    props.setPopup('');
-    props.setUserId('');
-    props.setWords([]);
-  }
+  // Navigation for page
+  const pages = ['welcome', 'introduce', 'list', 'review'];
+  let showPages = pages.map(page => {
+    return (
+      <Button color="inherit" onClick={() => props.setPage(page)}>{page}</Button>
+    )
+  })
 
+  // Loading animation
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
-
   let displayLoginSeciton;
   if(!props.userId) displayLoginSeciton = (
     <div>
@@ -66,7 +68,15 @@ export default function Appbar(props) {
       <Button color="inherit" onClick={() => handleLogout()}>logout</Button>
     </>
   )
-  
+
+  // Signin Signout button 
+  const handleLogout = () => {
+    props.setPopup('');
+    props.setUserId('');
+    props.setWords([]);
+  }
+
+  /// Render
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -77,6 +87,7 @@ export default function Appbar(props) {
           <Typography variant="h6" className={classes.title}>
             Wordy Project
           </Typography>
+          {showPages}
           {displayLoginSeciton}
         </Toolbar>
       </AppBar>

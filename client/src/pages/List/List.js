@@ -11,6 +11,7 @@ export default function List(props) {
 
   return (
     <div>
+      
       <Button onClick={() => props.setPage('')}>Go back home</Button>
        {body}
     </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import List from './List/List';
+import Welcome from './Welcome/Welcome';
 
 
 export default function ShowCurrentPage(props) {
@@ -8,6 +9,10 @@ export default function ShowCurrentPage(props) {
   let body;
 
   switch(currentPage) {
+    case 'welcome':
+      body = <Welcome />
+      break;
+
     case 'list':
       body = <List words={props.words}
                    setPage={props.setPage}/>

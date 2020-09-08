@@ -78,8 +78,6 @@ export default function Popup(props) {
 
   return (
     <div>
-      <Typography variant="subtitle1">Selected: {props.userId}</Typography>
-      <br />
       <SimpleDialog selectedValue={props.userId} open={open} onClose={handleClose} />
     </div>
   );

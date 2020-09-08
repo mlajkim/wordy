@@ -51,20 +51,18 @@ export default function App (props) {
 
   return (
     <div>
-      <Appbar userId={userId}
+      <Appbar setPage={setPage}
+              userId={userId}
               isDataLoading={isDataLoading}
               setDataLoading={setDataLoading}
               setUserId={setUserId}
               setWords={setWords}
               setPopup={setPopup}/>
-      {words.length} <br></br>
-      Page: {page}
       <Popup userId={userId}
              setUserId={setUserId}
              popup={popup}
              setPopup={setPopup}
              retrieveAllWords={retrieveAllWords}/>
-      <Button onClick={() => {setPage('list')}}>Go To My List</Button>
       <ShowCurrentPage page={page}
                        setPage={setPage}
                        words={words}/>
