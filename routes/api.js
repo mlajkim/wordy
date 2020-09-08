@@ -13,10 +13,13 @@ apiRouter.use((req, res, next) => {
 // Import routers
 const wordRouter = require('./api/word/word')
 const signInRouter = require('./api/signIn');
+const googleSigninRouter = require('./api/authentication/googleSignin');
 
 // Apply routers
 apiRouter.use('/word', wordRouter);
 apiRouter.use('/signIn', signInRouter);
+// you may expand later to Apple, or other stuff
+apiRouter.use('/authentication', googleSigninRouter); 
 
 // Export the router
 module.exports = apiRouter;
