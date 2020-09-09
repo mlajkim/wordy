@@ -11,7 +11,8 @@ export default function GoogleSignIn(props) {
   //
   const handleSignIn = async (response) => {
     props.setDataLoading(true);
-
+    props.setPage('introduce');
+    
     props.setSignedIn('google');
 
     // Step 1) Figure out if we have the user's data!
@@ -67,6 +68,8 @@ export default function GoogleSignIn(props) {
       profileImgUrl: profile.imageUrl,
       subscription: profile.subscription
     });
+
+    
 
     props.setDataLoading(false);
   }

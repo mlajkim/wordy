@@ -20,7 +20,8 @@ export default function Welcome(props) {
                     setSignedIn={props.setSignedIn}
                     setWords={props.setWords}
                     setProfile={props.setProfile}
-                    setDataLoading={props.setDataLoading}/>
+                    setDataLoading={props.setDataLoading}
+                    setPage={props.setPage}/>
     </div>
   )
 }
