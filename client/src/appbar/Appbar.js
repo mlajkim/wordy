@@ -48,6 +48,11 @@ export default function Appbar(props) {
   //
   const classes = useStyles();
 
+  // Loading animation
+  //
+  let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
+
+
   // Navigation for page
   //
   const pages = ['welcome', 'introduce', 'list', 'review'];
@@ -57,10 +62,19 @@ export default function Appbar(props) {
     )
   })
 
+  // Sign in or the image
+  let showSignIn;
+  if(props.isSignedIn !== '') {
+    // if already signed in
+    showSignIn = <Avatar alt={`${props.profile.familyName} ${props.profile.givenName}`} 
+                  src={props.profile.profileImgUrl}
+                  onClick={() => {props.setPage('setting')}}/>;
+  } else {
+    // not signed in
+    showSignIn = <Button color="inherit" onClick={() => props.setModal('SignInModal')}>Sign in</Button>
+  }
 
-  // Loading animation
-  //
-  let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
+  
 
 
   // Render
@@ -77,9 +91,7 @@ export default function Appbar(props) {
           </Typography>
           {displayLoadingAnimation}
           {showPages}
-          <Avatar alt={`${props.profile.familyName} ${props.profile.givenName}`} 
-                  src={props.profile.profileImgUrl}
-                  onClick={() => {props.setPage('setting')}}/>
+          {showSignIn}
         </Toolbar>
       </AppBar>
     </div>

@@ -30,6 +30,7 @@ export default function App () {
               isSignedIn={isSignedIn}
               setSignedIn={setSignedIn}
               profile={profile}
+              setModal={setModal}
               />
       <ShowCurrentModal modal={modal}
                         setModal={setModal}
