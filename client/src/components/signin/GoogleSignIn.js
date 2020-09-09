@@ -23,15 +23,15 @@ export default function GoogleSignIn(props) {
     let resJson = await res.json();
 
     // Step 2) If it exists..
-    if(resJson[0] !== null) {
+    if(resJson.status === 'success') {
       // if exists,
       // download the word data from the database!
-      res = await fetch(`/api/word/${resJson[0]._id}`, {
+      res = await fetch(`/api/word/${resJson.data._id}`, {
         method: 'GET',
         headers: {'Content-Type':'application/json'}
       })
       resJson = await res.json();
-      props.setWords(resJson);
+      if(resJson.status === 'success') props.setWords(resJson.data);
 
       // Set up the id as well
       UNIQUE_ID = resJson._id;

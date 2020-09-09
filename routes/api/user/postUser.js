@@ -17,6 +17,11 @@ postUserRouter.post('/', async (req, res) => {
   })
 
   const response = await newUser.save();
+  console.log(`
+  ***NEW USER ADDED***
+  Name: ${profile.givenName} ${profile.familyName}
+  Email address: ${profile.email}
+  `)
   res.send(response);
 
 });

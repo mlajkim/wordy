@@ -9,9 +9,13 @@ getUserRouter.get('/:typeOfLogIn/:federalId', async (req, res) => {
     federalId: req.params.federalId
   }
 
-  const response = await userSchema.find(query).limit(1);
-  res.send(response);
+  const response = await userSchema.findOne(query);
+  response ? console.log(`${response.length} word(s) retrieved!`) : console.log("0 words retrieved!");
 
+  res.send({
+    status: response ? 'success' : 'empty',
+    data: response
+  });
 })
 
 module.exports = getUserRouter;
