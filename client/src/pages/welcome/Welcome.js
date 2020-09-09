@@ -1,11 +1,12 @@
 import React from 'react';
 
 // import
-import Signin from '../../components/signin/Signin';
+import GoogleSignIn from '../../components/signIn/GoogleSignIn';
 
-export default function Welcome() {
+export default function Welcome(props) {
   return (
     <div>
+      <img src={require('./welcome.jpg')} alt="welcome"/>
       <h1>
         Welcome to Wordy! 
         You will be multi langualar easy, fast and for free
@@ -15,7 +16,8 @@ export default function Welcome() {
       <br />
       <h3> Click the button below and join right NOW!!</h3>
 
-      <Signin />
+      <GoogleSignIn isSignedIn={props.isSignedIn}
+                    setSignedIn={props.setSignedIn}/>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Wordcard from '../../components/Wordcard/Wordcard';
+import Wordcard from '../../components/wordcard/Wordcard';
 import Button from '@material-ui/core/Button'
 
 export default function List(props) {
