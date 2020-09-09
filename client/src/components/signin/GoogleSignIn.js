@@ -9,6 +9,8 @@ export default function GoogleSignIn(props) {
     console.log(response);
 
     props.setSignedIn('google');
+
+    // Add the data into the database!
   }
 
   const handleFailureSignIn = (response) => {

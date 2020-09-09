@@ -20,8 +20,6 @@ import Popup from '../popups/Popup'
 
 import RetrieveAllWords from './AppSupport';
 
-import Button from '@material-ui/core/Button'
-
 // import pages //ShowCurrentPage
 import ShowCurrentPage from '../pages/ShowCurrentPage';
 
