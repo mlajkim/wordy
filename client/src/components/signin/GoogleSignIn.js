@@ -23,10 +23,10 @@ export default function GoogleSignIn(props) {
     let resJson = await res.json();
 
     // Step 2) If it exists..
-    if(resJson.length === null) {
+    if(resJson[0] !== null) {
       // if exists,
       // download the word data from the database!
-      res = await fetch(`/api/word/${resJson._id}`, {
+      res = await fetch(`/api/word/${resJson[0]._id}`, {
         method: 'GET',
         headers: {'Content-Type':'application/json'}
       })
