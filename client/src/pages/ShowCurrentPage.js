@@ -10,7 +10,8 @@ export default function ShowCurrentPage(props) {
 
   switch(currentPage) {
     case 'welcome':
-      body = <Welcome />
+      body = <Welcome isSignedIn={props.isSignedIn}
+                      setSignedIn={props.setSignedIn}/>
       break;
 
     case 'list':

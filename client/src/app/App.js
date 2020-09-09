@@ -26,11 +26,16 @@ import Button from '@material-ui/core/Button'
 import ShowCurrentPage from '../pages/ShowCurrentPage';
 
 export default function App (props) {
+  // User info
+  const [isSignedIn, setSignedIn] = React.useState('');
 
-  const [page, setPage] = React.useState('welcome');
+  // User data
   const [userId, setUserId] = React.useState('');
-  const [isDataLoading, setDataLoading] = React.useState(false);
   const [words, setWords] = React.useState([]);
+
+  // features
+  const [page, setPage] = React.useState('welcome');
+  const [isDataLoading, setDataLoading] = React.useState(false);
   const [popup, setPopup] = React.useState('');
 
   const retrieveAllWords = async (givenUserId) => {
@@ -40,15 +45,6 @@ export default function App (props) {
     setDataLoading(false);
   }
 
-  const handleGoogleSignin = async () => {
-    const response = await fetch('/api/authentication/googleSignin', {
-      method: 'GET',
-      headers: {'Content-Type':'application/json'}
-    })
-  }
-
-  
-
   return (
     <div>
       <Appbar setPage={setPage}
@@ -57,7 +53,10 @@ export default function App (props) {
               setDataLoading={setDataLoading}
               setUserId={setUserId}
               setWords={setWords}
-              setPopup={setPopup}/>
+              setPopup={setPopup}
+              isSignedIn={isSignedIn}
+              setSignedIn={setSignedIn}
+              />
       <Popup userId={userId}
              setUserId={setUserId}
              popup={popup}
@@ -65,7 +64,9 @@ export default function App (props) {
              retrieveAllWords={retrieveAllWords}/>
       <ShowCurrentPage page={page}
                        setPage={setPage}
-                       words={words}/>
+                       words={words}
+                       isSignedIn={isSignedIn}
+                       setSignedIn={setSignedIn}/>
     </div>
   );
 }

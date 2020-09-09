@@ -8,6 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+// Import components
+import SignOut from '../components/signIn/SignOut';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -43,40 +46,40 @@ function LoadingAnimation() {
 
 export default function Appbar(props) {
   // Styles
+  //
   const classes = useStyles();
 
+
   // Navigation for page
+  //
   const pages = ['welcome', 'introduce', 'list', 'review'];
   let showPages = pages.map(page => {
     return (
-      <Button color="inherit" onClick={() => props.setPage(page)}>{page}</Button>
+      <Button key={page} color="inherit" onClick={() => props.setPage(page)}>{page}</Button>
     )
   })
 
-  // Loading animation
-  let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
-  let displayLoginSeciton;
-  if(!props.userId) displayLoginSeciton = (
-    <div>
-      <Button color="inherit" onClick={() => props.setPopup('login')}>login</Button>
-    </div>
-  )
-  else displayLoginSeciton = (
-    <>
-      {displayLoadingAnimation} 
-      Welcome, {props.userId}
-      <Button color="inherit" onClick={() => handleLogout()}>logout</Button>
-    </>
-  )
 
-  // Signin Signout button 
-  const handleLogout = () => {
-    props.setPopup('');
-    props.setUserId('');
-    props.setWords([]);
+  // Loading animation
+  //
+  let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
+
+
+  // SignIn Sing Out
+  //
+  let displaySignOutSection;
+  if(props.isSignedIn !== '') {
+    // if somehow signed in, show should logout 
+    displaySignOutSection = (
+      <SignOut setSignedIn={props.setSignedIn}/>
+    );
+  }else{
+    // ELSE NO SHOW AT ALL
+    displaySignOutSection = null;
   }
 
-  /// Render
+  // Render
+  //
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -88,7 +91,8 @@ export default function Appbar(props) {
             Wordy Project
           </Typography>
           {showPages}
-          {displayLoginSeciton}
+          {displayLoadingAnimation}
+          {displaySignOutSection}
         </Toolbar>
       </AppBar>
     </div>
