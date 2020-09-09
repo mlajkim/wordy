@@ -1,6 +1,6 @@
 const putUserRouter = require('express').Router();
 
-putUserRouter.put('/', (req, res) => {
+putUserRouter.put('/lastUsed/:uniqueId', (req, res) => {
   res.sendStatus(200);
 })
 

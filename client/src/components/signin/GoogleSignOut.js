@@ -9,6 +9,7 @@ export default function SignOut(props) {
   // Signin Signout button 
   //
   const handleSignOut = () => {
+    props.setPage('welcome');
     props.setSignedIn('');
     props.setProfile({});
     props.setWords([]);
@@ -20,15 +21,24 @@ export default function SignOut(props) {
 
   }
 
+  // handle the body
+  // 
+  let body;
+  if(props.isSignedIn !== '') {
+    body = (<GoogleLogout
+      clientId={clientIdGivenFromGoogle}
+      buttonText='Sign out safely with Google'
+      onLogoutSuccess={() => {handleSignOut()}}
+      onFailure={() => {handleLogoutFailure()}} />);
+  }else{
+    body = null;
+  }
+
   //
   //
   return (
     <div>
-      <GoogleLogout
-          clientId={clientIdGivenFromGoogle}
-          buttonText='Sign out'
-          onLogoutSuccess={() => {handleSignOut()}}
-          onFailure={() => {handleLogoutFailure()}} />
+      {body}
     </div>
   );
 }

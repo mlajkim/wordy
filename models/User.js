@@ -8,7 +8,9 @@ const userSchema = new Schema({
   familyName: String,
   givenName: String,
   profileImgUrl: String,
-  subscription: String
+  subscription: String,
+  joinedDate: String,
+  lastUsed: String
 });
 
 module.exports = mongoose.model('users', userSchema); 

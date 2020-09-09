@@ -9,8 +9,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 
-// Import components
-import SignOut from '../components/signIn/GoogleSignOut';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,8 +47,6 @@ export default function Appbar(props) {
   // Styles
   //
   const classes = useStyles();
-  let profile = props.profile;
-
 
   // Navigation for page
   //
@@ -66,27 +62,6 @@ export default function Appbar(props) {
   //
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
 
-  // Welcome user with the name if logged in
-  //
-  let welcomeIfLoggedIn;
-  if(props.profile.givenName !== undefined) {
-    welcomeIfLoggedIn = `Welcome, ${profile.givenName}`;
-  }else {
-    welcomeIfLoggedIn = null;
-  }
-
-  // SignIn Sing Out
-  //
-  let displaySignOutSection;
-  if(props.isSignedIn !== '') {
-    // if somehow signed in, show should logout 
-    displaySignOutSection = (
-      <SignOut setSignedIn={props.setSignedIn}/>
-    );
-  }else{
-    // ELSE NO SHOW AT ALL
-    displaySignOutSection = null;
-  }
 
   // Render
   //
@@ -100,11 +75,11 @@ export default function Appbar(props) {
           <Typography variant="h6" className={classes.title}>
             Wordy Project
           </Typography>
-          {showPages}
           {displayLoadingAnimation}
-          {displaySignOutSection}
-          {welcomeIfLoggedIn}
-          <Avatar alt={`${profile.familyName} ${profile.givenName}`} src={profile.profileImgUrl} />
+          {showPages}
+          <Avatar alt={`${props.profile.familyName} ${props.profile.givenName}`} 
+                  src={props.profile.profileImgUrl}
+                  onClick={() => {props.setPage('setting')}}/>
         </Toolbar>
       </AppBar>
     </div>

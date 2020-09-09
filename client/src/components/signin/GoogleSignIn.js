@@ -11,8 +11,6 @@ export default function GoogleSignIn(props) {
   //
   const handleSignIn = async (response) => {
     props.setDataLoading(true);
-    props.setPage('introduce');
-    
     props.setSignedIn('google');
 
     // Step 1) Figure out if we have the user's data!
@@ -24,7 +22,7 @@ export default function GoogleSignIn(props) {
     let resJson = await res.json();
 
     // Step 2) If it exists..
-    if(resJson.length) {
+    if(resJson.length === null) {
       // if exists,
       // download the word data from the database!
       res = await fetch(`/api/word/${resJson._id}`, {
@@ -38,6 +36,8 @@ export default function GoogleSignIn(props) {
       UNIQUE_ID = resJson._id;
 
     }else{
+      // This person is new user!
+      if(props.page === 'welcome') props.setPage('introduce');
       // add that person into our database!
       res = await fetch('/api/user', {
         method: 'POST',

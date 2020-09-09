@@ -12,7 +12,8 @@ postUserRouter.post('/', async (req, res) => {
     familyName: profile.familyName,
     givenName: profile.givenName,
     profileImgUrl: profile.profileImgUrl,
-    subscription: profile.subscription
+    subscription: profile.subscription,
+    joinedDate: Date.now()
   })
 
   const response = await newUser.save();

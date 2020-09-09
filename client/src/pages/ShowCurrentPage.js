@@ -22,7 +22,12 @@ export default function ShowCurrentPage(props) {
 
     case 'setting':
       body = <Setting profile={props.profile}
-                      setProfile={props.setProfile}/>
+                      setProfile={props.setProfile}
+                      isSignedIn={props.isSignedIn}
+                      setSignedIn={props.setSignedIn}
+                      setPage={props.setPage}
+                      setWords={props.setWords}
+                      />
       break;
 
     case 'introduce':

@@ -9,7 +9,7 @@ getUserRouter.get('/:typeOfLogIn/:federalId', async (req, res) => {
     federalId: req.params.federalId
   }
 
-  const response = await userSchema.find(query);
+  const response = await userSchema.find(query).limit(1);
   res.send(response);
 
 })
