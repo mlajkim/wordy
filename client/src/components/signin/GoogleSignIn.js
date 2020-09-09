@@ -12,6 +12,7 @@ export default function GoogleSignIn(props) {
   const handleSignIn = async (response) => {
     props.setDataLoading(true);
     props.setSignedIn('google');
+    props.setModal('');
 
     // Step 1) Figure out if we have the user's data!
     let profile = response.profileObj;

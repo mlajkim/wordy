@@ -17,7 +17,8 @@ export default function ShowCurrentPage(props) {
                       setWords={props.setWords}
                       setProfile={props.setProfile}
                       setDataLoading={props.setDataLoading}
-                      setPage={props.setPage}/>
+                      setPage={props.setPage}
+                      setModal={props.setModal}/>
       break;
 
     case 'setting':

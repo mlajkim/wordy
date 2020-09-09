@@ -5,6 +5,7 @@ import React from 'react';
 import Appbar from '../appbar/Appbar'
 
 // import pages //ShowCurrentPage
+import ShowCurrentModal from '../modals/ShowCurrentModal';
 import ShowCurrentPage from '../pages/ShowCurrentPage';
 
 export default function App () {
@@ -16,6 +17,7 @@ export default function App () {
   const [words, setWords] = React.useState([]);
 
   // features
+  const [modal, setModal] = React.useState('');
   const [page, setPage] = React.useState('welcome');
   const [isDataLoading, setDataLoading] = React.useState(false);
 
@@ -29,6 +31,17 @@ export default function App () {
               setSignedIn={setSignedIn}
               profile={profile}
               />
+      <ShowCurrentModal modal={modal}
+                        setModal={setModal}
+                        page={page}
+                        setPage={setPage}
+                        words={words}
+                        setWords={setWords}
+                        isSignedIn={isSignedIn}
+                        setSignedIn={setSignedIn}
+                        profile={profile}
+                        setProfile={setProfile}
+                        setDataLoading={setDataLoading}/>
       <ShowCurrentPage page={page}
                        setPage={setPage}
                        words={words}
@@ -37,7 +50,8 @@ export default function App () {
                        setSignedIn={setSignedIn}
                        profile={profile}
                        setProfile={setProfile}
-                       setDataLoading={setDataLoading}/>
+                       setDataLoading={setDataLoading}
+                       setModal={setModal}/>
     </div>
   );
 }

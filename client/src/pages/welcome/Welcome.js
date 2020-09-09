@@ -2,6 +2,7 @@ import React from 'react';
 
 // import
 import GoogleSignIn from '../../components/signIn/GoogleSignIn';
+import Button from '@material-ui/core/Button';
 
 export default function Welcome(props) {
   return (
@@ -16,12 +17,7 @@ export default function Welcome(props) {
       <br />
       <h3> Click the button below and join right NOW!!</h3>
 
-      <GoogleSignIn isSignedIn={props.isSignedIn}
-                    setSignedIn={props.setSignedIn}
-                    setWords={props.setWords}
-                    setProfile={props.setProfile}
-                    setDataLoading={props.setDataLoading}
-                    setPage={props.setPage}/>
+      <Button variant="contained" onClick={() => {props.setModal('SignInModal')}}>Login</Button>
     </div>
   )
 }
