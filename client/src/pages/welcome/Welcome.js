@@ -17,7 +17,10 @@ export default function Welcome(props) {
       <h3> Click the button below and join right NOW!!</h3>
 
       <GoogleSignIn isSignedIn={props.isSignedIn}
-                    setSignedIn={props.setSignedIn}/>
+                    setSignedIn={props.setSignedIn}
+                    setWords={props.setWords}
+                    setProfile={props.setProfile}
+                    setDataLoading={props.setDataLoading}/>
     </div>
   )
 }

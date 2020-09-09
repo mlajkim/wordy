@@ -2,6 +2,7 @@ import React from 'react';
 
 import List from './List/List';
 import Welcome from './Welcome/Welcome';
+import Setting from './Setting/Setting';
 
 
 export default function ShowCurrentPage(props) {
@@ -11,7 +12,14 @@ export default function ShowCurrentPage(props) {
   switch(currentPage) {
     case 'welcome':
       body = <Welcome isSignedIn={props.isSignedIn}
-                      setSignedIn={props.setSignedIn}/>
+                      setSignedIn={props.setSignedIn}
+                      setWords={props.setWords}
+                      setProfile={props.setProfile}
+                      setDataLoading={props.setDataLoading}/>
+      break;
+
+    case 'setting':
+      body = <Setting />
       break;
 
     case 'list':

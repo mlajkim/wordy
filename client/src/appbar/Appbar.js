@@ -7,9 +7,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Avatar from '@material-ui/core/Avatar';
 
 // Import components
-import SignOut from '../components/signIn/SignOut';
+import SignOut from '../components/signIn/GoogleSignOut';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,7 @@ export default function Appbar(props) {
   // Styles
   //
   const classes = useStyles();
+  let profile = props.profile;
 
 
   // Navigation for page
@@ -64,6 +66,14 @@ export default function Appbar(props) {
   //
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
 
+  // Welcome user with the name if logged in
+  //
+  let welcomeIfLoggedIn;
+  if(props.profile.givenName !== undefined) {
+    welcomeIfLoggedIn = `Welcome, ${profile.givenName}`;
+  }else {
+    welcomeIfLoggedIn = null;
+  }
 
   // SignIn Sing Out
   //
@@ -93,6 +103,8 @@ export default function Appbar(props) {
           {showPages}
           {displayLoadingAnimation}
           {displaySignOutSection}
+          {welcomeIfLoggedIn}
+          <Avatar alt={`${profile.familyName} ${profile.givenName}`} src={profile.profileImgUrl} />
         </Toolbar>
       </AppBar>
     </div>

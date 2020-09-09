@@ -24,11 +24,11 @@ import RetrieveAllWords from './AppSupport';
 import ShowCurrentPage from '../pages/ShowCurrentPage';
 
 export default function App (props) {
-  // User info
+  // App Basic Feature (languages.. etc)
   const [isSignedIn, setSignedIn] = React.useState('');
 
   // User data
-  const [userId, setUserId] = React.useState('');
+  const [profile, setProfile] = React.useState({});
   const [words, setWords] = React.useState([]);
 
   // features
@@ -46,25 +46,26 @@ export default function App (props) {
   return (
     <div>
       <Appbar setPage={setPage}
-              userId={userId}
               isDataLoading={isDataLoading}
               setDataLoading={setDataLoading}
-              setUserId={setUserId}
               setWords={setWords}
               setPopup={setPopup}
               isSignedIn={isSignedIn}
               setSignedIn={setSignedIn}
+              profile={profile}
               />
-      <Popup userId={userId}
-             setUserId={setUserId}
-             popup={popup}
+      <Popup popup={popup}
              setPopup={setPopup}
              retrieveAllWords={retrieveAllWords}/>
       <ShowCurrentPage page={page}
                        setPage={setPage}
                        words={words}
                        isSignedIn={isSignedIn}
-                       setSignedIn={setSignedIn}/>
+                       setSignedIn={setSignedIn}
+                       setWords={setWords}
+                       profile={profile}
+                       setProfile={setProfile}
+                       setDataLoading={setDataLoading}/>
     </div>
   );
 }

@@ -10,10 +10,7 @@ export default function SignOut(props) {
   //
   const handleSignOut = () => {
     props.setSignedIn('');
-
-    // Previous version
-    props.setPopup('');
-    props.setUserId('');
+    props.setProfile({});
     props.setWords([]);
   }
 
