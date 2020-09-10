@@ -9,7 +9,7 @@ const CONFIG = require('./config');
 
 // Initiate the express app and Export it
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 80;
 
 // Connecting to Wordy
 app.use(express.static(path.join(__dirname, './client/build')));
