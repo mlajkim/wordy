@@ -28,7 +28,8 @@ export default function SignInModal(props) {
                         setProfile={props.setProfile}
                         setDataLoading={props.setDataLoading}
                         setPage={props.setPage}
-                        setModal={props.setModal}/>
+                        setModal={props.setModal}
+                        setSnackbar={props.setSnackbar}/>
         </DialogContent>
         <DialogActions>
           <Button  onClick={() => {props.setModal('')}} color="primary" autoFocus>

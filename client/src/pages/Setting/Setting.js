@@ -48,7 +48,8 @@ export default function Setting(props) {
                 profile={props.profile}
                 setPage={props.setPage}
                 setProfile={props.setProfile}
-                setWords={props.setWords}/>
+                setWords={props.setWords}
+                setSnackbar={props.setSnackbar}/>
         {displayItems}
       </Container>
     </React.Fragment>

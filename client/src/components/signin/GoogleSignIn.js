@@ -9,10 +9,15 @@ export default function GoogleSignIn(props) {
   let UNIQUE_ID = '';
   //
   //
-  const handleSignIn = async (response) => {
+  const handleSuccessfulSignIn = async (response) => {
     props.setDataLoading(true);
     props.setSignedIn('google');
     props.setModal('');
+    props.setSnackbar({
+      status: 'open',
+      message: 'You have successfully signed in',
+      severity: 'success'
+    })
 
     // Step 1) Figure out if we have the user's data!
     let profile = response.profileObj;
@@ -78,8 +83,13 @@ export default function GoogleSignIn(props) {
   //
   //
   const handleFailureSignIn = (response) => {
-    console.log("You have failed signing in with google");
+    props.setModal('');
     console.log(response);
+    props.setSnackbar({
+      status: 'open',
+      message: `Sign-in Fail: ${response.details}`,
+      severity: 'error'
+    })
   }
 
   // handle image change on hover
@@ -90,7 +100,7 @@ export default function GoogleSignIn(props) {
       <GoogleLogin
         clientId={clientIdGivenFromGoogle}
         buttonText='Sign in with Google'
-        onSuccess={(response) => {handleSignIn(response)}}
+        onSuccess={(response) => {handleSuccessfulSignIn(response)}}
         onFailure={(response) => {handleFailureSignIn(response)}}
         cookiePolicy={ 'single_host_origin' }
         responseType='code,token'

@@ -16,7 +16,8 @@ export default function ShowCurrentModal(props) {
                           setSignedIn={props.setSignedIn}
                           profile={props.profile}
                           setProfile={props.setProfile}
-                          setDataLoading={props.setDataLoading}/>
+                          setDataLoading={props.setDataLoading}
+                          setSnackbar={props.setSnackbar}/>
       break;
 
     default:

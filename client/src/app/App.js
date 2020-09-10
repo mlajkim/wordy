@@ -7,6 +7,7 @@ import Appbar from '../appbar/Appbar'
 // import pages //ShowCurrentPage
 import ShowCurrentModal from '../modals/ShowCurrentModal';
 import ShowCurrentPage from '../pages/ShowCurrentPage';
+import Snackbar from '../snackbars/Snackbar';
 
 export default function App () {
   // App Basic Feature (languages.. etc)
@@ -17,6 +18,7 @@ export default function App () {
   const [words, setWords] = React.useState([]);
 
   // features
+  const [snackbar, setSnackbar] = React.useState({status: 'none'});
   const [modal, setModal] = React.useState('');
   const [page, setPage] = React.useState('welcome');
   const [isDataLoading, setDataLoading] = React.useState(false);
@@ -32,6 +34,8 @@ export default function App () {
               profile={profile}
               setModal={setModal}
               />
+      <Snackbar snackbar={snackbar}
+                setSnackbar={setSnackbar}/>
       <ShowCurrentModal modal={modal}
                         setModal={setModal}
                         page={page}
@@ -42,7 +46,8 @@ export default function App () {
                         setSignedIn={setSignedIn}
                         profile={profile}
                         setProfile={setProfile}
-                        setDataLoading={setDataLoading}/>
+                        setDataLoading={setDataLoading}
+                        setSnackbar={setSnackbar}/>
       <ShowCurrentPage page={page}
                        setPage={setPage}
                        words={words}
@@ -52,7 +57,8 @@ export default function App () {
                        profile={profile}
                        setProfile={setProfile}
                        setDataLoading={setDataLoading}
-                       setModal={setModal}/>
+                       setModal={setModal}
+                       setSnackbar={setSnackbar}/>
     </div>
   );
 }

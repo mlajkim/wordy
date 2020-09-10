@@ -18,7 +18,8 @@ export default function ShowCurrentPage(props) {
                       setProfile={props.setProfile}
                       setDataLoading={props.setDataLoading}
                       setPage={props.setPage}
-                      setModal={props.setModal}/>
+                      setModal={props.setModal}
+                      setSnackbar={props.setSnackbar}/>
       break;
 
     case 'setting':
@@ -28,6 +29,7 @@ export default function ShowCurrentPage(props) {
                       setSignedIn={props.setSignedIn}
                       setPage={props.setPage}
                       setWords={props.setWords}
+                      setSnackbar={props.setSnackbar}
                       />
       break;
 
