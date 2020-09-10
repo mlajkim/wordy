@@ -21,42 +21,53 @@ export default function GoogleSignIn(props) {
     })
 
     // Step 1) Figure out if we have the user's data!
+    //
     let profile = response.profileObj;
-    let res = await fetch(`/api/user/google/${profile.googleId}`, {
+    const user = await fetch(`/api/user/google/${profile.googleId}`, {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
-    })
-    let resJson = await res.json();
+    }).then(res => res.json());
 
-    // Step 2) If it exists..
-    if(resJson.status === 'success') {
-      // if exists,
-      // (Handle the patch)
-      if (parseInt (resJson.data.readPatch) < parseInt(VERSION.version)) {
+    // Step 2-1) If it exists..
+    // (Handle the patch) 
+    if(user.status === 'success') {
+      // (Step 2-2) Set up the id for later usage
+      //
+      UNIQUE_ID = user.data._id;
+
+      // Step 2-3) Compare the user-read-patch with the current version
+      // if not staisfying, show the patch note
+      // then save the data into the database
+      if (parseInt (user.data.readPatch) < parseInt(VERSION.version)) {
         props.setModal('PatchNoteModal');
+
+        await fetch(`/api/user/${user.data._id}/one/readPatch`, {
+          method: 'PUT',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            value: VERSION.version
+          })
+        });
       }
 
 
-      // download the word data from the database!
-      res = await fetch(`/api/word/${resJson.data._id}`, {
+      // (Step 2-4) download the word data from the database!
+      //
+      const resWords = await fetch(`/api/word/${UNIQUE_ID}`, {
         method: 'GET',
         headers: {'Content-Type':'application/json'}
-      })
-      resJson = await res.json();
-      if(resJson.status === 'success') props.setWords(resJson.data);
-
-      // Set up the id as well
-      UNIQUE_ID = resJson._id;
+      }).then(res => res.json())
+      if(resWords.status === 'success') props.setWords(resWords.data);
 
     }else{
-      // This person is new user!
+      // (Step 3-1) This person is new user!
       // Just let them see the patch note
       // To prove that the web is constantly evolving
       props.setModal('PatchNoteModal');
       
 
-      // add that person into our database!
-      res = await fetch('/api/user', {
+      // add that person into our database! (Give the current version as well)
+      const newUserRes = await fetch('/api/user', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -65,14 +76,14 @@ export default function GoogleSignIn(props) {
           email: profile.email,
           familyName: profile.familyName,
           givenName: profile.givenName,
-          readPatch: '0.0',
+          readPatch: VERSION.version,
           profileImgUrl: profile.imageUrl,
           subscription: 'basic'
         })
-      })
+      }).then(res => res.json())
 
       // Set up the id as well
-      UNIQUE_ID = res._id;
+      UNIQUE_ID = newUserRes._id;
     }
 
     // Step 3) Finally set up the profile into React states
