@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 
 import {clientIdGivenFromGoogle} from '../../credential';
+import VERSION from '../../app/Version';
 
 
 export default function GoogleSignIn(props) {
@@ -30,6 +31,12 @@ export default function GoogleSignIn(props) {
     // Step 2) If it exists..
     if(resJson.status === 'success') {
       // if exists,
+      // (Handle the patch)
+      if (parseInt (resJson.data.readPatch) < parseInt(VERSION.version)) {
+        props.setModal('PatchNoteModal');
+      }
+
+
       // download the word data from the database!
       res = await fetch(`/api/word/${resJson.data._id}`, {
         method: 'GET',
@@ -43,7 +50,11 @@ export default function GoogleSignIn(props) {
 
     }else{
       // This person is new user!
-      if(props.page === 'welcome') props.setPage('introduce');
+      // Just let them see the patch note
+      // To prove that the web is constantly evolving
+      props.setModal('PatchNoteModal');
+      
+
       // add that person into our database!
       res = await fetch('/api/user', {
         method: 'POST',
@@ -54,6 +65,7 @@ export default function GoogleSignIn(props) {
           email: profile.email,
           familyName: profile.familyName,
           givenName: profile.givenName,
+          readPatch: '0.0',
           profileImgUrl: profile.imageUrl,
           subscription: 'basic'
         })

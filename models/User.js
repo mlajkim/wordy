@@ -9,6 +9,7 @@ const userSchema = new Schema({
   givenName: String,
   profileImgUrl: String,
   subscription: String,
+  readPatch: String,
   joinedDate: String,
   lastUsed: String
 });

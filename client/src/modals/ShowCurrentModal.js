@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SignInModal from './SignInModal/SignInModal';
+import PatchNoteModal from './patchNoteModal/PatchNoteModal';
 
 export default function ShowCurrentModal(props) {
   let body;
@@ -18,6 +19,10 @@ export default function ShowCurrentModal(props) {
                           setProfile={props.setProfile}
                           setDataLoading={props.setDataLoading}
                           setSnackbar={props.setSnackbar}/>
+      break;
+
+    case 'PatchNoteModal':
+      body = <PatchNoteModal setModal={props.setModal}/>;
       break;
 
     default:

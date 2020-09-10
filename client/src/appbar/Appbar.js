@@ -9,6 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 
+import VERSION from '../app/Version';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,8 +76,6 @@ export default function Appbar(props) {
     showSignIn = <Button color="inherit" onClick={() => props.setModal('SignInModal')}>Sign in</Button>
   }
 
-  
-
 
   // Render
   //
@@ -87,7 +87,7 @@ export default function Appbar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Wordy Project 1.0
+            Wordy Project {VERSION.version}
           </Typography>
           {displayLoadingAnimation}
           {showPages}

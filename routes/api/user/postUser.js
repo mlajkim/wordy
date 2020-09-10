@@ -12,6 +12,7 @@ postUserRouter.post('/', async (req, res) => {
     familyName: profile.familyName,
     givenName: profile.givenName,
     profileImgUrl: profile.profileImgUrl,
+    readPatch: profile.readPatch,
     subscription: profile.subscription,
     joinedDate: Date.now()
   })

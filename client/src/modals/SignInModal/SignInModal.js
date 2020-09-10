@@ -9,6 +9,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import GoogleSignIn from '../../components/signIn/GoogleSignIn';
 
 export default function SignInModal(props) {
+  let body = <GoogleSignIn 
+                isSignedIn={props.isSignedIn}
+                setSignedIn={props.setSignedIn}
+                setWords={props.setWords}
+                setProfile={props.setProfile}
+                setDataLoading={props.setDataLoading}
+                setPage={props.setPage}
+                setModal={props.setModal}
+                setSnackbar={props.setSnackbar}/>;
   return (
     <div>
       <Dialog
@@ -22,14 +31,7 @@ export default function SignInModal(props) {
           <DialogContentText id="alert-dialog-description">
             The safetest way to signin through the federal idenity providers
           </DialogContentText>
-          <GoogleSignIn isSignedIn={props.isSignedIn}
-                        setSignedIn={props.setSignedIn}
-                        setWords={props.setWords}
-                        setProfile={props.setProfile}
-                        setDataLoading={props.setDataLoading}
-                        setPage={props.setPage}
-                        setModal={props.setModal}
-                        setSnackbar={props.setSnackbar}/>
+          {body}
         </DialogContent>
         <DialogActions>
           <Button  onClick={() => {props.setModal('')}} color="primary" autoFocus>
