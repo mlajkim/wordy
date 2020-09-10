@@ -9,6 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
+import patch1List from '../../patches/patch1';
+import VERSION from '../../app/Version';
+
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
+
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -50,26 +56,30 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function PatchNoteModal(props) {
+  // Always the latest in the index '0'
+  let currentVersion = VERSION.version;
+
+  let lateastPatch = patch1List.find(patch => patch.version === currentVersion);
+
+  // handle contents
+  let contents = lateastPatch.contents.map(content => {
+    return (
+      <Typography key={content.title} gutterBottom>
+        <AddCircleIcon style={{ color: 'green' }}/> {content.title} <br />
+        <ArrowForwardOutlinedIcon style={{ color: 'green' }} />{content.explain}
+        <br />
+      </Typography>
+    );
+  })
+
   return (
     <div>
-      <Dialog onClose={() => {props.setModal('')}} aria-labelledby="customized-dialog-title" open={true}>
+      <Dialog maxWidth="sm" fullWidth onClose={() => {props.setModal('')}} aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title" onClose={() => {props.setModal('')}}>
-          Modal title
+          What's new on Wordy {lateastPatch.name} {lateastPatch.version}? ({lateastPatch.date})
         </DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-            auctor fringilla.
-          </Typography>
+        <DialogContent>
+          {contents}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={() => {props.setModal('')}} color="primary">

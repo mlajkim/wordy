@@ -3,12 +3,10 @@
  * 
  */
 
-const patch1 = [patch1_1, patch1_0];
-
 const patch1_1 = {
   date: 'Sep 11, 2020',
   name: 'Apricot',
-  version: '1.0',
+  version: '1.1',
   contents: [
     {
       title: 'Now it supports HTTPS connection!',
@@ -29,5 +27,7 @@ const patch1_1 = {
     ]
  }
 
- export default patch1;
+ const patch1List = [patch1_1, patch1_0];
+
+ export default patch1List;
 
