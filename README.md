@@ -1,5 +1,5 @@
 Join here:
-http://wordy-cloud.com/
+https://wordy-cloud.com/
 
 # Wordy 1
 Wordy helps you save your lovely professional terms and useful expressions into your database.

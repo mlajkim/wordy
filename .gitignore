@@ -1,10 +1,21 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# CONFIDENTIAL
+# CONFIDENTIAL
+/certificates
+.crt
+credential.js
+config.js
+.key
+.pem
+
+# CONFIDENTIAL
+# CONFIDENTIAL
+
 #AJ Personal
 data.sqlite
 data.sqlite-journal
-credential.js
-config.js
+
 
 # dependencies
 /node_modules

@@ -1,11 +1,11 @@
 // Import the basics
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const path = require('path');
 
-// Google Sign in 
-const google = require('googleapis').google;
-const jwt = require('jsonwebtoken');
-const CONFIG = require('./config');
+// import security
+const {_passphraseForComodoSslPrivateKey} = require('./config')
 
 // Initiate the express app and Export it
 const app = express();
@@ -36,7 +36,16 @@ const mongoApiRouter = require('./routes/mongoApi');
 app.use('/api', apiRouter);
 app.use('/mongoApi', mongoApiRouter);
 
+// https option
+const option = {
+  ca: fs.readFileSync('./certificates/ca-bundle.crt'), // Certificate BUNDLES
+  cert: fs.readFileSync('./certificates/wordy-cloud_com.crt'), // correct
+  key: fs.readFileSync('./certificates/comodo-ssl-ca.key'), // mostliekly correct  
+  passphrase: _passphraseForComodoSslPrivateKey, // password for the key
+};
+
 // Begin the express server
-app.listen(PORT, () => {
-  console.log(`Express server running on the port: ${PORT}`)
-});
+https.createServer(option, app).listen(PORT, () => {
+  console.log(`Server is running at port: ${PORT} => https://IP-ADDRESS:${PORT}`);
+})
+
