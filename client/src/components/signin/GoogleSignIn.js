@@ -88,6 +88,7 @@ export default function GoogleSignIn(props) {
 
     // Step 3) Finally set up the profile into React states
     props.setProfile({
+      isSignedIn: true,
       UNIQUE_ID: UNIQUE_ID,
       typeOfLogIn: SIGNIN_TYPE,
       federalId: profile.googleId, 

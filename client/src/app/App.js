@@ -14,7 +14,7 @@ export default function App () {
   const [isSignedIn, setSignedIn] = React.useState('');
 
   // User data
-  const [profile, setProfile] = React.useState({});
+  const [profile, setProfile] = React.useState({isSignedIn: false});
   const [words, setWords] = React.useState([]);
 
   // features

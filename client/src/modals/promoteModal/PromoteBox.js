@@ -29,9 +29,49 @@ export default function PromoteBox(props) {
     yearly: `You have an access to more features, with the cheaper price!`,
   }
 
-  return (
-    <Card className={classes.root}>
-      <CardActionArea>
+  const handleClick = async () => {
+    props.setModal('')
+    
+    // handle when it is free.
+    if(props.type === 'free') {
+      // Just put that they have been promoted.
+      await fetch(`/api/user/${props.profile.UNIQUE_ID}/one/promotedDate`, {
+        method: 'PUT',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          value: Date.now()
+        })
+      });
+    }
+
+    // handle when it is monthly.
+    else if(props.type === 'monthly') {
+      
+    }
+
+    // handle when it is yearly.
+    else if(props.type === 'yearly') {
+      
+    }
+
+    else {
+      // bug 
+      console.log("WARNING: LOGICAL INACCURACY.");
+    }
+
+    // finally
+
+    console.log("clicked! (delete later)")
+  }
+
+  // Handle body (Only visible whne Unique ID is available)
+  let body;
+  if(!props.profile.isSignedIn) {
+    body = null;
+  }else {
+    body = (
+    <Card className={classes.root} >
+      <CardActionArea onClick={() => handleClick()}>
         <CardMedia
           className={classes.media}
           image={require(`./${props.type}.jpg`)}
@@ -51,6 +91,12 @@ export default function PromoteBox(props) {
           Select!
         </Button>
       </CardActions>
-    </Card>
+    </Card>)
+  }
+
+  return (
+    <div>
+      {body}
+    </div>
   );
 }

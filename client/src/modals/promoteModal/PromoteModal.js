@@ -10,6 +10,7 @@ import PromoteBox from './PromoteBox';
  
 
 export default function PromoteModal(props) {
+
   return (
     <React.Fragment>
       <Dialog
@@ -24,9 +25,12 @@ export default function PromoteModal(props) {
           <DialogContentText>
             Join Today to our Wordy Community and Become the "Multiangular" Tomorrow!
           </DialogContentText>
-          <PromoteBox type="free"/>
-          <PromoteBox type="monthly"/>
-          <PromoteBox type="yearly"/>
+          <PromoteBox type="free" profile={props.profile}
+                                  setModal={props.setModal}/>
+          <PromoteBox type="monthly" profile={props.profile}
+                                    setModal={props.setModal}/>
+          <PromoteBox type="yearly" profile={props.profile}
+                                  setModal={props.setModal}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => props.setModal('')} color="primary">

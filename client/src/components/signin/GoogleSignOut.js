@@ -11,7 +11,7 @@ export default function GoogleSignOut(props) {
   const handleSuccessfulSignOut = () => {
     props.setPage('welcome');
     props.setSignedIn('');
-    props.setProfile({});
+    props.setProfile({isSignedIn: false});
     props.setWords([]);
     props.setSnackbar({
       status: 'open',

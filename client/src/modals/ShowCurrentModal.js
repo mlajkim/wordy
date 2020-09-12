@@ -27,7 +27,8 @@ export default function ShowCurrentModal(props) {
       break;
 
     case 'PromoteModal':
-      body = <PromoteModal setModal={props.setModal}/>
+      body = <PromoteModal setModal={props.setModal}
+                            profile={props.profile}/>
       break;
 
     default:
