@@ -26,7 +26,7 @@ export default function PromoteBox(props) {
   let explain = {
     free: `You can join our wordy community for free, forever.`,
     monthly: `You have an access to more features!`,
-    yearly: `You have an access to more features, with the cheaper price!`,
+    yearly: `SAVE ${VERSION.price.saving}! You have an access to more features, with the cheaper price!`,
   }
 
   const handleClick = async () => {
