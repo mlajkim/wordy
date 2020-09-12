@@ -46,22 +46,25 @@ export default function PromoteBox(props) {
 
     // handle when it is monthly.
     else if(props.type === 'monthly') {
-      
+      props.setModal({
+        type: 'PayModal',
+        data: {userSelection: props.type}
+      })
     }
 
     // handle when it is yearly.
     else if(props.type === 'yearly') {
-      
+      props.setModal({
+        type: 'PayModal',
+        data: {userSelection: props.type}
+      })
     }
 
     else {
       // bug 
       console.log("WARNING: LOGICAL INACCURACY.");
     }
-
-    // finally
-
-    console.log("clicked! (delete later)")
+    
   }
 
   // Handle body (Only visible whne Unique ID is available)

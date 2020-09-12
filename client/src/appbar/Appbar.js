@@ -56,7 +56,7 @@ export default function Appbar(props) {
 
   // Pro Subscription
   let promoteProSubscription = (
-    <Button variant="contained" color="primary" onClick={() => props.setModal('PromoteModal')}>
+    <Button variant="contained" color="primary" onClick={() => props.setModal({type: 'PromoteModal'})}>
       UPGRADE TO PRO
     </Button>
   )
@@ -80,7 +80,7 @@ export default function Appbar(props) {
                   onClick={() => {props.setPage('setting')}}/>;
   } else {
     // not signed in
-    showSignIn = <Button color="inherit" onClick={() => props.setModal('SignInModal')}>Sign in</Button>
+    showSignIn = <Button color="inherit" onClick={() => props.setModal({type: 'SignInModal'})}>Sign in</Button>
   }
 
 

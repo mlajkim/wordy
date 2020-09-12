@@ -17,7 +17,7 @@ export default function Welcome(props) {
       <br />
       <h3> Click the button below and join right NOW!!</h3>
 
-      <Button variant="contained" onClick={() => {props.setModal('SignInModal')}}>Sign in for more!</Button>
+      <Button variant="contained" onClick={() => {props.setModal({type: 'SignInModal'})}}>Sign in for more!</Button>
       <GoogleSignOut 
                 isSignedIn={props.isSignedIn}
                 setSignedIn={props.setSignedIn}
