@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# CONFIDENTIAL
-# CONFIDENTIAL
+# CONFIDENTIAL (BELOW)
+# CONFIDENTIAL (BELOW)
 /certificates
 .crt
 credential.js
@@ -9,8 +9,8 @@ config.js
 .key
 .pem
 
-# CONFIDENTIAL
-# CONFIDENTIAL
+# CONFIDENTIAL (ABOVE)
+# CONFIDENTIAL (ABOVE)
 
 #AJ Personal
 data.sqlite

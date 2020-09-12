@@ -11,7 +11,8 @@ const userSchema = new Schema({
   subscription: String,
   readPatch: String,
   joinedDate: String,
-  lastUsed: String
+  lastUsed: String,
+  promotedDate: String,
 });
 
 module.exports = mongoose.model('users', userSchema); 

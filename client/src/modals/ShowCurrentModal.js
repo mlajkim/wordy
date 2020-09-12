@@ -2,6 +2,7 @@ import React from 'react';
 
 import SignInModal from './SignInModal/SignInModal';
 import PatchNoteModal from './patchNoteModal/PatchNoteModal';
+import PromoteModal from './promoteModal/PromoteModal';
 
 export default function ShowCurrentModal(props) {
   let body;
@@ -23,6 +24,10 @@ export default function ShowCurrentModal(props) {
 
     case 'PatchNoteModal':
       body = <PatchNoteModal setModal={props.setModal}/>;
+      break;
+
+    case 'PromoteModal':
+      body = <PromoteModal setModal={props.setModal}/>
       break;
 
     default:

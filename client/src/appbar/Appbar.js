@@ -54,6 +54,13 @@ export default function Appbar(props) {
   //
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
 
+  // Pro Subscription
+  let promoteProSubscription = (
+    <Button variant="contained" color="primary" onClick={() => props.setModal('PromoteModal')}>
+      UPGRADE TO PRO
+    </Button>
+  )
+
 
   // Navigation for page
   //
@@ -90,6 +97,7 @@ export default function Appbar(props) {
             Wordy Project {VERSION.version}
           </Typography>
           {displayLoadingAnimation}
+          {promoteProSubscription}
           {showPages}
           {showSignIn}
         </Toolbar>
