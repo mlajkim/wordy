@@ -10,6 +10,7 @@ const {_passphraseForComodoSslPrivateKey} = require('./config')
 // Initiate the express app and Export it
 const app = express();
 const PORT = process.env.PORT || 80;
+const PORTHTTPS = process.env.PORT || 443;
 
 // Connecting to Wordy
 app.use(express.static(path.join(__dirname, './client/build')));
@@ -44,8 +45,17 @@ const option = {
   passphrase: _passphraseForComodoSslPrivateKey, // password for the key
 };
 
-// Begin the express server
-https.createServer(option, app).listen(PORT, () => {
-  console.log(`Server is running at port: ${PORT} => https://IP-ADDRESS:${PORT}`);
-})
+const runningType = process.argv[2] ? 'dev' : '';
+if(runningType === 'dev') {
+  app.listen(PORT, () => {
+    console.log(`DEVELOPMENT NON-SECURED SERVER running at PORT ${PORT}`);
+  })
+} else {
+  // Begin the express server
+  https.createServer(option, app).listen(PORTHTTPS, () => {
+    console.log(`ACTUAL SERVER running at PORT ${PORTHTTPS} (HTTPS)`);
+  })
+}
+
+
 
