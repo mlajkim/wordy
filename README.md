@@ -1,18 +1,35 @@
 Join here:
 https://wordy-cloud.com/
 
-# Wordy 1
-Wordy helps you save your lovely professional terms and useful expressions into your database.
+# Wordy
+Wordy-cloud service provides you the best way to become multilingual.
+This service is especially for those who have their own professional field and wishing to 
+improve their language, yet, they want some management system not to forget important 
+terms for your language skills. 
 
-# Version 1.0
-1. Back-End ExpressJS + NodeJS
-2. Front-End Javascript + React
-3. Database MongoDB, 
-4. Deleted yet Implemented SQLite
+The service tracks and allows you to learn words without having to plan what to review everyday.
+You simply try to remember word in front of you, and we will do the back-end work 
+to carefully select which words to review.
+You won't waste your time which words to study and focus on your field
+meanwhile not forgetting any words you have saved in your account at Wordy-cloud.
 
-# Main Features
-1. Parsing automatically saves data into correct properties such as 'definition', 'pronunciation' etc.
-2. You can review all your words chronically.
-3. You may edit or delete your word.
-4. You can see the entire list of words
-5. You may see which words are parsed today simply by clicking a button. (You also may edit them whenever you would like)
+The developer, I, personally has a field of programming as my profession and has a hobby 
+of learning and appreciating languages and culture.
+I found myself spending a lot of time trying to choose which words to study first.
+I do love languages, but I did not want to spend my time trying to waste time memorizing words.
+This service - I also use - helps me focusing on my profession, yet simply review words that the service provides. I found it revolutionary for the multilingual.
+
+Welcome to our community. Your journey has just started with us.
+Join here now at: https://wordy-cloud.com/
+
+# Programing Languages Used
+1. Back-End: Express Server + Node.JS
+2. Front-End: React
+3. Database: MongoDB
+4. Server: AWS EC2
+
+# Language Support
+1. English
+2. Korean (Future)
+3. Japanese (Future)
+4. Chinese (Future)
