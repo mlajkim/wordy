@@ -7,11 +7,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import VERSION from '../../app/Version';
+import PayWithPaypal from '../../components/PayWithPaypal/PayWithPaypal';
 
 export default function PayModal(props) {
-  let body = null;
-
   const userSelection = props.modal.data.userSelection;
+  const priceAccordingToSelect = VERSION.price[userSelection];
+
+  let body = (
+    <PayWithPaypal amount={priceAccordingToSelect}/>
+  );
 
   return (
     <div>
@@ -27,7 +31,7 @@ export default function PayModal(props) {
             The most secured way to pay directly through the trusted provider.
           </DialogContentText>
           <DialogContentText id="alert-dialog-description">
-            You will be charged {VERSION.price[userSelection]}
+            You will be charged {priceAccordingToSelect}
           </DialogContentText>
           {body}
         </DialogContent>
