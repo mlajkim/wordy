@@ -1,6 +1,6 @@
 const putUserRouter = require('express').Router();
 
-const userSchema = require('../../../models/User');
+const userSchema = require('../../../../models/User');
 
 putUserRouter.put('/:uniqueId/one/:type', async (req, res) => {
   const UNIQUE_ID = req.params.uniqueId;

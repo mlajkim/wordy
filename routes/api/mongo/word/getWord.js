@@ -1,6 +1,6 @@
 const getWordRouter = require('express').Router();
 
-const wordSchema = require('../../../models/Word');
+const wordSchema = require('../../../../models/Word');
 
 getWordRouter.get('/:ownerId', async (req, res) => {
   const query = {

@@ -1,7 +1,7 @@
 const getUserRouter = require('express').Router();
 
 // Mongoose Models
-const userSchema = require('../../../models/User');
+const userSchema = require('../../../../models/User');
 
 getUserRouter.get('/:typeOfLogIn/:federalId', async (req, res) => {
   const query = {

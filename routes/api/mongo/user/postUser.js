@@ -1,6 +1,6 @@
 const postUserRouter = require('express').Router();
 
-const userSchema = require('../../../models/User');
+const userSchema = require('../../../../models/User');
 
 postUserRouter.post('/', async (req, res) => {
   const profile = req.body;

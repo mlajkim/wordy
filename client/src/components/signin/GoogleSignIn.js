@@ -23,7 +23,7 @@ export default function GoogleSignIn(props) {
     // Step 1) Figure out if we have the user's data!
     //
     let profile = response.profileObj;
-    const user = await fetch(`/api/user/google/${profile.googleId}`, {
+    const user = await fetch(`/api/mongo/user/google/${profile.googleId}`, {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     }).then(res => res.json());
@@ -41,7 +41,7 @@ export default function GoogleSignIn(props) {
       if (parseInt (user.data.readPatch) < parseInt(VERSION.version)) {
         props.setModal('PatchNoteModal');
 
-        await fetch(`/api/user/${user.data._id}/one/readPatch`, {
+        await fetch(`/api/mongo/user/${user.data._id}/one/readPatch`, {
           method: 'PUT',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({
@@ -53,7 +53,7 @@ export default function GoogleSignIn(props) {
 
       // (Step 2-4) download the word data from the database!
       //
-      const resWords = await fetch(`/api/word/${UNIQUE_ID}`, {
+      const resWords = await fetch(`/api/mongo/word/${UNIQUE_ID}`, {
         method: 'GET',
         headers: {'Content-Type':'application/json'}
       }).then(res => res.json())
@@ -67,7 +67,7 @@ export default function GoogleSignIn(props) {
       
 
       // add that person into our database! (Give the current version as well)
-      const newUserRes = await fetch('/api/user', {
+      const newUserRes = await fetch('/api/mongo/user', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
