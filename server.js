@@ -5,7 +5,7 @@ const express = require('express');
 const path = require('path');
 
 // import security
-const {_passphraseForComodoSslPrivateKey} = require('./config')
+const {COMODO_SSL_KEY_PASSWORD} = require('./credential');
 
 // Initiate the express app and Export it
 const app = express();
@@ -42,7 +42,7 @@ const option = {
   ca: fs.readFileSync('./certificates/ca-bundle.crt'), // Certificate BUNDLES
   cert: fs.readFileSync('./certificates/wordy-cloud_com.crt'), // correct
   key: fs.readFileSync('./certificates/comodo-ssl-ca.key'), // mostliekly correct  
-  passphrase: _passphraseForComodoSslPrivateKey, // password for the key
+  passphrase: COMODO_SSL_KEY_PASSWORD, // password for the key
 };
 
 const runningType = process.argv[2] ? 'dev' : '';

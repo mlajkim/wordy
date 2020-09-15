@@ -12,11 +12,13 @@ apiRouter.use((req, res, next) => {
 
 // Import routers
 const userRouter = require('./api/user/user');
-const wordRouter = require('./api/word/word')
+const wordRouter = require('./api/word/word');
+const paypalRouter = require('./api/paypal/paypal');
 
 // Apply routers
 apiRouter.use('/user', userRouter);
 apiRouter.use('/word', wordRouter);
+apiRouter.use('/paypal', paypalRouter);
 
 // Export the router
 module.exports = apiRouter;
