@@ -22,11 +22,14 @@ export default function GoogleSignIn(props) {
 
     // Step 1) Figure out if we have the user's data!
     //
+    let userInfo;
     let profile = response.profileObj;
+    
     const user = await fetch(`/api/mongo/user/google/${profile.googleId}`, {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     }).then(res => res.json());
+    userInfo = user;
 
     // Step 2-1) If it exists..
     // (Handle the patch) 
@@ -83,6 +86,7 @@ export default function GoogleSignIn(props) {
       }).then(res => res.json())
 
       // Set up the id as well
+      userInfo = newUserRes;
       UNIQUE_ID = newUserRes._id;
     }
 
@@ -91,7 +95,7 @@ export default function GoogleSignIn(props) {
       isSignedIn: true,
       UNIQUE_ID: UNIQUE_ID,
       typeOfLogIn: SIGNIN_TYPE,
-      profile: profile
+      userInfo: userInfo.data
     });
 
     

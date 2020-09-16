@@ -50,6 +50,11 @@ export default function Appbar(props) {
   //
   const classes = useStyles();
 
+  // Display Subscription Type
+  let subscription;
+  if(props.profile.isSignedIn) subscription = props.profile.userInfo.subscription;
+  else subscription = null;
+
   // Loading animation
   //
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
@@ -57,9 +62,11 @@ export default function Appbar(props) {
   // Pro Subscription
   let promoteProSubscription;
   if(props.profile.isSignedIn) {
-    promoteProSubscription = (<Button variant="contained" color="primary" onClick={() => props.setModal({type: 'PromoteModal'})}>
-      UPGRADE TO PRO
-    </Button>)
+    promoteProSubscription = (
+      <Button variant="contained" color="primary" onClick={() => props.setModal({type: 'PromoteModal'})}>
+        UPGRADE TO PRO
+      </Button>
+    )
   } else {
     promoteProSubscription = null;
   }
@@ -67,10 +74,10 @@ export default function Appbar(props) {
 
   // Sign in or the image
   let showSignIn;
-  if(props.isSignedIn !== '') {
+  if(props.profile.isSignedIn) {
     // if already signed in
-    showSignIn = <Avatar alt={`${props.profile.familyName} ${props.profile.givenName}`} 
-                  src={props.profile.profileImgUrl}
+    showSignIn = <Avatar alt={`${props.profile.userInfo.familyName} ${props.profile.userInfo.givenName}`} 
+                  src={props.profile.userInfo.profileImgUrl}
                   onClick={() => {props.setPage('setting')}}/>;
   } else {
     // not signed in
@@ -88,7 +95,7 @@ export default function Appbar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Wordy {props.profile.profile.subscription} {VERSION.version}
+            Wordy {subscription} {VERSION.version}
           </Typography>
           {displayLoadingAnimation}
           {promoteProSubscription}
