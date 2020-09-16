@@ -88,7 +88,7 @@ export default function Appbar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Wordy Project {VERSION.version}
+            Wordy {props.profile.profile.subscription} {VERSION.version}
           </Typography>
           {displayLoadingAnimation}
           {promoteProSubscription}

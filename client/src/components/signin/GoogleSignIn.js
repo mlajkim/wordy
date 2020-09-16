@@ -91,12 +91,7 @@ export default function GoogleSignIn(props) {
       isSignedIn: true,
       UNIQUE_ID: UNIQUE_ID,
       typeOfLogIn: SIGNIN_TYPE,
-      federalId: profile.googleId, 
-      email: profile.email,
-      familyName: profile.familyName,
-      givenName: profile.givenName,
-      profileImgUrl: profile.imageUrl,
-      subscription: profile.subscription
+      profile: profile
     });
 
     
