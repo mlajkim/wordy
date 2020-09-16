@@ -59,6 +59,19 @@ export default function Appbar(props) {
   //
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
 
+
+  // Admin Page
+  let showAdminPageButton;
+  if(props.profile.isSignedIn && props.profile.userInfo.subscription === 'Admin') {
+    showAdminPageButton = (
+      <Button variant="contained" color="primary" onClick={() => props.setPage('admin')}>
+        Admin
+      </Button>
+    )
+  } else {
+    showAdminPageButton = null;
+  }
+
   // Pro Subscription
   let promoteProSubscription;
   if(props.profile.isSignedIn) {
@@ -98,6 +111,7 @@ export default function Appbar(props) {
             Wordy {subscription} {VERSION.version}
           </Typography>
           {displayLoadingAnimation}
+          {showAdminPageButton}
           {promoteProSubscription}
           {showSignIn}
         </Toolbar>

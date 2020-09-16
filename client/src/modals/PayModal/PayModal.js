@@ -14,7 +14,8 @@ export default function PayModal(props) {
   const priceAccordingToSelect = VERSION.price[userSelection];
 
   let body = (
-    <PayWithPaypal amount={priceAccordingToSelect}/>
+    <PayWithPaypal amount={priceAccordingToSelect}
+                  setModal={props.setModal}/>
   );
 
   return (
