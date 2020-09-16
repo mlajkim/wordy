@@ -9,7 +9,7 @@ getWordRouter.get('/:ownerId', async (req, res) => {
 
   const data = await wordSchema.find(query)
   res.send({
-    status: data ? 'success' : 'empty',
+    status: data !== undefined ? 'success' : 'empty',
     data: data
   })
 

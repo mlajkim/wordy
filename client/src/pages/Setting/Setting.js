@@ -1,48 +1,55 @@
+// mains
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button'
+// icon
+import SettingsIcon from '@material-ui/icons/Settings';
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 
+// components
 import GoogleSignOut from'../../components/signIn/GoogleSignOut';
 
-/**
- * 
- * typeOfLogIn: String,
-  federalId: String, // Google's googleId;
-  email: String,
-  familyName: String,
-  givenName: String,
-  profileImgUrl: String,
-  subscription: String,
-  joinedDate: String,
-  lastUsed: String
- */
 
 export default function Setting(props) {
-  let items = ['email','familyName','givenName'];
-  let displayItems = items.map(item => {
-    return (
-      <TextField
-          key={item}
-          label={item}
-          defaultValue={props.profile[item]}
-          className="hi"
-          helperText="Some important text"
-          margin="dense"
-          variant="outlined"
-          fullWidth
-        />
+  if(props.profile.userInfo.subscription === 'Admin') {
+    console.log("This is only visible to ADMIN ACCOUNT.");
+    console.log(props.profile);
+  }
+
+  // handle subscription 
+  let renderSubscription;
+  if(props.profile.userInfo.subscription === 'Pro') {
+    renderSubscription = (
+      <Grid container direction="row">
+        <WhatshotIcon style={{ fontSize: 30, marginTop: 15, marginBottom: 25 }}/>
+        <h3 style={{ marginTop: 15, marginBottom: 25 }}>Pro Member</h3>
+      </Grid>
     )
-  })
+  }else {
+    renderSubscription = <h5 style={{ marginTop: 18, marginBottom: 25 }}>Basic Member</h5>
+  }
+
   return (
     <div>
-      <h1>
-        Welcome to setting!
-      </h1>
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <GoogleSignOut 
+      <Grid container direction="row">
+        <SettingsIcon style={{ fontSize: 30, marginTop: 15, marginBottom: 25 }}/>
+        <h3 style={{ marginTop: 15, marginBottom: 25 }}>Setting</h3>
+      </Grid>
+      <Grid container direction="row">
+        <Avatar alt={`${props.profile.userInfo.familyName} ${props.profile.userInfo.givenName}`} 
+                src={props.profile.userInfo.profileImgUrl}/>
+        <Grid container direction="column">
+          <h4>{props.profile.userInfo.givenName} {props.profile.userInfo.familyName}</h4>
+          <p>Syncing to {props.profile.userInfo.email}</p>
+        </Grid>
+          <GoogleSignOut 
                 isSignedIn={props.isSignedIn}
                 setSignedIn={props.setSignedIn}
                 profile={props.profile}
@@ -50,7 +57,17 @@ export default function Setting(props) {
                 setProfile={props.setProfile}
                 setWords={props.setWords}
                 setSnackbar={props.setSnackbar}/>
-        {displayItems}
+        </Grid>
+
+      <Grid container direction="row">
+        <FavoriteOutlinedIcon style={{ fontSize: 30, marginTop: 15, marginBottom: 25 }}/>
+        <h5 style={{ marginTop: 18, marginBottom: 10, marginRight: 10 }}>Subscription Status: </h5>
+        {renderSubscription}
+      </Grid>
+      
+      <Button variant="outlined" color="primary">Show transaction</Button>
+      <br />
+      <Button variant="outlined" color="secondary">Stop Membership</Button>
       </Container>
     </React.Fragment>
 
