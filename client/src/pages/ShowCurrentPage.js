@@ -1,8 +1,6 @@
 import React from 'react';
 
-import List from './List/List';
-import Welcome from './Welcome/Welcome';
-import Introduce from './Introduce/Introduce'
+import Home from './home/Home';
 import Setting from './Setting/Setting';
 
 
@@ -12,14 +10,7 @@ export default function ShowCurrentPage(props) {
 
   switch(currentPage) {
     case '':
-      body = <Welcome isSignedIn={props.isSignedIn}
-                      setSignedIn={props.setSignedIn}
-                      setWords={props.setWords}
-                      setProfile={props.setProfile}
-                      setDataLoading={props.setDataLoading}
-                      setPage={props.setPage}
-                      setModal={props.setModal}
-                      setSnackbar={props.setSnackbar}/>
+      body = <Home profile={props.profile}/>
       break;
 
     case 'setting':
@@ -31,15 +22,6 @@ export default function ShowCurrentPage(props) {
                       setWords={props.setWords}
                       setSnackbar={props.setSnackbar}
                       />
-      break;
-
-    case 'introduce':
-      body = <Introduce profile={props.profile}/>
-      break;
-
-    case 'list':
-      body = <List words={props.words}
-                   setPage={props.setPage}/>
       break;
 
     default:

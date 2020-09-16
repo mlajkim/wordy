@@ -19,7 +19,7 @@ export default function App () {
 
   // features
   const [snackbar, setSnackbar] = React.useState({status: 'none'});
-  const [modal, setModal] = React.useState('');
+  const [modal, setModal] = React.useState({type: 'SignInModal'});
   const [page, setPage] = React.useState('');
   const [isDataLoading, setDataLoading] = React.useState(false);
 
