@@ -9,11 +9,14 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
-import patch1List from '../../patches/patch1';
-import VERSION from '../../app/Version';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
+
+// Patch List
+import patch_list from '../../app/Patch';
+import VERSION from '../../app/Version';
+
 
 const styles = (theme) => ({
   root: {
@@ -59,7 +62,7 @@ export default function PatchNoteModal(props) {
   // Always the latest in the index '0'
   let currentVersion = VERSION.version;
 
-  let lateastPatch = patch1List.find(patch => patch.version === currentVersion);
+  let lateastPatch = patch_list.find(patch => patch.version === currentVersion);
 
   // handle contents
   let contents = lateastPatch.contents.map(content => {

@@ -41,8 +41,9 @@ export default function GoogleSignIn(props) {
       // Step 2-3) Compare the user-read-patch with the current version
       // if not staisfying, show the patch note
       // then save the data into the database
-      if (parseInt (user.data.readPatch) < parseInt(VERSION.version)) {
-        props.setModal('PatchNoteModal');
+      if (parseFloat (user.data.readPatch) < parseFloat(VERSION.version)) {
+      
+        props.setModal({type: 'PatchNoteModal'});
 
         await fetch(`/api/mongo/user/${user.data._id}/one/readPatch`, {
           method: 'PUT',
@@ -81,7 +82,7 @@ export default function GoogleSignIn(props) {
           givenName: profile.givenName,
           readPatch: VERSION.version,
           profileImgUrl: profile.imageUrl,
-          subscription: 'basic'
+          subscription: ''
         })
       }).then(res => res.json())
 
