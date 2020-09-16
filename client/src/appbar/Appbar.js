@@ -55,21 +55,15 @@ export default function Appbar(props) {
   let displayLoadingAnimation = props.isDataLoading ? <LoadingAnimation /> : null;
 
   // Pro Subscription
-  let promoteProSubscription = (
-    <Button variant="contained" color="primary" onClick={() => props.setModal({type: 'PromoteModal'})}>
+  let promoteProSubscription;
+  if(props.profile.isSignedIn) {
+    promoteProSubscription = (<Button variant="contained" color="primary" onClick={() => props.setModal({type: 'PromoteModal'})}>
       UPGRADE TO PRO
-    </Button>
-  )
-
-
-  // Navigation for page
-  //
-  const pages = ['welcome', 'introduce', 'list', 'review'];
-  let showPages = pages.map(page => {
-    return (
-      <Button key={page} color="inherit" onClick={() => props.setPage(page)}>{page}</Button>
-    )
-  })
+    </Button>)
+  } else {
+    promoteProSubscription = null;
+  }
+  
 
   // Sign in or the image
   let showSignIn;
@@ -83,14 +77,14 @@ export default function Appbar(props) {
     showSignIn = <Button color="inherit" onClick={() => props.setModal({type: 'SignInModal'})}>Sign in</Button>
   }
 
-
   // Render
   //
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" 
+                      aria-label="menu" onClick={() => {props.setPage('')}}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -98,7 +92,6 @@ export default function Appbar(props) {
           </Typography>
           {displayLoadingAnimation}
           {promoteProSubscription}
-          {showPages}
           {showSignIn}
         </Toolbar>
       </AppBar>

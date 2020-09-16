@@ -11,7 +11,7 @@ export default function ShowCurrentPage(props) {
   let body;
 
   switch(currentPage) {
-    case 'welcome':
+    case '':
       body = <Welcome isSignedIn={props.isSignedIn}
                       setSignedIn={props.setSignedIn}
                       setWords={props.setWords}
