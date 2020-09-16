@@ -15,7 +15,10 @@ export default function PayModal(props) {
 
   let body = (
     <PayWithPaypal amount={priceAccordingToSelect}
-                  setModal={props.setModal}/>
+                  setModal={props.setModal}
+                  profile={props.profile}
+                  setProfile={props.setProfile}
+                  setDataLoading={props.setDataLoading}/>
   );
 
   return (

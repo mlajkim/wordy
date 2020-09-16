@@ -74,7 +74,7 @@ export default function Appbar(props) {
 
   // Pro Subscription
   let promoteProSubscription;
-  if(props.profile.isSignedIn) {
+  if(props.profile.isSignedIn && props.profile.userInfo.subscription !== 'Pro') {
     promoteProSubscription = (
       <Button variant="contained" color="primary" onClick={() => props.setModal({type: 'PromoteModal'})}>
         UPGRADE TO PRO
