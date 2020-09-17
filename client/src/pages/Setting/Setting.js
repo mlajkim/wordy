@@ -15,10 +15,6 @@ import GoogleSignOut from'../../components/signIn/GoogleSignOut';
 
 
 export default function Setting(props) {
-  if(props.profile.userInfo.subscription === 'Admin') {
-    console.log("This is only visible to ADMIN ACCOUNT.");
-    console.log(props.profile);
-  }
 
   // handle subscription 
   let renderSubscription;
