@@ -68,6 +68,11 @@ export default function Setting(props) {
       <Button variant="outlined" color="primary">Show transaction</Button>
       <br />
       <Button variant="outlined" color="secondary">Stop Membership</Button>
+      <br /><br /><br />
+      <Button variant="outlined" color="secondary" 
+              onClick={() => {props.setModal({type: 'DeleteAccountModal'})}}>
+        Delete This Account!
+      </Button>
       </Container>
     </React.Fragment>
 

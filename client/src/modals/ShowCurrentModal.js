@@ -4,6 +4,7 @@ import SignInModal from './SignInModal/SignInModal';
 import PatchNoteModal from './patchNoteModal/PatchNoteModal';
 import PromoteModal from './promoteModal/PromoteModal';
 import PayModal from './PayModal/PayModal';
+import DeleteAccountModal from './deleteAccountModal/DeleteAccountModal';
 
 export default function ShowCurrentModal(props) {
   let body;
@@ -21,6 +22,10 @@ export default function ShowCurrentModal(props) {
                           setProfile={props.setProfile}
                           setDataLoading={props.setDataLoading}
                           setSnackbar={props.setSnackbar}/>
+      break;
+
+    case 'DeleteAccountModal':
+      body = <DeleteAccountModal setModal={props.setModal}/>
       break;
 
     case 'PayModal':

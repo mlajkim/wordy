@@ -26,6 +26,7 @@ export default function ShowCurrentPage(props) {
                       setPage={props.setPage}
                       setWords={props.setWords}
                       setSnackbar={props.setSnackbar}
+                      setModal={props.setModal}
                       />
       break;
 
