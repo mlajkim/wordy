@@ -8,7 +8,7 @@ putUserRouter.put('/:uniqueId/one/:type', async (req, res) => {
   const option = {useFindAndModify: false}
   
   let response = await userSchema.findByIdAndUpdate(UNIQUE_ID, update, option);
-  res.send(response);
+  res.send({data: response});
 })
 
 putUserRouter.put('/:uniqueId/all/', (req, res) => {

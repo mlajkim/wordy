@@ -28,24 +28,17 @@ export default function PayWithPaypal(props) {
 
             // Off the Modal
             props.setModal('');
-            
-            // Set up the front end
-            let lastProfile = props.profile;
-            lastProfile.userInfo.subscription = 'Pro'
-            console.log(lastProfile);
-            props.setProfile(lastProfile);
 
             // Set up the database as well
-            // putUserRouter.put('/:uniqueId/one/:type', async (req, res) => {
             await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/subscription`, {
               method: "put",
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
-                value: '' // Make it 'Pro' eventually
+                value: 'Pro'
               })
             });
 
-            // OPTIONAL: Call your server to save the subscription
+            // Save the transaction
             console.log(details);
             const tranPostRes = await fetch("/api/mongo/transaction/post", {
               method: "post",
@@ -58,13 +51,18 @@ export default function PayWithPaypal(props) {
             }).then(res => res.json());
 
             // Make sure that the user has its own last transaction ID
-            await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
+            const userData = await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
               method: 'PUT',
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
                 value: tranPostRes.data._id
               })
             })
+
+            // Set up the front end finally
+            let lastProfile = props.profile;
+            lastProfile.userInfo = userData.data;
+            props.setProfile(lastProfile);
             
             // Fetch over | Loading Screen Ends
             props.setDataLoading(false);

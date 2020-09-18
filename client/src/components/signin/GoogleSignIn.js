@@ -25,7 +25,7 @@ export default function GoogleSignIn(props) {
     let userInfo;
     let profile = response.profileObj;
     
-    const user = await fetch(`/api/mongo/user/google/${profile.googleId}`, {
+    const user = await fetch(`/api/mongo/user/get/with-federalID/google/${profile.googleId}`, {
       method: 'GET',
       headers: {'Content-Type':'application/json'}
     }).then(res => res.json());

@@ -3,14 +3,17 @@ const getUserRouter = require('express').Router();
 // Mongoose Models
 const userSchema = require('../../../../models/User');
 
-getUserRouter.get('/:typeOfLogIn/:federalId', async (req, res) => {
-  const query = {
-    typeOfLogIn: req.params.typeOfLogIn,
-    federalId: req.params.federalId
-  }
+getUserRouter.get('/withID/:UNIQUE_ID', async (req, res) => {
+  const UNIQUE_ID = req.params.UNIQUE_ID;
+  const data = await userSchema.findById(UNIQUE_ID);
+  res.send({data: data});
+})
 
-  const response = await userSchema.findOne(query);
-  response ? console.log(`${response.length} word(s) retrieved!`) : console.log("0 words retrieved!");
+getUserRouter.get('/with-federalID/:typeOfLogIn/:federalId', async (req, res) => {
+  // Find from the database
+  const typeOfLogIn = req.params.typeOfLogIn;
+  const federalId = req.params.federalId;
+  const response = await userSchema.findOne({typeOfLogIn, federalId});
 
   res.send({
     status: response ? 'success' : 'empty',

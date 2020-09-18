@@ -25,40 +25,47 @@ export default function App () {
 
   return (
     <div>
-      <Appbar setPage={setPage}
-              isDataLoading={isDataLoading}
-              setDataLoading={setDataLoading}
-              setWords={setWords}
-              isSignedIn={isSignedIn}
-              setSignedIn={setSignedIn}
-              profile={profile}
-              setModal={setModal}
-              />
-      <Snackbar snackbar={snackbar}
-                setSnackbar={setSnackbar}/>
-      <ShowCurrentModal modal={modal}
-                        setModal={setModal}
-                        page={page}
-                        setPage={setPage}
-                        words={words}
-                        setWords={setWords}
-                        isSignedIn={isSignedIn}
-                        setSignedIn={setSignedIn}
-                        profile={profile}
-                        setProfile={setProfile}
-                        setDataLoading={setDataLoading}
-                        setSnackbar={setSnackbar}/>
-      <ShowCurrentPage page={page}
-                       setPage={setPage}
-                       words={words}
-                       setWords={setWords}
-                       isSignedIn={isSignedIn}
-                       setSignedIn={setSignedIn}
-                       profile={profile}
-                       setProfile={setProfile}
-                       setDataLoading={setDataLoading}
-                       setModal={setModal}
-                       setSnackbar={setSnackbar}/>
+      <Appbar 
+        setPage={setPage}
+        isDataLoading={isDataLoading}
+        setDataLoading={setDataLoading}
+        setWords={setWords}
+        isSignedIn={isSignedIn}
+        setSignedIn={setSignedIn}
+        profile={profile}
+        setModal={setModal}
+      />
+      <Snackbar 
+        snackbar={snackbar}
+        setSnackbar={setSnackbar}
+      />
+      <ShowCurrentModal 
+        modal={modal}
+        setModal={setModal}
+        page={page}
+        setPage={setPage}
+        words={words}
+        setWords={setWords}
+        isSignedIn={isSignedIn}
+        setSignedIn={setSignedIn}
+        profile={profile}
+        setProfile={setProfile}
+        setDataLoading={setDataLoading}
+        setSnackbar={setSnackbar}
+      />
+      <ShowCurrentPage 
+        page={page}
+        setPage={setPage}
+        words={words}
+        setWords={setWords}
+        isSignedIn={isSignedIn}
+        setSignedIn={setSignedIn}
+        profile={profile}
+        setProfile={setProfile}
+        setDataLoading={setDataLoading}
+        setModal={setModal}
+        setSnackbar={setSnackbar}
+      />
     </div>
   );
 }

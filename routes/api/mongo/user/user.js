@@ -5,7 +5,7 @@ const postUserRouter = require('./postUser');
 const putUserRouter = require('./putUser');
 const deleteUserRouter = require('./deleteUser');
 
-userRouter.use('', getUserRouter);
+userRouter.use('/get', getUserRouter);
 userRouter.use('', postUserRouter);
 userRouter.use('', putUserRouter);
 userRouter.use('', deleteUserRouter);

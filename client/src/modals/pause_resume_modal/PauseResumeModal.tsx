@@ -8,13 +8,11 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-
+// import API
+import { fetchPaypalPauseResumeSubscription } from "../../API";
 // import credential
 
-interface Props {
-  setModal: (arg0: any) => void;
-  profile: any;
-}
+
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -63,31 +61,38 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function PauseResumeModal (props: Props) {
+type Props = {
+  setModal: (arg0: any) => void;
+  profile: any;
+}
+
+const PauseResumeModal: React.FC<Props> = ({
+  setModal,
+  profile
+}) => {
+
   const handlePauseResume = async () => {
-    props.setModal({});
+    setModal({}); // Close the modal
 
-    const transRes = await fetch(`/api/mongo/transaction/get/${props.profile.UNIQUE_ID}`, {
-      method: 'GET',
-      headers: {'Content-Type':'application/json'}
-    })
+    // Get the user data first from database
+    let endpoint = `/api/mongo/user/get/withID/${profile.UNIQUE_ID}`;
+    const userRes = await (await fetch(endpoint)).json();
 
-    // Fetch from the Paypal server
-    const url = `https://api.sandbox.paypal.com/v1/billing/subscriptions/`;
-    const newUserRes = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' // + transRes.accessToken
-      },
-     // body: {reason: "Customer-requested pause"}
-    }).then(res => res.json())
+    // Get the transaction  
+    endpoint = `/api/mongo/transaction/get/withID/${userRes.data.lastTransactionID}`;
+    const transactionRes = await (await fetch(endpoint)).json();
+    // Pause or Resume the subscription
+    fetchPaypalPauseResumeSubscription(
+      transactionRes.data.subscriptionID, 
+      transactionRes.data.accessToken,
+      "pause"
+      );
   }
 
   return (
     <div>
-      <Dialog onClose={() => {props.setModal({})}} aria-labelledby="customized-dialog-title" open={true}>
-        <DialogTitle id="customized-dialog-title" onClose={() => {props.setModal({})}}>
+      <Dialog onClose={() => {setModal({})}} aria-labelledby="customized-dialog-title" open={true}>
+        <DialogTitle id="customized-dialog-title" onClose={() => {setModal({})}}>
           Pause / Resume?
         </DialogTitle>
         <DialogContent dividers>
@@ -96,7 +101,7 @@ export default function PauseResumeModal (props: Props) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={() => {handlePauseResume()}} color="primary">
+          <Button autoFocus onClick={handlePauseResume} color="primary">
             OKAY
           </Button>
         </DialogActions>
@@ -104,3 +109,5 @@ export default function PauseResumeModal (props: Props) {
     </div>
   );
 }
+
+export default PauseResumeModal;
