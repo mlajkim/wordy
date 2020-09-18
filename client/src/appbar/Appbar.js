@@ -92,6 +92,13 @@ export default function Appbar(props) {
     showSignIn = <Avatar alt={`${props.profile.userInfo.familyName} ${props.profile.userInfo.givenName}`} 
                   src={props.profile.userInfo.profileImgUrl}
                   onClick={() => {props.setPage('setting')}}/>;
+                  
+  } else if (props.isDataLoading) {
+    // if one is not signed in yet, but the loading animation is on going ,
+    // it means that it is working on signing in process 
+    // therefore can make it null with confidence.
+    showSignIn = null;
+
   } else {
     // not signed in
     showSignIn = <Button color="inherit" onClick={() => props.setModal({type: 'SignInModal'})}>Sign in</Button>
