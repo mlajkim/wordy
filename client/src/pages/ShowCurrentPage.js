@@ -11,23 +11,15 @@ export default function ShowCurrentPage(props) {
 
   switch(currentPage) {
     case '':
-      body = <Home profile={props.profile}/>
+      body = <Home {... props}/>
       break;
 
     case 'admin':
-      body = <Admin profile={props.profile}/>
+      body = <Admin {... props}/>
       break;
 
     case 'setting':
-      body = <Setting profile={props.profile}
-                      setProfile={props.setProfile}
-                      isSignedIn={props.isSignedIn}
-                      setSignedIn={props.setSignedIn}
-                      setPage={props.setPage}
-                      setWords={props.setWords}
-                      setSnackbar={props.setSnackbar}
-                      setModal={props.setModal}
-                      />
+      body = <Setting {... props}/>
       break;
 
     default:

@@ -10,18 +10,7 @@ export default function ShowCurrentModal(props) {
   let body;
   switch(props.modal.type) {
     case 'SignInModal':
-      body = <SignInModal modal={props.modal}
-                          setModal={props.setModal}
-                          page={props.page}
-                          setPage={props.setPage}
-                          words={props.words}
-                          setWords={props.setWords}
-                          isSignedIn={props.isSignedIn}
-                          setSignedIn={props.setSignedIn}
-                          profile={props.profile}
-                          setProfile={props.setProfile}
-                          setDataLoading={props.setDataLoading}
-                          setSnackbar={props.setSnackbar}/>
+      body = <SignInModal {... props}/>
       break;
 
     case 'DeleteAccountModal':
@@ -29,26 +18,14 @@ export default function ShowCurrentModal(props) {
       break;
 
     case 'PayModal':
-      body = <PayModal modal={props.modal}
-                      setModal={props.setModal}
-                      page={props.page}
-                      setPage={props.setPage}
-                      words={props.words}
-                      setWords={props.setWords}
-                      isSignedIn={props.isSignedIn}
-                      setSignedIn={props.setSignedIn}
-                      profile={props.profile}
-                      setProfile={props.setProfile}
-                      setDataLoading={props.setDataLoading}
-                      setSnackbar={props.setSnackbar}/>
+      body = <PayModal {... props}/>
       break;
     case 'PatchNoteModal':
-      body = <PatchNoteModal setModal={props.setModal}/>;
+      body = <PatchNoteModal {... props}/>;
       break;
 
     case 'PromoteModal':
-      body = <PromoteModal setModal={props.setModal}
-                            profile={props.profile}/>
+      body = <PromoteModal {... props}/>
       break;
 
     default:
