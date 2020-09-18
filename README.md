@@ -23,10 +23,11 @@ Welcome to our community. Your journey has just started with us.
 Join here now at: https://wordy-cloud.com/
 
 # Programing Languages Used
-1. Back-End: Express Server + Node.JS
-2. Front-End: React
-3. Database: MongoDB
-4. Server: AWS EC2
+1. Languages: Typescript / JavaScript 
+2. Back-End: Express Server + Node.JS
+3. Front-End: React
+4. Database: MongoDB
+5. Server: AWS EC2
 
 # Language Support
 1. English

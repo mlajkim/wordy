@@ -5,12 +5,17 @@ import PatchNoteModal from './patchNoteModal/PatchNoteModal';
 import PromoteModal from './promoteModal/PromoteModal';
 import PayModal from './PayModal/PayModal';
 import DeleteAccountModal from './deleteAccountModal/DeleteAccountModal';
+import WarningModal from './warning_modal/WarningModal.tsx';
 
 export default function ShowCurrentModal(props) {
   let body;
   switch(props.modal.type) {
     case 'SignInModal':
       body = <SignInModal {... props}/>
+      break;
+
+    case 'WarningModal':
+      body = <WarningModal {... props}/>
       break;
 
     case 'DeleteAccountModal':

@@ -79,7 +79,7 @@ export default function DeleteAccountModal(props) {
   if(userConsent === consentMessage) {
     confirmButton = (
       <DialogActions>
-        <Button onClick={() => {handleDeleteAccount()}} color="secondary">
+        <Button onClick={() => {handleDeleteAccount()}} color="secondary" variant="contained">
           {consentMessage}
         </Button>
       </DialogActions>
