@@ -56,18 +56,15 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function WarningModal(props : any) {
+export default function PauseResumeModal (props : any) {
 
   return (
     <div>
       <Dialog onClose={() => {props.setModal({})}} aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title" onClose={() => {props.setModal({})}}>
-          {props.modal.title}
+          Pause / Resume?
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            {props.modal.content}
-          </Typography>
           <Typography gutterBottom>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
             lacus vel augue laoreet rutrum faucibus dolor auctor.

@@ -63,14 +63,9 @@ export default function Setting(props) {
       
       <Button variant="outlined" color="primary">Show transaction</Button>
       <br />
-      <Button variant="outlined" 
-            color="secondary" 
-            onClick={() => props.setModal({
-              type: 'WarningModal',
-              title: 'Cancel Membership',
-              content: 'You still have an access to Pro Membership until (fixed) 9/24/2020 3:42pm',
-            })}>
-        Stop Membership
+      <Button variant="outlined" color="secondary" 
+              onClick={() => props.setModal({type: 'PauseResumeModal'})}>
+        Pause / Resume Membership
       </Button>
       <br /><br /><br />
       <Button variant="outlined" color="secondary" 
