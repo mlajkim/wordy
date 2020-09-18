@@ -25,8 +25,7 @@ export default function ShowCurrentModal(props) {
       break;
 
     case 'DeleteAccountModal':
-      body = <DeleteAccountModal setModal={props.setModal}
-                profile={props.profile}/>
+      body = <DeleteAccountModal {...props} />
       break;
 
     case 'PayModal':

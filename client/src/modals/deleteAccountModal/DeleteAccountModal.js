@@ -9,24 +9,70 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
 
+// Google Sign out
+import {useGoogleLogout} from 'react-google-login'
+import {clientIdGivenFromGoogle} from '../../credential';
+
 export default function DeleteAccountModal(props) {
   const consentMessage = "I understand the consequences, delete my account.";
   const label = "Type: " + consentMessage;
   const [userConsent, setUserConsent] = React.useState('');
 
+  // Google Sign out (Successful)
+  const handleSuccessfulSignOut = () => {
+    props.setPage('welcome');
+    props.setSignedIn('');
+    props.setProfile({isSignedIn: false});
+    props.setWords([]);
+    props.setSnackbar({
+      status: 'open',
+      severity: 'info',
+      message: 'It was pleasure to serve you. You are still welcome any time.'
+    })
+  }
+
+  // Google Sign out (Failure)
+  const handleLogoutFailure = (res) => {
+    props.setSnackbar({
+      status: 'open',
+      severity: 'error',
+      message: `Fail: ${res}`
+    })
+  }
+
+  const { signOut, loaded } = useGoogleLogout({
+    onFailure: handleLogoutFailure,
+    clientId: clientIdGivenFromGoogle,
+    onLogoutSuccess: handleSuccessfulSignOut
+  })
+
    // the following deletes the account.
-   const handleDeleteAccount = async () => {
-     props.setModal({});
+  const handleDeleteAccount = async () => {
+    props.setModal({});
+    if(!props.profile.isSignedIn || props.profile.userInfo.subscription === 'Admin') {
+      props.setSnackbar({
+        status: 'open',
+        severity: 'warning',
+        message: 'Admin account cannot be deleted OR You are not logged in yet.'
+      })
+      return;
+    }
 
-    if(!props.profile.isSignedIn) return;
-
-    // Set the loading screen
+    props.setDataLoading(true);
     
-    // Delete the database first
+    // Delete the database first  
+    await fetch(`/api/mongo/user/delete`, {
+      method: 'DELETE',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        UNIQUE_ID: props.profile.UNIQUE_ID
+      })
+    });
 
     // Sign out from Google as well.
-
+    signOut();
     // 
+    props.setDataLoading(false);
   }
 
   let confirmButton;

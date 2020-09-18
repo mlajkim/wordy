@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import {clientIdGivenFromGoogle} from '../../credential';
 
 export default function GoogleSignOut(props) {
+  
 
   // Signin Signout button 
   //
@@ -33,7 +34,7 @@ export default function GoogleSignOut(props) {
     })
   }
 
-  const { signOut, loaded } = useGoogleLogout({
+  const signOut = useGoogleLogout({
     onFailure: handleLogoutFailure,
     clientId: clientIdGivenFromGoogle,
     onLogoutSuccess: handleSuccessfulSignOut
