@@ -13,9 +13,11 @@ mongoRouter.use((req, res, next) => {
 // import
 const userRouter = require('./user/user');
 const wordRouter = require('./word/word');
+const transactionRouter = require('./transaction/transaction');
 
 // use
 mongoRouter.use('/user', userRouter);
 mongoRouter.use('/word', wordRouter);
+mongoRouter.use('/transaction', transactionRouter);
 
 module.exports = mongoRouter;

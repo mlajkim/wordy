@@ -56,7 +56,7 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function WarningModal(props) {
+export default function WarningModal(props : any) {
 
   return (
     <div>

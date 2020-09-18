@@ -41,23 +41,25 @@ export default function PayWithPaypal(props) {
               method: "put",
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
-                value: 'Pro'
+                value: '' // Make it 'Pro' eventually
               })
             });
 
-            // Fetch over | Loading Screen Ends
-            props.setDataLoading(false);
-
             // OPTIONAL: Call your server to save the subscription
-            return fetch("/api/paypal/checkout/save/transaction", {
+            console.log(details);
+            await fetch("/api/mongo/transaction/post", {
               method: "post",
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
+                profile: props.profile,
+                data: data,
                 details: details,
-                data: data
               })
             });
             
+            // Fetch over | Loading Screen Ends
+            props.setDataLoading(false);
+
           });
         }}
       />
