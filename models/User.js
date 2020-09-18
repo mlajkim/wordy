@@ -13,6 +13,7 @@ const userSchema = new Schema({
   joinedDate: String,
   lastUsed: String,
   promotedDate: String,
+  lastTransactionID: String,
 });
 
 module.exports = mongoose.model('users', userSchema); 

@@ -47,7 +47,7 @@ export default function PayWithPaypal(props) {
 
             // OPTIONAL: Call your server to save the subscription
             console.log(details);
-            await fetch("/api/mongo/transaction/post", {
+            const tranPostRes = await fetch("/api/mongo/transaction/post", {
               method: "post",
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
@@ -55,7 +55,16 @@ export default function PayWithPaypal(props) {
                 data: data,
                 details: details,
               })
-            });
+            }).then(res => res.json());
+
+            // Make sure that the user has its own last transaction ID
+            await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
+              method: 'PUT',
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify({
+                value: tranPostRes.data._id
+              })
+            })
             
             // Fetch over | Loading Screen Ends
             props.setDataLoading(false);
