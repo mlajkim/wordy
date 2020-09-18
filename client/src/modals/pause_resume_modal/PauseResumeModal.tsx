@@ -12,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 // import credential
 
 interface Props {
-  setModal: (arg0: any) => void
+  setModal: (arg0: any) => void;
+  profile: any;
 }
 
 const styles = (theme: Theme) =>
@@ -63,8 +64,24 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 export default function PauseResumeModal (props: Props) {
-  const handlePauseResume = () => {
+  const handlePauseResume = async () => {
     props.setModal({});
+
+    const transRes = await fetch(`/api/mongo/transaction/get/${props.profile.UNIQUE_ID}`, {
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+
+    // Fetch from the Paypal server
+    const url = `https://api.sandbox.paypal.com/v1/billing/subscriptions/`;
+    const newUserRes = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' // + transRes.accessToken
+      },
+     // body: {reason: "Customer-requested pause"}
+    }).then(res => res.json())
   }
 
   return (
