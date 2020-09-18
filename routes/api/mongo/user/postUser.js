@@ -23,7 +23,7 @@ postUserRouter.post('/', async (req, res) => {
   Name: ${profile.givenName} ${profile.familyName}
   Email address: ${profile.email}
   `)
-  res.send(response);
+  res.send({data: response});
 
 });
 

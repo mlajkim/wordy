@@ -9,15 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import GoogleSignIn from '../../components/signIn/GoogleSignIn';
 
 export default function SignInModal(props) {
-  let body = <GoogleSignIn 
-                isSignedIn={props.isSignedIn}
-                setSignedIn={props.setSignedIn}
-                setWords={props.setWords}
-                setProfile={props.setProfile}
-                setDataLoading={props.setDataLoading}
-                setPage={props.setPage}
-                setModal={props.setModal}
-                setSnackbar={props.setSnackbar}/>;
+  let body = <GoogleSignIn {... props}/>;
+  
   return (
     <div>
       <Dialog

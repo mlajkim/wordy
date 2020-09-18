@@ -89,20 +89,19 @@ export default function GoogleSignIn(props) {
       // Set up the id as well
       userInfo = newUserRes;
       UNIQUE_ID = newUserRes._id;
-    }
-
-    // Step 3) Finally set up the profile into React states
-    props.setProfile({
-      isSignedIn: true,
-      UNIQUE_ID: UNIQUE_ID,
-      typeOfLogIn: SIGNIN_TYPE,
-      userInfo: userInfo.data
-    });
-
-    
-
-    props.setDataLoading(false);
   }
+
+  // Step 3) Finally set up the profile into React states
+  props.setProfile({
+    isSignedIn: true,
+    UNIQUE_ID: UNIQUE_ID,
+    typeOfLogIn: SIGNIN_TYPE,
+    userInfo: userInfo.data
+  });
+
+  props.setDataLoading(false);
+  
+}
 
   //
   //
