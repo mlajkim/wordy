@@ -9,6 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
+// import credential
+
+interface Props {
+  setModal: (arg0: any) => void
+}
+
 const styles = (theme: Theme) =>
   createStyles({
     root: {
@@ -56,7 +62,10 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function PauseResumeModal (props : any) {
+export default function PauseResumeModal (props: Props) {
+  const handlePauseResume = () => {
+    props.setModal({});
+  }
 
   return (
     <div>
@@ -66,12 +75,11 @@ export default function PauseResumeModal (props : any) {
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
+            Are you sure you would like to pause / resume your membership?
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={() => {props.setModal({})}} color="primary">
+          <Button autoFocus onClick={() => {handlePauseResume()}} color="primary">
             OKAY
           </Button>
         </DialogActions>
