@@ -7,6 +7,10 @@ mongoRouter.use((req, res, next) => {
   // Actually required LOL.. (Connects to DB)
   // This allows everything under mongoApi Routers connected to the route.
   mongoose.connect(mongoDbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+
+  console.log("\n*********************************************************");
+  console.log(`${new Date().toString()}`);
+
   next();
 })
 

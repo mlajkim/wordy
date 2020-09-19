@@ -48,7 +48,7 @@ const option = {
 // Write the time today
 console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 console.log("*********************************************************");
-console.log(`${new Date().toString()}`)
+console.log(`${new Date().toString()}`);
 console.log("*********************************************************");
 console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
