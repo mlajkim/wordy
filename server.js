@@ -45,6 +45,13 @@ const option = {
   passphrase: COMODO_SSL_KEY_PASSWORD, // password for the key
 };
 
+// Write the time today
+console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+console.log("*********************************************************");
+console.log(`${new Date().toString()}`)
+console.log("*********************************************************");
+console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
 const runningType = process.argv[2] ? 'dev' : '';
 if(runningType === 'dev') {
   app.listen(PORT, () => {
