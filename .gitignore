@@ -5,6 +5,9 @@
 /certificates
 .crt
 credential.js
+credential.jsx
+credential.ts
+credential.tsx
 config.js
 .key
 .pem

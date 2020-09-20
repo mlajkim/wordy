@@ -3,7 +3,9 @@
 #AJ Personal
 data.sqlite
 credential.js
-
+credential.jsx
+credential.ts
+credential.tsx
 # dependencies
 /node_modules
 /.pnp
