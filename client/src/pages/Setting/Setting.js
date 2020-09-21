@@ -29,13 +29,24 @@ export default function Setting(props) {
       // Get the access token
       const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
 
+      // Get the paypal response from backend
       endpoint = `/api/paypal/sub/get/sub_detail/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
-      const res = await(await fetch(endpoint)).json();
-      console.log(res);
+      const paypalSubDetailResponse = await(await fetch(endpoint)).json();
+
+      // change the front end
+      let newProfile = props.profile;
+      let subInfo = {
+        hasData: true,
+        isActive: paypalSubDetailResponse.status === 'ACTIVE' ? true : false,
+        nextBillingDate: paypalSubDetailResponse.status === 'ACTIVE' ? paypalSubDetailResponse.billing_info.next_billing_time : null
+      };
+      newProfile.subInfo = subInfo;
+      props.setProfile(newProfile);
+
     }
 
     getPaypalDetails();
-  }, [])
+  }, [props.profile])
 
   return (
     <div>
@@ -65,14 +76,14 @@ export default function Setting(props) {
               setProfile={props.setProfile}
               setWords={props.setWords}
               setSnackbar={props.setSnackbar}/>
-          <Grid container direction="row">
-            <FavoriteOutlinedIcon style={{ fontSize: 25, marginTop: 20, marginBottom: 25 }}/>
-            <h4 style={{ marginTop: 22, marginBottom: 10, marginRight: 7 }}> Subscription Status: </h4>
+          <Grid container direction="row" style={{ marginBottom: 5}}>
+            <FavoriteOutlinedIcon style={{ fontSize: 25, marginTop: 20}}/>
+            <h4 style={{ marginTop: 22, marginRight: 7 }}> Subscription Status: </h4>
             {props.profile.userInfo.subscription === 'Pro' && 
-            <WhatshotIcon style={{ fontSize: 30, marginTop: 15, marginBottom: 25, color: 'Red' }} />}
-            <h3 style={{ marginTop: 20, marginBottom: 25 }}>{props.profile.userInfo.subscription} Member</h3>
+            <WhatshotIcon style={{ fontSize: 30, marginTop: 15, color: 'Red' }} />}
+            <h3 style={{ marginTop: 20 }}>{props.profile.userInfo.subscription} Member</h3>
           </Grid>
-          <Grid container direction="row">
+          <Grid container direction="row" style={{marginBottom: 25, marginLeft: 23}}>
             <h4>Next Payment Date: </h4>
           </Grid>
           <Grid container direction="row">

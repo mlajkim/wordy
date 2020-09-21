@@ -15,6 +15,8 @@ getSubDetailRouter.get('/sub_detail/with_subID_and_token/:subscription/:token', 
     }
   })).json();
 
+  console.log(data);
+
   // finally
   res.send(data);
 });
