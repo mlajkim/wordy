@@ -1,15 +1,9 @@
 import React from 'react';
-
 import {GoogleLogout} from 'react-google-login';
-import { useGoogleLogout } from 'react-google-login'
- 
-import Button from '@material-ui/core/Button';
-
+ // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
 
-export default function GoogleSignOut(props) {
-  
-
+const GoogleSignOut = (props) => {
   // Signin Signout button 
   //
   const handleSuccessfulSignOut = () => {
@@ -24,8 +18,6 @@ export default function GoogleSignOut(props) {
     })
   }
 
-  //
-  //
   const handleLogoutFailure = (res) => {
     props.setSnackbar({
       status: 'open',
@@ -34,22 +26,16 @@ export default function GoogleSignOut(props) {
     })
   }
 
-  const signOut = useGoogleLogout({
-    onFailure: handleLogoutFailure,
-    clientId: GOOGLE_CLIENT_ID,
-    onLogoutSuccess: handleSuccessfulSignOut
-  })
-
-  //
-  //
   return (
     <div>
-      <Button onClick={() => signOut()}>Logout??</Button>
       <GoogleLogout
-          clientId={GOOGLE_CLIENT_ID}
-          buttonText='Sign out safely with Google'
-          onLogoutSuccess={() => {handleSuccessfulSignOut()}}
-          onFailure={(res) => {handleLogoutFailure(res)}} />
+        clientId={GOOGLE_CLIENT_ID}
+        buttonText='Sign out safely with Google'
+        onLogoutSuccess={() => {handleSuccessfulSignOut()}}
+        onFailure={(res) => {handleLogoutFailure(res)}} 
+      />
     </div>
   );
 }
+
+export default GoogleSignOut
