@@ -120,7 +120,6 @@ export default function DeleteAccountModal(props) {
             Please type "I understand the consequences, delete my account." to confirm.
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
             id="consent"
             label={label}
