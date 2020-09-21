@@ -90,7 +90,7 @@ const PauseResumeModal: React.FC<Props> = ({
     const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
     
     // Pause or Resume the subscription
-    endpoint = `/api/paypal/sub/type/${pause_or_resume}/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
+    endpoint = `/api/paypal/sub/pause_or_resume/${pause_or_resume}/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
     const pause_subscription_response = await (await fetch(endpoint)).json();
     
     // Write the result
@@ -106,16 +106,16 @@ const PauseResumeModal: React.FC<Props> = ({
     <div>
       <Dialog onClose={() => {setModal({})}} aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title" onClose={() => {setModal({})}}>
-          Pause / Resume?
+          {modal.data === 'pause' ? 'Pause' : 'Resume'} Membership?
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Are you sure you would like to pause / resume your membership?
+            Are you sure you would like to {modal.data} your membership?
           </Typography>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handlePauseResume} color="primary">
-            OKAY
+            Yes
           </Button>
         </DialogActions>
       </Dialog>

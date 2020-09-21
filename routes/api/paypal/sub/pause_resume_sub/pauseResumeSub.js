@@ -1,7 +1,7 @@
 const pauseResumeSubRouter = require('express').Router();
 const fetch = require('node-fetch');
 
-pauseResumeSubRouter.get('/type/:type/with_subID_and_token/:subscription/:token', async (req, res) => {
+pauseResumeSubRouter.get('/:type/with_subID_and_token/:subscription/:token', async (req, res) => {
   const token = req.params.token;
   const user_chosen = req.params.type === 'pause' ? 'pause' : 'resume'; // resume is the default.
 
