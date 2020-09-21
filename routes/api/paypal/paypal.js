@@ -1,37 +1,8 @@
 const paypalRouter = require('express').Router();
-const request = require('request');
-// CREDENTIAL
-const {SANDBOX_PAYPAL_CLIENT_ID, SANDBOX_PAYPAL_CLIENT_SECRET} = require('../../../credential');
+const accessTokenRouter = require('./access_token/accessToken');
+const pauseSubscriptionRouter = require('./pause_subscription/pauseSubscription');
 
-paypalRouter.get('/get/access_token', async (req, res) => {
-  var headers = {
-      'Accept': 'application/json',
-      'Accept-Language': 'en_US'
-  };
-  var dataString = 'grant_type=client_credentials';
-
-  var options = {
-      url: 'https://api.sandbox.paypal.com/v1/oauth2/token',
-      method: 'POST',
-      headers: headers,
-      body: dataString,
-      auth: {
-          'user': `${SANDBOX_PAYPAL_CLIENT_ID}`,
-          'pass': `${SANDBOX_PAYPAL_CLIENT_SECRET}`
-      }
-  };
-
-  function callback(error, response, body) {
-      if (!error && response.statusCode == 200) {
-          console.log(response);
-          res.send({
-            status: 'success',
-            data: JSON.parse(body).access_token
-          });
-      }
-  }
-
-  request(options, callback);
-})
+paypalRouter.use('/access_token', accessTokenRouter);
+paypalRouter.use('/sub', pauseSubscriptionRouter);
 
 module.exports = paypalRouter;

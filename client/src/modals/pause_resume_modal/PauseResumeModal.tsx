@@ -9,9 +9,6 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-// import API
-import { paypal_gain_access_token, fetchPaypalPauseResumeSubscription } from "../../API";
-// import credential
 
 
 
@@ -84,14 +81,12 @@ const PauseResumeModal: React.FC<Props> = ({
     const transactionRes = await (await fetch(endpoint)).json();
 
     // Get the access token
-    paypal_gain_access_token();
+    const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
     
     // Pause or Resume the subscription
-    // fetchPaypalPauseResumeSubscription(
-    //   transactionRes.data.subscriptionID, 
-    //   transactionRes.data.accessToken,
-    //   "pause"
-    //   );
+    endpoint = `/api/paypal/sub/pause/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
+    const pause_subscription_response = await (await fetch(endpoint)).json();
+    console.log(pause_subscription_response);
   }
 
   return (
