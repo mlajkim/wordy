@@ -31,11 +31,7 @@ app.set('views', __dirname);
  
 // Bring the routers into the app
 const apiRouter = require('./routes/api');
-const mongoApiRouter = require('./routes/mongoApi');
-
-// Put the remote routers available for app
 app.use('/api', apiRouter);
-app.use('/mongoApi', mongoApiRouter);
 
 // https option
 const option = {
