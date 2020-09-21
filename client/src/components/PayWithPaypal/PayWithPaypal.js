@@ -39,7 +39,6 @@ export default function PayWithPaypal(props) {
             });
 
             // Save the transaction
-            console.log(details);
             const tranPostRes = await fetch("/api/mongo/transaction/post", {
               method: "post",
               headers: {'Content-Type':'application/json'},
@@ -51,13 +50,13 @@ export default function PayWithPaypal(props) {
             }).then(res => res.json());
 
             // Make sure that the user has its own last transaction ID
-            const userData = await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
+            const userData = await (await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
               method: 'PUT',
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
                 value: tranPostRes.data._id
               })
-            })
+            })).json();
 
             // Set up the front end finally
             let lastProfile = props.profile;
