@@ -53,14 +53,22 @@ export default function Setting(props) {
           <Grid container direction="row">
             <Button variant="outlined" color="secondary" 
                     style={{ marginRight: 20}}
-                    onClick={() => props.setModal({type: 'PauseResumeModal'})}>
+                    onClick={() => props.setModal({type: 'PauseResumeModal', data: 'pause'})}>
               PAUSE MEMBERSHIP
             </Button>
-            <Button variant="outlined" color="secondary" 
-                    onClick={() => {props.setModal({type: 'DeleteAccountModal'})}}>
-              DELETE ACCOUNT
+            <Button variant="outlined" color="primary" 
+                    style={{ marginRight: 20}}
+                    onClick={() => props.setModal({type: 'PauseResumeModal', data: 'resume'})}>
+              RESUME MEMBERSHIP
             </Button>
           </Grid>
+            <Button 
+              variant="outlined" color="secondary" 
+              style={{ marginTop: 20 }}
+              onClick={() => {props.setModal({type: 'DeleteAccountModal'})}}
+            >
+              DELETE ACCOUNT
+            </Button>
         </Container>
       </React.Fragment>
     </div>

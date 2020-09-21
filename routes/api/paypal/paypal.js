@@ -1,8 +1,8 @@
 const paypalRouter = require('express').Router();
 const accessTokenRouter = require('./access_token/accessToken');
-const pauseSubscriptionRouter = require('./pause_subscription/pauseSubscription');
+const pauseResumeSubRouter = require('./pause_resume_sub/pauseResumeSub');
 
 paypalRouter.use('/access_token', accessTokenRouter);
-paypalRouter.use('/sub', pauseSubscriptionRouter);
+paypalRouter.use('/sub', pauseResumeSubRouter);
 
 module.exports = paypalRouter;

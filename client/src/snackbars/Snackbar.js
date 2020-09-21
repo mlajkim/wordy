@@ -3,6 +3,14 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
+/**
+ * 
+ * Requires 
+ * status === 'open' (string),
+ * severity === '(error, warning, info, success)',
+ * message === 'anything you would like to say'
+ */
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

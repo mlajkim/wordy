@@ -10,8 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
-
-
 const styles = (theme: Theme) =>
   createStyles({
     root: {
@@ -60,16 +58,24 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 type Props = {
+  modal: any;
   setModal: (arg0: any) => void;
   profile: any;
+  setDataLoading: (arg0: boolean) => void;
+  setSnackbar: (arg0: any) => void;
 }
 
 const PauseResumeModal: React.FC<Props> = ({
+  modal,
+  profile,
+  setDataLoading,
   setModal,
-  profile
+  setSnackbar
 }) => {
 
   const handlePauseResume = async () => {
+    setDataLoading(true);
+    const pause_or_resume = modal.data;
     setModal({}); // Close the modal
 
     // Get the user data first from database
@@ -84,9 +90,16 @@ const PauseResumeModal: React.FC<Props> = ({
     const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
     
     // Pause or Resume the subscription
-    endpoint = `/api/paypal/sub/pause/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
+    endpoint = `/api/paypal/sub/type/${pause_or_resume}/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
     const pause_subscription_response = await (await fetch(endpoint)).json();
-    console.log(pause_subscription_response);
+    
+    // Write the result
+    setSnackbar({
+      status: 'open',
+      severity: pause_subscription_response.status,
+      message: pause_subscription_response.message
+    })
+    setDataLoading(false);
   }
 
   return (
