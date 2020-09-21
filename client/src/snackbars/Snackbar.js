@@ -44,7 +44,11 @@ export default function SnackbarModal(props) {
 
   return (
     <div className={classes.root}>
-      <Snackbar open={open} autoHideDuration={AUTO_CLOSING_SECONDS * 1000} onClose={(e, r) => handleClose(e, r)}>
+      <Snackbar 
+        open={open}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        autoHideDuration={AUTO_CLOSING_SECONDS * 1000} onClose={(e, r) => handleClose(e, r)}
+      >
         <Alert onClose={(e, r) => handleClose(e, r)} severity={chosenSecerity}>
           {props.snackbar.message}
         </Alert>
