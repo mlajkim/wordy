@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 // import API
-import { fetchPaypalPauseResumeSubscription } from "../../API";
+import { paypal_gain_access_token, fetchPaypalPauseResumeSubscription } from "../../API";
 // import credential
 
 
@@ -82,12 +82,16 @@ const PauseResumeModal: React.FC<Props> = ({
     // Get the transaction  
     endpoint = `/api/mongo/transaction/get/withID/${userRes.data.lastTransactionID}`;
     const transactionRes = await (await fetch(endpoint)).json();
+
+    // Get the access token
+    paypal_gain_access_token();
+    
     // Pause or Resume the subscription
-    fetchPaypalPauseResumeSubscription(
-      transactionRes.data.subscriptionID, 
-      transactionRes.data.accessToken,
-      "pause"
-      );
+    // fetchPaypalPauseResumeSubscription(
+    //   transactionRes.data.subscriptionID, 
+    //   transactionRes.data.accessToken,
+    //   "pause"
+    //   );
   }
 
   return (

@@ -22,8 +22,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.18",
     "negotiator": "^0.6.2",
+    "node-fetch": "^2.6.1",
     "path": "^0.12.7",
     "react-google-login": "^5.1.20",
+    "request": "^2.88.2",
     "tls": "0.0.1"
   },
   "devDependencies": {
