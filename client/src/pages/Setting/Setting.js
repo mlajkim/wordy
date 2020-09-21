@@ -11,7 +11,7 @@ import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 
 // components
-import GoogleSignOut from'../../components/signIn/GoogleSignOut';
+import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 
 
 export default function Setting(props) {

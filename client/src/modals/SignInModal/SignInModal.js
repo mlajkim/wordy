@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import GoogleSignIn from '../../components/signIn/GoogleSignIn';
+import GoogleSignIn from '../../components/sign_in/GoogleSignIn';
 
 export default function SignInModal(props) {
   let body = <GoogleSignIn {... props}/>;

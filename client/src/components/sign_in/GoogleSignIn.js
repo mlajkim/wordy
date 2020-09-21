@@ -1,7 +1,7 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
 
-import {clientIdGivenFromGoogle} from '../../credential';
+import {GOOGLE_CLIENT_ID} from '../../credential';
 import VERSION from '../../app/Version';
 
 
@@ -121,7 +121,7 @@ export default function GoogleSignIn(props) {
   if(props.isSignedIn === '') {
     displayGoogleSignIn = (
       <GoogleLogin
-        clientId={clientIdGivenFromGoogle}
+        clientId={GOOGLE_CLIENT_ID}
         buttonText='Sign in with Google'
         onSuccess={(response) => {handleSuccessfulSignIn(response)}}
         onFailure={(response) => {handleFailureSignIn(response)}}

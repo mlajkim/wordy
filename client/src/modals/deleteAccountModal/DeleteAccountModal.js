@@ -11,7 +11,7 @@ import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
 
 // Google Sign out
 import {useGoogleLogout} from 'react-google-login'
-import {clientIdGivenFromGoogle} from '../../credential';
+import {GOOGLE_CLIENT_ID} from '../../credential';
 
 export default function DeleteAccountModal(props) {
   const consentMessage = "I understand the consequences, delete my account.";
@@ -40,9 +40,9 @@ export default function DeleteAccountModal(props) {
     })
   }
 
-  const { signOut, loaded } = useGoogleLogout({
+  const { signOut } = useGoogleLogout({
     onFailure: handleLogoutFailure,
-    clientId: clientIdGivenFromGoogle,
+    clientId: GOOGLE_CLIENT_ID,
     onLogoutSuccess: handleSuccessfulSignOut
   })
 
