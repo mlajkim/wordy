@@ -1,4 +1,4 @@
-// mains
+// eslint-disable-next-line
 import React, {useEffect} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -13,8 +13,8 @@ import AdvanceSetting from './AdvancedSetting';
 // components
 import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 
-
-const Setting = (props) => {
+const Setting: React.FC = (props: any) => {
+  const profile = props.profile;
   /*
   useEffect(() => {
     //Component Did Mount?
@@ -63,21 +63,21 @@ const Setting = (props) => {
           <Grid container direction="row" style={{ marginBottom: 8}}>
             <Avatar
               style={{marginTop: 9}} 
-              alt={`${props.profile.userInfo.familyName} ${props.profile.userInfo.givenName}`} 
-              src={props.profile.userInfo.profileImgUrl}
-            />
+              alt={`${profile.userInfo.familyName} ${profile.userInfo.givenName}`} 
+              src={profile.userInfo.profileImgUrl}
+            />x 
             <h4 style={{marginRight: 8, marginLeft: 15}}>
-              {props.profile.userInfo.givenName} {props.profile.userInfo.familyName}
+              {profile.userInfo.givenName} {profile.userInfo.familyName}
             </h4>
-            <p style={{marginTop: 19}}>(Syncing to {props.profile.userInfo.email})</p>
+            <p style={{marginTop: 19}}>(Syncing to {profile.userInfo.email})</p>
           </Grid>
           <GoogleSignOut {... props}/>
           <Grid container direction="row" style={{ marginBottom: 5}}>
             <FavoriteOutlinedIcon style={{ fontSize: 25, marginTop: 20}}/>
             <h4 style={{ marginTop: 22, marginRight: 7 }}> Subscription Status: </h4>
-            {props.profile.userInfo.subscription === 'Pro' && 
+            {profile.userInfo.subscription === 'Pro' && 
             <WhatshotIcon style={{ fontSize: 30, marginTop: 15, color: 'Red' }} />}
-            <h3 style={{ marginTop: 20 }}>{props.profile.userInfo.subscription} Member</h3>
+            <h3 style={{ marginTop: 20 }}>{profile.userInfo.subscription} Member</h3>
           </Grid>
           <Grid container direction="row" style={{marginBottom: 25, marginLeft: 23}}>
             <h4>Next Payment Date: </h4>
