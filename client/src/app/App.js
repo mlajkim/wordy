@@ -2,7 +2,7 @@
 import React from 'react';
 
 // new generation
-import Appbar from '../appbar/Appbar'
+import Appbar from './Appbar'
 
 // import pages //ShowCurrentPage
 import ShowCurrentModal from '../modals/ShowCurrentModal';

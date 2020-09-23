@@ -14,7 +14,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 
 
-export default function Setting(props) {
+const Setting = (props) => {
   useEffect(() => {
     //Component Did Mount?
     const getPaypalDetails = async() => {
@@ -25,6 +25,7 @@ export default function Setting(props) {
       // Get the transaction  
       endpoint = `/api/mongo/transaction/get/withID/${userRes.data.lastTransactionID}`;
       const transactionRes = await (await fetch(endpoint)).json();
+      if (transactionRes.status === 'null') return; // if empty
 
       // Get the access token
       const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
@@ -44,9 +45,9 @@ export default function Setting(props) {
       props.setProfile(newProfile);
 
     }
-
     getPaypalDetails();
-  }, [props.profile])
+
+  })
 
   return (
     <div>
@@ -110,3 +111,5 @@ export default function Setting(props) {
     </div>
   );
 }
+
+export default Setting;

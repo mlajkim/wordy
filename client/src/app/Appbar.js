@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 
-import VERSION from '../app/Version';
+import VERSION from './Version';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,7 @@ export default function Appbar(props) {
 
   // Admin Page
   let showAdminPageButton;
-  if(props.profile.isSignedIn && props.profile.userInfo.subscription === 'Admin') {
+  if(props.profile.isSignedIn && props.profile.userInfo.status === 'admin') {
     showAdminPageButton = (
       <Button variant="contained" color="primary" onClick={() => props.setPage('admin')}>
         Admin
