@@ -7,7 +7,7 @@ const deleteUserRouter = require('./deleteUser');
 
 userRouter.use('/get', getUserRouter);
 userRouter.use('', postUserRouter);
-userRouter.use('', putUserRouter);
+userRouter.use('/put', putUserRouter);
 userRouter.use('', deleteUserRouter);
 
 module.exports = userRouter;

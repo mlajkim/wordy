@@ -16,7 +16,6 @@ const Setting: React.FC = (props: any) => {
   const profile = props.profile;
 
   useEffect(() => {
-    //Component Did Mount?
     const getPaypalDetails = async() => {
       // Get the user data first from database
       let endpoint = `/api/mongo/user/get/withID/${props.profile.UNIQUE_ID}`;
@@ -46,11 +45,11 @@ const Setting: React.FC = (props: any) => {
     }
     getPaypalDetails().then(res => props.setProfile(res));
 
-  }, [props, profile])
+    
+  }, [props, props.profile])
 
   let handle_next_payment;
   if(profile.subInfo.hasData && profile.subInfo.isActive) {
-    console.log('ya called!')
     handle_next_payment = (
       <h4>Next Payment Date: {profile.subInfo.nextBillingDate}</h4>
     );

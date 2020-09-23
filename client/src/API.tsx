@@ -1,7 +1,7 @@
 // CREDENTIAL
 
 export const fetchPaypalPauseResumeSubscription = async (
-  subscriptionID: String, //I-12312482489
+  subscriptionID: String, //I-12...
   accessToken: String,
   type: String, // pause or resume
 ) => {

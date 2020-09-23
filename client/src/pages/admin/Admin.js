@@ -5,6 +5,9 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+// import API
+import {change_user_db} from './AdminAPI';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,10 +19,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Admin() {
+const Admin = (props) => {
   const classes = useStyles();
 
   const lists = [
+    {
+      title: '프로에서 베이직 계정으로 바꿔주세요',
+      show: (
+        <Button color="primary" onClick={() => change_user_db(props,'subscription', '')}>
+          이 계정을 프로에서 베이직으로 바꾸기
+        </Button>
+      )
+    },
     {
       title: '프로 구독중인 유저를 보여주세요',
       show: 'hi'
@@ -56,3 +67,4 @@ export default function Admin() {
   );
 }
 
+export default Admin;

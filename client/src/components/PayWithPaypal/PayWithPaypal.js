@@ -30,7 +30,7 @@ export default function PayWithPaypal(props) {
             props.setModal('');
 
             // Set up the database as well
-            await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/subscription`, {
+            await fetch(`/api/mongo/user/put/${props.profile.UNIQUE_ID}/one/subscription`, {
               method: "put",
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function PayWithPaypal(props) {
             }).then(res => res.json());
 
             // Make sure that the user has its own last transaction ID
-            const userData = await (await fetch(`/api/mongo/user/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
+            const userData = await (await fetch(`/api/mongo/user/put/${props.profile.UNIQUE_ID}/one/lastTransactionID`, {
               method: 'PUT',
               headers: {'Content-Type':'application/json'},
               body: JSON.stringify({
