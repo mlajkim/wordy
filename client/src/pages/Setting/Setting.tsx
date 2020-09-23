@@ -8,14 +8,13 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-// Helper
+// Components
 import AdvanceSetting from './AdvancedSetting';
-// components
 import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 
 const Setting: React.FC = (props: any) => {
   const profile = props.profile;
-  /*
+
   useEffect(() => {
     //Component Did Mount?
     const getPaypalDetails = async() => {
@@ -43,13 +42,20 @@ const Setting: React.FC = (props: any) => {
         nextBillingDate: paypalSubDetailResponse.status === 'ACTIVE' ? paypalSubDetailResponse.billing_info.next_billing_time : null
       };
       newProfile.subInfo = subInfo;
-      props.setProfile(newProfile);
-
+      return newProfile;
     }
-    getPaypalDetails();
+    getPaypalDetails().then(res => props.setProfile(res));
 
-  })
-  */
+  }, [props, profile])
+
+  let handle_next_payment;
+  if(profile.subInfo.hasData && profile.subInfo.isActive) {
+    console.log('ya called!')
+    handle_next_payment = (
+      <h4>Next Payment Date: {profile.subInfo.nextBillingDate}</h4>
+    );
+  }
+  else handle_next_payment = null;
 
   return (
     <div>
@@ -65,7 +71,7 @@ const Setting: React.FC = (props: any) => {
               style={{marginTop: 9}} 
               alt={`${profile.userInfo.familyName} ${profile.userInfo.givenName}`} 
               src={profile.userInfo.profileImgUrl}
-            />x 
+            />
             <h4 style={{marginRight: 8, marginLeft: 15}}>
               {profile.userInfo.givenName} {profile.userInfo.familyName}
             </h4>
@@ -80,7 +86,7 @@ const Setting: React.FC = (props: any) => {
             <h3 style={{ marginTop: 20 }}>{profile.userInfo.subscription} Member</h3>
           </Grid>
           <Grid container direction="row" style={{marginBottom: 25, marginLeft: 23}}>
-            <h4>Next Payment Date: </h4>
+            {handle_next_payment}
           </Grid>
           <AdvanceSetting {... props} />
         </Container>

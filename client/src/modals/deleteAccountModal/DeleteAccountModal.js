@@ -49,7 +49,7 @@ export default function DeleteAccountModal(props) {
    // the following deletes the account.
   const handleDeleteAccount = async () => {
     props.setModal({});
-    if(!props.profile.isSignedIn || props.profile.userInfo.subscription === 'Admin') {
+    if(!props.profile.isSignedIn || props.profile.userInfo.status === 'admin') {
       props.setSnackbar({
         status: 'open',
         severity: 'warning',

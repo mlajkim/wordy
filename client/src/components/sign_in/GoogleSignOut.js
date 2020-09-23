@@ -8,7 +8,6 @@ const GoogleSignOut = (props) => {
   //
   const handleSuccessfulSignOut = () => {
     props.setPage('welcome');
-    props.setSignedIn('');
     props.setProfile({isSignedIn: false});
     props.setWords([]);
     props.setSnackbar({

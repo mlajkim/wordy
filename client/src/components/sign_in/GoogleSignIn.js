@@ -95,7 +95,8 @@ export default function GoogleSignIn(props) {
     isSignedIn: true,
     UNIQUE_ID: UNIQUE_ID,
     typeOfLogIn: SIGNIN_TYPE,
-    userInfo: userInfo.data
+    userInfo: userInfo.data,
+    subInfo: {hasData: false}
   });
 
   props.setDataLoading(false);
