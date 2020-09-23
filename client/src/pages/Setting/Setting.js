@@ -4,12 +4,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button'
 // icon
 import SettingsIcon from '@material-ui/icons/Settings';
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-
+// Helper
+import AdvanceSetting from './AdvancedSetting';
 // components
 import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 
@@ -50,7 +50,7 @@ const Setting = (props) => {
 
   })
   */
- 
+
   return (
     <div>
       <React.Fragment>
@@ -71,14 +71,7 @@ const Setting = (props) => {
             </h4>
             <p style={{marginTop: 19}}>(Syncing to {props.profile.userInfo.email})</p>
           </Grid>
-          <GoogleSignOut 
-              isSignedIn={props.isSignedIn}
-              setSignedIn={props.setSignedIn}
-              profile={props.profile}
-              setPage={props.setPage}
-              setProfile={props.setProfile}
-              setWords={props.setWords}
-              setSnackbar={props.setSnackbar}/>
+          <GoogleSignOut {... props}/>
           <Grid container direction="row" style={{ marginBottom: 5}}>
             <FavoriteOutlinedIcon style={{ fontSize: 25, marginTop: 20}}/>
             <h4 style={{ marginTop: 22, marginRight: 7 }}> Subscription Status: </h4>
@@ -89,25 +82,7 @@ const Setting = (props) => {
           <Grid container direction="row" style={{marginBottom: 25, marginLeft: 23}}>
             <h4>Next Payment Date: </h4>
           </Grid>
-          <Grid container direction="row">
-            <Button variant="outlined" color="secondary" 
-                    style={{ marginRight: 20}}
-                    onClick={() => props.setModal({type: 'PauseResumeModal', data: 'pause'})}>
-              PAUSE MEMBERSHIP
-            </Button>
-            <Button variant="outlined" color="primary" 
-                    style={{ marginRight: 20}}
-                    onClick={() => props.setModal({type: 'PauseResumeModal', data: 'resume'})}>
-              RESUME MEMBERSHIP
-            </Button>
-          </Grid>
-            <Button 
-              variant="outlined" color="secondary" 
-              style={{ marginTop: 20 }}
-              onClick={() => {props.setModal({type: 'DeleteAccountModal'})}}
-            >
-              DELETE ACCOUNT
-            </Button>
+          <AdvanceSetting {... props} />
         </Container>
       </React.Fragment>
     </div>
