@@ -10,29 +10,24 @@ import ShowCurrentPage from '../pages/ShowCurrentPage';
 import Snackbar from '../snackbars/Snackbar';
 
 export default function App () {
-  // App Basic Feature (languages.. etc)
-  const [isSignedIn, setSignedIn] = React.useState('');
-
   // User data
   const [profile, setProfile] = React.useState({isSignedIn: false});
   const [words, setWords] = React.useState([]);
 
   // features
-  const [snackbar, setSnackbar] = React.useState({status: 'none'});
-  const [modal, setModal] = React.useState({type: 'SignInModal'}); // SignInModal
   const [page, setPage] = React.useState('');
+  const [modal, setModal] = React.useState({type: 'SignInModal'}); // SignInModal
+  const [snackbar, setSnackbar] = React.useState({status: 'none'});
   const [isDataLoading, setDataLoading] = React.useState(false);
 
   return (
     <div>
-      <Appbar 
-        setPage={setPage}
-        isDataLoading={isDataLoading}
-        setDataLoading={setDataLoading}
-        setWords={setWords}
-        isSignedIn={isSignedIn}
-        setSignedIn={setSignedIn}
+      <Appbar
         profile={profile}
+        isDataLoading={isDataLoading} 
+        setPage={setPage}
+        setWords={setWords}
+        setDataLoading={setDataLoading}
         setModal={setModal}
       />
       <Snackbar 
@@ -40,14 +35,12 @@ export default function App () {
         setSnackbar={setSnackbar}
       />
       <ShowCurrentModal 
+        words={words}
+        page={page}
         modal={modal}
         setModal={setModal}
-        page={page}
         setPage={setPage}
-        words={words}
         setWords={setWords}
-        isSignedIn={isSignedIn}
-        setSignedIn={setSignedIn}
         profile={profile}
         setProfile={setProfile}
         setDataLoading={setDataLoading}
@@ -58,8 +51,6 @@ export default function App () {
         setPage={setPage}
         words={words}
         setWords={setWords}
-        isSignedIn={isSignedIn}
-        setSignedIn={setSignedIn}
         profile={profile}
         setProfile={setProfile}
         setDataLoading={setDataLoading}

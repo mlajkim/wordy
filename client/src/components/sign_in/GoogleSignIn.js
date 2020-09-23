@@ -12,7 +12,6 @@ export default function GoogleSignIn(props) {
   //
   const handleSuccessfulSignIn = async (response) => {
     props.setDataLoading(true);
-    props.setSignedIn('google');
     props.setModal('');
     props.setSnackbar({
       status: 'open',
@@ -100,7 +99,6 @@ export default function GoogleSignIn(props) {
   });
 
   props.setDataLoading(false);
-  
 }
 
   //
@@ -115,11 +113,10 @@ export default function GoogleSignIn(props) {
     })
   }
 
-  // handle image change on hover
   //
-  let displayGoogleSignIn;
-  if(props.isSignedIn === '') {
-    displayGoogleSignIn = (
+  //
+  return (
+    <div>
       <GoogleLogin
         clientId={GOOGLE_CLIENT_ID}
         buttonText='Sign in with Google'
@@ -129,16 +126,6 @@ export default function GoogleSignIn(props) {
         responseType='code,token'
         isSignedIn={true}
       />
-    )
-  }else{
-    displayGoogleSignIn = null;
-  }
-
-  //
-  //
-  return (
-    <div>
-      {displayGoogleSignIn}
     </div>
   );
 }

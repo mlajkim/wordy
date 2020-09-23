@@ -15,6 +15,7 @@ import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 
 
 const Setting = (props) => {
+  /*
   useEffect(() => {
     //Component Did Mount?
     const getPaypalDetails = async() => {
@@ -48,7 +49,8 @@ const Setting = (props) => {
     getPaypalDetails();
 
   })
-
+  */
+ 
   return (
     <div>
       <React.Fragment>
