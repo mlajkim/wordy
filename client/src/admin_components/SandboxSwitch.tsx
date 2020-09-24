@@ -5,10 +5,13 @@ import Switch from '@material-ui/core/Switch';
 // utils
 import {Props} from '../utils';
 
-const SandboxSwitch: React.FC<Props> = (props) => {
+const SandboxSwitch: React.FC<Props> = ({
+  isSandbox,
+  setSandbox,
+}) => {
   return (
     <FormControlLabel
-      control={<Switch checked={props.isSandbox} onChange={() => props.setSandbox(!props.isSandbox)} />}
+      control={<Switch checked={isSandbox} onChange={() => setSandbox(!isSandbox)} />}
       label="Secondary"
     />
   );
