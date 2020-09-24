@@ -7,9 +7,11 @@ postTransactionRouter.post('', async (req, res) => {
 
   // Save into database
   const newTransaction = new transactionSchema({
+    isSandbox: req.body.isSandbox,
     userId: req.body.profile.UNIQUE_ID,
     accessToken: req.body.data.facilitatorAccessToken,
-    subscriptionID: req.body.data.subscriptionID
+    subscriptionID: req.body.data.subscriptionID,
+    
   })
   const response = await newTransaction.save();
 

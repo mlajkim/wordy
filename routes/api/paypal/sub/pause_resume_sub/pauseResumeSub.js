@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 pauseResumeSubRouter.get('/:type/with_subID_and_token/:subscription/:token', async (req, res) => {
   const token = req.params.token;
   const user_chosen = req.params.type === 'pause' ? 'pause' : 'resume'; // resume is the default.
+  const isSandbox = req.params.isSandbox === 'sandbox' ? '.sandbox' : '';
 
   // Language
   const pause_resume_type = {
@@ -18,7 +19,7 @@ pauseResumeSubRouter.get('/:type/with_subID_and_token/:subscription/:token', asy
   };
   const type = pause_resume_type[user_chosen].formal;
 
-  const url = `https://api.sandbox.paypal.com/v1/billing/subscriptions/${req.params.subscription}/${type}`;
+  const url = `https://api${isSandbox}.paypal.com/v1/billing/subscriptions/${req.params.subscription}/${type}`;
   const data = await fetch(url, {
     method: 'POST',
     headers: {
@@ -26,7 +27,7 @@ pauseResumeSubRouter.get('/:type/with_subID_and_token/:subscription/:token', asy
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
-      "reason": 'User deactivated the sub.'
+      "reason": `User ${pause_resume_type[user_chosen].past} subscription.`
     })
   });
 

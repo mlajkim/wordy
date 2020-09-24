@@ -1,6 +1,5 @@
 import React from 'react';
-
-import Home from './home/Home';
+// Pages
 import Admin from './admin/Admin';
 import Setting from './Setting/Setting';
 

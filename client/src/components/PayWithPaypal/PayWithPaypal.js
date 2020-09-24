@@ -46,6 +46,7 @@ export default function PayWithPaypal(props) {
                 profile: props.profile,
                 data: data,
                 details: details,
+                isSandbox: props.isSandbox
               })
             }).then(res => res.json());
 
