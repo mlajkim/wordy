@@ -12,7 +12,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import AdvanceSetting from './AdvancedSetting';
 import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 // utils
-import { Props } from '../../utils';
+import { Props } from '../../model';
 
 const Setting: React.FC<Props> = (props) => {
   const sandbox = props.isSandbox ? 'sandbox' : 'live';

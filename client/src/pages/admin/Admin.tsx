@@ -12,7 +12,7 @@ import {change_user_db} from './AdminAPI';
 // Admin Components 
 import SandboxSwitch from '../../admin_components/SandboxSwitch';
 // utils
-import {Props} from '../../utils';
+import {Props} from '../../model';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

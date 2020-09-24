@@ -29,10 +29,11 @@ accessTokenRouter.get('/get/:isSandbox', async (req, res) => {
 
   function callback(error, response, body) {
       if (!error && response.statusCode == 200) {
-          console.log(JSON.parse(body).access_token);
+          const tokenExpireAt = parseInt(JSON.parse(body).expires_in) * 1000 + Date.now();
           res.send({
             status: 'success',
-            data: JSON.parse(body).access_token
+            data: JSON.parse(body).access_token,
+            tokenExpireAt: tokenExpireAt
           });
       }
   }

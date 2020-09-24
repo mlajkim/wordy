@@ -3,7 +3,7 @@ import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 // utils
-import {Props} from '../utils';
+import {Props} from '../model';
 
 const SandboxSwitch: React.FC<Props> = ({
   isSandbox,

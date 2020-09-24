@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 // utils
-import { Props } from '../../utils';
+import { Props } from '../../model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
