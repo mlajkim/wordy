@@ -1,6 +1,4 @@
-// hi
 
-// dummy code
 export type Props = {
   profile: any;
   words: any;
