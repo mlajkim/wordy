@@ -13,14 +13,6 @@ export default function PayModal(props) {
   const userSelection = props.modal.data.userSelection;
   const priceAccordingToSelect = VERSION.price[userSelection];
 
-  let body = (
-    <PayWithPaypal amount={priceAccordingToSelect}
-                  setModal={props.setModal}
-                  profile={props.profile}
-                  setProfile={props.setProfile}
-                  setDataLoading={props.setDataLoading}/>
-  );
-
   return (
     <div>
       <Dialog
@@ -37,7 +29,7 @@ export default function PayModal(props) {
           <DialogContentText id="alert-dialog-description">
             You will be charged {priceAccordingToSelect}
           </DialogContentText>
-          {body}
+          <PayWithPaypal {... props}/>
         </DialogContent>
         <DialogActions>
           <Button  onClick={() => {props.setModal('')}} color="primary" autoFocus>

@@ -11,7 +11,7 @@ export default function ShowCurrentPage(props) {
 
   switch(currentPage) {
     case '':
-      body = <Home {... props}/>
+      body = null;
       break;
 
     case 'admin':
