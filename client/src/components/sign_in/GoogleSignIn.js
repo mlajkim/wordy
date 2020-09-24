@@ -16,7 +16,8 @@ export default function GoogleSignIn(props) {
     props.setSnackbar({
       status: 'open',
       message: 'You have successfully signed in',
-      severity: 'success'
+      severity: 'success',
+      closeInSec: 1
     })
 
     // Step 1) Figure out if we have the user's data!

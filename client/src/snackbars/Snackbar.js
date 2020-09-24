@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SnackbarModal(props) {
-  const AUTO_CLOSING_SECONDS = 5;
+  const AUTO_CLOSING_SECONDS = props.snackbar.closeInSec !== undefined ? props.snackbar.closeInSec : 5;
   const classes = useStyles();
 
   let open;

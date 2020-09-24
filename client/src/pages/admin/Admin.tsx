@@ -36,11 +36,15 @@ const Admin: React.FC<Props> = (props) => {
     },
     {
       title: '프로에서 베이직 계정으로 바꿔주세요',
-      show: (
-        <Button color="primary" onClick={() => change_user_db(props,'subscription', '')}>
-          이 계정을 프로에서 베이직으로 바꾸기
+      show: ( 
+        <Button color="secondary" onClick={() => change_user_db(props,'subscription', '')}>
+          이 계정을 프로에서 베이직으로 바꾸기 (누르시면 바로 실행되니 조심하세요)
         </Button>
       )
+    },
+    {
+      title: '현 구독 정보들을 보여주세요',
+      show: '구독 정보!'
     },
     {
       title: '프로 구독중인 유저를 보여주세요',

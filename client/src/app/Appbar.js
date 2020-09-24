@@ -38,7 +38,6 @@ function LoadingAnimation() {
 
   return (
     <div className={classes.root}>
-      <CircularProgress />
       <CircularProgress color="inherit" />
     </div>
   );
@@ -106,16 +105,18 @@ export default function Appbar(props) {
 
   // Render
   //
+  const appbarColor = props.isSandbox ? 'transparent' : 'primary';
+  const appTitle = props.isSandbox ? 'Sandy' : 'Wordy';
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color={appbarColor}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" 
                       aria-label="menu" onClick={() => {props.setPage('')}}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Wordy {subscription} {VERSION.version}
+            {appTitle} {subscription} {VERSION.version}
           </Typography>
           {displayLoadingAnimation}
           {showAdminPageButton}
