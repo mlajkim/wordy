@@ -1,6 +1,5 @@
-
 export type Props = {
-  profile: any;
+  profile: profile;
   words: any;
   isSandbox: boolean;
   page: any;
@@ -15,3 +14,29 @@ export type Props = {
   setSnackbar: (arg0: any) => void;
   setDataLoading: (arg0: boolean) => void;
 }
+
+export type profile = {
+  isSignedIn: boolean;
+  UNIQUE_ID: string;
+  typeOfLogIn: string; 
+  userInfo: userInfo;
+  subInfo: any;
+}
+
+export type userInfo = {
+  _id: string;
+  status: string,
+  typeOfLogIn: string,
+  federalId: string, // Google's googleId;
+  email: string,
+  familyName: string,
+  givenName: string,
+  profileImgUrl: string,
+  subscription: string,
+  readPatch: string,
+  joinedDate: string,
+  lastUsed: string,
+  promotedDate: string,
+  lastTransactionID: string,
+}
+

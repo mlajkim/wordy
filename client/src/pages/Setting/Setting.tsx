@@ -18,38 +18,38 @@ const Setting: React.FC<Props> = (props) => {
   const sandbox = props.isSandbox ? 'sandbox' : 'live';
   const profile = props.profile;
 
-  useEffect(() => {
-    const getPaypalDetails = async() => {
-      // Get the user data first from database
-      let endpoint = `/api/mongo/user/get/withID/${props.profile.UNIQUE_ID}`;
-      const userRes = await (await fetch(endpoint)).json();
+  // useEffect(() => {
+  //   const getPaypalDetails = async() => {
+  //     // Get the user data first from database
+  //     let endpoint = `/api/mongo/user/get/withID/${props.profile.UNIQUE_ID}`;
+  //     const userRes = await (await fetch(endpoint)).json();
 
-      // Get the transaction
-      endpoint = `/api/mongo/transaction/get/withID/${userRes.data.lastTransactionID}`;
-      const transactionRes = await (await fetch(endpoint)).json();
-      if (transactionRes.status === 'null') return; // if empty
+  //     // Get the transaction
+  //     endpoint = `/api/mongo/transaction/get/withID/${userRes.data.lastTransactionID}`;
+  //     const transactionRes = await (await fetch(endpoint)).json();
+  //     if (transactionRes.status === 'null') return; // if empty
 
-      // Get the access token
-      const accessTokenResponse = await (await fetch(`/api/paypal/access_token/get/${sandbox}`)).json()
+  //     // Get the access token
+  //     const accessTokenResponse = await (await fetch(`/api/paypal/access_token/get/${sandbox}`)).json()
 
-      // Get the paypal response from backend
-      endpoint = `/api/paypal/sub/get/sub_detail/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}/${sandbox}`;
-      const paypalSubDetailResponse = await(await fetch(endpoint)).json();
+  //     // Get the paypal response from backend
+  //     endpoint = `/api/paypal/sub/get/sub_detail/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}/${sandbox}`;
+  //     const paypalSubDetailResponse = await(await fetch(endpoint)).json();
 
-      // change the front end
-      let newProfile = props.profile;
-      let subInfo = {
-        hasData: true,
-        isActive: paypalSubDetailResponse.status === 'ACTIVE' ? true : false,
-        nextBillingDate: paypalSubDetailResponse.status === 'ACTIVE' ? paypalSubDetailResponse.billing_info.next_billing_time : null
-      };
-      newProfile.subInfo = subInfo;
-      return newProfile;
-    }
-    getPaypalDetails().then(res => props.setProfile(res));
+  //     // change the front end
+  //     let newProfile = props.profile;
+  //     let subInfo = {
+  //       hasData: true,
+  //       isActive: paypalSubDetailResponse.status === 'ACTIVE' ? true : false,
+  //       nextBillingDate: paypalSubDetailResponse.status === 'ACTIVE' ? paypalSubDetailResponse.billing_info.next_billing_time : null
+  //     };
+  //     newProfile.subInfo = subInfo;
+  //     return newProfile;
+  //   }
+  //   getPaypalDetails().then(res => props.setProfile(res));
 
     
-  }, [props, props.profile, sandbox])
+  // }, [props, props.profile, sandbox])
 
   let handle_next_payment;
   if(profile.subInfo.hasData && profile.subInfo.isActive) {
