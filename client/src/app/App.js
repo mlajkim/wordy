@@ -1,5 +1,5 @@
 // Import the necessity
-import React from 'react';
+import React, {useState} from 'react';
 
 // new generation
 import Appbar from './Appbar'
@@ -11,14 +11,17 @@ import Snackbar from '../snackbars/Snackbar';
 
 export default function App () {
   // User data
-  const [profile, setProfile] = React.useState({isSignedIn: false});
-  const [words, setWords] = React.useState([]);
+  const [profile, setProfile] = useState({isSignedIn: false});
+  const [words, setWords] = useState([]);
+
+  // Finance related
+  const [isSandbox, setSandbox] = useState(true); // ALWAYS FALSE FOR ACTUAL PAYPAL PAYMENT
 
   // features
-  const [page, setPage] = React.useState('');
-  const [modal, setModal] = React.useState({type: 'SignInModal'}); // SignInModal
-  const [snackbar, setSnackbar] = React.useState({status: 'none'});
-  const [isDataLoading, setDataLoading] = React.useState(false);
+  const [page, setPage] = useState('');
+  const [modal, setModal] = useState({type: 'SignInModal'}); // SignInModal
+  const [snackbar, setSnackbar] = useState({status: 'none'});
+  const [isDataLoading, setDataLoading] = useState(false);
 
   return (
     <div>
@@ -47,15 +50,17 @@ export default function App () {
         setSnackbar={setSnackbar}
       />
       <ShowCurrentPage 
-        page={page}
-        setPage={setPage}
-        words={words}
-        setWords={setWords}
         profile={profile}
+        words={words}
+        isSandbox={isSandbox}
+        page={page}
+        setWords={setWords}
+        setSandbox={setSandbox}
         setProfile={setProfile}
-        setDataLoading={setDataLoading}
+        setPage={setPage}
         setModal={setModal}
         setSnackbar={setSnackbar}
+        setDataLoading={setDataLoading}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -8,8 +8,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 // import API
 import {change_user_db} from './AdminAPI';
-
-const useStyles = makeStyles((theme) => ({
+// Admin Components 
+import SandboxSwitch from '../../admin_components/SandboxSwitch';
+// utils
+import {Props} from '../../utils';
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
   },
@@ -19,10 +22,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Admin = (props) => {
+const Admin: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   const lists = [
+    {
+      title: '실제결재모드 / 샌드박스 모드를 변환할게요',
+      show: (
+        <SandboxSwitch {... props}/>
+      )
+    },
     {
       title: '프로에서 베이직 계정으로 바꿔주세요',
       show: (
