@@ -15,6 +15,7 @@ import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
 import { Props } from '../../utils';
 
 const Setting: React.FC<Props> = (props) => {
+  const sandbox = props.isSandbox ? 'sandbox' : 'live';
   const profile = props.profile;
 
   useEffect(() => {
@@ -29,10 +30,10 @@ const Setting: React.FC<Props> = (props) => {
       if (transactionRes.status === 'null') return; // if empty
 
       // Get the access token
-      const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
+      const accessTokenResponse = await (await fetch(`/api/paypal/access_token/get/${sandbox}`)).json()
 
       // Get the paypal response from backend
-      endpoint = `/api/paypal/sub/get/sub_detail/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
+      endpoint = `/api/paypal/sub/get/sub_detail/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}/${sandbox}`;
       const paypalSubDetailResponse = await(await fetch(endpoint)).json();
 
       // change the front end
@@ -48,7 +49,7 @@ const Setting: React.FC<Props> = (props) => {
     getPaypalDetails().then(res => props.setProfile(res));
 
     
-  }, [props, props.profile])
+  }, [props, props.profile, sandbox])
 
   let handle_next_payment;
   if(profile.subInfo.hasData && profile.subInfo.isActive) {

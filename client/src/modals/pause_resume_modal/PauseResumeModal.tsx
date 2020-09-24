@@ -60,12 +60,14 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 const PauseResumeModal: React.FC<Props> = ({
-  modal,
   profile,
+  isSandbox,
+  modal,
   setDataLoading,
   setModal,
   setSnackbar
 }) => {
+  const sandbox = isSandbox ? '/sandbox' : '/live'; 
 
   const handlePauseResume = async () => {
     setDataLoading(true);
@@ -81,10 +83,10 @@ const PauseResumeModal: React.FC<Props> = ({
     const transactionRes = await (await fetch(endpoint)).json();
 
     // Get the access token
-    const accessTokenResponse = await (await fetch('/api/paypal/access_token/get')).json()
+    const accessTokenResponse = await (await fetch(`/api/paypal/access_token/get${sandbox}`)).json()
     
     // Pause or Resume the subscription
-    endpoint = `/api/paypal/sub/pause_or_resume/${pause_or_resume}/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}`;
+    endpoint = `/api/paypal/sub/pause_or_resume/${pause_or_resume}/with_subID_and_token/${transactionRes.data.subscriptionID}/${accessTokenResponse.data}/${sandbox}`;
     const pause_subscription_response = await (await fetch(endpoint)).json();
     
     // Write the result

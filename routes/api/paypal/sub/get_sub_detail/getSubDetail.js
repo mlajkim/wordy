@@ -1,13 +1,13 @@
 const getSubDetailRouter = require('express').Router();
 const fetch = require('node-fetch');
 
-getSubDetailRouter.get('/sub_detail/with_subID_and_token/:subscription/:token', async (req, res) => {
+getSubDetailRouter.get('/sub_detail/with_subID_and_token/:subscription/:token/:isSandbox', async (req, res) => {
   const subscriptionID = req.params.subscription;
   const token = req.params.token;
-  const isSandbox = req.params.isSandbox === 'sandbox' ? '.sandbox' : '';
+  const sandbox = req.params.isSandbox === 'sandbox' ? '.sandbox' : '';
 
   // Get the details from paypal server
-  endpoint = `https://api${isSandbox}.paypal.com/v1/billing/subscriptions/${subscriptionID}`;
+  endpoint = `https://api${sandbox}.paypal.com/v1/billing/subscriptions/${subscriptionID}`;
   const data = await (await fetch(endpoint, {
     method: 'GET',
     headers: {

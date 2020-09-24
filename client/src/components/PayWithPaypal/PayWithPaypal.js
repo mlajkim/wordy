@@ -2,12 +2,16 @@ import React from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
 
 // Credential
-import {SANDBOX_PAYPAL_CLIENT_ID, SANDBOX_PAYPAL_PLAN_ID} from '../../credential';
+import {
+  REAL_PAYPAL_CLINET_ID,
+  SANDBOX_PAYPAL_CLIENT_ID, 
+  SANDBOX_PAYPAL_PLAN_ID
+} from '../../credential';
 
 export default function PayWithPaypal(props) {
   const option = {
     vault: true,
-    clientId: SANDBOX_PAYPAL_CLIENT_ID
+    clientId: props.isSandbox ? SANDBOX_PAYPAL_CLIENT_ID : REAL_PAYPAL_CLINET_ID
   }
 
   return (

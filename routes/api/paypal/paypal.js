@@ -2,7 +2,7 @@ const paypalRouter = require('express').Router();
 const accessTokenRouter = require('./access_token/accessToken');
 const subRouter = require('./sub/sub');
 
-paypalRouter.use('/:isSanbox/access_token', accessTokenRouter);
-paypalRouter.use('/:isSanbox/sub', subRouter);
+paypalRouter.use('/access_token', accessTokenRouter);
+paypalRouter.use('/sub', subRouter);
 
 module.exports = paypalRouter;

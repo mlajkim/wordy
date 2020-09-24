@@ -23,45 +23,17 @@ export default function App () {
   const [snackbar, setSnackbar] = useState({status: 'none'});
   const [isDataLoading, setDataLoading] = useState(false);
 
+  const props = {
+    profile, words, isSandbox, page, modal, snackbar, isDataLoading,
+    setProfile, setWords, setSandbox, setPage, setModal, setSnackbar, setDataLoading
+  }
+
   return (
     <div>
-      <Appbar
-        profile={profile}
-        isDataLoading={isDataLoading} 
-        setPage={setPage}
-        setWords={setWords}
-        setDataLoading={setDataLoading}
-        setModal={setModal}
-      />
-      <Snackbar 
-        snackbar={snackbar}
-        setSnackbar={setSnackbar}
-      />
-      <ShowCurrentModal 
-        words={words}
-        page={page}
-        modal={modal}
-        setModal={setModal}
-        setPage={setPage}
-        setWords={setWords}
-        profile={profile}
-        setProfile={setProfile}
-        setDataLoading={setDataLoading}
-        setSnackbar={setSnackbar}
-      />
-      <ShowCurrentPage 
-        profile={profile}
-        words={words}
-        isSandbox={isSandbox}
-        page={page}
-        setWords={setWords}
-        setSandbox={setSandbox}
-        setProfile={setProfile}
-        setPage={setPage}
-        setModal={setModal}
-        setSnackbar={setSnackbar}
-        setDataLoading={setDataLoading}
-      />
+      <Appbar {... props} />
+      <Snackbar {... props} />
+      <ShowCurrentModal {... props} />
+      <ShowCurrentPage {... props} />
     </div>
   );
 }
