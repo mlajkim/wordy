@@ -24,7 +24,7 @@ const Setting: React.FC<Props> = (props) => {
       let endpoint = `/api/mongo/user/get/withID/${props.profile.UNIQUE_ID}`;
       const userRes = await (await fetch(endpoint)).json();
 
-      // Get the transaction  
+      // Get the transaction
       endpoint = `/api/mongo/transaction/get/withID/${userRes.data.lastTransactionID}`;
       const transactionRes = await (await fetch(endpoint)).json();
       if (transactionRes.status === 'null') return; // if empty
