@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
+// utils
+import { Props } from '../../utils';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,10 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-type Props = {
-  setModal: (arg0: any) => void;
-}
 
 const AdvancedSetting: React.FC<Props> = ({
   setModal

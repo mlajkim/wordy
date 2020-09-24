@@ -11,8 +11,10 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 // Components
 import AdvanceSetting from './AdvancedSetting';
 import GoogleSignOut from'../../components/sign_in/GoogleSignOut';
+// utils
+import { Props } from '../../utils';
 
-const Setting: React.FC = (props: any) => {
+const Setting: React.FC<Props> = (props) => {
   const profile = props.profile;
 
   useEffect(() => {

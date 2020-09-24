@@ -12,7 +12,7 @@ const SandboxSwitch: React.FC<Props> = ({
   return (
     <FormControlLabel
       control={<Switch checked={isSandbox} onChange={() => setSandbox(!isSandbox)} />}
-      label="Secondary"
+      label={isSandbox ? 'SANDBOX MODE (WARNING)' : 'REAL MODE'}
     />
   );
 }

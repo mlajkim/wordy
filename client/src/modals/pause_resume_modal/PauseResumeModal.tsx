@@ -9,6 +9,8 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+// utils
+import { Props } from '../../utils';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -56,14 +58,6 @@ const DialogActions = withStyles((theme: Theme) => ({
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
-
-type Props = {
-  modal: any;
-  setModal: (arg0: any) => void;
-  profile: any;
-  setDataLoading: (arg0: boolean) => void;
-  setSnackbar: (arg0: any) => void;
-}
 
 const PauseResumeModal: React.FC<Props> = ({
   modal,
