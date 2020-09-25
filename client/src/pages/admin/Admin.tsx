@@ -12,6 +12,7 @@ import {change_user_db} from './AdminAPI';
 // Admin Components 
 import AdminSandboxSwitch from '../../admin_components/AdminSandboxSwitch';
 import AdminShowState from '../../admin_components/AdminShowState';
+import AdminDisplaySub from '../../admin_components/AdminDisplaySub';
 // utils
 import {Props} from '../../model';
 
@@ -30,15 +31,23 @@ const Admin: React.FC<Props> = (props) => {
 
   const lists = [
     {
+      title: '현재 STATE 값들 전부 표기해주세요',
+      show: (
+        <AdminShowState {... props.profile}/>
+      )
+    },
+    {
       title: '실제결재모드 / 샌드박스 모드를 변환할게요',
       show: (
         <AdminSandboxSwitch {... props}/>
       )
     },
     {
-      title: '현재 STATE 값들 전부 표기해주세요',
+      title: '구독 가능한 정보들을 보여주세요',
       show: (
-        <AdminShowState {... props.profile}/>
+        <div>
+          <AdminDisplaySub {... props}/>
+        </div>
       )
     },
     {
@@ -61,28 +70,27 @@ const Admin: React.FC<Props> = (props) => {
       title: '현재 총 가입된 유저를 보여주세요',
       show: 'bye  '
     }
-  ]
+  ];
 
-  const accordions = lists.map(val => {
-    return (
-      <Accordion key={val.title}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>{val.title}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {val.show}
-        </AccordionDetails>
-      </Accordion>
-    )
-  })
 
   return (
     <div className={classes.root}>
-      {accordions}
+      {lists.map(val => {
+        return (
+          <Accordion key={val.title}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>{val.title}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {val.show}
+            </AccordionDetails>
+          </Accordion>
+        )
+      })}
     </div>
   );
 }
