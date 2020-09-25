@@ -1,13 +1,14 @@
+// eslint-disable-next-line
 import React from 'react';
 import GoogleLogin from 'react-google-login';
 // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
-// APIs
+// APIs & Model
 import {handle_existing_user, handle_new_user, handle_signin_error} from './GoogleSingnInAPI';
+import {Props} from '../../model';
 
-const GoogleSignIn = (props) => {
-
-  const handleSuccessfulSignIn = async (googleResponse) => {
+const GoogleSignIn = (props: Props) => {
+  const handleSuccessfulSignIn = async (googleResponse: any) => {
     // Initiate
     props.setDataLoading(true);
     props.setModal('');

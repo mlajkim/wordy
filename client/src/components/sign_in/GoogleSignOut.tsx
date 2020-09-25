@@ -1,9 +1,12 @@
+// eslint-disable-next-line
 import React from 'react';
 import {GoogleLogout} from 'react-google-login';
  // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
+// APIs & Model
+import {Props} from '../../model';
 
-const GoogleSignOut = (props) => {
+const GoogleSignOut = (props: Props) => {
   // Signin Signout button 
   //
   const handleSuccessfulSignOut = () => {
@@ -17,11 +20,11 @@ const GoogleSignOut = (props) => {
     })
   }
 
-  const handleLogoutFailure = (res) => {
+  const handleLogoutFailure = () => {
     props.setSnackbar({
       status: 'open',
       severity: 'error',
-      message: `Fail: ${res}`
+      message: `Log out failed`
     })
   }
 
@@ -31,7 +34,7 @@ const GoogleSignOut = (props) => {
         clientId={GOOGLE_CLIENT_ID}
         buttonText='Sign out safely with Google'
         onLogoutSuccess={() => {handleSuccessfulSignOut()}}
-        onFailure={(res) => {handleLogoutFailure(res)}} 
+        onFailure={() => {handleLogoutFailure()}} 
       />
     </div>
   );
