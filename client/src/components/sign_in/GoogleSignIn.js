@@ -2,17 +2,13 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
-import VERSION from '../../app/Version';
 // APIs
-import { get_fresh_subInfo_intostate } from '../../API';
+import {handle_existing_user, handle_new_user, handle_signin_error} from './GoogleSingnInAPI';
 
+const GoogleSignIn = (props) => {
 
-export default function GoogleSignIn(props) {
-  const SIGNIN_TYPE = "google";
-  let UNIQUE_ID = '';
-  //
-  //
-  const handleSuccessfulSignIn = async (response) => {
+  const handleSuccessfulSignIn = async (googleResponse) => {
+    // Initiate
     props.setDataLoading(true);
     props.setModal('');
     props.setSnackbar({
@@ -22,110 +18,34 @@ export default function GoogleSignIn(props) {
       closeInSec: 1
     })
 
-    // Step 1) Figure out if we have the user's data!
-    //
-    let userInfo;
-    let profile = response.profileObj;
-    
-    const user = await fetch(`/api/mongo/user/get/with-federalID/google/${profile.googleId}`, {
-      method: 'GET',
-      headers: {'Content-Type':'application/json'}
-    }).then(res => res.json());
-    userInfo = user;
+    // Find the user with the given google response
+    let newProfile;
+    let url = `/api/mongo/user/get/with-federalID/google/${googleResponse.profileObj.googleId}`;
+    const userRes = await (await fetch(url)).json();
 
-    // Step 2-1) If it exists..
-    // (Handle the patch) 
-    if(user.status === 'success') {
-      // (Step 2-2) Set up the id for later usage
-      //
-      UNIQUE_ID = user.data._id;
+    // Respond according to the user database
+    if(userRes.hasFound === 'found') newProfile = await handle_existing_user(props, userRes.data);
+    else newProfile = await handle_new_user(props, googleResponse);
 
-      // Step 2-3) Compare the user-read-patch with the current version
-      // if not staisfying, show the patch note
-      // then save the data into the database
-      if (parseFloat (user.data.readPatch) < parseFloat(VERSION.version)) {
-      
-        props.setModal({type: 'PatchNoteModal'});
+    // Save into the states
+    props.setProfile({
+      ...newProfile,
+      isSignedIn: true,
+      typeOfLogIn: 'google',
+      subInfo: {hasData: false}
+    });
 
-        await fetch(`/api/mongo/user/${user.data._id}/one/readPatch`, {
-          method: 'PUT',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            value: VERSION.version
-          })
-        });
-      }
-
-
-      // (Step 2-4) download the word data from the database!
-      //
-      const resWords = await fetch(`/api/mongo/word/${UNIQUE_ID}`, {
-        method: 'GET',
-        headers: {'Content-Type':'application/json'}
-      }).then(res => res.json())
-      if(resWords.status === 'success') props.setWords(resWords.data);
-
-    }else{
-      // (Step 3-1) This person is new user!
-      // Just let them see the patch note
-      // To prove that the web is constantly evolving
-      props.setModal('PatchNoteModal');
-      
-
-      // add that person into our database! (Give the current version as well)
-      const newUserRes = await fetch('/api/mongo/user', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          typeOfLogIn: SIGNIN_TYPE,
-          federalId: profile.googleId, 
-          email: profile.email,
-          familyName: profile.familyName,
-          givenName: profile.givenName,
-          readPatch: VERSION.version,
-          profileImgUrl: profile.imageUrl,
-          subscription: ''
-        })
-      }).then(res => res.json())
-
-      // Set up the id as well
-      userInfo = newUserRes;
-      UNIQUE_ID = newUserRes._id;
+    // finally
+    props.setDataLoading(false);
   }
 
-  // Step 3) Finally set up the profile into React states
-  props.setProfile({
-    isSignedIn: true,
-    UNIQUE_ID: UNIQUE_ID,
-    typeOfLogIn: SIGNIN_TYPE,
-    userInfo: userInfo.data,
-    subInfo: {hasData: false}
-  });
-
-  props.setDataLoading(false);
-}
-
-  //
-  //
-  const handleFailureSignIn = (response) => {
-    props.setModal('');
-    console.log(response);
-    props.setSnackbar({
-      status: 'open',
-      message: `Sign-in Fail: ${response.details}`,
-      severity: 'error'
-    })
-  }
-
-  //
-  //
   return (
     <div>
       <GoogleLogin
         clientId={GOOGLE_CLIENT_ID}
         buttonText='Sign in with Google'
         onSuccess={(response) => {handleSuccessfulSignIn(response)}}
-        onFailure={(response) => {handleFailureSignIn(response)}}
+        onFailure={(response) => {handle_signin_error(props, response)}}
         cookiePolicy={ 'single_host_origin' }
         responseType='code,token'
         isSignedIn={true}
@@ -133,3 +53,5 @@ export default function GoogleSignIn(props) {
     </div>
   );
 }
+
+export default GoogleSignIn;

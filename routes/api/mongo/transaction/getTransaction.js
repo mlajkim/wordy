@@ -8,7 +8,7 @@ getTransactionRouter.get('/withID/:lastTransactionID', async (req, res) => {
   const data = await transactionSchema.findById(req.params.lastTransactionID);
 
   res.send({
-    status: data === null ? 'null' : 'success',
+    hasFound: data === null ? 'found' : 'not_found',
     data: data
   });
 });

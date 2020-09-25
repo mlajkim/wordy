@@ -16,7 +16,7 @@ getUserRouter.get('/with-federalID/:typeOfLogIn/:federalId', async (req, res) =>
   const response = await userSchema.findOne({typeOfLogIn, federalId});
 
   res.send({
-    status: response ? 'success' : 'empty',
+    hasFound: response ? 'found' : 'not_found',
     data: response
   });
 })
