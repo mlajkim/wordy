@@ -29,6 +29,8 @@
     "tls": "0.0.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.7",
+    "@types/express": "^4.17.8",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
   }
