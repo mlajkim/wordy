@@ -1,6 +1,6 @@
 const mongoRouter = require('express').Router();
 
-const {mongoDbUrl} = require('../../../credential');
+const {mongoDbUrl} = require('../../credential');
 const mongoose = require('mongoose');
 
 mongoRouter.use((req, res, next) => {
@@ -15,9 +15,9 @@ mongoRouter.use((req, res, next) => {
 })
 
 // import
-const userRouter = require('./user/user');
-const wordRouter = require('./word/word');
-const transactionRouter = require('./transaction/transaction');
+const userRouter = require('./mongo/user/user');
+const wordRouter = require('./mongo/word/word');
+const transactionRouter = require('./mongo/transaction/transaction');
 
 // use
 mongoRouter.use('/user', userRouter);
