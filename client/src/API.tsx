@@ -1,18 +1,14 @@
 // Models
-import {Props, UserInfo, SubInfo} from './model';
+import {Props, Profile, UserInfo, SubInfo} from './model';
 import {has_token_expired} from './utils';
 
-export const fetchPaypalPauseResumeSubscription = async (
-  subscriptionID: String, //I-12...
-  accessToken: String,
-  type: String, // pause or resume
-) => {
-  const endpoint = `https://api.sandbox.paypal.com/v1/billing/subscriptions/${subscriptionID}/suspend`;
+export const fetchPaypalPauseResumeSubscription = async (subInfo: SubInfo) => {
+  const endpoint = `https://api.sandbox.paypal.com/v1/billing/subscriptions/${subInfo.subscriptionID}/suspend`;
   const newUserRes = await (await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + subInfo.accessToken
     },
     body: JSON.stringify({
       reason: "Customer-requested pause"
@@ -23,24 +19,22 @@ export const fetchPaypalPauseResumeSubscription = async (
     
 };
 
-export const get_paypal_token_then_refresh_state = async (
-  {isSandbox}: Props,
-  {setProfile}: Props,
-  {hasData}: SubInfo,
-  {accessToken}: SubInfo
-) => {
+export const get_paypal_token_then_refresh_state = async (props: Props) => {
+  const profile: Profile = props.profile;
+  const subInfo: SubInfo = props.profile.subInfo;
+
   // if the state has the sub data, and it has not expired yet.
-  if (hasData && has_token_expired(accessToken)) return accessToken;
+  if (profile.subInfo.hasData && has_token_expired(subInfo.accessToken)) return profile.subInfo.accessToken;
 
   // get a new token from backend
-  const sandbox = isSandbox ? 'sandbox' : null;
+  const sandbox = props.isSandbox ? 'sandbox' : null;
   let url = `/api/paypal/access_token/get${sandbox}`
   const newTokenResponse = await (await fetch(url)).json();
   const token = newTokenResponse.data;
   const tokenExpireAt: number = newTokenResponse.tokenExpireAt;
 
   // save into states too.
-  setProfile({
+  props.setProfile({
     subInfo: {
       hasData: true,
       hasToken: true,

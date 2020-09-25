@@ -5,7 +5,7 @@ import Switch from '@material-ui/core/Switch';
 // utils
 import {Props} from '../model';
 
-const SandboxSwitch: React.FC<Props> = ({
+const AdminSandboxSwitch: React.FC<Props> = ({
   isSandbox,
   setSandbox,
 }) => {
@@ -17,4 +17,4 @@ const SandboxSwitch: React.FC<Props> = ({
   );
 }
 
-export default SandboxSwitch;
+export default AdminSandboxSwitch;

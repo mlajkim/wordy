@@ -10,7 +10,8 @@ import Button from '@material-ui/core/Button';
 // import API
 import {change_user_db} from './AdminAPI';
 // Admin Components 
-import SandboxSwitch from '../../admin_components/SandboxSwitch';
+import AdminSandboxSwitch from '../../admin_components/AdminSandboxSwitch';
+import AdminShowState from '../../admin_components/AdminShowState';
 // utils
 import {Props} from '../../model';
 
@@ -31,7 +32,13 @@ const Admin: React.FC<Props> = (props) => {
     {
       title: '실제결재모드 / 샌드박스 모드를 변환할게요',
       show: (
-        <SandboxSwitch {... props}/>
+        <AdminSandboxSwitch {... props}/>
+      )
+    },
+    {
+      title: '현재 STATE 값들 전부 표기해주세요',
+      show: (
+        <AdminShowState {... props.profile}/>
       )
     },
     {
@@ -67,9 +74,7 @@ const Admin: React.FC<Props> = (props) => {
           <Typography className={classes.heading}>{val.title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            {val.show}
-          </Typography>
+          {val.show}
         </AccordionDetails>
       </Accordion>
     )
