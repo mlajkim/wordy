@@ -2,7 +2,7 @@
 const apiRouter = require('express').Router();
 
 // Import routers
-const mongoRouter = require('./api/mongo');
+const mongoRouter = require('./api/mongo/mongo');
 const paypalRouter = require('./api/paypal/paypal');
 const v2 = require('./api/v2');
 
