@@ -19,21 +19,25 @@ export const fetchPaypalPauseResumeSubscription = async (subInfo: SubInfo) => {
     
 };
 
-export const get_paypal_token_then_refresh_state = async (props: Props) => {
+export const validate_and_return_paypaltoken_get_if_expired = async (props: Props) => {
   const profile: Profile = props.profile;
   const subInfo: SubInfo = props.profile.subInfo;
 
-  // if the state has the sub data, and it has not expired yet.
+  // if user has never purchased (has no lastTransaction, return no token)
+  if (!profile.userInfo.lastTransactionID) return null;
+
+  // if the state has the sub data, and it has not expired yet. So end this function.
   if (profile.subInfo.hasData && has_token_expired(subInfo.accessToken)) return profile.subInfo.accessToken;
 
-  // get a new token from backend
+  // if not, get a new token from backend
   const sandbox = props.isSandbox ? 'sandbox' : null;
   let url = `/api/paypal/access_token/get${sandbox}`
   const newTokenResponse = await (await fetch(url)).json();
   const token = newTokenResponse.data;
   const tokenExpireAt: number = newTokenResponse.tokenExpireAt;
 
-  // save into states too.
+  // save into states too. (Still, use the returned token, since its async)
+  // This is convinent feature, but do not rely on it.
   props.setProfile({
     subInfo: {
       hasData: true,
@@ -46,21 +50,23 @@ export const get_paypal_token_then_refresh_state = async (props: Props) => {
   return token;
 };
 
-export const get_fresh_subInfo_intostate = async (
-  {isSandbox, setProfile, setDataLoading}: Props,
-  {lastTransactionID}: UserInfo, 
-  {hasData, accessToken}: SubInfo
-) => {
-  //begin
-  setDataLoading(true);
+export const get_fresh_subInfo_intostate = async (props: Props) => {
+  // begin
+  const sandbox = props.isSandbox ? 'sandbox' : null;
+  const subscriptionID = props.profile.subInfo.subscriptionID;
 
-  // get the last transaction data
-  let url = `/api/mongo/transaction/get/withID/${lastTransactionID}`;
-  const lastTransacitonData = await (await fetch(url)).json();
+  // get the token
+  const token = validate_and_return_paypaltoken_get_if_expired(props)
 
-  // get the token for fetch
-  // const token = get_paypal_token_then_refresh_state(isSandbox, setProfile, lastTransactionID, accessToken)
+  // Access to paypal with backend
+  let url = `/api/paypal/sub/get/sub_detail/with_subID_and_token/${subscriptionID}/${token}/${sandbox}`;
+  const subDetailResponse = await (await fetch(url)).json();
   
-  // finally
-  setDataLoading(false);
+  // finally, set into it
+  props.setProfile({
+    subInfo: {
+      isActive: subDetailResponse.status === 'ACTIVE' ? true : false,
+      nextBillingDate: subDetailResponse.status === 'ACTIVE' ? subDetailResponse.billing_info.next_billing_time : null
+    }
+  })
 };

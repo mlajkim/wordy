@@ -1,8 +1,10 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
-
+// Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
 import VERSION from '../../app/Version';
+// APIs
+import { get_fresh_subInfo_intostate } from '../../API';
 
 
 export default function GoogleSignIn(props) {
