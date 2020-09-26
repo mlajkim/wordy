@@ -4,6 +4,7 @@
 # CONFIDENTIAL (BELOW)
 /certificates
 .crt
+.env
 credential.js
 credential.jsx
 credential.ts
