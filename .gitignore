@@ -3,6 +3,7 @@
 # CONFIDENTIAL (BELOW)
 # CONFIDENTIAL (BELOW)
 /certificates
+/src/certificates
 .crt
 .env
 credential.js
@@ -20,7 +21,7 @@ paypal-transaction.json
 #AJ Personal
 data.sqlite
 data.sqlite-journal
-
+/dist
 
 # dependencies
 /node_modules
