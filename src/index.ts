@@ -1,15 +1,14 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
 import fs from 'fs';
 import https from 'https';
 import path from 'path';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-
 // Credential
 import {COMODO_SSL_KEY_PASSWORD} from './credential';
 // Routers
-// import api from './routes/api';
+import api from './routes/api';
 
 const app = express();
 const PORT = process.env.PORT || 80;
@@ -21,11 +20,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-// app.use('/api', api); // only router
-app.get("/get", (req: Request, res: Response) => {
-  console.log(req.body); // seriously let me not use that
-  res.send({message: "hi"})
-})
+app.use('/api', api); // only router
 
 // https certificates import
 const option = {
