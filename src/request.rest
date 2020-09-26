@@ -1,0 +1,15 @@
+#
+#
+#
+#
+#
+
+# Get access token
+POST http://localhost/api/v2/auth/login
+
+###
+# Try to access (only with valid token)
+GET http://localhost/api/v2/mongo/users
+Authorization: Bearer eyJhbGciOiJIU23InR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmVvbmd3b28iLCJpYXQiOjE2MDExNTU4MTEsImV4cCI6MTYwMTE1NTg3MX0.v-jMMTMGahV0LhqUJU-3EEHcY0t-bFkesy9lIYFbwDo
+
+
