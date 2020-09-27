@@ -10,6 +10,6 @@ POST http://localhost/api/v2/auth/login
 ###
 # Try to access (only with valid token)
 GET http://localhost/api/v2/mongo/users
-Authorization: Bearer eyJhbGciOiJIU23InR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmVvbmd3b28iLCJpYXQiOjE2MDExNTU4MTEsImV4cCI6MTYwMTE1NTg3MX0.v-jMMTMGahV0LhqUJU-3EEHcY0t-bFkesy9lIYFbwDo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmVvbmd3b28iLCJpYXQiOjE2MDExNzI5NTksImV4cCI6MTYwMTE3MzAxOX0.tjChwKPql3IQav7opBiio5TZTEKHXumlo4XNV51Z3jU
 
 

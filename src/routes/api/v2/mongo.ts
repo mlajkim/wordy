@@ -10,22 +10,19 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
   const token = authHeader && authHeader.split(' ')[1]; // undefined, or actual token
 
   // Handle when token not given.
-  if(token == null) res.status(401).send({
+  if(token == null) return res.status(401).send({
     status: 401,
     message: 'NOT AUTHORIZED: ACCESS TOKEN NOT PROVIDED'
   })
-  console.log(process.env.LOGIN_ACCESS_TOKEN_SECRET)
   jwt.verify(token!, process.env.LOGIN_ACCESS_TOKEN_SECRET!, (err: any, user: any) => {
-    // handle when token has been invalid (expired)
-    if (err) res.status(403).send({
-      status: 403,
-      message: 'FORBIDDEN: TOKEN EXPIRED OR INVALID'
-    });
-
-    req.headers.user = user; // may change
+    if (err) 
+      return res.status(403).send({
+        status: 403,
+        message: 'FORBIDDEN: TOKEN EXPIRED OR INVALID'
+      });
+    req.body.user = user;
+    next();
   });
-  //console.log(req.headers); // will use it eventually
-  next();
 };
 
 // @ MIDDLEWARE: CONNECT TO DB
@@ -39,7 +36,7 @@ const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => 
 };
 
 const mongo = express.Router();
-dotenv.config();
+dotenv.config(); // bring dotenv callable
 mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
 mongo.use("/users", users);
