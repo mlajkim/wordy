@@ -1,14 +1,14 @@
 Join here:
 https://wordy-cloud.com/
 
-# Implemented Programing Languages, Frameworks & Tools
-1. Front-End: React (Typescript), Apollo Cli., GraphQL 
-2. Back-End: ExpressJS (Typescript), NodeJS, GraphQL
+# Programming Tools
+1. Front-End: TypeScript-React, Redux, Apollo, GraphQL 
+2. Back-End: TypeScript-Express, NodeJS, GraphQL
 3. Database: MongoDB
 4. Security: HTTPS, SSL, JWT
 5. Server: AWS EC2 Ubuntu
 6. External APIs: Google Sign-In API, PayPal API
-7. Others: Google Material UI
+7. Others: Google Material UI, Axios
 
 # Wordy
 Wordy-cloud service provides you the best way to become multilingual.
