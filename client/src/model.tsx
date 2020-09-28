@@ -1,3 +1,5 @@
+import { any } from "prop-types"
+
 export type Props = {
   profile: Profile;
   words: any;
@@ -10,9 +12,14 @@ export type Props = {
   setWords: (arg0: any) => void;
   setSandbox: (arg0: boolean) => void;
   setPage: (arg0: any) => void;
-  setModal: (arg0: any) => void;
+  setModal: (arg0: setModalArg) => void;
   setSnackbar: (arg0: any) => void;
   setDataLoading: (arg0: boolean) => void;
+}
+
+export type setModalArg = {
+  type: string;
+  data: any;
 }
 
 export type Profile = {

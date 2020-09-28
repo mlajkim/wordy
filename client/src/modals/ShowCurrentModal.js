@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SignInModal from './SignInModal/SignInModal';
+import SignUpModal from './sign_up_modal/SignUpModal';
 import PatchNoteModal from './patchNoteModal/PatchNoteModal';
 import PromoteModal from './promoteModal/PromoteModal';
 import PayModal from './PayModal/PayModal';
@@ -13,6 +14,10 @@ export default function ShowCurrentModal(props) {
     case 'SignInModal':
       body = <SignInModal {... props}/>
       break;
+
+    case 'SignUpModal':
+    body = <SignUpModal {... props}/>
+    break;
 
     case 'PauseResumeModal':
       body = <PauseResumeModal {... props}/>

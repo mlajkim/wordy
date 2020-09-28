@@ -5,7 +5,7 @@ import {Props} from '../../model';
 export const handle_existing_user = async (props: Props , user: any) => {
   // Show the patchnote
   if (parseFloat (user.readPatch) < parseFloat(VERSION.version)) {
-    props.setModal({type: 'PatchNoteModal'});
+    props.setModal({type: 'PatchNoteModal', data: null});
     // make sure to save the fact that the user has read.
     fetch(`/api/mongo/user/${user._id}/one/readPatch`, {
       method: 'PUT',
@@ -32,7 +32,7 @@ export const handle_existing_user = async (props: Props , user: any) => {
 
 export const handle_new_user = async (props: Props, googleResponse: any) => {
   // New user reads patch note
-  props.setModal('PatchNoteModal');
+  props.setModal({type: 'PatchNoteModal', data: null});
 
   // Add the new user
   let url = `/api/mongo/user/post`;
@@ -59,7 +59,7 @@ export const handle_new_user = async (props: Props, googleResponse: any) => {
 }
 
 export const handle_signin_error = (props: Props, googleResponse: any) => {
-  props.setModal('');
+  props.setModal({type: '', data: null });
   props.setSnackbar({
     status: 'open',
     message: `Sign-in Fail: ${googleResponse.details}`,

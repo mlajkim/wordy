@@ -72,7 +72,7 @@ const PauseResumeModal: React.FC<Props> = ({
   const handlePauseResume = async () => {
     setDataLoading(true);
     const pause_or_resume = modal.data;
-    setModal({}); // Close the modal
+    setModal({type: '', data: null}); // Close the modal
 
     // Get the user data first from database
     let endpoint = `/api/mongo/user/get/withID/${profile.UNIQUE_ID}`;
@@ -100,8 +100,8 @@ const PauseResumeModal: React.FC<Props> = ({
 
   return (
     <div>
-      <Dialog onClose={() => {setModal({})}} aria-labelledby="customized-dialog-title" open={true}>
-        <DialogTitle id="customized-dialog-title" onClose={() => {setModal({})}}>
+      <Dialog onClose={() => {setModal({type: '', data: null})}} aria-labelledby="customized-dialog-title" open={true}>
+        <DialogTitle id="customized-dialog-title" onClose={() => {setModal({type: '', data: null})}}>
           {modal.data === 'pause' ? 'Pause' : 'Resume'} Membership?
         </DialogTitle>
         <DialogContent dividers>

@@ -20,11 +20,6 @@ const paypal_get_price = async (isSandbox: boolean) => {
 }
 
 const AdminDisplaySub: React.FC<Props> = (props) => {
-  const [price, setPrice] = React.useState({
-    live: null,
-    sandbox: null
-  });
-
   const handleClick = () => {
     paypal_get_price(true);
     paypal_get_price(false);
@@ -37,11 +32,11 @@ const AdminDisplaySub: React.FC<Props> = (props) => {
       </Button>
       <List component="nav" aria-label="mailbox folders">
         <ListItem button>
-          <ListItemText primary={`LIVE 가격: ${price.live}`} />
+          <ListItemText primary={`LIVE 가격: `} />
         </ListItem>
         <Divider />
         <ListItem button divider>
-          <ListItemText primary={`SANDBOX 가격: ${price.sandbox}`} />
+          <ListItemText primary={`SANDBOX 가격: `} />
         </ListItem>
       </List> 
     </div>

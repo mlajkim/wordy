@@ -53,7 +53,7 @@ const AdvancedSetting: React.FC<Props> = ({
               <Button 
                 variant="outlined" color="secondary" 
                 style={{ margin: 10 }}
-                onClick={() => {setModal({type: 'DeleteAccountModal'})}}>DELETE ACCOUNT
+                onClick={() => setModal({type: 'DeleteAccountModal', data: null})}>DELETE ACCOUNT
               </Button>
           </Grid>
         </AccordionDetails>
