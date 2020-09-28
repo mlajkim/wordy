@@ -14,7 +14,7 @@ config.js
 .key
 .pem
 paypal-transaction.json 
-
+*.rest
 # CONFIDENTIAL (ABOVE)
 # CONFIDENTIAL (ABOVE)
 

@@ -27,9 +27,9 @@ users.put("", (_req: Request, res: Response) => {
 });
 
 // @ DELETE
-users.post("", (_req: Request, res: Response) => {
+users.delete("", (_req: Request, res: Response) => {
   res.status(200).send({
-    status: 200,
+    status: 204,
     message: 'OK: users delete'
   });
 });
