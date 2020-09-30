@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import { graphqlHTTP } from 'express-graphql';
+import schema from './graphql/schema';
 // Routers
 import api from './routes/api';
 
@@ -20,7 +22,8 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use('/api', api); // only router
+app.use('/api', api); //REST API
+app.use('/graphql', graphqlHTTP({schema, graphiql: true}));  //GraphQL
 
 // https certificates import
 const option = {
