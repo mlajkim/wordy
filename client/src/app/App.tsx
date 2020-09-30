@@ -1,12 +1,10 @@
 // eslint-disable-next-line
 import React from 'react';
-
+import Appbar from './Appbar';
 
 const App = () => {
   return (
-    <div>
-      Hello New World!
-    </div>
+    <Appbar />
   )
 };
 
