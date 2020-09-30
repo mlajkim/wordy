@@ -9,7 +9,7 @@ import ShowCurrentModal from '../modals/ShowCurrentModal';
 import ShowCurrentPage from '../pages/ShowCurrentPage';
 import Snackbar from '../snackbars/Snackbar';
 
-export default function App () {
+export default function App1 () {
   // User data
   const [profile, setProfile] = useState({isSignedIn: false});
   const [words, setWords] = useState([]);
