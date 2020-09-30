@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "v1": "nodemon server.js dev",
-    "v2": "ts-node-dev --respawn src/index.ts dev",
-    "build": "tsc"
+    "live": "nodemon dist/index.js",
+    "start": "nodemon dist/index.js dev",
+    "build": "tsc -w"
   },
   "keywords": [],
   "author": "",

@@ -5,14 +5,14 @@ import path from 'path';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-// Credential
-import {COMODO_SSL_KEY_PASSWORD} from './credential';
+import dotenv from 'dotenv';
 // Routers
 import api from './routes/api';
 
 const app = express();
 const PORT = process.env.PORT || 80;
 const PORTHTTPS = process.env.PORT || 443;
+dotenv.config();
 
 // Connecting to Wordy
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -27,7 +27,7 @@ const option = {
   ca: fs.readFileSync('./certificates/ca-bundle.crt'), // Certificate BUNDLES
   cert: fs.readFileSync('./certificates/wordy-cloud_com.crt'), // correct
   key: fs.readFileSync('./certificates/comodo-ssl-ca.key'), // mostliekly correct  
-  passphrase: COMODO_SSL_KEY_PASSWORD, // password for the key
+  passphrase: process.env.COMODO_SSL_KEY_PASSWORD, // password for the key
 };
 
 // Write the time today
