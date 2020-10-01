@@ -7,9 +7,13 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 // Style
 import MUIStyle from '../styles/MUIStyle';
+// Redux
+import store from '../redux/store';
+import {setDialog} from '../redux/actions';
 
 const Appbar = () => {
   const classes = MUIStyle();
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -20,7 +24,7 @@ const Appbar = () => {
           <Typography variant="h6" className={classes.title}>
             Wordy
           </Typography>
-          <Button color="inherit">JOIN TODAY</Button>
+          <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>JOIN TODAY</Button>
         </Toolbar>
       </AppBar>
     </div>
