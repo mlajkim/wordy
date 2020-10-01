@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import LoginDialog from '../dialog/LoginDialog';
 
 const Dialog = () => {
+  // states
   const dialog = useSelector((state: any) => state.dialog);
 
   switch(dialog) {
