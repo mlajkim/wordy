@@ -10,13 +10,12 @@ import {Provider} from 'react-redux'
 // import App1 from './app/App1';
 import App from './app/App';
 
-const client = new ApolloClient({uri: '/graphql'});
+const graphqlClient = new ApolloClient({uri: '/graphql'});
 
 ReactDOM.render((
   <Provider store={store}>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={graphqlClient}>
       <App />
     </ApolloProvider>
   </Provider>
-)
-, document.getElementById('root'));
+), document.getElementById('root'));

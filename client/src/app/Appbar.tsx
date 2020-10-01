@@ -10,6 +10,8 @@ import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
 import {setDialog} from '../redux/actions';
+// Icons
+import TranslateIcon from '@material-ui/icons/Translate';
 
 const Appbar = () => {
   const classes = MUIStyle();
@@ -24,6 +26,9 @@ const Appbar = () => {
           <Typography variant="h6" className={classes.title}>
             Wordy
           </Typography>
+          <IconButton className={"languageButton"} color="inherit" aria-label="language">
+            <TranslateIcon />
+          </IconButton>
           <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>JOIN TODAY</Button>
         </Toolbar>
       </AppBar>
