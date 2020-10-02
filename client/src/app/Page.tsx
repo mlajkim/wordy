@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 // Dialogs
 import LoginDialog from '../dialog/LoginDialog';
 // Pages
-import Home from '../pages/Home';
+import Home from '../pages/home/Home';
 
 const Page = () => {
   // states

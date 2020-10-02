@@ -2,10 +2,10 @@ import React, {Fragment} from 'react';
 import './Home.css';
 import Button from '@material-ui/core/Button';
 // imgs
-import Background from '../img/home_background.jpeg';
+import Background from '../../img/home_background.jpeg';
 // Redux
-import store from '../redux/store';
-import {setLanguage} from '../redux/actions';
+import store from '../../redux/store';
+import {setLanguage} from '../../redux/actions';
 
 const style = {
   intro: {
