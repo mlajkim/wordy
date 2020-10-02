@@ -11,7 +11,7 @@ type GoogleRes = {
 }
 
 type UsersRes = {
-  status: 200 | 404;
+  status: 200 | 204;
   message: string;
   user: User;
 }

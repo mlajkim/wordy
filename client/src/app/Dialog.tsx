@@ -9,7 +9,10 @@ const Dialog = () => {
 
   switch(dialog) {
     case 'LoginDialog': 
-      return <LoginDialog />;
+      return <LoginDialog type='login' />;
+
+    case 'SignUpDialog': 
+      return <LoginDialog type='signup' />;
 
     default:
       return null;

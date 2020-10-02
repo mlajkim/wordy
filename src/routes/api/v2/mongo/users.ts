@@ -4,7 +4,7 @@ import userSchema from '../../../../models/Users';
 const users = express.Router();
 
 // @ CREATE
-users.post("", async (req: Request, res: Response) => {
+users.post("", async (req: Request, _res: Response) => {
   await new userSchema({...req.body.user}).save();
   console.log(`
     ***NEW USER ADDED***

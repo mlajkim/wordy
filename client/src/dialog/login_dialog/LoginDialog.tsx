@@ -63,7 +63,11 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-const LoginDialog = () => {
+type Props = {
+  type: 'login' | 'signup';
+}
+
+const LoginDialog = ({type}: Props) => {
   const ln = useSelector((state: {language: language}) => state.language);
 
   const handleClose = () => {
@@ -73,13 +77,13 @@ const LoginDialog = () => {
     <div >
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true} fullWidth={true} maxWidth="xs" style={{textAlign: 'center'}}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose} >
-          {tr.title[ln]}
+          {type === 'login' ? tr.title[ln] : tr.titleSignUp[ln]}
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            {tr.desc[ln]}
+            {type === 'login' ? tr.desc[ln] : tr.descSignUp[ln]}
           </Typography>
-          <GoogleSignIn type="login"/>
+          {type === 'login' ? <GoogleSignIn type="login"/> : <GoogleSignIn type="signup"/>}
         </DialogContent>
       </Dialog>
     </div>

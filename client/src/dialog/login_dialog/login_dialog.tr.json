@@ -5,10 +5,22 @@
   },
   "desc": {
     "en": "Sign in safely with public federal ID provider",
-    "kr": "Federal ID Provider 이용해서 안전하게 로그인 하세요"
+    "kr": "Federal ID Provider를 이용해서 안전하게 로그인 하세요"
   },
   "loginButton": {
     "en": "Sign in with Google",
     "kr": "구글계정으로 로그인"
+  },
+  "titleSignUp": {
+    "en": "Sign up",
+    "kr": "가입하기"
+  },
+  "descSignUp": {
+    "en": "You can sign up safely through the Federal ID Provider",
+    "kr": "Federal ID Provider를 통해 안전하게 가입 할 수 있습니다"
+  },
+  "loginButtonSignUp": {
+    "en": "Sign up with Google",
+    "kr": "구글계정으로 가입하기"
   }
 }

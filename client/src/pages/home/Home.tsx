@@ -31,8 +31,8 @@ const Home = () => {
   const handleLanguageChange = () => {
     store.dispatch(setLanguage('en'));
   };
-  const handleLogin = () => {
-    store.dispatch(setDialog('LoginDialog'))
+  const handleDialog = (type: 'LoginDialog' | 'SignUpDialog') => {
+    store.dispatch(setDialog(type))
   };
 
   return (
@@ -51,8 +51,8 @@ const Home = () => {
           <p>{tr.desc2[ln]}</p>
           <p>{tr.desc3[ln]}</p>
           <p>{tr.desc4[ln]}</p>
-          <Button variant="outlined" color="primary" style={style.signUpButton}>{tr.signUpBtn[ln]}</Button>
-          <p style={{fontSize: 13}}>{tr.loginInstead[ln]}<span onClick={() => handleLogin()}style={style.span}>{tr.loginBtn[ln]}</span></p>
+          <Button variant="outlined" color="primary" style={style.signUpButton} onClick={() => handleDialog('SignUpDialog')}>{tr.signUpBtn[ln]}</Button>
+          <p style={{fontSize: 13}}>{tr.loginInstead[ln]}<span onClick={() => handleDialog('LoginDialog')}style={style.span}>{tr.loginBtn[ln]}</span></p>
           <p style={{fontSize: 13}}>Wordy offered in: <span onClick={() => handleLanguageChange()}style={style.span}>English</span></p>
         </div>
       </div>
