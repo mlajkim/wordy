@@ -8,3 +8,12 @@ export const setDialog = (toWhat: string) => {
     }
   };
 };
+
+export const setPage = (toWhat: string) => {
+  return {
+    type: actions.SET_PAGE,
+    payload: {
+      toWhat
+    }
+  };
+};

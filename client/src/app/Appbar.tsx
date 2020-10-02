@@ -4,13 +4,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
 import {setDialog} from '../redux/actions';
 // Icons
+import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
 
 const Appbar = () => {
@@ -18,7 +18,7 @@ const Appbar = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -29,7 +29,7 @@ const Appbar = () => {
           <IconButton className={"languageButton"} color="inherit" aria-label="language">
             <TranslateIcon />
           </IconButton>
-          <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>JOIN TODAY</Button>
+          <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>로그인</Button>
         </Toolbar>
       </AppBar>
     </div>

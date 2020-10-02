@@ -1,0 +1,17 @@
+.center {
+  margin: auto;
+  width: 80%;
+  color: rgba(67, 29, 12, 0.838);
+  padding: 10px;
+  text-align: center;
+}
+
+
+.title {
+  size: 50;
+}
+
+.btn-center {
+  margin: auto;
+  text-align: center;
+}

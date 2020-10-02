@@ -1,8 +1,8 @@
 import * as actions from '../actionTypes';
 
-const dialog = (state = '', action: any) => {
+const page = (state = 'home', action: any) => {
   switch(action.type) {
-    case actions.SET_DIALOG:
+    case actions.SET_PAGE:
       return action.payload.toWhat;
       
     default:
@@ -10,4 +10,4 @@ const dialog = (state = '', action: any) => {
   }
 }
 
-export default dialog;
+export default page;

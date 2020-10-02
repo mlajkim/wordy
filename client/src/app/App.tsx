@@ -3,12 +3,13 @@ import React from 'react';
 import Appbar from './Appbar';
 // Mains
 import Dialog from './Dialog';
-
+import Page from './Page';
 const App = () => {
   return (
     <div>
       <Appbar />
       <Dialog />
+      <Page />
     </div>
   )
 };
