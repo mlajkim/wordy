@@ -15,3 +15,8 @@
   margin: auto;
   text-align: center;
 }
+
+ul {
+  float: 'right';
+  margin: auto;
+}
