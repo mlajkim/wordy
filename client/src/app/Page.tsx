@@ -6,7 +6,7 @@ import Home from '../pages/home/Home';
 const Page = () => {
   // states
   const page = useSelector((state: any) => state.page);
-
+  
   switch(page) {
     case '' || 'home': 
       return <Home />;

@@ -8,13 +8,13 @@ type GoogleRes = {
     email: string;
     imageUrl: string;
   }
-}
+};
 
 type UsersRes = {
   status: 200 | 204;
   message: string;
   user: User;
-}
+};
 
 type User = {
   federalProvider: string;
@@ -23,8 +23,17 @@ type User = {
   firstName: string,
   email: string,
   imageUrl: string
-}
+};
 
+const handleNonExistingUsser = (accessToken: string) => {
+  // create user
+  console.log(accessToken)
+  axios.post(`/api/v2/mongo/users`, null, {
+    headers: {Authorization: `Bearer ${accessToken}`}
+  })
+};
+
+// @MAIN
 export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
   // Get access token & Refresh token
   const data = (await axios.post(`/api/v2/auth/login`, {
@@ -38,6 +47,7 @@ export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
 
   // Save token securely
 
+
   // Fetch meanwhile
   axios.get(`/api/v2/mongo/users`, {
     headers: {Authorization: `Bearer ${data.accessToken}`}
@@ -47,14 +57,6 @@ export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
       // not found
       handleNonExistingUsser(data.accessToken);
     }
-  });
-
-}
-
-const handleNonExistingUsser = (accessToken: string) => {
-  // create user
-  console.log(accessToken)
-  axios.post(`/api/v2/mongo/users`, null, {
-    headers: {Authorization: `Bearer ${accessToken}`}
   })
-}
+};
+

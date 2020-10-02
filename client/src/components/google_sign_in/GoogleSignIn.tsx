@@ -5,6 +5,8 @@ import tr from './google_sign_in.tr.json'
 // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
+import store from '../../redux/store';
+import {setDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import { Language } from '../../types';
 // API
@@ -18,6 +20,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
   const ln = useSelector((state: {language: Language}) => state.language);
 
   const handleSuccessfulSignIn = (res: any) => {
+    store.dispatch(setDialog(''))
     handleSignIn(res);
   };
 
