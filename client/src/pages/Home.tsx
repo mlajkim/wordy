@@ -4,6 +4,21 @@ import Button from '@material-ui/core/Button';
 // imgs
 import Background from '../img/home_background.jpeg';
 
+const style = {
+  intro: {
+    paddingTop: '8%',
+    fontSize: 18
+  },
+  signUpButton: {
+    marginBottom: 25
+  },
+  span: {
+    textDecoration: "underline", 
+    margin: 1, 
+    cursor: "pointer"
+  }
+}
+
 const Home = () => {
   return (
     <Fragment>
@@ -15,7 +30,7 @@ const Home = () => {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}>
-        <div className="center" style={{paddingTop: '10%'}}>
+        <div className="center" style={style.intro}>
           <h1 className="center title">지금, 당신의 Multilingual Journey가 시작됩니다</h1>
           <p>
             Multilingual, Wordy와 함께라면 어렵지 않습니다. 
@@ -29,16 +44,11 @@ const Home = () => {
           <p>
             최첨단 AI를 겸비한 Wordy를 지금 무료로 이용해보세요.
           </p>
-          <Button variant="outlined" color="primary">지금 무료로 가입하기</Button>
-          <p style={{fontSize: 11}}>이미 계정이 있으시다면 <span style={{textDecoration: "underline", margin: 1, cursor: "pointer"}}>여기로</span> 로그인 해주세요</p>
+          <Button variant="outlined" color="primary" style={style.signUpButton}>지금 무료로 가입하기</Button>
+          <p style={{fontSize: 13}}>이미 계정이 있으시다면 <span style={style.span}>여기로</span> 로그인 해주세요</p>
+          <p style={{fontSize: 13}}>Wordy offered in: <span style={style.span}>English</span></p>
         </div>
       </div>
-      <footer style={{display: "table", fontSize: 12, position: "fixed", float: "right"}}>
-        <ul>한국어</ul>
-        <ul>English (US)</ul>
-        <ul>日本語</ul>
-        <ul>中文(简体)</ul>
-      </footer>
     </Fragment>
     
   )
