@@ -21,6 +21,9 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
         message: 'FORBIDDEN: TOKEN EXPIRED OR INVALID'
       });
     req.body.user = user;
+
+    // For readability
+    console.log(`User: ${user.lastName} ${user.firstName} accessing MongoDB`)
     next();
   });
 };

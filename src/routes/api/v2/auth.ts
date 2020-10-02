@@ -6,12 +6,17 @@ const auth = express.Router();
 dotenv.config();
 
 // @POST: LOGIN
-auth.post("/login", (_req: Request, res: Response) => {
-  const user = {
-    name: "Jeongwoo"
+auth.post("/login", (req: Request, res: Response) => {
+  const signInAttemptingUser = {
+    federalProvider: req.body.federalProvider,
+    federalID: req.body.federalID,
+    lastName: req.body.lastName,
+    firstName: req.body.firstName,
+    email: req.body.email,
+    imageUrl: req.body.imageUrl
   };
-  const accessToken = generateUserAccessToken(user);
-  const refreshToken = generateUserRefreshToken(user);
+  const accessToken = generateUserAccessToken(signInAttemptingUser);
+  const refreshToken = generateUserRefreshToken(signInAttemptingUser);
 
   res.status(200).send({
     status: 200,

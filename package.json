@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "v1": "nodemon server.js dev",
-    "live": "nodemon dist/index.js",
+    "live": "node dist/index.js",
     "start": "nodemon dist/index.js dev",
-    "build": "tsc -w"
+    "watch": "tsc -w",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

@@ -7,6 +7,8 @@ import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
 import {useSelector} from 'react-redux';
 import { language } from '../../types';
+// API
+import {handleSignIn} from './GoogleSignInAPI';
 
 type Props = {
   type: 'login' | 'signup';
@@ -15,13 +17,9 @@ type Props = {
 const GoogleSignIn: React.FC<Props> = ({type}) => {
   const ln = useSelector((state: {language: language}) => state.language);
 
-  const handleSuccessfulSignIn = async (res: any) => {
-    console.log(res);
+  const handleSuccessfulSignIn = (res: any) => {
+    handleSignIn(res);
   };
-
-  const customStyle = {
-    width: "fullwidth"
-  }
 
   return (
     <Fragment>
@@ -29,7 +27,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
         clientId={GOOGLE_CLIENT_ID}
         buttonText={type === 'login' ? tr.btnTextLogin[ln] : tr.btnTextSignUp[ln]}
         onSuccess={(res: any) => {handleSuccessfulSignIn(res)}}
-        onFailure={(res: any) => null}
+        onFailure={(res: any) => console.log(res)}
         cookiePolicy={ 'single_host_origin' }
         responseType='code,token'
         isSignedIn={true}

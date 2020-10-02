@@ -1,20 +1,34 @@
 import express, {Request, Response} from 'express';
+import userSchema from '../../../../models/Users';
 
 const users = express.Router();
 
 // @ CREATE
-users.post("", (_req: Request, res: Response) => {
-  res.status(200).send({
-    status: 200,
-    message: 'OK: users create'
-  });
+users.post("", async (req: Request, res: Response) => {
+  await new userSchema({...req.body.user}).save();
+  console.log(`
+    ***NEW USER ADDED***
+    Name: ${req.body.user.lastName} ${req.body.user.firstName}
+    Email address: ${req.body.user.email}
+  `)
 });
 
 // @ READ
-users.get("", (_req: Request, res: Response) => {
-  res.status(200).send({
+users.get("", async (req: Request, res: Response) => {
+  // Find user
+  const {federalProvider, federalID} = req.body.user;
+  const data = await userSchema.findOne({federalProvider, federalID});
+
+  // Respond accordingly
+  if (data === null) res.status(204).send({ // NOT UNDEFINED.
+    status: 204,
+    message: "[NULL] The user data not found",
+    user: null
+  });
+  else res.status(200).send({
     status: 200,
-    message: 'OK: users read'
+    message: "[SUCCESS] The user has been found",
+    user: data
   });
 });
 
