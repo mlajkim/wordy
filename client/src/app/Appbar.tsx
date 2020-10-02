@@ -8,6 +8,7 @@ import tr from './appbar.tr.json'
 import {Language} from '../types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Drawer from './Drawer';
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
@@ -22,11 +23,12 @@ const Appbar = () => {
   const classes = MUIStyle();
   const ln = useSelector((state: {language: Language}) => state.language);
 
+  const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
   const [menu, openMenu] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     openMenu(event.currentTarget);
   };
-
+  
   const handleLanguageChange = (ln: Language) => {
     store.dispatch(setLanguage(ln))
     openMenu(null);
@@ -36,7 +38,7 @@ const Appbar = () => {
     <div className={classes.root}>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -60,6 +62,7 @@ const Appbar = () => {
           <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>{tr.login[ln]}</Button>
         </Toolbar>
       </AppBar>
+      <Drawer isDrawerOpen={isDrawerOpen} setDrawer={setDrawer}/>
     </div>
   );
 };
