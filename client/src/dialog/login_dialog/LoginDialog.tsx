@@ -3,7 +3,6 @@ import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/s
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +11,7 @@ import tr from './login_dialog.tr.json';
 import store from '../../redux/store';
 import {setDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
-import { language } from '../../types';
+import { Language } from '../../types';
 // Components
 import GoogleSignIn from '../../components/google_sign_in/GoogleSignIn';
 
@@ -56,19 +55,12 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
-
 type Props = {
   type: 'login' | 'signup';
 }
 
 const LoginDialog = ({type}: Props) => {
-  const ln = useSelector((state: {language: language}) => state.language);
+  const ln = useSelector((state: {language: Language}) => state.language);
 
   const handleClose = () => {
     store.dispatch(setDialog(''));

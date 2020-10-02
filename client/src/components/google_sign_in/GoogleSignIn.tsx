@@ -6,7 +6,7 @@ import tr from './google_sign_in.tr.json'
 import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
 import {useSelector} from 'react-redux';
-import { language } from '../../types';
+import { Language } from '../../types';
 // API
 import {handleSignIn} from './GoogleSignInAPI';
 
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const GoogleSignIn: React.FC<Props> = ({type}) => {
-  const ln = useSelector((state: {language: language}) => state.language);
+  const ln = useSelector((state: {language: Language}) => state.language);
 
   const handleSuccessfulSignIn = (res: any) => {
     handleSignIn(res);

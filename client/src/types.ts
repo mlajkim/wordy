@@ -1,6 +1,6 @@
-export type state = {
+export type State = {
   dialog: string;
-  language: language;
+  language: Language;
 }
 
-export type language = 'en' | 'kr';
+export type Language = 'en' | 'ko';

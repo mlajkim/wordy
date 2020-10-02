@@ -1,10 +1,10 @@
 {
   "btnTextLogin": {
     "en": "Sign in with Google",
-    "kr": "구글 계정으로 로그인하기"
+    "ko": "구글 계정으로 로그인하기"
   },
   "btnTextSignUp": {
     "en": "Sign up with Google",
-    "kr": "구글 계정으로 가입하기"
+    "ko": "구글 계정으로 가입하기"
   }
 }

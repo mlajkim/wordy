@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import './Home.css';
 import Button from '@material-ui/core/Button';
 import tr from './home.tr.json';
-import {language} from '../../types';
+import {Language} from '../../types';
 // imgs
 import Background from '../../img/home_background.jpeg';
 // Redux
@@ -26,7 +26,7 @@ const style = {
 }
 
 const Home = () => {
-  const ln = useSelector((state: {language: language}) => state.language);
+  const ln = useSelector((state: {language: Language}) => state.language);
 
   const handleLanguageChange = () => {
     store.dispatch(setLanguage('en'));
