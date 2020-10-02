@@ -2,13 +2,13 @@
 import React, {Fragment} from 'react';
 import {GoogleLogin} from 'react-google-login';
 import tr from './google_sign_in.tr.json'
+import { Language } from '../../types';
 // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
 import store from '../../redux/store';
 import {setDialog, setSignedIn, setPage} from '../../redux/actions';
 import {useSelector} from 'react-redux';
-import { Language } from '../../types';
 // API
 import {handleSignIn} from './GoogleSignInAPI';
 
