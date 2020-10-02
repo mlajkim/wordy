@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import './Home.css';
 import Button from '@material-ui/core/Button';
 import tr from './home_tr.json';
+import {state} from '../../types';
 // imgs
 import Background from '../../img/home_background.jpeg';
 // Redux
@@ -22,10 +23,6 @@ const style = {
     margin: 3, 
     cursor: "pointer"
   }
-}
-type state = {
-  dialog: string;
-  language: 'en' | 'kr';
 }
 
 const Home = () => {

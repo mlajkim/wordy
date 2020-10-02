@@ -5,3 +5,4 @@ export type SignInAttemptedUser = {
   firstName: string,
   email: string
 };
+
