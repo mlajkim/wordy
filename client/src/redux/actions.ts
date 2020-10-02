@@ -26,3 +26,12 @@ export const setLanguage = (toWhat: string) => {
     }
   };
 };
+
+export const setSignedIn = (toWhat: boolean) => {
+  return {
+    type: actions.SET_IS_SIGNED_IN,
+    payload: {
+      toWhat
+    }
+  };
+};

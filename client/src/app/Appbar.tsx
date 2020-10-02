@@ -59,7 +59,9 @@ const Appbar = () => {
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>中文 (简体)</MenuItem>
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>日本語</MenuItem>
           </Menu>
-          <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>{tr.login[ln]}</Button>
+          <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>
+            {tr.login[ln]}
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer isDrawerOpen={isDrawerOpen} setDrawer={setDrawer}/>
