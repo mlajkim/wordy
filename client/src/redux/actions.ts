@@ -17,3 +17,12 @@ export const setPage = (toWhat: string) => {
     }
   };
 };
+
+export const setLanguage = (toWhat: string) => {
+  return {
+    type: actions.SET_LANGUAGE,
+    payload: {
+      toWhat
+    }
+  };
+};

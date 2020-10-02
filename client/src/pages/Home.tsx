@@ -3,6 +3,9 @@ import './Home.css';
 import Button from '@material-ui/core/Button';
 // imgs
 import Background from '../img/home_background.jpeg';
+// Redux
+import store from '../redux/store';
+import {setLanguage} from '../redux/actions';
 
 const style = {
   intro: {
@@ -20,6 +23,10 @@ const style = {
 }
 
 const Home = () => {
+  const handleLanguageChange = () => {
+    store.dispatch(setLanguage('en'));
+  }
+
   return (
     <Fragment>
       <div style={{
@@ -46,7 +53,7 @@ const Home = () => {
           </p>
           <Button variant="outlined" color="primary" style={style.signUpButton}>지금 무료로 가입하기</Button>
           <p style={{fontSize: 13}}>이미 계정이 있으시다면 <span style={style.span}>여기로</span> 로그인 해주세요</p>
-          <p style={{fontSize: 13}}>Wordy offered in: <span style={style.span}>English</span></p>
+          <p style={{fontSize: 13}}>Wordy offered in: <span onClick={() => handleLanguageChange()}style={style.span}>English</span></p>
         </div>
       </div>
     </Fragment>
