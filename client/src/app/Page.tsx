@@ -1,7 +1,5 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-// Dialogs
-import LoginDialog from '../dialog/LoginDialog';
 // Pages
 import Home from '../pages/home/Home';
 

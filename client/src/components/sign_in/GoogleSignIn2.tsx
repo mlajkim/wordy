@@ -7,7 +7,7 @@ import {GOOGLE_CLIENT_ID} from '../../credential';
 import {handle_existing_user, handle_new_user, handle_signin_error} from './GoogleSingnInAPI';
 import {Props} from '../../model';
 
-const GoogleSignIn = (props: Props) => {
+const GoogleSignIn2 = (props: Props) => {
   const handleSuccessfulSignIn = async (googleResponse: any) => {
     // Initiate
     props.setDataLoading(true);
@@ -55,4 +55,4 @@ const GoogleSignIn = (props: Props) => {
   );
 }
 
-export default GoogleSignIn;
+export default GoogleSignIn2;

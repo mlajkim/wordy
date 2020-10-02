@@ -1,0 +1,14 @@
+{
+  "title": {
+    "en": "Sign in",
+    "kr": "로그인"
+  },
+  "desc": {
+    "en": "Sign in safely with public federal ID provider",
+    "kr": "Federal ID Provider 이용해서 안전하게 로그인 하세요"
+  },
+  "loginButton": {
+    "en": "Sign in with Google",
+    "kr": "구글계정으로 로그인"
+  }
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -8,10 +7,14 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import tr from './login_dialog.tr.json';
 // Redux
-import store from '../redux/store';
-import * as actions from '../redux/actionTypes';
-import {setDialog} from '../redux/actions';
+import store from '../../redux/store';
+import {setDialog} from '../../redux/actions';
+import {useSelector} from 'react-redux';
+import { language } from '../../types';
+// Components
+import GoogleSignIn from '../../components/google_sign_in/GoogleSignIn';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -61,35 +64,23 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 const LoginDialog = () => {
+  const ln = useSelector((state: {language: language}) => state.language);
+
   const handleClose = () => {
     store.dispatch(setDialog(''));
   }
   return (
-    <div>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+    <div >
+      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true} fullWidth={true} maxWidth="xs" style={{textAlign: 'center'}}>
+        <DialogTitle id="customized-dialog-title" onClose={handleClose} >
+          {tr.title[ln]}
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+            {tr.desc[ln]}
           </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-            auctor fringilla.
-          </Typography>
+          <GoogleSignIn />
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

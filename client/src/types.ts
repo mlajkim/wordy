@@ -1,4 +1,6 @@
 export type state = {
   dialog: string;
-  language: 'en' | 'kr';
+  language: language;
 }
+
+export type language = 'en' | 'kr';

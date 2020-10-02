@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // Components
-import GoogleSignIn from '../../components/sign_in/GoogleSignIn';
+import GoogleSignIn from '../../components/sign_in/GoogleSignIn2';
 // Model
 import {Props} from '../../model';
 

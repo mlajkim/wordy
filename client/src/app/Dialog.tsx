@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 // Dialogs
-import LoginDialog from '../dialog/LoginDialog';
+import LoginDialog from '../dialog/login_dialog/LoginDialog';
 
 const Dialog = () => {
   // states

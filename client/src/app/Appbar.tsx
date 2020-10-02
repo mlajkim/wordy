@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import tr from './appbar.tr.json'
-import {state} from '../types';
+import {language} from '../types';
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
@@ -18,7 +18,7 @@ import TranslateIcon from '@material-ui/icons/Translate';
 
 const Appbar = () => {
   const classes = MUIStyle();
-  const ln = useSelector((state: state) => state.language);
+  const ln = useSelector((state: {language: language}) => state.language);
 
   return (
     <div className={classes.root}>
