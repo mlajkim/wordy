@@ -7,7 +7,7 @@ import {language} from '../../types';
 import Background from '../../img/home_background.jpeg';
 // Redux
 import store from '../../redux/store';
-import {setLanguage} from '../../redux/actions';
+import {setDialog, setLanguage} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const style = {
@@ -27,9 +27,13 @@ const style = {
 
 const Home = () => {
   const ln = useSelector((state: {language: language}) => state.language);
+
   const handleLanguageChange = () => {
     store.dispatch(setLanguage('en'));
-  }
+  };
+  const handleLogin = () => {
+    store.dispatch(setDialog('LoginDialog'))
+  };
 
   return (
     <Fragment>
@@ -48,7 +52,7 @@ const Home = () => {
           <p>{tr.desc3[ln]}</p>
           <p>{tr.desc4[ln]}</p>
           <Button variant="outlined" color="primary" style={style.signUpButton}>{tr.signUpBtn[ln]}</Button>
-          <p style={{fontSize: 13}}>{tr.loginInstead[ln]}<span style={style.span}>{tr.loginBtn[ln]}</span></p>
+          <p style={{fontSize: 13}}>{tr.loginInstead[ln]}<span onClick={() => handleLogin()}style={style.span}>{tr.loginBtn[ln]}</span></p>
           <p style={{fontSize: 13}}>Wordy offered in: <span onClick={() => handleLanguageChange()}style={style.span}>English</span></p>
         </div>
       </div>

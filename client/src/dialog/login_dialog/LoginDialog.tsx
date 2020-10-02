@@ -79,7 +79,7 @@ const LoginDialog = () => {
           <Typography gutterBottom>
             {tr.desc[ln]}
           </Typography>
-          <GoogleSignIn />
+          <GoogleSignIn type="login"/>
         </DialogContent>
       </Dialog>
     </div>
