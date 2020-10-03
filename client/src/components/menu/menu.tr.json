@@ -1,0 +1,22 @@
+{
+  "reviewTitle": {
+    "en": "Smart Review",
+    "ko": "스마트 리뷰",
+    "ja": "Smart レビュー"
+  },
+  "reviewDesc": {
+    "en": "With the cutting-edge algorithm, you can review your terms at anywhere.",
+    "ko": "최적화 알고리즘을 통해 최고의 효율로 언제, 어디서든지 어휘를 복습할 수 있습니다",
+    "ja": "最適化されたアルゴリズムによる最高の効率で、いつどこでも語彙を復讐します。"
+  },
+  "listTitle": {
+    "en": "My Wordlist",
+    "ko": "내 단어장 보기",
+    "ja": "私の単語リスト"
+  },
+  "listDesc": {
+    "en": "You can check out your own words in a list form",
+    "ko": "지금까지 모아온 단어들을 볼 수 있습니다",
+    "ja": "今まで集めてきた単語リストを見ます。"
+  }
+}

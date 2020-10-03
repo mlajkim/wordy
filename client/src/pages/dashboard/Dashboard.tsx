@@ -3,9 +3,9 @@ import Background from '../../img/dashboard.jpeg';
 import { Language } from '../../types';
 import tr from './dashboard.tr.json';
 // Redux
-import store from '../../redux/store';
-import {setDialog, setSignedIn, setPage} from '../../redux/actions';
 import {useSelector} from 'react-redux';
+// Components
+import Menu from '../../components/menu/Menu';
 
 const Dashboard = () => {
   const ln = useSelector((state: {language: Language}) => state.language);
@@ -15,12 +15,14 @@ const Dashboard = () => {
       <div style={{
         backgroundImage: `url(${Background})`,
         marginTop: 10,
-        height: 650,
+        height: 700,
         width: "100%",
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}>
-      <h1>{tr.title[ln]}</h1>
+      <h1 style={{paddingTop: 35, paddingLeft: 35}}>{tr.title[ln]}</h1>
+      <Menu type="review"/>
+      <Menu type="list"/>
       </div>
     </Fragment>
   );

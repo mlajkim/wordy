@@ -1,7 +1,17 @@
 {
   "prep":{
     "en": "Under construction",
-  "ko": "준비중입니다",
+    "ko": "준비중입니다",
     "ja": "準備中"
+  },
+  "dashboard": {
+    "en": "Dashboard",
+    "ko": "대쉬보드",
+    "ja": "ダッシューボード"
+  },
+  "honor": {
+    "en": "",
+    "ko": "님",
+    "ja": "様"
   }
 }
