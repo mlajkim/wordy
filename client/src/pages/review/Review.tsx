@@ -1,4 +1,6 @@
 import React, {Fragment} from 'react';
+import Background from '../../img/reviewPage.jpeg';
+// Translation
 import tr from './review.tr.json';
 import {Language} from '../../types';
 // Redux
@@ -12,7 +14,16 @@ const Review = () => {
 
   return (
     <Fragment>
-      home
+      <div style={{
+        backgroundImage: `url(${Background})`,
+        marginTop: 10,
+        height: 650,
+        width: "100%",
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}>
+        
+      </div>
     </Fragment>
     
   )

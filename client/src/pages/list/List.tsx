@@ -1,4 +1,6 @@
 import React, {Fragment} from 'react';
+import Background from '../../img/listPage.jpeg';
+// Translation
 import tr from './list.tr.json';
 import {Language} from '../../types';
 // Redux
@@ -12,7 +14,16 @@ const List = () => {
 
   return (
     <Fragment>
-      list
+      <div style={{
+        backgroundImage: `url(${Background})`,
+        marginTop: 10,
+        height: 650,
+        width: "100%",
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}>
+        
+      </div>
     </Fragment>
     
   )
