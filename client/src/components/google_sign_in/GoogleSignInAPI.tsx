@@ -1,8 +1,8 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 // Redux
 import store from '../../redux/store';
-import {setUser} from '../../redux/actions';
-import {useSelector,} from 'react-redux';
+import {setDialog, setSignedIn, setPage, setLanguage, setUser} from '../../redux/actions';
 
 type GoogleRes = {
   googleId: string;
@@ -26,7 +26,8 @@ type User = {
   lastName: string,
   firstName: string,
   email: string,
-  imageUrl: string
+  imageUrl: string,
+  languagePreference: string
 };
 
 const handleExistUser = (res: any) => {
@@ -41,26 +42,36 @@ const handleNonExistingUser = (accessToken: string) => {
   })
 };
 
+export const handleSignInWithAccessToken = (accessToken: string) => {
+  // validate access token
+  handleGettingUserIntoFront(accessToken);
+}
+
 // @MAIN
 export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
   // Get access token & Refresh token
-  const data = (await axios.post(`/api/v2/auth/login`, {
+  const {accessToken, expires} = (await axios.post(`/api/v2/auth/login`, {
     federalProvider: 'google',
-    federalID: googleId,
-    lastName: profileObj.familyName,
-    firstName: profileObj.givenName,
-    email: profileObj.email,
-    imageUrl: profileObj.imageUrl,
-    
-  })).data;
+    federalID: googleId
+  })).data.payload;
 
   // Save token securely
-
+  Cookies.set('login', accessToken, {expires});
 
   // Fetch meanwhile
-  const user =  (await axios.get(`/api/v2/mongo/users`, {
-    headers: {Authorization: `Bearer ${data.accessToken}`}
+  handleGettingUserIntoFront(accessToken);
+  
+};
+
+const handleGettingUserIntoFront = async (accessToken: string) => {
+  store.dispatch(setDialog(''))
+  store.dispatch(setPage('dashboard'))
+  store.dispatch(setSignedIn(true))
+
+  const user: User =  (await axios.get(`/api/v2/mongo/users`, {
+    headers: {Authorization: `Bearer ${accessToken}`}
   })).data.payload;
   store.dispatch(setUser(user.lastName, user.firstName, user.imageUrl));
-};
+  store.dispatch(setLanguage(user.languagePreference))
+}
 

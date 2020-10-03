@@ -4,12 +4,13 @@ import Appbar from './Appbar';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import {handleCountryCode} from '../utils';
+import {handleSignInWithAccessToken} from '../components/google_sign_in/GoogleSignInAPI'
 // Mains
 import Dialog from './Dialog';
 import Page from './Page';
 // Redux
 import store from '../redux/store';
-import {setDialog, setLanguage} from '../redux/actions';
+import {setLanguage} from '../redux/actions';
 
 const App = () => {
   useEffect(() => {
@@ -18,10 +19,10 @@ const App = () => {
       .then(res => store.dispatch(setLanguage(handleCountryCode(res.data.payload))));
     
     // Check the google signin cookie
-    const {G_AUTHUSER_H} = Cookies.get();
+    const {login} = Cookies.get();
     
-    if(G_AUTHUSER_H !== undefined) {
-      store.dispatch(setDialog('LoginDialog'))
+    if(login !== undefined) {
+      handleSignInWithAccessToken(login)
     }
   }, []);
 
