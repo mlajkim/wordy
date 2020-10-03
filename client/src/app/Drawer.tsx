@@ -18,6 +18,8 @@ import ReviewIcon from '@material-ui/icons/ImportContacts';
 import ListIcon from '@material-ui/icons/FormatListBulleted';
 import LoginButton from '@material-ui/icons/ExitToApp';
 // Redux
+import store from '../redux/store';
+import {setSignedIn, setDialog, setLanguage, setPage, setUser} from '../redux/actions';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles({
@@ -34,14 +36,21 @@ const DrawerComponent = (props: any) => {
   const {isDrawerOpen, setDrawer} = props;
   const {language, isSignedIn, user} = useSelector((state: {language: Language, isSignedIn: boolean, user: User}) => state);
   const ln = language;
+
+  //
+  const handleChangePage = (type: string) => {
+    setDrawer(false);
+    store.dispatch(setPage(type));
+  }
+
   const items = [
-    {name: tr.dashboard[ln], icon: <MailIcon />},
-    {name: menuTr.reviewTitle[ln], icon: <ReviewIcon />},
-    {name: menuTr.listTitle[ln], icon: <ListIcon />}
+    {type:'dashboard', name: tr.dashboard[ln], icon: <MailIcon />},
+    {type:'review', name: menuTr.reviewTitle[ln], icon: <ReviewIcon />},
+    {type:'list', name: menuTr.listTitle[ln], icon: <ListIcon />}
   ];
 
   const list = items.map(item => (
-    <ListItem key={item.name} button>
+    <ListItem key={item.name} button onClick={() => handleChangePage(item.type)}>
       <ListItemIcon>{item.icon}</ListItemIcon>
       <ListItemText primary={item.name} />
     </ListItem>
@@ -52,7 +61,7 @@ const DrawerComponent = (props: any) => {
       <React.Fragment>
         <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawer(false)}>
           {!isSignedIn
-            ? <ListItem  button className={classes.list}>
+            ? <ListItem  button className={classes.list} onClick={() => store.dispatch(setDialog('LoginDialog'))}>
                 <ListItemIcon><LoginButton /></ListItemIcon>
                 <ListItemText primary={appbarTr.login[ln]} />
               </ListItem>

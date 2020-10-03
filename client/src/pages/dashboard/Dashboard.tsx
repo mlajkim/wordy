@@ -20,7 +20,7 @@ const Dashboard = () => {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}>
-      <h1 style={{paddingTop: 35, paddingLeft: 35}}>{tr.title[ln]}</h1>
+      <h1 style={{paddingTop: 35, paddingLeft: 35, color: 'rgba(67, 29, 12, 0.838)'}}>{tr.title[ln]}</h1>
       <Menu type="review"/>
       <Menu type="list"/>
       </div>
