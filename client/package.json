@@ -31,7 +31,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "react-token-auth": "^1.1.7",
-    "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "styled-components": "^5.2.0",
     "typescript": "^4.0.2",
