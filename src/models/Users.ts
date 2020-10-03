@@ -7,7 +7,8 @@ const userSchema = new Schema({
   lastName: String,
   firstName: String,
   email: String,
-  imageUrl: String
+  imageUrl: String,
+  languagePreference: String
 });
 
 export default mongoose.model('users', userSchema); 

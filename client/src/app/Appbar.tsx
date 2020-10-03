@@ -9,6 +9,7 @@ import {Language} from '../types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from './Drawer';
+import Avatar from '@material-ui/core/Avatar';
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
@@ -18,6 +19,7 @@ import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const Appbar = () => {
   const classes = MUIStyle();
@@ -45,7 +47,7 @@ const Appbar = () => {
             Wordy
           </Typography>
           <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
-            <TranslateIcon />
+            <TranslateIcon fontSize="small" />
           </IconButton>
           <Menu
             id="simple-menu"
@@ -59,9 +61,9 @@ const Appbar = () => {
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>中文 (简体)</MenuItem>
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>日本語</MenuItem>
           </Menu>
-          <Button color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>
-            {tr.login[ln]}
-          </Button>
+          <IconButton size="small" color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>
+            <Avatar alt="" src="/static/images/avatar/1.jpg" />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer isDrawerOpen={isDrawerOpen} setDrawer={setDrawer}/>
