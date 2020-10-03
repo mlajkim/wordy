@@ -35,3 +35,12 @@ export const setSignedIn = (toWhat: boolean) => {
     }
   };
 };
+
+export const setUser = (lastName: string, firstName: string, imageUrl: string) => {
+  return {
+    type: actions.SET_USER,
+    payload: {
+      lastName, firstName, imageUrl
+    }
+  };
+};

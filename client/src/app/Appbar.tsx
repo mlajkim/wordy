@@ -15,7 +15,7 @@ import Avatar from '@material-ui/core/Avatar';
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
-import {setSignedIn, setDialog, setLanguage, setPage} from '../redux/actions';
+import {setSignedIn, setDialog, setLanguage, setPage, setUser} from '../redux/actions';
 import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
@@ -25,7 +25,7 @@ import {GOOGLE_CLIENT_ID} from '../credential';
 
 const Appbar = () => {
   const classes = MUIStyle();
-  const {language, isSignedIn} = useSelector((state: {language: Language, isSignedIn: boolean}) => state);
+  const {language, isSignedIn, user} = useSelector((state: {language: Language, isSignedIn: boolean, user:any}) => state);
   const ln = language;
   const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
 
@@ -52,6 +52,8 @@ const Appbar = () => {
   }
 
   const handleLogout = () => {
+    setProfileMenu(null);
+    store.dispatch(setUser('', '', ''));
     store.dispatch(setSignedIn(false));
     store.dispatch(setDialog(''));
     store.dispatch(setPage('home'));
@@ -90,7 +92,7 @@ const Appbar = () => {
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>日本語</MenuItem>
           </Menu>
           <IconButton size="small" color="inherit" onClick={(e) => handleProfileMenu(e)}>
-            <Avatar alt="" src="/static/images/avatar/1.jpg" />
+            <Avatar alt={user.firstName} src={user.imageUrl} />
           </IconButton>
           <Menu
             id="loginMenu"
@@ -99,7 +101,7 @@ const Appbar = () => {
             open={Boolean(profileMenu)}
             onClose={() => setProfileMenu(null)}
           >
-            {isSignedIn && <MenuItem onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
+            {isSignedIn && <MenuItem disabled onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
             {!isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
             {isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
           </Menu>

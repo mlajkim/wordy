@@ -8,7 +8,7 @@ import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
 import store from '../../redux/store';
 import {setDialog, setSignedIn, setPage} from '../../redux/actions';
-import {useSelector} from 'react-redux';
+import {useSelector,} from 'react-redux';
 // API
 import {handleSignIn} from './GoogleSignInAPI';
 

@@ -1,4 +1,8 @@
 import axios from 'axios';
+// Redux
+import store from '../../redux/store';
+import {setUser} from '../../redux/actions';
+import {useSelector,} from 'react-redux';
 
 type GoogleRes = {
   googleId: string;
@@ -25,7 +29,11 @@ type User = {
   imageUrl: string
 };
 
-const handleNonExistingUsser = (accessToken: string) => {
+const handleExistUser = (res: any) => {
+  store.dispatch(setUser(res.lastName, res.firstName, res.imageUrl))
+}
+
+const handleNonExistingUser = (accessToken: string) => {
   // create user
   console.log(accessToken)
   axios.post(`/api/v2/mongo/users`, null, {
@@ -42,21 +50,17 @@ export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
     lastName: profileObj.familyName,
     firstName: profileObj.givenName,
     email: profileObj.email,
-    imageUrl: profileObj.imageUrl
+    imageUrl: profileObj.imageUrl,
+    
   })).data;
 
   // Save token securely
 
 
   // Fetch meanwhile
-  axios.get(`/api/v2/mongo/users`, {
+  const user =  (await axios.get(`/api/v2/mongo/users`, {
     headers: {Authorization: `Bearer ${data.accessToken}`}
-  }).then(res => {
-    console.log(res);
-    if(res.status === 204) {
-      // not found
-      handleNonExistingUsser(data.accessToken);
-    }
-  })
+  })).data.payload;
+  store.dispatch(setUser(user.lastName, user.firstName, user.imageUrl));
 };
 
