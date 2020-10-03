@@ -23,7 +23,7 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
     req.body.user = user;
 
     // For readability
-    console.log(`User: ${user.lastName} ${user.firstName} accessing MongoDB`)
+    console.log(`He / She is now accessing to MongoDB indirectly.`)
     next();
   });
 };

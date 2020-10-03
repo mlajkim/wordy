@@ -73,7 +73,7 @@ const Appbar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
             Wordy
           </Typography>
           <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
