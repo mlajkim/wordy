@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import {useGoogleLogout} from 'react-google-login'
+// Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import tr from './appbar.tr.json'
 import {Language} from '../types';
@@ -14,15 +15,18 @@ import Avatar from '@material-ui/core/Avatar';
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
-import {setDialog, setLanguage} from '../redux/actions';
+import {setSignedIn, setDialog, setLanguage, setPage} from '../redux/actions';
 import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
+// Credetnial
+import {GOOGLE_CLIENT_ID} from '../credential';
 
 const Appbar = () => {
   const classes = MUIStyle();
-  const ln = useSelector((state: {language: Language}) => state.language);
+  const {language, isSignedIn} = useSelector((state: {language: Language, isSignedIn: boolean}) => state);
+  const ln = language;
   const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
 
   // @languge menu
@@ -41,6 +45,24 @@ const Appbar = () => {
   const handleProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setProfileMenu(event.currentTarget);
   };
+
+  const handleLogin = () => {
+    setProfileMenu(null);
+    store.dispatch(setDialog('LoginDialog'));
+  }
+
+  const handleLogout = () => {
+    store.dispatch(setSignedIn(false));
+    store.dispatch(setDialog(''));
+    store.dispatch(setPage('home'));
+    signOut();
+  };
+
+  const { signOut } = useGoogleLogout({
+    onFailure: () => null,
+    clientId: GOOGLE_CLIENT_ID,
+    onLogoutSuccess: handleLogout
+  })
   
   return (
     <div className={classes.root}>
@@ -77,9 +99,9 @@ const Appbar = () => {
             open={Boolean(profileMenu)}
             onClose={() => setProfileMenu(null)}
           >
-            <MenuItem onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>
-            <MenuItem onClick={() => setProfileMenu(null)}>{tr.login[ln]}</MenuItem>
-            <MenuItem onClick={() => setProfileMenu(null)}>{tr.logout[ln]}</MenuItem>
+            {isSignedIn && <MenuItem onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
+            {!isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
+            {isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
           </Menu>
         </Toolbar>
       </AppBar>
