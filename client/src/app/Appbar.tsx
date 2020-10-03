@@ -19,23 +19,29 @@ import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const Appbar = () => {
   const classes = MUIStyle();
   const ln = useSelector((state: {language: Language}) => state.language);
-
   const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
+
+  // @languge menu
   const [menu, openMenu] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     openMenu(event.currentTarget);
   };
-  
+
   const handleLanguageChange = (ln: Language) => {
     store.dispatch(setLanguage(ln))
     openMenu(null);
   }
 
+  // @profile image menu
+  const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
+  const handleProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setProfileMenu(event.currentTarget);
+  };
+  
   return (
     <div className={classes.root}>
       <AppBar position="static" color="transparent">
@@ -61,9 +67,20 @@ const Appbar = () => {
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>中文 (简体)</MenuItem>
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>日本語</MenuItem>
           </Menu>
-          <IconButton size="small" color="inherit" onClick={() => store.dispatch(setDialog('LoginDialog'))}>
+          <IconButton size="small" color="inherit" onClick={(e) => handleProfileMenu(e)}>
             <Avatar alt="" src="/static/images/avatar/1.jpg" />
           </IconButton>
+          <Menu
+            id="loginMenu"
+            anchorEl={profileMenu}
+            keepMounted
+            open={Boolean(profileMenu)}
+            onClose={() => setProfileMenu(null)}
+          >
+            <MenuItem onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>
+            <MenuItem onClick={() => setProfileMenu(null)}>{tr.login[ln]}</MenuItem>
+            <MenuItem onClick={() => setProfileMenu(null)}>{tr.logout[ln]}</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer isDrawerOpen={isDrawerOpen} setDrawer={setDrawer}/>

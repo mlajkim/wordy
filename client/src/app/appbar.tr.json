@@ -1,6 +1,14 @@
 {
+  "setting": {
+    "en": "Setting",
+    "ko": "계정 설정"
+  },
   "login": {
     "en": "Sign in",
     "ko": "로그인"
+  },
+  "logout": {
+    "en": "Sign out",
+    "ko": "로그아웃"
   }
 }
