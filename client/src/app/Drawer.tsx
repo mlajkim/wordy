@@ -11,8 +11,7 @@ import menuTr from '../components/menu/menu.tr.json';
 import {Language, User} from '../types';
 import appbarTr from '../app/appbar.tr.json';
 // Icons
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ReviewIcon from '@material-ui/icons/ImportContacts';
 import ListIcon from '@material-ui/icons/FormatListBulleted';
@@ -44,7 +43,7 @@ const DrawerComponent = (props: any) => {
   }
 
   const items = [
-    {type:'dashboard', name: tr.dashboard[ln], icon: <MailIcon />},
+    {type:'dashboard', name: tr.dashboard[ln], icon: <DashboardIcon />},
     {type:'review', name: menuTr.reviewTitle[ln], icon: <ReviewIcon />},
     {type:'list', name: menuTr.listTitle[ln], icon: <ListIcon />}
   ];
