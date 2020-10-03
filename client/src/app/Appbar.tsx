@@ -88,8 +88,8 @@ const Appbar = () => {
           >
             <MenuItem onClick={() => handleLanguageChange('ko')}>한국어</MenuItem>
             <MenuItem onClick={() => handleLanguageChange('en')}>English</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('ja')}>日本語</MenuItem>
             <MenuItem disabled onClick={() => handleLanguageChange('en')}>中文 (简体)</MenuItem>
-            <MenuItem disabled onClick={() => handleLanguageChange('en')}>日本語</MenuItem>
           </Menu>
           <IconButton size="small" color="inherit" onClick={(e) => handleProfileMenu(e)}>
             <Avatar alt={user.firstName} src={user.imageUrl} />

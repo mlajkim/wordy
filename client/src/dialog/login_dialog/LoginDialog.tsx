@@ -67,7 +67,7 @@ const LoginDialog = ({type}: Props) => {
   }
   return (
     <div >
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true} fullWidth={true} maxWidth="xs" style={{textAlign: 'center'}}>
+      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true} fullWidth={true} maxWidth="sm" style={{textAlign: 'center'}}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose} >
           {type === 'login' ? tr.title[ln] : tr.titleSignUp[ln]}
         </DialogTitle>

@@ -3,4 +3,4 @@ export type State = {
   language: Language;
 }
 
-export type Language = 'en' | 'ko';
+export type Language = 'en' | 'ko' | 'ja';

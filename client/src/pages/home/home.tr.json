@@ -1,35 +1,43 @@
 {
   "title": {
     "en": "Your Multilingual Journey has just started.",
-    "ko": "지금, 당신의 Multilingual Journey가 시작됩니다"
+    "ko": "지금, 당신의 Multilingual Journey가 시작됩니다",
+    "ja": "今、あなたの「Multilingual Journey」の道が始まる。"
   },
   "desc1": {
     "en": "It is never challenging to become Multilingual with Wordy.",
-    "ko": "Multilingual, Wordy와 함께라면 어렵지 않습니다. "
+    "ko": "Multilingual, Wordy와 함께라면 어렵지 않습니다. ",
+    "ja": "Multilingual、「ワーディ」と一緒なら難しくありません。"
   },
   "desc2": {
     "en": "Imagine yourself having a convernsation with natives in their own language.",
-    "ko": "다양한 나라의 사람들과 그들의 언어로 자유롭게 소통하는 것."
+    "ko": "다양한 나라의 사람들과 그들의 언어로 자유롭게 소통하는 것.",
+    "ja": "違う国の人々と彼らの言語で流暢に話せること"
   },
   "desc3": {
     "en": "Our 'Wordy' service will help you on your journey for the dream.",
-    "ko": "저희 Wordy는 당신의 그 꿈을 가장 빠르고 쉽게 이룰 수 있도록 돕고 있습니다. "
+    "ko": "저희 Wordy는 당신의 그 꿈을 가장 빠르고 쉽게 이룰 수 있도록 돕고 있습니다. ",
+    "ja": "私たち「ワーディ」はあなたのその夢を一番効率よく手に入れるよう支えております。"
   },
   "desc4": {
     "en": "Enjoy our service with the latest AI technology, for free.",
-    "ko": "최첨단 AI를 겸비한 Wordy를 지금 무료로 이용해보세요."
+    "ko": "최첨단 AI를 겸비한 Wordy를 지금 무료로 이용해보세요.",
+    "ja": "最先端のAI技術を併せ持ってる「ワーディ」を今、無料で利用してください。"
   },
   "signUpBtn": {
     "en": "Sign up for free",
-    "ko": "지금 무료로 가입하기"
+    "ko": "지금 무료로 가입하기",
+    "ja": "今すぐ無料でアカウントを作る"
   },
   "loginInstead": {
     "en": "If you already have an account, sign in",
-    "ko": "이미 계정이 있으신가요?"
+    "ko": "이미 계정이 있으신가요?",
+    "ja": "もはやアカウントがありますか？"
   },
   "loginBtn": {
     "en": "here",
-    "ko": "로그인"
+    "ko": "로그인",
+    "ja": "ログイン"
   }
 }
 
