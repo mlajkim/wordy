@@ -14,16 +14,7 @@ const List = () => {
 
   return (
     <Fragment>
-      <div style={{
-        backgroundImage: `url(${Background})`,
-        marginTop: 10,
-        height: 650,
-        width: "100%",
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-      }}>
-        
-      </div>
+      
     </Fragment>
     
   )

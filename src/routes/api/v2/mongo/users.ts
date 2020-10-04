@@ -33,10 +33,16 @@ users.get("", async (req: Request, res: Response) => {
 });
 
 // @ UPDATE
-users.put("", (_req: Request, res: Response) => {
+users.put("", async (req: Request, res: Response) => {
+  // This case, await is extremely important, otherwise the it will finish the connection with mongo DB
+  await userSchema.findOneAndUpdate({
+    federalProvider: req.body.user.federalProvider,
+    federalID: req.body.user.federalID
+  }, {...req.body.payload}, {useFindAndModify: false});
+
   res.status(200).send({
     status: 200,
-    message: 'OK: users update'
+    message: 'OK: users update (This does not gaurantee the change'
   });
 });
 

@@ -31,7 +31,11 @@ auth.post("/login", (req: Request, res: Response) => {
 
 // @FUNCTION
 const generateUserAccessToken = (user: any) => {
-  return jwt.sign(user, process.env.LOGIN_ACCESS_TOKEN_SECRET!, {expiresIn: `${LOGIN_TOKEN_EXPIRES_IN_DAYS}d`)
+  return jwt.sign(
+    user, 
+    process.env.LOGIN_ACCESS_TOKEN_SECRET!, 
+    {expiresIn: `${LOGIN_TOKEN_EXPIRES_IN_DAYS}d`
+  })
 }
 
 

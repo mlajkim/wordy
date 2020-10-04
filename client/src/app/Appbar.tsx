@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {useGoogleLogout} from 'react-google-login'
+import axios from 'axios';
+import Cookie from 'js-cookie';
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,6 +13,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from './Drawer';
 import Avatar from '@material-ui/core/Avatar';
+import * as API from '../API'; 
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
@@ -36,9 +39,14 @@ const Appbar = () => {
   };
 
   const handleLanguageChange = (ln: Language) => {
-    store.dispatch(setLanguage(ln))
+    store.dispatch(setLanguage(ln));
+    const accessToken = Cookie.get('login');
+    const payload = {languagePreference: ln};
+    API.handleUserChangeDB(accessToken as string, payload);
     openMenu(null);
   }
+
+  
 
   // @profile image menu
   const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
