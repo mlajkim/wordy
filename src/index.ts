@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import { graphqlHTTP } from 'express-graphql';
-import schema from './graphql/schema';
+import schema from './routes/graphql';
 // Routers
 import api from './routes/api';
 
