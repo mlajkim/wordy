@@ -29,10 +29,10 @@
     "ko": "예문",
     "ja": "例文"
   },
-  "isPublic": {
-    "en": "Sign up with Google",
+  "askForPublic": {
+    "en": "You can contirbute to others by making it public",
     "ko": "단어를 공개하실 수 있습니다",
-    "ja": "Googleアカウントで作成"
+    "ja": "作る単語を公開できます"
   },
   "printPublicTrue": {
     "en": "Public",
