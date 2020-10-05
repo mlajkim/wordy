@@ -6,6 +6,7 @@ export type State = {
 export type Language = 'en' | 'ko' | 'ja';
 
 export type User = {
+  ID: string;
   lastName: string;
   firstName: string;
   imageUrl: string;

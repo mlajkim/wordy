@@ -61,7 +61,7 @@ const Appbar = () => {
 
   const handleLogout = () => {
     setProfileMenu(null);
-    store.dispatch(setUser('', '', ''));
+    store.dispatch(setUser('', '', '', ''));
     store.dispatch(setSignedIn(false));
     store.dispatch(setDialog(''));
     store.dispatch(setPage('home'));

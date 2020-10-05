@@ -1,8 +1,10 @@
 import express, {Request, Response, NextFunction} from 'express';
-import users from './mongo/users';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+// Routers
+import users from './mongo/users';
+import languages from './mongo/languages'
 
 // @ MIDDLEWARE: AUTHENTICATION
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -43,5 +45,6 @@ dotenv.config(); // bring dotenv callable
 mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
 mongo.use("/users", users);
+mongo.use("/languages", languages);
 
 export default mongo;

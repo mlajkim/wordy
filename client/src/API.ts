@@ -6,3 +6,4 @@ export const handleUserChangeDB = (accessToken: string, payload: any) => {
     headers: {Authorization: `Bearer ${accessToken}`}
   })
 }
+

@@ -21,6 +21,7 @@ type UsersRes = {
 };
 
 type User = {
+  _id: string;
   federalProvider: string;
   federalID: string,
   lastName: string,
@@ -28,18 +29,6 @@ type User = {
   email: string,
   imageUrl: string,
   languagePreference: string
-};
-
-const handleExistUser = (res: any) => {
-  store.dispatch(setUser(res.lastName, res.firstName, res.imageUrl))
-}
-
-const handleNonExistingUser = (accessToken: string) => {
-  // create user
-  console.log(accessToken)
-  axios.post(`/api/v2/mongo/users`, null, {
-    headers: {Authorization: `Bearer ${accessToken}`}
-  })
 };
 
 export const handleSignInWithAccessToken = (accessToken: string) => {
@@ -66,12 +55,15 @@ export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
 const handleGettingUserIntoFront = async (accessToken: string) => {
   store.dispatch(setDialog(''))
   store.dispatch(setPage('dashboard'))
+  // This is for the quick testing
+  store.dispatch(setPage('list'));// delete this later
+  // DELETE THE "ABOVE" LATER
   store.dispatch(setSignedIn(true))
 
   const user: User =  (await axios.get(`/api/v2/mongo/users`, {
     headers: {Authorization: `Bearer ${accessToken}`}
   })).data.payload;
-  store.dispatch(setUser(user.lastName, user.firstName, user.imageUrl));
+  store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
   store.dispatch(setLanguage(user.languagePreference))
 }
 
