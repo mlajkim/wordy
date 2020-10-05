@@ -8,6 +8,9 @@ const MUIStyle = makeStyles((theme: Theme) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    addWordsButton: {
+      marginRight: theme.spacing(2),
+    },
     title: {
       flexGrow: 1,
     },

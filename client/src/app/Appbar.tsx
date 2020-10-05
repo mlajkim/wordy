@@ -23,6 +23,7 @@ import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
+import AddIcon from '@material-ui/icons/Add';
 // Credetnial
 import {GOOGLE_CLIENT_ID} from '../credential';
 
@@ -84,6 +85,9 @@ const Appbar = () => {
           <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
             Wordy
           </Typography>
+           <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" onClick={() => store.dispatch(setDialog('AddWordsDialog'))}>
+            <AddIcon fontSize="small" />
+          </IconButton>
           <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
             <TranslateIcon fontSize="small" />
           </IconButton>

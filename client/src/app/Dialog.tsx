@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 // Dialogs
 import LoginDialog from '../dialog/login_dialog/LoginDialog';
 import WarningDialog from '../dialog/warning/WarningDialog';
+import AddWordsDialog from '../dialog/add_word/AddWordsDialog';
 
 const Dialog = () => {
   // states
@@ -14,6 +15,9 @@ const Dialog = () => {
 
     case 'SignUpDialog': 
       return <LoginDialog type='signup' />;
+
+    case 'AddWordsDialog': 
+      return <AddWordsDialog />;
 
     case 'Warning401': 
       return <WarningDialog status="401" />;
