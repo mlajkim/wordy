@@ -1,11 +1,23 @@
 import express, {Request, Response} from 'express';
 import wordSchema from '../../../../models/Words';
+import {getDate} from '../../../../utils';
 
 const words = express.Router();
 
 // @ CREATE
-words.post("", async (req: Request, _res: Response) => {
-  await new wordSchema({...req.body.user}).save();
+words.post("", async (req: Request, res: Response) => {
+  // Add the words into the database
+  const now = getDate();
+  await new wordSchema({...req.body.payload,
+    dateAdded: now.now,
+    year: now.year,
+    sem: now.sem
+  }).save();
+
+  res.status(200).send({
+    status: 200,
+    message: '[OK] Word added'
+  })
 });
 
 // @ READ
@@ -29,6 +41,11 @@ words.get("/:ownerID", async (req: Request, res: Response) => {
 
 // @ UPDATE
 words.put("", async (_req: Request, _res: Response) => {
+
+});
+
+// @ UPDATE
+words.put("/tag", async (_req: Request, _res: Response) => {
 
 });
 

@@ -5,7 +5,7 @@ const wordSchema = new Schema({
   ownerID: String,
   dateAdded: String,
   year: Number,
-  semester: Number,
+  sem: Number,
   language: String,
   tag: Array,
   word: String,

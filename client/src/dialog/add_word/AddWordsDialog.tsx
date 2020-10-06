@@ -14,14 +14,14 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 // Translation
 import tr from './add_words_dialog.tr.json';
-import {Language} from '../../types';
+import {State} from '../../types';
 // Redux
 import store from '../../redux/store';
 import {setDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const AddWordsDialog = () => {
-  const {language} = useSelector((state: {language: Language}) => state);
+  const {language, user, languages} = useSelector((state: State) => state);
   const ln = language;
 
   const [word, setWord] = useState('');
@@ -30,10 +30,12 @@ const AddWordsDialog = () => {
   const [example, setExample] = useState(''); 
   const [isPublic, setPublic] = useState(true); 
 
-  const handleClick = () => {
-    axios.post(`/api/v2/mongo/words`, {
-      word, pronun, meaning, example, isPublic
-    }, API.getAuthorization())
+  const handleAddWords = () => {
+    store.dispatch(setDialog(''));
+    axios.post(`/api/v2/mongo/words`, {payload: {
+      ownerID: user.ID, word, pronun, meaning, example, isPublic,
+      language: languages.addWordLangPref, 
+    }}, API.getAuthorization())
   }
 
   return (
@@ -44,9 +46,9 @@ const AddWordsDialog = () => {
         <DialogContent>
           <AvailableLangs />
           <TextField autoFocus margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)}/>
-          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={word} onChange={(e) => setPronun(e.target.value)}/>
-          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={word} onChange={(e) => setMeaning(e.target.value)}/>
-          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={word} onChange={(e) => setExample(e.target.value)}/>
+          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)}/>
+          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}/>
+          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}/>
           {tr.askForPublic[ln]}
           <FormControlLabel
             value="end"
@@ -59,7 +61,7 @@ const AddWordsDialog = () => {
           <Button onClick={() => store.dispatch(setDialog(''))} color="secondary">
             {tr.btnCancel[ln]}
           </Button>
-          <Button onClick={() => store.dispatch(setDialog(''))} color="primary" variant="contained">
+          <Button onClick={() => handleAddWords()} color="primary" variant="contained">
             {tr.btnOkay[ln]}
           </Button>
         </DialogActions>
