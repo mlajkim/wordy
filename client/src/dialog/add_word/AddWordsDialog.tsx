@@ -17,11 +17,11 @@ import tr from './add_words_dialog.tr.json';
 import {State} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog} from '../../redux/actions';
+import {setDialog, addYears} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const AddWordsDialog = () => {
-  const {language, user, languages} = useSelector((state: State) => state);
+  const {language, user, languages, years} = useSelector((state: State) => state);
   const ln = language;
 
   const [word, setWord] = useState('');
@@ -32,10 +32,21 @@ const AddWordsDialog = () => {
 
   const handleAddWords = async () => {
     store.dispatch(setDialog(''));
-    axios.post(`/api/v2/mongo/words`, {payload: {
+    const {data} = await axios.post(`/api/v2/mongo/words`, {payload: {
       ownerID: user.ID, word, pronun, meaning, example, isPublic,
       language: languages.addWordLangPref, 
     }}, API.getAuthorization());
+
+    // Sync
+    const newWord = data.payload;
+    const found = years.find(year => year.year === newWord.year && year.sem === newWord.sem)
+    if(!found) {
+      store.dispatch(addYears({year: newWord.year, sem: newWord.sem}));
+      axios.post(`/api/v2/mongo/years/sync`, {
+        ownerID: user.ID, year: newWord.year, sem: newWord.sem
+      }, API.getAuthorization());
+    }
+
   }
 
   return (

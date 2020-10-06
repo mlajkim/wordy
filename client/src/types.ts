@@ -3,7 +3,8 @@ export type State = {
   language: Language;
   languages: Languages;
   isSignedIn: string;
-  user: User
+  user: User,
+  years: Array<{year: number, sem: number}>;
 }
 
 export type Languages = {
@@ -18,4 +19,4 @@ export type User = {
   lastName: string;
   firstName: string;
   imageUrl: string;
-}
+};
