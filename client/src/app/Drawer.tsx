@@ -18,7 +18,7 @@ import ListIcon from '@material-ui/icons/FormatListBulleted';
 import LoginButton from '@material-ui/icons/ExitToApp';
 // Redux
 import store from '../redux/store';
-import {setSignedIn, setDialog, setLanguage, setPage, setUser} from '../redux/actions';
+import {setDialog, setPage} from '../redux/actions';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles({

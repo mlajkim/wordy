@@ -1,4 +1,3 @@
-import { AccordionActions } from '@material-ui/core';
 import * as actions from '../actionTypes';
 
 const initialState = {

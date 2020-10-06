@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import { State } from '../../types';
@@ -33,7 +33,7 @@ const AvailableLangs: React.FC = () => {
   useEffect(() => {
     if(user.ID) axios.get(`/api/v2/mongo/languages/${user.ID}`, API.getAuthorization())
       .then(res => store.dispatch(setAddWordLangPref(res.data.payload.addWordLangPref)))
-  }, [user.ID]);
+  }, []);
 
   const menuItems = LANGUAGES_AVAILABLE_LIST.map(lang => (
     <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>

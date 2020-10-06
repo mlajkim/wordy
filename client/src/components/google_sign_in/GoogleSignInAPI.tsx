@@ -14,12 +14,6 @@ type GoogleRes = {
   }
 };
 
-type UsersRes = {
-  status: 200 | 204;
-  message: string;
-  user: User;
-};
-
 type User = {
   _id: string;
   federalProvider: string;

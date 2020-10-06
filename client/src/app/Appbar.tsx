@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {useGoogleLogout} from 'react-google-login'
-import axios from 'axios';
 import Cookie from 'js-cookie';
 // Material UI
 import AppBar from '@material-ui/core/AppBar';

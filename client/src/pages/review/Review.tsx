@@ -1,16 +1,16 @@
 import React, {Fragment} from 'react';
 import Background from '../../img/reviewPage.jpeg';
 // Translation
-import tr from './review.tr.json';
-import {Language} from '../../types';
+// import tr from './review.tr.json';
+// import {Language} from '../../types';
 // Redux
-import store from '../../redux/store';
-import {setDialog, setLanguage} from '../../redux/actions';
-import {useSelector} from 'react-redux';
+// import store from '../../redux/store';
+// import {setDialog, setLanguage} from '../../redux/actions';
+// import {useSelector} from 'react-redux';
 
 const Review = () => {
-  const {language} = useSelector((state: {language: Language}) => state);
-  const ln = language;
+  // const {language} = useSelector((state: {language: Language}) => state);
+  // const ln = language;
 
   return (
     <Fragment>

@@ -1,0 +1,17 @@
+{
+  "empty":{
+    "ko": "아직 추가하신 단어가 없네요 :(",
+    "en": "It seems like you have not added any words yet",
+    "ja": "まだ追加した単語がありません"
+  },
+  "emptyBtn":{
+    "ko": "지금 단어 추가하기",
+    "en": "Add words now",
+    "ja": "今、単語を追加します！"
+  },
+  "emptyProBtn":{
+    "ko": "(고급기술) 단어 추가하기",
+    "en": "(Difficult) Add words in a chunk",
+    "ja": "(高級技術) 単語追加"
+  }
+}
