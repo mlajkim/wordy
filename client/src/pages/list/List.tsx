@@ -20,13 +20,6 @@ const List = () => {
   // Redux states
   const {language, user, years} = useSelector((state: State) => state);
   const ln = language;
-  // Apollo states
-  const {loading, error, data} = useQuery(YEARS_QUERY, {
-    variables: { ID: user.ID, accessToken: API.getAccessToken() }
-  });
-  useEffect(() => {
-    if(!loading && !error) store.dispatch(setYears(data.years));
-  }, [loading, error]);
 
   return (
     <Fragment>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 // Redux
 import store from '../../redux/store';
-import {setDialog, setSignedIn, setPage, setLanguage, setUser} from '../../redux/actions';
+import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears} from '../../redux/actions';
 
 type GoogleRes = {
   googleId: string;
@@ -57,7 +57,12 @@ const handleGettingUserIntoFront = async (accessToken: string) => {
   const user: User =  (await axios.get(`/api/v2/mongo/users`, {
     headers: {Authorization: `Bearer ${accessToken}`}
   })).data.payload;
+  // Ah, these are the user-sync-preference
   store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
   store.dispatch(setLanguage(user.languagePreference))
+  const { data } = await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
+    headers: {Authorization: `Bearer ${accessToken}`}
+  })
+  store.dispatch(setYears(data.payload));
 }
 
