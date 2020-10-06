@@ -8,7 +8,7 @@ const words = express.Router();
 words.post("", async (req: Request, res: Response) => {
   // Add the words into the database
   const now = getDate();
-  await new wordSchema({...req.body.payload,
+  const newWord = await new wordSchema({...req.body.payload,
     dateAdded: now.now,
     year: now.year,
     sem: now.sem
@@ -16,7 +16,8 @@ words.post("", async (req: Request, res: Response) => {
 
   res.status(200).send({
     status: 200,
-    message: '[OK] Word added'
+    message: '[OK] Word added',
+    payload: newWord
   })
 });
 

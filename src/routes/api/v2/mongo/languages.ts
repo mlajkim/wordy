@@ -8,6 +8,10 @@ languages.post("", async (_req: Request, _res: Response) => {
 
 });
 
+languages.post("/sync", async (_req: Request, _res: Response) => {
+  
+});
+
 // @ READ
 languages.get("/:ownerID", async (req: Request, res: Response) => {
   const ownerID = req.params.ownerID ? req.params.ownerID : null;

@@ -30,12 +30,12 @@ const AddWordsDialog = () => {
   const [example, setExample] = useState(''); 
   const [isPublic, setPublic] = useState(true); 
 
-  const handleAddWords = () => {
+  const handleAddWords = async () => {
     store.dispatch(setDialog(''));
     axios.post(`/api/v2/mongo/words`, {payload: {
       ownerID: user.ID, word, pronun, meaning, example, isPublic,
       language: languages.addWordLangPref, 
-    }}, API.getAuthorization())
+    }}, API.getAuthorization());
   }
 
   return (
