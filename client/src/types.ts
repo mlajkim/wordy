@@ -1,6 +1,8 @@
 export type State = {
   dialog: string;
   language: Language;
+  isSignedIn: string;
+  user: User
 }
 
 export type Language = 'en' | 'ko' | 'ja';

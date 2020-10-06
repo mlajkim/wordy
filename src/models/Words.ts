@@ -7,10 +7,10 @@ const wordSchema = new Schema({
   year: Number,
   semester: Number,
   language: String,
-  tag: String,
+  tag: Array,
   word: String,
   pronun: String,
-  define: String,
+  meaning: String,
   example: String,
   isPublic: Boolean
 });

@@ -4,8 +4,8 @@ import wordSchema from '../../../../models/Words';
 const words = express.Router();
 
 // @ CREATE
-words.post("", async (_req: Request, _res: Response) => {
-
+words.post("", async (req: Request, _res: Response) => {
+  await new wordSchema({...req.body.user}).save();
 });
 
 // @ READ

@@ -19,7 +19,7 @@
     "ko": "발음",
     "ja": "発音"
   },
-  "define": {
+  "meaning": {
     "en": "Definition ",
     "ko": "의미",
     "ja": "意味"
@@ -43,5 +43,15 @@
     "en": "Not public",
     "ko": "비공개",
     "ja": "非公開"
+  },
+  "btnCancel": {
+    "en": "Cancel",
+    "ko": "취소",
+    "ja": "キャンセル"
+  },
+  "btnOkay": {
+    "en": "Add",
+    "ko": "추가",
+    "ja": "追加"
   }
 }

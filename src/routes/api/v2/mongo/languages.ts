@@ -28,8 +28,16 @@ languages.get("/:ownerID", async (req: Request, res: Response) => {
 });
 
 // @ UPDATE
-languages.put("", async (_req: Request, _res: Response) => {
+languages.put("/:ownerID", async (req: Request, res: Response) => {
+  console.log(req.body.payload)
+  await languageSchema.findOneAndUpdate({
+    ownerID: req.params.ownerID
+  }, {...req.body.payload}, {useFindAndModify: false});
 
+  res.status(200).send({
+    status: 200,
+    message: 'OK: language update (This does not gaurantee the change'
+  });
 });
 
 // @ DELETE
