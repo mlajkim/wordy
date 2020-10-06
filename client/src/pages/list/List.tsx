@@ -3,22 +3,20 @@ import Background from '../../img/listPage.jpeg';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import * as API from '../../API';
+import {State} from '../../types';
 // Material UI
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 // Translation
 import tr from './list.tr.json';
-import {Language, User} from '../../types';
 // Redux
 import store from '../../redux/store';
 import {setDialog, setLanguages} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const List = () => {
-  const accessToken = Cookies.get('login') as string;
-  const {language, user} = useSelector((state: {language: Language, user: User}) => state);
-  const {ID} = user;
+  const {language, user} = useSelector((state: State) => state);
   const ln = language;
 
   return (

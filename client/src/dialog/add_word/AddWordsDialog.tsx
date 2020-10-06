@@ -3,8 +3,8 @@ import axios from 'axios';
 import * as API from '../../API';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 //GraphQL & Apolo
-import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
+import { YEARS_QUERY } from '../../apollo/queries';
 // Material UI
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -22,14 +22,7 @@ import store from '../../redux/store';
 import {setDialog, addYears, setYears } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
-const YEARS_QUERY = gql `
-  query YearsQuery($ID: String) {
-    years (ID: $ID) {
-      year
-      sem
-    }
-  }
-`
+
 
 const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: number) => {
   // Only run when you have detected your front is different
@@ -55,7 +48,7 @@ const AddWordsDialog: React.FC = () => {
   const [isPublic, setPublic] = useState(true);
   // Apollo states
   const {loading, error, data} = useQuery(YEARS_QUERY, {
-    variables: { ID: user.ID }
+    variables: { ID: user.ID, accessToken: API.getAccessToken() }
   });
   useEffect(() => {
     if(!loading && !error) store.dispatch(setYears(data.years));

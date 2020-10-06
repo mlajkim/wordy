@@ -49,10 +49,10 @@ const RootQuery = new GraphQLObjectType({
   fields: () => ({
     years: {
       type: new GraphQLList(YearType), 
-      args: { ID: { type: GraphQLString }, accessToken: { type: GraphQLString}},
+      args: { ID: { type: GraphQLString }, accessToken: { type: GraphQLString } },
       resolve(_parent, args) {
         return axios.get(`/api/v2/mongo/years/all/${args.ID}`, {
-          headers: {Authorization: `Bearer ${process.env.TEMPORARY_ACCESS_TOKEN}`}
+          headers: {Authorization: `Bearer ${args.accessToken}`}
         }).then(res => res.data.payload)
       }
     },

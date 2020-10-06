@@ -16,3 +16,7 @@ export const getAuthorization = () => {
   }
 }
 
+export const getAccessToken = () => {
+  return cookies.get('login') as string
+}
+
