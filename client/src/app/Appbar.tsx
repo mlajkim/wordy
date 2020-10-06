@@ -64,13 +64,13 @@ const Appbar = () => {
     store.dispatch(setSignedIn(false));
     store.dispatch(setDialog(''));
     store.dispatch(setPage('home'));
-    signOut();
   };
 
   const { signOut } = useGoogleLogout({
+    onLogoutSuccess: handleLogout,
     onFailure: () => null,
-    clientId: GOOGLE_CLIENT_ID,
-    onLogoutSuccess: handleLogout
+    clientId: GOOGLE_CLIENT_ID
+    
   })
   
   return (
@@ -115,7 +115,7 @@ const Appbar = () => {
           >
             {isSignedIn && <MenuItem disabled onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
             {!isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
-            {isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
+            {isSignedIn && <MenuItem onClick={() => signOut()}>{tr.logout[ln]}</MenuItem>}
           </Menu>
         </Toolbar>
       </AppBar>
