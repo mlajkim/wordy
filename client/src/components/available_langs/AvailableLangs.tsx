@@ -5,14 +5,13 @@ import { State } from '../../types';
 // Translation
 import tr from './available_langs.tr.json';
 // Material UI
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 // Redux
 import {useSelector} from 'react-redux';
+import store from '../../redux/store';
+import {setAddWordLangPref} from '../../redux/actions';
 
 const LANGUAGES_AVAILABLE_LIST = [
   {code: 'ko', name: '한국어'},{code: 'en', name: 'English'},
@@ -20,22 +19,20 @@ const LANGUAGES_AVAILABLE_LIST = [
 ];
 
 const AvailableLangs: React.FC = () => {
-  const {language, user} = useSelector((state: State) => state);
+  const {language, user, languages} = useSelector((state: State) => state);
   const ln = language;
-
-  const [addWordLangPref, setAddWordLangPref] = useState('en'); // English as default
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAddWordLangPref(event.target.value as string);
+    store.dispatch(setAddWordLangPref(event.target.value as string))
     axios.put(`api/v2/mongo/languages/${user.ID}`, 
     {payload: {addWordLangPref: event.target.value}}, 
-    API.getAuthorization())
+    API.getAuthorization());
   };
 
   useEffect(() => {
     if(user.ID) axios.get(`/api/v2/mongo/languages/${user.ID}`, API.getAuthorization())
-      .then(res => setAddWordLangPref(res.data.payload.addWordLangPref))
+      .then(res => store.dispatch(setAddWordLangPref(res.data.payload.addWordLangPref)))
   }, [user.ID]);
 
   const menuItems = LANGUAGES_AVAILABLE_LIST.map(lang => (
@@ -51,13 +48,12 @@ const AvailableLangs: React.FC = () => {
           open={open}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
-          value={addWordLangPref}
-          onChange={handleChange}
+          value={languages.addWordLangPref}
+          onChange={(e) => handleChange(e)}
         >
           {menuItems}
         </Select>
-    </Fragment>  
-    
+    </Fragment>
   )
 }
 

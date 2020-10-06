@@ -8,5 +8,13 @@ import user from './user';
 import languages from './languages';
 
 export default combineReducers({
-  dialog, page, language, isSignedIn, user, languages
+  dialog, 
+  page, 
+  // This represents the wordy app's default showing languages
+  language, 
+  isSignedIn, 
+  // user state is to identify the current use of the website.
+  // it should ideally contain only datas tto identify them
+  user, 
+  languages
 });

@@ -53,3 +53,12 @@ export const setLanguages = (toWhat: string[]) => {
     }
   };
 }
+
+export const setAddWordLangPref = (toWhat: string) => {
+  return {
+    type: actions.SET_ADD_WORD_LANG_PREF,
+    payload: {
+      toWhat
+    }
+  };
+}
