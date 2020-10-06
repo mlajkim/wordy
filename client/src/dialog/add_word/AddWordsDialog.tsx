@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
@@ -17,8 +17,20 @@ import tr from './add_words_dialog.tr.json';
 import {State} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog, addYears} from '../../redux/actions';
+import {setDialog, addYears, setLanguages} from '../../redux/actions';
 import {useSelector} from 'react-redux';
+
+const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: number) => {
+  // Only run when you have detected your front is different
+  // Double checking if the data exists
+  if(doubleCheck) {
+    axios.get(`/api/v2/mongo/years/one/${ownerID}/${year}/${sem}`,API.getAuthorization())
+      .then(res => { if (res.status === 204) return; })
+  }
+  axios.post(`/api/v2/mongo/years`, {
+    payload: { ownerID, year, sem }
+  }, API.getAuthorization());
+}
 
 const AddWordsDialog = () => {
   const {language, user, languages, years} = useSelector((state: State) => state);
@@ -30,23 +42,24 @@ const AddWordsDialog = () => {
   const [example, setExample] = useState(''); 
   const [isPublic, setPublic] = useState(true); 
 
+  useEffect(() => {
+    axios.get(`/api/v2/mongo/years/all/${user.ID}`, API.getAuthorization())
+      .then(res => console.log(res.data.payload))
+  }, [years, user.ID])
+
   const handleAddWords = async () => {
     store.dispatch(setDialog(''));
     const {data} = await axios.post(`/api/v2/mongo/words`, {payload: {
       ownerID: user.ID, word, pronun, meaning, example, isPublic,
       language: languages.addWordLangPref, 
     }}, API.getAuthorization());
-
+    const payload = data.payload;
     // Sync
-    const newWord = data.payload;
-    const found = years.find(year => year.year === newWord.year && year.sem === newWord.sem)
+    const found = years.find(year => year.year === payload.year && year.sem === payload.sem)
     if(!found) {
-      store.dispatch(addYears({year: newWord.year, sem: newWord.sem}));
-      axios.post(`/api/v2/mongo/years/sync`, {
-        ownerID: user.ID, year: newWord.year, sem: newWord.sem
-      }, API.getAuthorization());
+      store.dispatch(addYears({year: payload.year, sem: payload.sem}));
+      syncYearsDB(false, user.ID, payload.year, payload.sem);
     }
-
   }
 
   return (

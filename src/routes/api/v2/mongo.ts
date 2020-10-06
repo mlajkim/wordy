@@ -5,7 +5,8 @@ import mongoose from 'mongoose';
 // Routers
 import users from './mongo/users';
 import languages from './mongo/languages'
-import words from './mongo/words'
+import words from './mongo/words';
+import years from './mongo/years';
 
 // @ MIDDLEWARE: AUTHENTICATION
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -48,5 +49,6 @@ mongo.use(connectToMongoDB); // Connect to DB
 mongo.use("/users", users);
 mongo.use("/languages", languages);
 mongo.use("/words", words);
+mongo.use("/years", years);
 
 export default mongo;
