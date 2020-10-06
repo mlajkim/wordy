@@ -2,13 +2,15 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
+//GraphQL & Apolo
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo';
 // Material UI
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -17,36 +19,47 @@ import tr from './add_words_dialog.tr.json';
 import {State} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog, addYears, setLanguages} from '../../redux/actions';
+import {setDialog, addYears, setYears } from '../../redux/actions';
 import {useSelector} from 'react-redux';
+
+const YEARS_QUERY = gql `
+  query YearsQuery($ID: String) {
+    years (ID: $ID) {
+      year
+      sem
+    }
+  }
+`
 
 const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: number) => {
   // Only run when you have detected your front is different
   // Double checking if the data exists
   if(doubleCheck) {
     axios.get(`/api/v2/mongo/years/one/${ownerID}/${year}/${sem}`,API.getAuthorization())
-      .then(res => { if (res.status === 204) return; })
+      .then(res => { if (res.status === 200) return; })
   }
   axios.post(`/api/v2/mongo/years`, {
     payload: { ownerID, year, sem }
   }, API.getAuthorization());
 }
 
-const AddWordsDialog = () => {
+const AddWordsDialog: React.FC = () => {
+  // Redux states
   const {language, user, languages, years} = useSelector((state: State) => state);
   const ln = language;
-
+  // Component states
   const [word, setWord] = useState('');
   const [pronun, setPronun] = useState('' ); 
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
-  const [isPublic, setPublic] = useState(true); 
-
+  const [isPublic, setPublic] = useState(true);
+  // Apollo states
+  const {loading, error, data} = useQuery(YEARS_QUERY, {
+    variables: { ID: user.ID }
+  });
   useEffect(() => {
-    // Working on this
-    axios.get(`/api/v2/mongo/years/all/${user.ID}`, API.getAuthorization())
-      .then(res => console.log(res.data.payload))
-  }, [years, user.ID])
+    if(!loading && !error) store.dispatch(setYears(data.years));
+  }, [loading, error])
 
   const handleAddWords = async () => {
     store.dispatch(setDialog(''));
@@ -59,13 +72,12 @@ const AddWordsDialog = () => {
     const found = years.find(year => year.year === payload.year && year.sem === payload.sem)
     if(!found) {
       store.dispatch(addYears({year: payload.year, sem: payload.sem}));
-      syncYearsDB(false, user.ID, payload.year, payload.sem);
+      syncYearsDB(true, user.ID, payload.year, payload.sem);
     }
   }
 
   return (
     <div>
-      {word}
       <Dialog open={true} onClose={() => store.dispatch(setDialog(''))}>
         <DialogTitle id="form-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>

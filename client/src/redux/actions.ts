@@ -63,6 +63,15 @@ export const setAddWordLangPref = (toWhat: string) => {
   };
 }
 
+export const setYears = (addWhat: object[]) => {
+  return {
+    type: actions.SET_YEARS,
+    payload: {
+      addWhat
+    }
+  };
+}
+
 export const addYears = (addWhat: {year: number, sem: number}) => {
   return {
     type: actions.ADD_YEARS,

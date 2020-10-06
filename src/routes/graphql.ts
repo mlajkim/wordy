@@ -39,8 +39,8 @@ const YearType = new GraphQLObjectType({
   fields: () => ({
     _id: {type: GraphQLString},
     ownerID: {type: GraphQLString},
-    year: {type: GraphQLString},
-    sem: {type: GraphQLString}
+    year: {type: GraphQLInt},
+    sem: {type: GraphQLInt}
   })
 })
 
