@@ -2,6 +2,7 @@ import React, {Fragment, useEffect} from 'react';
 import './List.css';
 import * as API from '../../API';
 import {State} from '../../types';
+import YearChip from './YearChip';
 //GraphQL & Apolo
 import { useQuery } from 'react-apollo';
 import { YEARS_QUERY } from '../../apollo/queries';
@@ -35,7 +36,7 @@ const List = () => {
                 {tr.emptyProBtn[ln]}
               </Button>
             </div>
-          : <h3>I see you have data</h3>
+          : <YearChip />
         }
         </Typography>
       </Container>
