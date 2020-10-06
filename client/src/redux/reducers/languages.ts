@@ -1,7 +1,7 @@
 import * as actions from '../actionTypes';
 
 const initialState = {
-  addWordLangPref: '',
+  addWordLangPref: 'en',
   data: []
 };
 

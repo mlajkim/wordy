@@ -4,8 +4,16 @@ import languageSchema from '../../../../models/Languages';
 const languages = express.Router();
 
 // @ CREATE
-languages.post("", async (_req: Request, _res: Response) => {
+languages.post("", async (req: Request, res: Response) => {
+  const data = await new languageSchema({
+    ...req.body.payload
+  }).save()
 
+  res.status(200).send({
+    status: 200,
+    message: '[OK] new language added',
+    payload: data
+  })
 });
 
 languages.post("/sync", async (_req: Request, _res: Response) => {

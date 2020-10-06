@@ -5,7 +5,7 @@ const languageSchema = new Schema({
   ownerID: String,
   firstName: String,
   addWordLangPref: String,
-  languages: Array
+  data: Array
 });
 
 export default mongoose.model('languages', languageSchema); 
