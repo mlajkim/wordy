@@ -46,8 +46,6 @@ const Appbar = () => {
     openMenu(null);
   }
 
-  
-
   // @profile image menu
   const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
   const handleProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {

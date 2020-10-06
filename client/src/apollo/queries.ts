@@ -8,3 +8,15 @@ export const YEARS_QUERY = gql `
     }
   }
 `;
+
+/**
+ * THESE WORKS KINDA OKAY WITH DEPENDECY WARNING
+ 
+const {loading, error, data} = useQuery(YEARS_QUERY, {
+  variables: { ID: user.ID, accessToken: API.getAccessToken() }
+});
+useEffect(() => {
+  if(!loading && !error) store.dispatch(setYears(data.years));
+}, [loading, error]);
+
+ */

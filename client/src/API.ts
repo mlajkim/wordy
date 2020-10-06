@@ -20,3 +20,7 @@ export const getAccessToken = () => {
   return cookies.get('login') as string
 }
 
+export const killCookie = (what: string) =>  {
+  cookies.remove('login');
+}
+
