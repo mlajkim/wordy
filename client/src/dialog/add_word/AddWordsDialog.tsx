@@ -43,6 +43,7 @@ const AddWordsDialog = () => {
   const [isPublic, setPublic] = useState(true); 
 
   useEffect(() => {
+    // Working on this
     axios.get(`/api/v2/mongo/years/all/${user.ID}`, API.getAuthorization())
       .then(res => console.log(res.data.payload))
   }, [years, user.ID])

@@ -34,9 +34,28 @@ const LanguageType = new GraphQLObjectType({
   })
 })
 
+const YearType = new GraphQLObjectType({
+  name: 'Year',
+  fields: () => ({
+    _id: {type: GraphQLString},
+    ownerID: {type: GraphQLString},
+    year: {type: GraphQLString},
+    sem: {type: GraphQLString}
+  })
+})
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: () => ({
+    years: {
+      type: new GraphQLList(YearType), 
+      args: { ID: { type: GraphQLString }, accessToken: { type: GraphQLString}},
+      resolve(_parent, args) {
+        return axios.get(`/api/v2/mongo/years/all/${args.ID}`, {
+          headers: {Authorization: `Bearer ${process.env.TEMPORARY_ACCESS_TOKEN}`}
+        }).then(res => res.data.payload)
+      }
+    },
     words: {
       type: new GraphQLList(WordType),
       args: { ID: { type: GraphQLString }},
