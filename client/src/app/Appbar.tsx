@@ -84,9 +84,11 @@ const Appbar = () => {
           <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
             Wordy
           </Typography>
-           <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" onClick={() => store.dispatch(setDialog('AddWordsDialog'))}>
-            <AddIcon fontSize="small" />
-          </IconButton>
+          {isSignedIn &&
+            <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" onClick={() => store.dispatch(setDialog('AddWordsDialog'))}>
+              <AddIcon fontSize="small" />
+            </IconButton>
+          }
           <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
             <TranslateIcon fontSize="small" />
           </IconButton>

@@ -1,7 +1,7 @@
 {
   "selectLang": {
-    "en": "Language",
-    "ko": "언어",
-    "ja": "言語"
+    "en": "Language type adding",
+    "ko": "추가할 단어의 언어종류",
+    "ja": "追加する単語の言語タイプ"
   }
 }
