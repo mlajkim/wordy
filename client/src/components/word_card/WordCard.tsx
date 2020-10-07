@@ -9,9 +9,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -33,7 +30,7 @@ const WordCard: React.FC<Props> = ({word: {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card style={{width: '90%', margin: 15}}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {year}-{sem}

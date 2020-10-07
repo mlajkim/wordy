@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import { State, WordData, Word } from '../../types';
 import axios from 'axios';
 import * as API from '../../API';
@@ -7,6 +7,7 @@ import WordCard from '../../components/word_card/WordCard';
 // Material UI
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid'
 // Translation
 import tr from './year_chip.tr.json';
 // Redux
@@ -78,10 +79,15 @@ const YearChip = () => {
     
 
   return (
-    <div className={classes.root}>
-      {yearChipList}
-      {wordCards}
-    </div>
+    <Fragment>
+      <div className={classes.root}>
+        {yearChipList}
+      </div>
+      <Grid style={{textAlign: 'center'}}>
+        {wordCards} 
+      </Grid>
+    </Fragment>
+    
   );
 }
 
