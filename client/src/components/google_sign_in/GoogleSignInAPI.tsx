@@ -50,7 +50,8 @@ const handleGettingUserIntoFront = async (accessToken: string) => {
   store.dispatch(setDialog(''))
   store.dispatch(setPage('dashboard'))
   // This is for the quick testing
-  store.dispatch(setPage('list'));// delete this later
+  // @@@@@@@
+  // store.dispatch(setPage('list'));// delete this later
   // DELETE THE "ABOVE" LATER
   store.dispatch(setSignedIn(true))
 

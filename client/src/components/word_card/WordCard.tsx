@@ -46,8 +46,6 @@ const WordCard: React.FC<Props> = ({word: {
         </Typography>
         <Typography variant="body2" component="p">
           {meaning}
-          <br />
-          {'"a benevolent smile"'}
         </Typography>
       </CardContent>
       <CardActions>

@@ -1,3 +1,4 @@
+import { Word } from '../types';
 import * as actions from './actionTypes';
 
 export const setDialog = (toWhat: string) => {
@@ -88,5 +89,12 @@ export const addChunkIntoData = (insertWhat: {year: number, sem: number, data: o
     payload: {
       ...insertWhat
     }
+  }
+};
+
+export const addOneWordIntoData = ( word: Word ) => {
+  return {
+    type: actions.ADD_ONE_WORD_INTO_DATA,
+    payload: { word }
   }
 };

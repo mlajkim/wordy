@@ -19,10 +19,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 // Translation
 import tr from './add_words_dialog.tr.json';
-import {State} from '../../types';
+import {State, Word} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog, addYears, setYears } from '../../redux/actions';
+import {setDialog, addYears, addOneWordIntoData } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 
@@ -57,9 +57,6 @@ const AddWordsDialog: React.FC = () => {
   const {loading, error, data} = useQuery(YEARS_QUERY, {
     variables: { ID: user.ID, accessToken: API.getAccessToken() }
   });
-  useEffect(() => {
-    if(!loading && !error) store.dispatch(setYears(data.years));
-  }, [loading, error])
 
   const handleAddWords = async () => {
     // Checker
@@ -70,7 +67,7 @@ const AddWordsDialog: React.FC = () => {
     }
     // Handle the disapatch
     store.dispatch(setDialog(''));
-    let payload : {year: number, sem: number};
+    let payload : Word;
     if(isShowingExtra) {
       payload = (await axios.post(`/api/v2/mongo/words/extra`, {
         payload: {
@@ -86,8 +83,11 @@ const AddWordsDialog: React.FC = () => {
       language: languages.addWordLangPref
       }}, API.getAuthorization())).data.payload;
     }
+
+    // Sycn (Word)
+    store.dispatch(addOneWordIntoData(payload))
     
-    // Sync
+    // Sync (Year)
     const found = years.find(year => year.year === payload.year && year.sem === payload.sem)
     if(!found) {
       store.dispatch(addYears({year: payload.year, sem: payload.sem}));
