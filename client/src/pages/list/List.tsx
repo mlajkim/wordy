@@ -1,11 +1,7 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import './List.css';
-import * as API from '../../API';
 import {State} from '../../types';
 import YearChip from './YearChip';
-//GraphQL & Apolo
-import { useQuery } from 'react-apollo';
-import { YEARS_QUERY } from '../../apollo/queries';
 // Material UI
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -14,12 +10,12 @@ import Button from '@material-ui/core/Button';
 import tr from './list.tr.json';
 // Redux
 import store from '../../redux/store';
-import {setYears, setDialog} from '../../redux/actions';
+import {setDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const List = () => {
   // Redux states
-  const {language, user, years} = useSelector((state: State) => state);
+  const {language, years} = useSelector((state: State) => state);
   const ln = language;
 
   return (
