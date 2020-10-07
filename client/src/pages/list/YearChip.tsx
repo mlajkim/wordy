@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+// @ MAIN
 const YearChip = () => {
   const classes = useStyles();
   // Component state
@@ -34,7 +35,7 @@ const YearChip = () => {
   const {language, user, years} = useSelector((state: State) => state);
   const ln = language;
 
-  const handleClick = (data: any) => {
+  const handleChipClick = (data: any) => {
     setSelectedYear(data.year);
   };
 
@@ -43,8 +44,8 @@ const YearChip = () => {
         <Chip 
           key={data.year} 
           clickable
-          label={`${data.year}${tr.year[ln]}`} 
-          onClick={() => handleClick(data)}
+          label={`${data.year}${tr.year[ln]} ${data.sem}${tr.sem[ln]}`} 
+          onClick={() => handleChipClick(data)}
           color={data.year === selectedYear ? 'primary' : 'default'}
         />
       ))
