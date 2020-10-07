@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {State} from '../../types';
 // Material UI
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
@@ -29,25 +29,26 @@ const useStyles = makeStyles((theme: Theme) =>
 const YearChip = () => {
   const classes = useStyles();
   // Component state
-  const [year, setYear] = useState();
+  const [selectedYear, setSelectedYear] = useState(null);
   // Redux states
   const {language, user, years} = useSelector((state: State) => state);
   const ln = language;
 
-  const handleDelete = (data: any) => {
-    console.info(data);
+  const handleClick = (data: any) => {
+    setSelectedYear(data.year);
   };
 
-  const handleClick = (e: any) => {
-    console.log(e)
-    console.info('You clicked the Chip.');
-  };
-
-  const yearChipList = years.map(data => (
-    <Chip key={data.year}
-      label={`${data.year}${tr.year[ln]}`} onClick={(e) => handleClick(e)}
-    />
-  ))
+  const yearChipList = years.length > 0 
+    ? years.map(data => (
+        <Chip 
+          key={data.year} 
+          clickable
+          label={`${data.year}${tr.year[ln]}`} 
+          onClick={() => handleClick(data)}
+          color={data.year === selectedYear ? 'primary' : 'default'}
+        />
+      ))
+    : null;
 
   return (
     <div className={classes.root}>

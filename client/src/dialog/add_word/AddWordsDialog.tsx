@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
@@ -7,6 +7,7 @@ import { useQuery } from 'react-apollo';
 import { YEARS_QUERY } from '../../apollo/queries';
 // Material UI
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';  
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,6 +15,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+// Icons
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 // Translation
 import tr from './add_words_dialog.tr.json';
 import {State} from '../../types';
@@ -46,6 +49,10 @@ const AddWordsDialog: React.FC = () => {
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
   const [isPublic, setPublic] = useState(true);
+  // Extra Component states
+  const [isShowingExtra, setShowingExtra] = useState(false);
+  const [extraYear, setExtraYear] = useState('');
+  const [extraSem, setExtraSem] = useState('');
   // Apollo states
   const {loading, error, data} = useQuery(YEARS_QUERY, {
     variables: { ID: user.ID, accessToken: API.getAccessToken() }
@@ -55,12 +62,31 @@ const AddWordsDialog: React.FC = () => {
   }, [loading, error])
 
   const handleAddWords = async () => {
+    // Checker
+    if(isShowingExtra) {
+      if(!parseInt(extraYear) || ! parseInt(extraSem)) return;
+      if (2000 > parseInt(extraYear) || parseInt(extraYear) > 2022 ) return;
+      if (parseInt(extraSem) < 1 || parseInt(extraSem) > 4) return;
+    }
+    // Handle the disapatch
     store.dispatch(setDialog(''));
-    const {data} = await axios.post(`/api/v2/mongo/words`, {payload: {
-      ownerID: user.ID, word, pronun, meaning, example, isPublic,
-      language: languages.addWordLangPref, 
-    }}, API.getAuthorization());
-    const payload = data.payload;
+    let payload : {year: number, sem: number};
+    if(isShowingExtra) {
+      payload = (await axios.post(`/api/v2/mongo/words/extra`, {
+        payload: {
+          ownerID: user.ID, word, pronun, meaning, example, isPublic, language: languages.addWordLangPref
+        },
+        extra: {
+          extraYear, extraSem
+        }
+    }, API.getAuthorization())).data.payload;
+    } else {
+      payload = (await axios.post(`/api/v2/mongo/words/default`, {payload: {
+        ownerID: user.ID, word, pronun, meaning, example, isPublic,
+      language: languages.addWordLangPref
+      }}, API.getAuthorization())).data.payload;
+    }
+    
     // Sync
     const found = years.find(year => year.year === payload.year && year.sem === payload.sem)
     if(!found) {
@@ -71,6 +97,7 @@ const AddWordsDialog: React.FC = () => {
 
   return (
     <div>
+      {extraYear}
       <Dialog open={true} onClose={() => store.dispatch(setDialog(''))}>
         <DialogTitle id="form-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>
@@ -86,6 +113,27 @@ const AddWordsDialog: React.FC = () => {
             label={isPublic ? tr.printPublicTrue[ln] : tr.printPublicFalse[ln]}
             labelPlacement="end"
           />
+          {isShowingExtra
+            ? (
+              <Fragment>
+                <TextField margin="dense" label={tr.year[ln]} 
+                  fullWidth value={extraYear} 
+                  onChange={(e) => setExtraYear(e.target.value)}
+                />
+                <TextField margin="dense" label={tr.sem[ln]}  
+                  fullWidth value={extraSem}
+                  onChange={(e) => setExtraSem(e.target.value)}
+                />
+              </Fragment>
+              )
+            : (
+              <Fragment>
+                <IconButton onClick={() => setShowingExtra(true)}>
+                  <ArrowDropDownIcon />
+                </IconButton>
+              </Fragment>
+            )
+          }
         </DialogContent>
         <DialogActions>
           <Button onClick={() => store.dispatch(setDialog(''))} color="secondary">

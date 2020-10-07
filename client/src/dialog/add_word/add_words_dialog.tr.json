@@ -39,6 +39,16 @@
     "ko": "공개",
     "ja": "公開"
   },
+  "year": {
+    "en": "Year",
+    "ko": "년도",
+    "ja": "年"
+  },
+  "sem": {
+    "en": "Quadrant",
+    "ko": "분기",
+    "ja": "分岐"
+  },
   "printPublicFalse": {
     "en": "Not public",
     "ko": "비공개",
