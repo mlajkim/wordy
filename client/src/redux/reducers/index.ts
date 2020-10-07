@@ -7,6 +7,7 @@ import isSignedIn from './isSignedIn';
 import user from './user';
 import languages from './languages';
 import years from './years';
+import words from './words';
 
 export default combineReducers({
   dialog, 
@@ -19,5 +20,7 @@ export default combineReducers({
   user, 
   languages,
   // This years data is for the performance of data loading
-  years
+  years,
+  // handles all those downloaded words (usually used for the data preservance and speed)
+  words
 });

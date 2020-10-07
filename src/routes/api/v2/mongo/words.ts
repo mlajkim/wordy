@@ -40,15 +40,15 @@ words.post("/extra", async (req: Request, res: Response) => {
 });
 
 // @ READ
-words.get("/:ownerID", async (req: Request, res: Response) => {
-  const ownerID = req.params.ownerID ? req.params.ownerID : null;
-  const data = await wordSchema.find({ownerID});
+words.get("/section/:ownerID/:year/:sem/", async (req: Request, res: Response) => {
+  const {ownerID, year, sem} = req.params;
+  const data = await wordSchema.find({ownerID, year, sem});
 
   // Respond accordingly
-  if (data.length === 0) res.status(204).send({ // NOT UNDEFINED.
-    status: 204,
+  if (data.length === 0) res.status(404).send({ // NOT UNDEFINED.
+    status: 404,
     message: "[EMPTY ARRAY] The words data not found",
-    payload: data
+    payload: null
   });
   else res.status(200).send({
     status: 200,

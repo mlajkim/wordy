@@ -80,3 +80,13 @@ export const addYears = (addWhat: {year: number, sem: number}) => {
     }
   };
 }
+
+// @ WORDS
+export const addChunkIntoData = (insertWhat: {year: number, sem: number, data: object[]}) => {
+  return {
+    type: actions.ADD_CHUNK_INTO_DATA,
+    payload: {
+      ...insertWhat
+    }
+  }
+};
