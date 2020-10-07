@@ -31,20 +31,21 @@ const AvailableLangs: React.FC = () => {
   };
 
   useEffect(() => {
-    if(user.ID) axios.get(`/api/v2/mongo/languages/${user.ID}`, API.getAuthorization())
+    const newUser = user;
+    if(newUser.ID) axios.get(`/api/v2/mongo/languages/${newUser.ID}`, API.getAuthorization())
       .then(res => {
         // if empty
         if(res.status === 204) {
           axios.post(`/api/v2/mongo/languages`, {
             // default english, stil adding data null
-            payload: { ownerID: user.ID, firstName: user.firstName, addWordLangPref: 'en', data: []}
+            payload: { ownerID: newUser.ID, firstName: newUser.firstName, addWordLangPref: 'en', data: []}
           }, API.getAuthorization())
             .then(newRes => store.dispatch(setAddWordLangPref(newRes.data.payload.addWordLangPref)))
           return;
         }
         store.dispatch(setAddWordLangPref(res.data.payload.addWordLangPref))
       })
-  }, []);
+  }, [user]);
 
   const menuItems = LANGUAGES_AVAILABLE_LIST.map(lang => (
     <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>
