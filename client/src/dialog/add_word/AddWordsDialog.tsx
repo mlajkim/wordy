@@ -1,10 +1,7 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
-//GraphQL & Apolo
-import { useQuery } from 'react-apollo';
-import { YEARS_QUERY } from '../../apollo/queries';
 // Material UI
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';  
@@ -53,10 +50,6 @@ const AddWordsDialog: React.FC = () => {
   const [isShowingExtra, setShowingExtra] = useState(false);
   const [extraYear, setExtraYear] = useState('');
   const [extraSem, setExtraSem] = useState('');
-  // Apollo states
-  const {loading, error, data} = useQuery(YEARS_QUERY, {
-    variables: { ID: user.ID, accessToken: API.getAccessToken() }
-  });
 
   const handleAddWords = async () => {
     // Checker

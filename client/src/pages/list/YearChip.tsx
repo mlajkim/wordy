@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from 'react';
-import { State, WordData, Word } from '../../types';
+import { State, WordData } from '../../types';
 import axios from 'axios';
 import * as API from '../../API';
 // Components
