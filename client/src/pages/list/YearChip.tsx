@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { State, WordData } from '../../types';
+import { State, WordData, Word } from '../../types';
 import axios from 'axios';
 import * as API from '../../API';
+// Components
+import WordCard from '../../components/word_card/WordCard';
 // Material UI
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
@@ -29,13 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const YearChip = () => {
   const classes = useStyles();
   // Component state
-  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedYear, setSelectedYear] = useState({year: 0, sem: 0});
   // Redux states
   const {language, user, years, words} = useSelector((state: State) => state);
   const ln = language;
 
   const handleChipClick = (data: any) => {
-    setSelectedYear(data.year); // Select
+    setSelectedYear({year: data.year, sem: data.sem}); // Select
     // Check if the data is already available (else, just return)
     let found: boolean = false;
     if(words.length !== 0) 
@@ -53,20 +55,32 @@ const YearChip = () => {
   };
 
   const yearChipList = years.length > 0 
-    ? years.map(data => (
+    ? years.map(datum => (
         <Chip 
-          key={data.year} 
+          key={datum.year} 
           clickable
-          label={`${data.year}${tr.year[ln]} ${data.sem}${tr.sem[ln]}`} 
-          onClick={() => handleChipClick(data)}
-          color={data.year === selectedYear ? 'primary' : 'default'}
+          label={`${datum.year}${tr.year[ln]} ${datum.sem}${tr.sem[ln]}`} 
+          onClick={() => handleChipClick(datum)}
+          color={(datum.year === selectedYear.year && datum.sem === selectedYear.sem) ? 'primary' : 'default'}
         />
       ))
     : null;
 
+  let wordCards = null;
+  if(words.length > 0) {
+    const checkIfFound = words.find(datum => datum.year === selectedYear.year && datum.sem === selectedYear.sem)
+    if(checkIfFound)
+      wordCards =  checkIfFound.data.map(datum => (
+        <WordCard key={datum._id} word={datum} />
+      ));
+    else wordCards = null;
+  }
+    
+
   return (
     <div className={classes.root}>
       {yearChipList}
+      {wordCards}
     </div>
   );
 }

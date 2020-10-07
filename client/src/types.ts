@@ -16,10 +16,11 @@ export type Languages = {
 export type WordData = {
   year: number,
   sem: number,
-  data: Word
+  data: Word[]
 }
 
 export type Word = {
+  _id: string;
   ownerID: string;
   word: string;
   pronun: string;
