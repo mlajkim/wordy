@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { access } from 'fs';
 import cookies from 'js-cookie';
 import { FederalProvider } from './types';
+import { User } from './types';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   console.log({payload: {...payload}})
@@ -20,6 +22,19 @@ export const generateAccessToken = async (federalProvider: FederalProvider, fede
     accessToken: data.payload.accessToken as string, 
     expires: data.payload.expires as number
   }
+}
+
+export const signInWithAccessToken = (accessToken: string) => {
+
+}
+
+export const checkIfUserExists = async (accessToken: string) => {
+  const data =  (await axios.get(`/api/v2/mongo/users`, {
+    headers: {Authorization: `Bearer ${accessToken}`}
+  })).data;
+
+  if(data.error) return {error: true, user: null};
+  else return {error: false, user: data.payload};
 }
 
 export const getAuthorization = () => {

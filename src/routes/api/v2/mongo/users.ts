@@ -22,11 +22,13 @@ users.get("", async (req: Request, res: Response) => {
   // Respond accordingly
   if (data === null) res.status(204).send({ // NOT UNDEFINED.
     status: 204,
+    error: true,
     message: "[NULL] The user data not found",
     payload: null
   });
   else res.status(200).send({
     status: 200,
+    error: false,
     message: "[SUCCESS] The user has been found",
     payload: data
   });

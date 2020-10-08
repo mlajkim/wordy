@@ -34,6 +34,16 @@ export type Word = {
   sem: number;
 }
 
+export type GoogleRes = {
+  googleId: string;
+  profileObj: {
+    familyName: string;
+    givenName: string;
+    email: string;
+    imageUrl: string;
+  }
+};
+
 export type Language = 'en' | 'ko' | 'ja';
 
 export type User = {
