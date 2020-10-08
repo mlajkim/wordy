@@ -2,7 +2,10 @@ import axios from 'axios';
 import { access } from 'fs';
 import cookies from 'js-cookie';
 import { FederalProvider } from './types';
-import { User } from './types';
+import { GoogleRes, ProfileObj } from './types';
+// Redux
+import store from './redux/store';
+import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears} from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   console.log({payload: {...payload}})
@@ -24,8 +27,26 @@ export const generateAccessToken = async (federalProvider: FederalProvider, fede
   }
 }
 
-export const signInWithAccessToken = (accessToken: string) => {
+export const handleEverySignIn = async (accessToken: string, googleRes?: GoogleRes, languagePreference?: string) => {
+  let { error, payload } = await checkIfUserExists(accessToken);
+  if( error && !googleRes) return; // no user requires profile to add a new user. 
+  if (error) {
+    // Create a user
+    const profileObj: ProfileObj = googleRes!.profileObj;
+    let data = (await axios.post(`/api/v2/mongo/users`, {payload: {
+      federalProvider: 'google',
+      federalID: googleRes?.googleId,
+      lastName: profileObj.familyName,
+      firstName: profileObj.givenName,
+      email: profileObj.email,
+      imageUrl: profileObj.imageUrl,
+      languagePreference: languagePreference ? languagePreference : 'en'
+    }}, getAuthorization())).data;
 
+    if(data.error) return;
+    payload = data.payload;
+  };
+  setupFront(payload, accessToken);
 }
 
 export const checkIfUserExists = async (accessToken: string) => {
@@ -36,6 +57,20 @@ export const checkIfUserExists = async (accessToken: string) => {
   if(data.error) return {error: true, payload: null};
   else return {error: false, payload: data.payload};
 }
+
+export const setupFront = async (user: any, accessToken: string) => {
+  store.dispatch(setDialog(''))
+  store.dispatch(setPage('dashboard'))
+  store.dispatch(setSignedIn(true))
+  store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
+  store.dispatch(setLanguage(user.languagePreference))
+  const { error, payload } = (await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
+    headers: {Authorization: `Bearer ${accessToken}`}
+  })).data
+  if(!error) store.dispatch(setYears(payload));
+}
+
+
 
 export const getAuthorization = () => {
   return {

@@ -4,7 +4,6 @@ import Appbar from './Appbar';
 import * as API from '../API';
 import axios from 'axios';
 import {handleCountryCode} from '../utils';
-import {handleSignInWithAccessToken} from '../components/google_sign_in/GoogleSignInAPI'
 // Mains
 import Dialog from './Dialog';
 import Page from './Page';
@@ -20,7 +19,7 @@ const App = () => {
     
     // Check the google signin cookie
     if(API.getAccessToken() !== undefined) {
-      handleSignInWithAccessToken(API.getAccessToken())
+      API.handleEverySignIn(API.getAccessToken());
     }
   }, []);
 

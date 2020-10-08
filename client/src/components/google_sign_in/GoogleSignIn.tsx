@@ -13,40 +13,21 @@ import { Language } from '../../types';
 import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
 import {useSelector} from 'react-redux';
-import store from '../../redux/store';
-import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears} from '../../redux/actions';
 
 type Props = {
   type: 'login' | 'signup';
 }
 
 const GoogleSignIn: React.FC<Props> = ({type}) => {
-  const ln = useSelector((state: {language: Language}) => state.language);
-
+  const language = useSelector((state: {language: Language}) => state.language);
+  const ln = language;
+  
   const generateAccessToken = async (googleRes: GoogleRes) => {
     const {error, accessToken, expires} = await API.generateAccessToken('google', googleRes.googleId);
     if (error) return;
     API.addToken('login', accessToken, expires);
-    store.dispatch(setDialog(''))
-    store.dispatch(setPage('dashboard'))
-    store.dispatch(setSignedIn(true))
-    handleUser(accessToken);
+    API.handleEverySignIn(accessToken, googleRes, language);
   };
-
-  const handleUser = async (accessToken: string) => {
-    const { error, payload } = await API.checkIfUserExists(accessToken);
-    if (error) return;
-    setupFront(payload, accessToken);
-  }
-
-  const setupFront = async (user: any, accessToken: string) => {
-    store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
-    store.dispatch(setLanguage(user.languagePreference))
-    const { error, payload } = (await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
-      headers: {Authorization: `Bearer ${accessToken}`}
-    })).data
-    if(!error) store.dispatch(setYears(payload));
-  }
 
   return (
     <Fragment>

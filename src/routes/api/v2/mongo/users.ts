@@ -4,13 +4,22 @@ import userSchema from '../../../../models/Users';
 const users = express.Router();
 
 // @ CREATE
-users.post("", async (req: Request, _res: Response) => {
-  await new userSchema({...req.body.user}).save();
+users.post("", async (req: Request, res: Response) => {
+  const newUser = await new userSchema({...req.body.payload}).save();
   console.log(`
     ***NEW USER ADDED***
-    Name: ${req.body.user.lastName} ${req.body.user.firstName}
-    Email address: ${req.body.user.email}
+    Name: ${req.body.payload.firstName} ${req.body.payload.lastName} 
+    Email address: ${req.body.payload.email}
   `)
+
+  res.send({
+    status: 200,
+    error: false,
+    message: '[OK] User created',
+    payload: newUser
+  })
+  
+  
 });
 
 // @ READ
@@ -20,8 +29,8 @@ users.get("", async (req: Request, res: Response) => {
   const data = await userSchema.findOne({federalProvider, federalID});
 
   // Respond accordingly
-  if (data === null) res.status(204).send({ // NOT UNDEFINED.
-    status: 204,
+  if (data === null) res.send({ // NOT UNDEFINED.
+    status: 200,
     error: true,
     message: "[NULL] The user data not found",
     payload: null
