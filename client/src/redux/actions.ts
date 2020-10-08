@@ -1,4 +1,4 @@
-import { Word } from '../types';
+import { Word, SnackbarType } from '../types';
 import * as actions from './actionTypes';
 
 export const setDialog = (toWhat: string) => {
@@ -98,3 +98,15 @@ export const addOneWordIntoData = ( word: Word ) => {
     payload: { word }
   }
 };
+
+// @ SNACKBAR
+export const setSnackbar = (desc: string, type?: SnackbarType, duration?: number) => {
+  return {
+    type: actions.SET_SNACKBAR,
+    payload: {
+      desc, type, duration
+    }
+  }
+}
+
+export const offSnackbar = () => {return { type: actions.OFF_SNACKBAR }}

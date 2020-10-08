@@ -8,6 +8,7 @@ import user from './user';
 import languages from './languages';
 import years from './years';
 import words from './words';
+import snackbar from './snackbar';
 
 export default combineReducers({
   dialog, 
@@ -22,5 +23,6 @@ export default combineReducers({
   // This years data is for the performance of data loading
   years,
   // handles all those downloaded words (usually used for the data preservance and speed)
-  words
+  words,
+  snackbar
 });

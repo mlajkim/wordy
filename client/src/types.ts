@@ -64,3 +64,5 @@ export type AddingLangAvailable =
 
 export type FederalProvider = 'google';
 
+// @ SNACKBAR
+export type SnackbarType = 'error' | 'warning' | 'info' | 'success'
