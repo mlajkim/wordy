@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as API from '../../API';
 // Redux
 import store from '../../redux/store';
-import {setLanguage, setUser, setYears} from '../../redux/actions';
+import {setLanguage, setUser, setYears, setDialog , setPage, setSignedIn} from '../../redux/actions';
 
 type GoogleRes = {
   googleId: string;
@@ -28,10 +28,14 @@ type User = {
 export const handleSignInWithAccessToken = (accessToken: string) => {
   // validate access token
   handleGettingUserIntoFront(accessToken);
+  
 }
 
 
 export const handleGettingUserIntoFront = async (accessToken: string) => {
+  store.dispatch(setDialog(''))
+  store.dispatch(setPage('dashboard'))
+  store.dispatch(setSignedIn(true))
   const { error, payload } = await API.checkIfUserExists(accessToken);
   const user = payload;
   // Ah, these are the user-sync-preference 

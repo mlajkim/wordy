@@ -58,7 +58,7 @@ const YearChip = () => {
   const yearChipList = years.length > 0 
     ? years.map(datum => (
         <Chip 
-          key={datum.year} 
+          key={`${datum.year}${datum.sem}`} 
           clickable
           label={`${datum.year}${tr.year[ln]} ${datum.sem}${tr.sem[ln]}`} 
           onClick={() => handleChipClick(datum)}

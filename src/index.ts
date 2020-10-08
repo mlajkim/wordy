@@ -40,8 +40,8 @@ console.log(`${new Date().toString()}`);
 console.log("*********************************************************");
 console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
-const runningType = process.argv[2] ? 'dev' : '';
-if(runningType === 'dev') {
+export const IS_DEV_MODE = process.argv[2] === 'dev';
+if(IS_DEV_MODE) {
   app.listen(PORT, () => {
     console.log(`DEVELOPMENT NON-SECURED SERVER running at PORT ${PORT}`);
   })
