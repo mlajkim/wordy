@@ -35,7 +35,7 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
 
 // @ MIDDLEWARE: CONNECT TO DB
 const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => {
-  if (!IS_DEV_MODE) {
+  if (IS_DEV_MODE) {
     const url = process.env.LOCAL_MONGO_SERVER_URL as string;
     mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log('[LOCAL MONGO SERVER] connected.');
