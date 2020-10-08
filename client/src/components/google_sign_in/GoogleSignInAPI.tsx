@@ -1,9 +1,8 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import * as API from '../../API';
 // Redux
 import store from '../../redux/store';
-import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears} from '../../redux/actions';
+import {setLanguage, setUser, setYears} from '../../redux/actions';
 
 type GoogleRes = {
   googleId: string;
@@ -33,21 +32,14 @@ export const handleSignInWithAccessToken = (accessToken: string) => {
 
 
 export const handleGettingUserIntoFront = async (accessToken: string) => {
-  store.dispatch(setDialog(''))
-  store.dispatch(setPage('dashboard'))
-  // This is for the quick testing
-  // @@@@@@@
-  // store.dispatch(setPage('list'));// delete this later
-  // DELETE THE "ABOVE" LATER
-  store.dispatch(setSignedIn(true))
-
-  const { error, user } = await API.checkIfUserExists(accessToken);
+  const { error, payload } = await API.checkIfUserExists(accessToken);
+  const user = payload;
   // Ah, these are the user-sync-preference 
   store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
   store.dispatch(setLanguage(user.languagePreference))
-  const { data } = await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
+  const { data } = (await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
     headers: {Authorization: `Bearer ${accessToken}`}
-  })
+  }))
   store.dispatch(setYears(data.payload));
 }
 

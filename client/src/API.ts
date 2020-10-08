@@ -33,8 +33,8 @@ export const checkIfUserExists = async (accessToken: string) => {
     headers: {Authorization: `Bearer ${accessToken}`}
   })).data;
 
-  if(data.error) return {error: true, user: null};
-  else return {error: false, user: data.payload};
+  if(data.error) return {error: true, payload: null};
+  else return {error: false, payload: data.payload};
 }
 
 export const getAuthorization = () => {

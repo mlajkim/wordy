@@ -20,12 +20,14 @@ years.get("/all/:ownerID", async (req: Request, res: Response) => {
   if(data) {
     res.send({
       status: 200,
+      error: false,
       message: "[OK] The years data not found",
       payload: data
     })
   } else {
     res.send({
       status: 204,
+      error: true,
       message: "[EMPTY DATA] The years data not found",
       payload: data
     })
