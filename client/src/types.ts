@@ -50,3 +50,5 @@ export type AddingLangAvailable =
   {code: 'zh', name: '中文 (简体)'}
   ;
 
+export type FederalProvider = 'google';
+

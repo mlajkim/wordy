@@ -6,17 +6,18 @@ const ip = express.Router();
 ip.get('/location', (req: Request, res: Response) => {
   const ip = req.connection.remoteAddress;
   const area = geoip.lookup(ip as string);
-  console.log(`IP: ${ip} Country Code: ${area} Connected`)
+  console.log(area);
   if(area) {
+    console.log(`IP: ${ip} ISO Country Code: ${area.country} Connected`)
     res.status(200).send({
       status: 200,
-      message: "[EMPTY] Area not found",
+      message: "[OK]",
       payloadType: "country code 2 letters KR, US.. such as.",
       payload: area.country
     })
   } else {
     res.status(204).send({
-      status: 200,
+      status: 204,
       message: "[EMPTY] Area not found",
       payload: null
     })

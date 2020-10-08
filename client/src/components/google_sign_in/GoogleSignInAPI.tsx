@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import * as API from '../../API';
 // Redux
 import store from '../../redux/store';
 import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears} from '../../redux/actions';
@@ -33,13 +34,11 @@ export const handleSignInWithAccessToken = (accessToken: string) => {
 // @MAIN
 export const handleSignIn = async ({googleId, profileObj}: GoogleRes) => {
   // Get access token & Refresh token
-  const {accessToken, expires} = (await axios.post(`/api/v2/auth/login`, {
-    federalProvider: 'google',
-    federalID: googleId
-  })).data.payload;
-
+  const {error, accessToken, expires} = await API.generateAccessToken('google', googleId);
+  if (error) return;
+  
   // Save token securely
-  Cookies.set('login', accessToken, {expires});
+  API.addToken('login', accessToken, expires);
 
   // Fetch meanwhile
   handleGettingUserIntoFront(accessToken);

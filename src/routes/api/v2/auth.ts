@@ -20,6 +20,7 @@ auth.post("/login", (req: Request, res: Response) => {
 
   res.status(200).send({
     status: 200,
+    error: false,
     message: 'OK: Successful Login',
     payloadType: 'accessToken and expires',
     payload: {

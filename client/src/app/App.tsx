@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import React, {useEffect} from 'react';
 import Appbar from './Appbar';
-import Cookies from 'js-cookie';
+import * as API from '../API';
 import axios from 'axios';
 import {handleCountryCode} from '../utils';
 import {handleSignInWithAccessToken} from '../components/google_sign_in/GoogleSignInAPI'
@@ -19,10 +19,8 @@ const App = () => {
       .then(res => store.dispatch(setLanguage(handleCountryCode(res.data.payload))));
     
     // Check the google signin cookie
-    const {login} = Cookies.get();
-    
-    if(login !== undefined) {
-      handleSignInWithAccessToken(login)
+    if(API.getAccessToken() !== undefined) {
+      handleSignInWithAccessToken(API.getAccessToken())
     }
   }, []);
 
