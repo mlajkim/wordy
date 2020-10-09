@@ -68,6 +68,16 @@ export const setAddedWordsCount = (count: number) => {
   }
 }
 
+export const setDeletedWordsCount = (count: number) => {
+  return {
+    type: actions.SET_DELETED_WORDS_COUNT, payload: { count }
+  }
+}
+
+export const incrementAddedWordsCount = () => {return { type: actions.INCREMENT_ADDED_WORDS_COUNT }};
+
+export const incrementDeletedWordsCount = () => {return { type: actions.INCREMENT_DELETED_WORDS_COUNT }};
+
 // @ YEARS
 export const setYears = (addWhat: object[]) => {
   return {

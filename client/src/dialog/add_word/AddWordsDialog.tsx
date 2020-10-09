@@ -19,7 +19,7 @@ import tr from './add_words_dialog.tr.json';
 import {State, Word} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {offDialog, addYears, addOneWordIntoData, setSnackbar } from '../../redux/actions';
+import {offDialog, addYears, addOneWordIntoData, setSnackbar, incrementAddedWordsCount } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 
@@ -73,7 +73,7 @@ const AddWordsDialog: React.FC = () => {
     } else {
       payload = (await axios.post(`/api/v2/mongo/words/default`, {payload: {
         ownerID: user.ID, word, pronun, meaning, example, isPublic,
-      language: languages.addWordLangPref
+      language: languages.addedWordsCount
       }}, API.getAuthorization())).data.payload;
     }
     // Let user know it has been successful add
@@ -87,7 +87,13 @@ const AddWordsDialog: React.FC = () => {
     if(!found) {
       store.dispatch(addYears({year: payload.year, sem: payload.sem}));
       syncYearsDB(true, user.ID, payload.year, payload.sem);
-    }
+    };
+
+    // Sync (languages) 
+    await axios.put(`/api/v2/mongo/languages/${user.ID}`, 
+    {payload: { addedWordsCount: languages.addedWordsCount + 1 }}, 
+    API.getAuthorization());
+    store.dispatch(incrementAddedWordsCount());
   }
 
   return (

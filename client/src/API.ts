@@ -93,16 +93,14 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
     }
     if(languagesRes.deletedWordsCount === undefined) {
       languagesRes.deletedWordsCount = languagesRes.deletedWordsCount ? languagesRes.deletedWordsCount : 0;
-      axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
-        deletedWordsCount: 0
-      }}, getAuthorization())
+      axios.put(`/api/v2/mongo/languages/${user._id}`, 
+      {payload: { deletedWordsCount: 0 }}, 
+      getAuthorization())
     }
   }
   // ..Set up the front
   store.dispatch(setAddedWordsCount(languagesRes.addedWordsCount));
 }
-
-
 
 export const getAuthorization = () => {
   return {

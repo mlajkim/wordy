@@ -29,6 +29,8 @@ export type SnackbarState = {
 export type Languages = {
   addWordLangPref: string;
   data: string[];
+  addedWordsCount: number;
+  deletedWordsCount: number;
 }
 
 export type WordData = {
