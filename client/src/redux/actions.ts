@@ -55,13 +55,17 @@ export const setLanguages = (toWhat: string[]) => {
   };
 }
 
+// @ LANGUAGES
 export const setAddWordLangPref = (toWhat: string) => {
   return {
-    type: actions.SET_ADD_WORD_LANG_PREF,
-    payload: {
-      toWhat
-    }
+    type: actions.SET_ADD_WORD_LANG_PREF, payload: { toWhat }
   };
+}
+
+export const setAddedWordsCount = (count: number) => {
+  return {
+    type: actions.SET_ADDED_WORDS_COUNT, payload: { count }
+  }
 }
 
 // @ YEARS
