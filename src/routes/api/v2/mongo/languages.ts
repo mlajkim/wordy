@@ -24,13 +24,13 @@ languages.get("/:ownerID", async (req: Request, res: Response) => {
   const data = await languageSchema.findOne({ownerID});
 
   // Respond accordingly
-  if (data === null) res.status(204).send({ // NOT UNDEFINED.
-    status: 204,
+  if (data === null) res.send({ // NOT UNDEFINED.
+    status: 200,
     error: true,
     message: "[NULL] The languages data not found",
     payload: null
   });
-  else res.status(200).send({
+  else res.send({
     status: 200,
     error: false,
     message: "[SUCCESS] The languages has been found",
