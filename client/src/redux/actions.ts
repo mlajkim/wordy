@@ -64,6 +64,7 @@ export const setAddWordLangPref = (toWhat: string) => {
   };
 }
 
+// @ YEARS
 export const setYears = (addWhat: object[]) => {
   return {
     type: actions.SET_YEARS,
@@ -81,6 +82,12 @@ export const addYears = (addWhat: {year: number, sem: number}) => {
     }
   };
 }
+
+export const deleteOneYear = (year: number, sem: number) => {
+  return {
+    type: actions.DELETE_ONE_YEAR, payload: { year, sem }
+  }
+};
 
 // @ WORDS
 export const addChunkIntoData = (insertWhat: {year: number, sem: number, data: object[]}) => {

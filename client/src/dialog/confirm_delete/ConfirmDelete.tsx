@@ -12,7 +12,7 @@ import axios from 'axios';
 import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setSnackbar, deleteOneWordFromData} from '../../redux/actions';
+import {offDialog, setSnackbar, deleteOneWordFromData, deleteOneYear  } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 type CustomPayloadType = { word: Word }
@@ -42,9 +42,12 @@ const  ConfirmDelete:React.FC= () => {
     }
     if(found.data.length === 1) {
       // Backend
-      axios.delete(`/api/v2/mongo/years/one/${user.ID}/${payload.word.year}/${payload.word.sem}`, API.getAuthorization());
-
+      axios.delete(
+        `/api/v2/mongo/years/one/${user.ID}/${payload.word.year}/${payload.word.sem}`, 
+        API.getAuthorization()
+      );
       // Frontend
+      store.dispatch(deleteOneYear(payload.word.year, payload.word.sem));
       
     }
 

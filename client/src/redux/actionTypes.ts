@@ -8,8 +8,10 @@ export const SET_IS_SIGNED_IN="[PAGE] SET_IS_SIGNED_IN";
 export const SET_USER="[USER] SET_USER";
 export const SET_LANGUAGES="[USER] SET_LANGUAGES";
 export const SET_ADD_WORD_LANG_PREF="[WORDS] SET_ADD_WORD_LANG_PREF";
-export const SET_YEARS="[WORDS] SET_YEARS";
-export const ADD_YEARS="[WORDS] ADD_YEARS";
+// years
+export const SET_YEARS="[YEARS] SET_YEARS";
+export const ADD_YEARS="[YEARS] ADD_YEARS";
+export const DELETE_ONE_YEAR="[YEARS] DELETE_ONE_YEAR"
 // words
 export const ADD_CHUNK_INTO_DATA="[WORDS] ADD_WORDS_INTO_DATA";
 export const ADD_ONE_WORD_INTO_DATA="[WORDS] ADD_ONE_WORD_INTO_DATA";

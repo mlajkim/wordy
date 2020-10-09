@@ -4,9 +4,14 @@ export type State = {
   languages: Languages;
   isSignedIn: string;
   user: User,
-  years: Array<{year: number, sem: number}>;
+  years: Years[];
   words: WordData[],
   snackbar: SnackbarState
+}
+
+export type Years = {
+  year: number,
+  sem: number
 }
 
 export type Dialog = {
