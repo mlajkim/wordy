@@ -10,7 +10,7 @@ const Dialog = () => {
   // states
   const dialog = useSelector((state: any) => state.dialog);
 
-  switch(dialog) {
+  switch(dialog.type) {
     case 'LoginDialog': 
       return <LoginDialog type='login' />;
 
