@@ -135,7 +135,7 @@ export const handleNewWordAddingType = (userID: string, type: NewWordAddingType)
   axios.put(`/api/v2/mongo/languages/${userID}`, {payload: {
     newWordAddingType: type
   }}, getAuthorization())
-  store.dispatch(setDialog('AddWordsDialog'));
-  store.dispatch(setNewWordAddingType('one'));
+  store.dispatch(setDialog(type === 'one' ? 'AddWordsDialog' : 'MassWordsDialog'));
+  store.dispatch(setNewWordAddingType(type));
 }
 
