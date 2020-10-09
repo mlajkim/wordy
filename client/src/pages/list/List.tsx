@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import * as API from '../../API';
 import './List.css';
 import {State} from '../../types';
 import YearChip from './YearChip';
@@ -15,7 +16,7 @@ import {useSelector} from 'react-redux';
 
 const List = () => {
   // Redux states
-  const {language, years} = useSelector((state: State) => state);
+  const {language, years, user} = useSelector((state: State) => state);
   const ln = language;
 
   return (
@@ -25,10 +26,12 @@ const List = () => {
         {years.length === 0
           ? <div style={{paddingTop: 50}}>
               <h4>{tr.empty[ln]}</h4>
-              <Button variant="outlined" color="primary" onClick={() => store.dispatch(setDialog('AddWordsDialog'))}>
+              <Button variant="outlined" color="primary" 
+                onClick={() => API.handleNewWordAddingType(user.ID, 'one')}>
                 {tr.emptyBtn[ln]}
               </Button>
-              <Button disabled variant="outlined" color="secondary" >
+              <Button variant="outlined" color="secondary" 
+                onClick={() => API.handleNewWordAddingType(user.ID, 'mass')}>
                 {tr.emptyProBtn[ln]}
               </Button>
             </div>
