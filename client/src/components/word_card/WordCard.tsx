@@ -51,13 +51,18 @@ const WordCard: React.FC<Props> = ({word: {
   const [open, setOpen] = React.useState(false);
 
   const tools = [
-    { type: 'edit', icon: <EditIcon />},
-    { type: 'delete', icon: <DeleteIcon />},
-    { type: 'stat', icon: <StatIcon />},
-    { type: 'reviewStart', icon: <StarReviewIocn />}
+    // the disabled button is only temporary and will be deleted.
+    { type: 'edit', icon: <EditIcon />, disabled: true},
+    { type: 'delete', icon: <DeleteIcon />, disabled: true},
+    { type: 'stat', icon: <StatIcon />, disabled: true},
+    { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
   ];
+  
+  // temporary
 
-  const handleToolClick = (type: string) => {
+  type Type = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart';
+
+  const handleToolClick = (type: Type) => {
 
   }
 
@@ -78,15 +83,18 @@ const WordCard: React.FC<Props> = ({word: {
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButton disabled size="small" color="inherit" >
+        <IconButton disabled size="small" color="inherit" onClick={() => handleToolClick('like')} >
           <FavoriteBorderIcon />
         </IconButton>
-        <IconButton onClick={() => setOpen(!open)}size="small" color="inherit" >
-          {open ? <ArrowLeftIcon /> : <ArrowRightIcon />}
-        </IconButton>
+        {!open && (
+          <IconButton onClick={() => setOpen(!open)}size="small" color="inherit" >
+            <ArrowRightIcon />
+          </IconButton>
+        )}
         { open &&
           tools.map(tool => (
-            <IconButton key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type)}>
+            // the disabled button is only temporary and will be deleted.
+            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type as Type)}>
               {tool.icon}
             </IconButton>
           ))
