@@ -36,9 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type Props = { word: Word };
 // @ MAIN
-const WordCard: React.FC<Props> = ({word: {
-  _id, year, sem, word, pronun, meaning
-}}) => {
+const WordCard: React.FC<Props> = ({word}) => {
   const classes = useStyles();
   // Component states
   const [open, setOpen] = React.useState(false);
@@ -58,7 +56,7 @@ const WordCard: React.FC<Props> = ({word: {
   const handleToolClick = (type: Type) => {
     switch(type) {
       case 'delete':
-        store.dispatch(setDialog('ConfirmDelete', {wordID: _id, word}));
+        store.dispatch(setDialog('ConfirmDelete', {word}));
         break;
       
       default:
@@ -70,16 +68,16 @@ const WordCard: React.FC<Props> = ({word: {
     <Card style={{width: '90%', margin: 15}}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {year}-{sem}
+          {word.year}-{word.sem}
         </Typography>
         <Typography variant="h5" component="h2">
-          {word}
+          {word.word}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {pronun}
+          {word.pronun}
         </Typography>
         <Typography variant="body2" component="p">
-          {meaning}
+          {word.meaning}
         </Typography>
       </CardContent>
       <CardActions>

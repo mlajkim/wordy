@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { State } from '../../types';
+import { State, Word } from '../../types';
 import axios from 'axios';
 // Translation
 import tr from './confirm_delete.tr.json';
@@ -15,23 +15,26 @@ import store from '../../redux/store';
 import {offDialog, setSnackbar} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
-type PayloadType = { wordID: string, word: string }
+type CustomPayloadType = { word: Word }
 
 const  ConfirmDelete:React.FC= () => {
   const {language, dialog, words} = useSelector((state: State) => state);
   const ln = language;
-  const payload = dialog.payload as PayloadType;
+  const payload = dialog.payload as CustomPayloadType;
 
   // @ ABSOLUTE
   const handleWordDelete = async () => {
     // @ ABSOLUTE
     // Delete Back
-    axios.delete(`/api/v2/mongo/words/one/${payload.wordID}`, API.getAuthorization())
+    axios.delete(`/api/v2/mongo/words/one/${payload.word._id}`, API.getAuthorization())
       .then(_res => {
         store.dispatch(setSnackbar(tr.deletedMessage[ln]))
         store.dispatch(offDialog());
       })
+
+    // @ ABSOLUTE
     // Delete Front
+    
     
     
   };
