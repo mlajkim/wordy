@@ -24,6 +24,7 @@ words.post("/default", async (req: Request, res: Response) => {
 
 // @ CREATE
 words.post("/extra", async (req: Request, res: Response) => {
+  // This is used when you would like to have custom year and semester (compared to /default)
   // Add the words into the database
   const now = moment();
   const newWord = await new wordSchema({...req.body.payload,

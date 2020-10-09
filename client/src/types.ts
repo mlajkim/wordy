@@ -42,6 +42,7 @@ export type WordData = {
 export type Word = {
   _id: string;
   ownerID: string;
+  order: number,
   word: string;
   pronun: string;
   meaning: string;

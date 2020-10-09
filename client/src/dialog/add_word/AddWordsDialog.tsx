@@ -62,7 +62,8 @@ const AddWordsDialog: React.FC = () => {
     if(isShowingExtra) {
       payload = (await axios.post(`/api/v2/mongo/words/extra`, {
         payload: {
-          ownerID: user.ID, word, pronun, meaning, example, isPublic, language: languages.addWordLangPref
+          ownerID: user.ID, word, pronun, meaning, example, isPublic, language: languages.addWordLangPref,
+          order: languages.addedWordsCount
         },
         extra: {
           extraYear, extraSem
@@ -71,7 +72,7 @@ const AddWordsDialog: React.FC = () => {
     } else {
       payload = (await axios.post(`/api/v2/mongo/words/default`, {payload: {
         ownerID: user.ID, word, pronun, meaning, example, isPublic,
-      language: languages.addedWordsCount
+        language: languages.addWordLangPref, order: languages.addedWordsCount
       }}, API.getAuthorization())).data.payload;
     }
     // Let user know it has been successful add

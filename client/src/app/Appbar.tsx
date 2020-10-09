@@ -17,7 +17,7 @@ import * as API from '../API';
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
-import {setSignedIn, setDialog, setLanguage, setPage, setUser, offDialog} from '../redux/actions';
+import {setSignedIn, setDialog, setLanguage, setPage, setUser, offDialog, setSnackbar} from '../redux/actions';
 import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
@@ -64,14 +64,14 @@ const Appbar = () => {
     store.dispatch(setSignedIn(false));
     store.dispatch(offDialog());
     store.dispatch(setPage('home'));
+    signOut();
   };
 
   const { signOut } = useGoogleLogout({
-    onLogoutSuccess: handleLogout,
-    onFailure: () => null,
+    onLogoutSuccess: () => handleLogout(),
+    onFailure: () => {store.dispatch(setSnackbar('[ERROR] Logout failure', 'warning'))},
     clientId: GOOGLE_CLIENT_ID
-    
-  })
+  });
   
   return (
     <div className={classes.root}>
@@ -115,7 +115,7 @@ const Appbar = () => {
           >
             {isSignedIn && <MenuItem disabled onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
             {!isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
-            {isSignedIn && <MenuItem onClick={() => signOut()}>{tr.logout[ln]}</MenuItem>}
+            {isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
           </Menu>
         </Toolbar>
       </AppBar>

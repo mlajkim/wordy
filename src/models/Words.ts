@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const wordSchema = new Schema({
   ownerID: String,
+  order: Number,
   dateAdded: String,
   year: Number,
   sem: Number,
