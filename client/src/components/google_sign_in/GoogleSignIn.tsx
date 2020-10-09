@@ -1,8 +1,7 @@
 // eslint-disable-next-line
 import React, {Fragment} from 'react';
 import * as API from '../../API';
-import axios from 'axios';
-import { GoogleRes, User } from '../../types';
+import { GoogleRes } from '../../types';
 import {GoogleLogin} from 'react-google-login';
 // Translation
 import tr from './google_sign_in.tr.json'

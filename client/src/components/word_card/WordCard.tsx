@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import { Word } from '../../types';
 // Material UI
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -17,7 +17,6 @@ import StarReviewIocn from '@material-ui/icons/PlayArrow';
 // Redux
 import store from '../../redux/store';
 import {setDialog} from '../../redux/actions';
-import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -34,14 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
-const Tools: React.FC = () => {
-  return (
-    <Fragment>
-      <EditIcon />
-    </Fragment>
-  )
-}
 
 type Props = { word: Word };
 // @ MAIN

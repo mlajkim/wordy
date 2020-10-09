@@ -19,7 +19,7 @@ import tr from './add_words_dialog.tr.json';
 import {State, Word} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog, addYears, addOneWordIntoData, setSnackbar } from '../../redux/actions';
+import {offDialog, addYears, addOneWordIntoData, setSnackbar } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 
@@ -59,7 +59,7 @@ const AddWordsDialog: React.FC = () => {
       if (parseInt(extraSem) < 1 || parseInt(extraSem) > 4) return;
     }
     // Handle the disapatch
-    store.dispatch(setDialog(''));
+    store.dispatch(offDialog());
     let payload : Word;
     if(isShowingExtra) {
       payload = (await axios.post(`/api/v2/mongo/words/extra`, {
@@ -93,7 +93,7 @@ const AddWordsDialog: React.FC = () => {
   return (
     <div>
       {extraYear}
-      <Dialog open={true} onClose={() => store.dispatch(setDialog(''))}>
+      <Dialog open={true} onClose={() => store.dispatch(offDialog())}>
         <DialogTitle id="form-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>
           <AvailableLangs />
@@ -131,7 +131,7 @@ const AddWordsDialog: React.FC = () => {
           }
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => store.dispatch(setDialog(''))} color="secondary">
+          <Button onClick={() => store.dispatch(offDialog())} color="secondary">
             {tr.btnCancel[ln]}
           </Button>
           <Button onClick={() => handleAddWords()} color="primary" variant="contained">

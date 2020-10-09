@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { access } from 'fs';
 import cookies from 'js-cookie';
 import { FederalProvider } from './types';
 import { GoogleRes, ProfileObj } from './types';
 // Redux
 import store from './redux/store';
-import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears, setSnackbar} from './redux/actions';
+import {setSignedIn, setPage, setLanguage, setUser, setYears, offDialog} from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
@@ -58,7 +57,7 @@ export const checkIfUserExists = async (accessToken: string) => {
 }
 
 export const setupFront = async (user: any, accessToken: string) => {
-  store.dispatch(setDialog(''))
+  store.dispatch(offDialog())
   store.dispatch(setPage('dashboard'));
   store.dispatch(setSignedIn(true))
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)

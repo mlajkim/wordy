@@ -10,22 +10,22 @@ import tr from './confirm_delete.tr.json';
 import { Language } from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog} from '../../redux/actions';
+import {offDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const  ConfirmDelete:React.FC= () => {
   const {language} = useSelector((state: {language: Language}) => state);
   const ln = language;
-  // Absolute
-  const handleWordDelete = () => {
+  // @ ABSOLUTE
+  // const handleWordDelete = () => {
     
-  };
+  // };
 
   return (
     <div>
       <Dialog
         open={true}
-        onClose={() => store.dispatch(setDialog(''))}
+        onClose={() => store.dispatch(offDialog())}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -39,10 +39,10 @@ const  ConfirmDelete:React.FC= () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => store.dispatch(setDialog(''))} color="primary">
+          <Button onClick={() => store.dispatch(offDialog())} color="primary">
             {tr.cancelBtn[ln]}
           </Button>
-          <Button onClick={() => store.dispatch(setDialog(''))} color="secondary" autoFocus>
+          <Button onClick={() => store.dispatch(offDialog())} color="secondary" autoFocus>
             {tr.deleteBtn[ln]}
           </Button>
         </DialogActions>

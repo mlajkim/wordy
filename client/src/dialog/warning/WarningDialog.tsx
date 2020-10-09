@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import tr from './warningDialog.tr.json';
 // Redux
 import store from '../../redux/store';
-import {setDialog} from '../../redux/actions';
+import {offDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import { Language } from '../../types';
 
@@ -22,7 +22,7 @@ const WarningDialog = ({status}: Props) => {
     <div>
       <Dialog
         open={true}
-        onClose={() => store.dispatch(setDialog(''))}
+        onClose={() => store.dispatch(offDialog())}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -40,7 +40,7 @@ const WarningDialog = ({status}: Props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => store.dispatch(setDialog(''))} color="primary" autoFocus>
+          <Button onClick={() => store.dispatch(offDialog())} color="primary" autoFocus>
             {status === '401'
               ? tr.t401.okay[ln]
               : tr.t403.okay[ln]
