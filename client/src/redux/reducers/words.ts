@@ -25,9 +25,9 @@ const words = (state = [], action: any) => {
       const { wordID, year, sem } = action.payload;
       const deleteTarget = state.find((datus: WordData) => datus.year === year && datus.sem === sem)
       if(!deleteTarget) return state; // extreme error (But won't happen )
-      return [...state.filter((datum: WordData) => datum.year !== year || datum.sem !== sem),
-        (deleteTarget as WordData).data.filter((datus: Word) => datus._id !== wordID)
-      ];
+      return [...state.filter((datum: WordData) => datum.year !== year || datum.sem !== sem),{
+        year, sem, data: (deleteTarget as WordData).data.filter((datus: Word) => datus._id !== wordID)
+      }];
         
     default:
       return state;
