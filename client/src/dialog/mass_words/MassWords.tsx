@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import * as API from '../../API';
-import { State } from '../../types';
+import { NewWordAddingType, State } from '../../types';
 // MUI
 import IconButton from '@material-ui/core/IconButton';  
 import Button from '@material-ui/core/Button';
@@ -19,15 +19,7 @@ import {useSelector} from 'react-redux';
 
 const MassWords = () => {
   const {user} = useSelector((state: State) => state);
-
-  const handleAddingStyleSwtich = () => {
-    axios.put(`/api/v2/mongo/languages/${user.ID}`, {payload: {
-      newWordAddingType: 'one'
-    }}, API.getAuthorization())
-    store.dispatch(setDialog('AddWordsDialog'));
-    store.dispatch(setNewWordAddingType('one'));
-  }
-
+  
   return (
     <div>
       <Dialog
@@ -39,7 +31,7 @@ const MassWords = () => {
         <DialogTitle id="alert-dialog-title">
           {"Use Google's location service?"}
           <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
-            onClick={() => handleAddingStyleSwtich()}>
+            onClick={() => API.handleNewWordAddingType(user.ID, 'one')}>
             <SwitchBackToOneMode />
           </IconButton>
         </DialogTitle>

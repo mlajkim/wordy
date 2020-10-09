@@ -1,12 +1,11 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
-import { FederalProvider, UsersDB } from './types';
-import { GoogleRes, ProfileObj } from './types';
+import { FederalProvider, UsersDB, NewWordAddingType, GoogleRes, ProfileObj } from './types';
 // Redux
 import store from './redux/store';
 import {
   setSignedIn, setPage, setLanguage, setUser, 
-  setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType
+  setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType, setDialog
 } from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
@@ -129,5 +128,14 @@ export const addToken = (name: string, data: any, expires: number) => {
 // @ SIGN OUT / FORCE EXPIRING
 export const killCookie = (what: string) =>  {
   cookies.remove('login');
+}
+
+// @ Preferences (Old Languages)
+export const handleNewWordAddingType = (userID: string, type: NewWordAddingType) => {
+  axios.put(`/api/v2/mongo/languages/${userID}`, {payload: {
+    newWordAddingType: type
+  }}, getAuthorization())
+  store.dispatch(setDialog('AddWordsDialog'));
+  store.dispatch(setNewWordAddingType('one'));
 }
 
