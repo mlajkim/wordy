@@ -16,8 +16,12 @@ export type Years = {
 
 export type Dialog = {
   isOpen: boolean,
+  type: DialogType,
   payload: object
 }
+
+export type DialogType = 'LoginDialog' | 'SignUpDialog' | 'AddWordsDialog' | 
+  'MassWordsDialog' | 'ConfirmDelete' | 'Warning401' | 'Warning403';
 
 export type SnackbarState = {
   isOpen: boolean,

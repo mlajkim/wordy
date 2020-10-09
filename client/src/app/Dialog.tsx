@@ -1,14 +1,17 @@
 import React from 'react';
 import { useSelector } from "react-redux";
+import { State } from '../types';
 // Dialogs
 import LoginDialog from '../dialog/login_dialog/LoginDialog';
 import WarningDialog from '../dialog/warning/WarningDialog';
 import AddWordsDialog from '../dialog/add_word/AddWordsDialog';
 import ConfirmDelete from '../dialog/confirm_delete/ConfirmDelete';
+import MassWordsDialog from '../dialog/mass_words/MassWords';
+
 
 const Dialog = () => {
   // states
-  const dialog = useSelector((state: any) => state.dialog);
+  const {dialog} = useSelector((state: State) => state);
 
   switch(dialog.type) {
     case 'LoginDialog': 
@@ -19,6 +22,9 @@ const Dialog = () => {
 
     case 'AddWordsDialog': 
       return <AddWordsDialog />;
+
+    case 'MassWordsDialog': 
+      return <MassWordsDialog />;
 
     case 'ConfirmDelete':
       return <ConfirmDelete />

@@ -1,8 +1,8 @@
-import { Word, SnackbarType, WordData } from '../types';
+import { Word, SnackbarType, WordData, DialogType } from '../types';
 import * as actions from './actionTypes';
 
 // @ DIALOG
-export const setDialog = (type: string, payload?: object) => {
+export const setDialog = (type: DialogType, payload?: object) => {
   return {
     type: actions.SET_DIALOG,
     payload: { type, payload }

@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import tr from './login_dialog.tr.json';
 // Redux
 import store from '../../redux/store';
-import {setDialog} from '../../redux/actions';
+import {offDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import { Language } from '../../types';
 // Components
@@ -63,7 +63,7 @@ const LoginDialog = ({type}: Props) => {
   const ln = useSelector((state: {language: Language}) => state.language);
 
   const handleClose = () => {
-    store.dispatch(setDialog(''));
+    store.dispatch(offDialog());
   }
   return (
     <div >

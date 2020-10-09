@@ -88,7 +88,7 @@ const Appbar = () => {
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 
               onClick={() => languages.newWordAddingType === 'one' 
                 ? store.dispatch(setDialog('AddWordsDialog'))
-                : null }>
+                : store.dispatch(setDialog('MassWordsDialog')) }>
               <AddIcon fontSize="small" />
             </IconButton>
           }
