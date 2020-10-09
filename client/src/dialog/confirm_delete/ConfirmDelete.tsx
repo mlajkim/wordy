@@ -60,7 +60,7 @@ const  ConfirmDelete:React.FC= () => {
       deletedWordsCount: languages.deletedWordsCount + 1
     }}, API.getAuthorization())
   };
-
+  
   return (
     <Fragment>
       <Dialog
@@ -72,7 +72,7 @@ const  ConfirmDelete:React.FC= () => {
         <DialogTitle id="alert-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-word-confirm">
-            {`${tr.word[ln]}: ${payload.word}`}
+            {`${tr.word[ln]}: ${payload.word.word}`}
           </DialogContentText>
           <DialogContentText id="alert-dialog">
             {tr.ask[ln]}
