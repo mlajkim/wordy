@@ -1,0 +1,32 @@
+{
+  "title": {
+    "ko": "단어 삭제",
+    "en": "Delete Word",
+    "ja": "語彙削除"
+  }, 
+  "word": {
+    "ko": "단어",
+    "en": "Word",
+    "ja": "単語"
+  },
+  "ask": {
+    "ko": "삭제하시겠습니까?",
+    "en": "Are you sure you would like to delete?",
+    "ja": "単語"
+  },
+  "warning": {
+    "ko": "삭제 후 복구 불가합니다",
+    "en": "The deleting action is irriversible",
+    "ja": "削除後は復旧ができません"
+  },
+  "cancelBtn": {
+    "ko": "취소",
+    "en": "Cancel",
+    "ja": "戻る"
+  },
+  "deleteBtn": {
+    "ko": "삭제 (복구불가)",
+    "en": "Delete (Irriversible)",
+    "ja": "削除（復旧不可能）"
+  }
+}

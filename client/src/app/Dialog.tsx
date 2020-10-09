@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import LoginDialog from '../dialog/login_dialog/LoginDialog';
 import WarningDialog from '../dialog/warning/WarningDialog';
 import AddWordsDialog from '../dialog/add_word/AddWordsDialog';
+import ConfirmDelete from '../dialog/confirm_delete/ConfirmDelete';
 
 const Dialog = () => {
   // states
@@ -18,6 +19,9 @@ const Dialog = () => {
 
     case 'AddWordsDialog': 
       return <AddWordsDialog />;
+
+    case 'ConfirmDelete':
+      return <ConfirmDelete />
 
     case 'Warning401': 
       return <WarningDialog status="401" />;

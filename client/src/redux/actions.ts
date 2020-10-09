@@ -1,6 +1,7 @@
 import { Word, SnackbarType } from '../types';
 import * as actions from './actionTypes';
 
+// Dialog
 export const setDialog = (toWhat: string) => {
   return {
     type: actions.SET_DIALOG,

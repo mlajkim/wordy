@@ -5,17 +5,19 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 // Icons
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import StatIcon from '@material-ui/icons/Equalizer';
 import StarReviewIocn from '@material-ui/icons/PlayArrow';
+// Redux
+import store from '../../redux/store';
+import {setDialog} from '../../redux/actions';
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -53,7 +55,7 @@ const WordCard: React.FC<Props> = ({word: {
   const tools = [
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon />, disabled: true},
-    { type: 'delete', icon: <DeleteIcon />, disabled: true},
+    { type: 'delete', icon: <DeleteIcon />, disabled: false},
     { type: 'stat', icon: <StatIcon />, disabled: true},
     { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
   ];
@@ -63,7 +65,14 @@ const WordCard: React.FC<Props> = ({word: {
   type Type = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart';
 
   const handleToolClick = (type: Type) => {
-
+    switch(type) {
+      case 'delete':
+        store.dispatch(setDialog('ConfirmDelete'));
+        break;
+      
+      default:
+        return
+    }
   }
 
   return (
