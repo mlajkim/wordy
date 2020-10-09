@@ -1,4 +1,7 @@
+// Dialog
 export const SET_DIALOG = "[DIALOG] SET_DIALOG";
+export const OFF_DIALOG = "[DIALOG] OFF_DIALOG";
+// 
 export const SET_PAGE="[PAGE] SET_PAGE";
 export const SET_LANGUAGE="[PAGE] SET_LANGUAGE";
 export const SET_IS_SIGNED_IN="[PAGE] SET_IS_SIGNED_IN";

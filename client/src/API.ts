@@ -8,7 +8,6 @@ import store from './redux/store';
 import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears, setSnackbar} from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
-  console.log({payload: {...payload}})
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
     headers: {Authorization: `Bearer ${accessToken}`}
   })

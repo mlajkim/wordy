@@ -1,22 +1,21 @@
 import { Word, SnackbarType } from '../types';
 import * as actions from './actionTypes';
 
-// Dialog
-export const setDialog = (toWhat: string) => {
+// @ DIALOG
+export const setDialog = (type: string, payload?: object) => {
   return {
     type: actions.SET_DIALOG,
-    payload: {
-      toWhat
-    }
+    payload: { type, payload }
   };
 };
 
+export const offDialog = () => {return { type: actions.OFF_DIALOG }};
+
+//
 export const setPage = (toWhat: string) => {
   return {
     type: actions.SET_PAGE,
-    payload: {
-      toWhat
-    }
+    payload: { toWhat }
   };
 };
 
