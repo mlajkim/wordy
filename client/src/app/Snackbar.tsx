@@ -3,45 +3,39 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { SnackbarState } from '../types';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+// Redux
+import store from '../redux/store';
+import {offSnackbar} from '../redux/actions';
+import {useSelector} from 'react-redux';
+
+const Alert = (props: AlertProps) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const RenderSnackbar = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const {snackbar} = useSelector((state: {snackbar: SnackbarState}) => state);
 
   const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-
-    setOpen(false);
+    store.dispatch(offSnackbar());
   };
 
   return (
     <div>
-      <Button onClick={handleClick}>Open simple snackbar</Button>
       <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        open={open}
-        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center', }}
+        open={snackbar.isOpen}
+        autoHideDuration={snackbar.duration * 1000} // this takes milliseconds
         onClose={handleClose}
-        message="Note archived"
-        action={
-          <React.Fragment>
-            <Button color="secondary" size="small" onClick={handleClose}>
-              UNDO
-            </Button>
-            <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </React.Fragment>
-        }
-      />
+      >
+        <Alert onClose={handleClose} severity={snackbar.type} style={{width: 300, marginTop: 75}}>
+          {snackbar.desc}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

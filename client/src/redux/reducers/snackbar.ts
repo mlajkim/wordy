@@ -1,5 +1,8 @@
 import * as actions from '../actionTypes';
 
+const DEFAULT_SEVRITY_TYPE = 'success';
+const DEFAULT_DURATION_SECS = 5; // seconds
+
 const initialState = {
   isOpen: false
 }
@@ -10,13 +13,13 @@ const snackbar = (state = initialState, action: any) => {
       return {
         isOpen: true,
         desc: action.payload.desc,
-        type: action.payload.type ? action.payload.type : null,
-        duration: action.payload.duration ? action.payload.duration : null,
+        type: action.payload.type ? action.payload.type : DEFAULT_SEVRITY_TYPE,
+        duration: action.payload.duration ? action.payload.duration : DEFAULT_DURATION_SECS,
       };
     
     case actions.OFF_SNACKBAR:
       return initialState
-      
+
     default:
       return state;
   }

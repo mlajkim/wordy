@@ -19,7 +19,7 @@ import tr from './add_words_dialog.tr.json';
 import {State, Word} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {setDialog, addYears, addOneWordIntoData } from '../../redux/actions';
+import {setDialog, addYears, addOneWordIntoData, setSnackbar } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 
@@ -76,6 +76,8 @@ const AddWordsDialog: React.FC = () => {
       language: languages.addWordLangPref
       }}, API.getAuthorization())).data.payload;
     }
+    // Let user know it has been successful add
+    store.dispatch(setSnackbar('yes!'))
 
     // Sycn (Word)
     store.dispatch(addOneWordIntoData(payload))

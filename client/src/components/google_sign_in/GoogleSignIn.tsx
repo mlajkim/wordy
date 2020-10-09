@@ -12,7 +12,9 @@ import { Language } from '../../types';
 // Credential
 import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
+import store from '../../redux/store';
 import {useSelector} from 'react-redux';
+import {setSnackbar} from '../../redux/actions';
 
 type Props = {
   type: 'login' | 'signup';
@@ -27,6 +29,8 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
     if (error) return;
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);
+    if (type === 'login') store.dispatch(setSnackbar(tr.successfulSignIn[ln]));
+    else if (type === 'signup') store.dispatch(setSnackbar(tr.successfulSignUp[ln]));
   };
 
   return (

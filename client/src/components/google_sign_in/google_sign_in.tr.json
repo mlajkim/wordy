@@ -8,5 +8,15 @@
     "en": "Sign up with Google",
     "ko": "구글 계정으로 가입하기",
     "ja": "Googleアカウントで作成"
+  },
+  "successfulSignIn": {
+    "en": "Successfully signed in",
+    "ko": "로그인되었습니다.",
+    "ja": "ログインしました"
+  },
+  "successfulSignUp": {
+    "en": "Successfully signed up",
+    "ko": "계정 생성 완료",
+    "ja": "アカウント作成完了"
   }
 }

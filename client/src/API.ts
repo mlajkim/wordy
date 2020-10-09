@@ -5,7 +5,7 @@ import { FederalProvider } from './types';
 import { GoogleRes, ProfileObj } from './types';
 // Redux
 import store from './redux/store';
-import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears} from './redux/actions';
+import {setDialog, setSignedIn, setPage, setLanguage, setUser, setYears, setSnackbar} from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   console.log({payload: {...payload}})

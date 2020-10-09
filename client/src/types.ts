@@ -5,7 +5,15 @@ export type State = {
   isSignedIn: string;
   user: User,
   years: Array<{year: number, sem: number}>;
-  words: WordData[]
+  words: WordData[],
+  snackbar: SnackbarState
+}
+
+export type SnackbarState = {
+  isOpen: boolean,
+  desc: string,
+  type: SnackbarType,
+  duration: number
 }
 
 export type Languages = {

@@ -7,6 +7,7 @@ import {handleCountryCode} from '../utils';
 // Mains
 import Dialog from './Dialog';
 import Page from './Page';
+import Snackbar from './Snackbar';
 // Redux
 import store from '../redux/store';
 import {setLanguage} from '../redux/actions';
@@ -26,6 +27,7 @@ const App = () => {
   return (
     <div>
       <Appbar />
+      <Snackbar />
       <Dialog />
       <Page />
     </div>
