@@ -99,6 +99,13 @@ export const addOneWordIntoData = ( word: Word ) => {
   }
 };
 
+export const deleteOneWordFromData = (wordID: string, year: number, sem: number) => {
+  return {
+    type: actions.DELETE_ONE_WORD_FROM_DATA,
+    payload: { wordID, year, sem }
+  }
+}
+
 // @ SNACKBAR
 export const setSnackbar = (desc: string, type?: SnackbarType, duration?: number) => {
   return {

@@ -12,13 +12,13 @@ import axios from 'axios';
 import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setSnackbar} from '../../redux/actions';
+import {offDialog, setSnackbar, deleteOneWordFromData} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 type CustomPayloadType = { word: Word }
 
 const  ConfirmDelete:React.FC= () => {
-  const {language, dialog, words} = useSelector((state: State) => state);
+  const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
   const payload = dialog.payload as CustomPayloadType;
 
@@ -34,6 +34,10 @@ const  ConfirmDelete:React.FC= () => {
 
     // @ ABSOLUTE
     // Delete Front
+    store.dispatch(deleteOneWordFromData(payload.word._id, payload.word.year, payload.word.sem));
+
+    // @ ABSOLUTE
+    // Also has to delete years if that was the last word!
     
     
     

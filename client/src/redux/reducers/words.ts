@@ -19,7 +19,16 @@ const words = (state = [], action: any) => {
         }];
       }
       return [...state, {year: word.year, sem: word.sem, data: [{ ...word }]}];
-      
+
+    // Extremely complicated
+    case actions.DELETE_ONE_WORD_FROM_DATA:
+      const { wordID, year, sem } = action.payload;
+      const deleteTarget = state.find((datus: WordData) => datus.year === year && datus.sem === sem)
+      if(!deleteTarget) return state; // extreme error (But won't happen )
+      return [...state.filter((datum: WordData) => datum.year !== year || datum.sem !== sem),
+        (deleteTarget as WordData).data.filter((datus: Word) => datus._id !== wordID)
+      ];
+        
     default:
       return state;
   }
