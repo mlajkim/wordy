@@ -1,10 +1,10 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
-import { FederalProvider } from './types';
+import { FederalProvider, UsersDB } from './types';
 import { GoogleRes, ProfileObj } from './types';
 // Redux
 import store from './redux/store';
-import {setSignedIn, setPage, setLanguage, setUser, setYears, offDialog} from './redux/actions';
+import {setSignedIn, setPage, setLanguage, setUser, setYears, offDialog, setAddedWordsCount} from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
@@ -56,7 +56,7 @@ export const checkIfUserExists = async (accessToken: string) => {
   else return {error: false, payload: data.payload};
 }
 
-export const setupFront = async (user: any, accessToken: string) => {
+export const setupFront = async (user: UsersDB, accessToken: string) => {
   store.dispatch(offDialog())
   store.dispatch(setPage('dashboard'));
   store.dispatch(setSignedIn(true))
@@ -65,10 +65,41 @@ export const setupFront = async (user: any, accessToken: string) => {
   // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
   store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
   store.dispatch(setLanguage(user.languagePreference))
+  
+  // Handles 'years' collection
   const { error, payload } = (await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
     headers: {Authorization: `Bearer ${accessToken}`}
   })).data
   if(!error) store.dispatch(setYears(payload));
+
+  // Handles users  languages collection
+  let languagesRes = (await axios.get(`/api/v2/mongo/languages/${user._id}`, getAuthorization())).data;
+  if(languagesRes.error) { // does not exist
+    languagesRes = (await axios.post(`/api/v2/mongo/languages`, {
+      // default english, stil adding data null
+      payload: { 
+        ownerID: user._id, firstName: user.firstName, addWordLangPref: 'en', data: [], 
+        addedWordsCount: 0, deletedWordsCount: 0
+      }
+    }, getAuthorization())).data;
+  } else { // if exists
+    // Check to make sure it exists (New feature, modification required)
+    // ***Data Checking***
+    if(languagesRes.addedWordsCount === undefined) {
+      languagesRes.addedWordsCount = languagesRes.addedWordsCount ? languagesRes.addedWordsCount : 0;
+      axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
+        addedWordsCount: 0
+      }}, getAuthorization())
+    }
+    if(languagesRes.deletedWordsCount === undefined) {
+      languagesRes.deletedWordsCount = languagesRes.deletedWordsCount ? languagesRes.deletedWordsCount : 0;
+      axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
+        deletedWordsCount: 0
+      }}, getAuthorization())
+    }
+  }
+  // ..Set up the front
+  store.dispatch(setAddedWordsCount(languagesRes.addedWordsCount));
 }
 
 

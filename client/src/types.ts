@@ -3,7 +3,7 @@ export type State = {
   language: Language;
   languages: Languages;
   isSignedIn: string;
-  user: User,
+  user: UserState,
   years: Years[];
   words: WordData[],
   snackbar: SnackbarState
@@ -64,9 +64,20 @@ export type ProfileObj = {
   imageUrl: string;
 }
 
+export type UsersDB = {
+  _id: string;
+  federalProvider: string;
+  federalID: string;
+  lastName: string;
+  firstName: string;
+  email: string;
+  imageUrl: string;
+  languagePreference: string;
+  }
+
 export type Language = 'en' | 'ko' | 'ja';
 
-export type User = {
+export type UserState = {
   ID: string;
   lastName: string;
   firstName: string;

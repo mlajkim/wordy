@@ -38,7 +38,10 @@ const AvailableLangs: React.FC = () => {
         if(res.status === 204) {
           axios.post(`/api/v2/mongo/languages`, {
             // default english, stil adding data null
-            payload: { ownerID: newUser.ID, firstName: newUser.firstName, addWordLangPref: 'en', data: []}
+            payload: { 
+              ownerID: newUser.ID, firstName: newUser.firstName, addWordLangPref: 'en', data: [],
+              addedWordsCount: 0, deletedWordsCount: 0
+            }
           }, API.getAuthorization())
             .then(newRes => store.dispatch(setAddWordLangPref(newRes.data.payload.addWordLangPref)))
           return;

@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // Translation
 import * as tr from './drawer.tr.json'
 import menuTr from '../components/menu/menu.tr.json';
-import {Language, User} from '../types';
+import {Language, UserState} from '../types';
 import appbarTr from '../app/appbar.tr.json';
 // Icons
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 const DrawerComponent = (props: any) => {
   const classes = useStyles();
   const {isDrawerOpen, setDrawer} = props;
-  const {language, isSignedIn, user} = useSelector((state: {language: Language, isSignedIn: boolean, user: User}) => state);
+  const {language, isSignedIn, user} = useSelector((state: {language: Language, isSignedIn: boolean, user: UserState}) => state);
   const ln = language;
 
   //
