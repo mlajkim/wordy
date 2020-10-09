@@ -32,11 +32,13 @@ export type SnackbarState = {
 
 export type Languages = {
   addWordLangPref: string;
-  newWordAddingType: 'one' | 'mass';
+  newWordAddingType: NewWordAddingType;
   addedWordsCount: number;
   deletedWordsCount: number;
   orderPref: AddableLang[]
 }
+
+export type NewWordAddingType = 'one' | 'mass';
 
 export type AddableLang = 'ko' | 'en' | 'ja' | 'zh';
 

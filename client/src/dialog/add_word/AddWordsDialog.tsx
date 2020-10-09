@@ -21,7 +21,8 @@ import tr from './add_words_dialog.tr.json';
 import {State, Word} from '../../types';
 // Redux
 import store from '../../redux/store';
-import {offDialog, addYears, addOneWordIntoData, setSnackbar, incrementAddedWordsCount } from '../../redux/actions';
+import {offDialog, addYears, addOneWordIntoData, setSnackbar, 
+  setNewWordAddingType, incrementAddedWordsCount, setDialog } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: number) => {
@@ -50,6 +51,14 @@ const AddWordsDialog: React.FC = () => {
   const [isShowingExtra, setShowingExtra] = useState(false);
   const [extraYear, setExtraYear] = useState('');
   const [extraSem, setExtraSem] = useState('');
+
+  const handleAddingStyleSwtich = () => {
+    axios.put(`/api/v2/mongo/languages/${user.ID}`, {payload: {
+      newWordAddingType: 'mass'
+    }}, API.getAuthorization())
+    store.dispatch(setDialog('MassWordsDialog'));
+    store.dispatch(setNewWordAddingType('mass'));
+  }
 
   const handleAddWords = async () => {
     // Checker
@@ -103,7 +112,7 @@ const AddWordsDialog: React.FC = () => {
       <Dialog open={true} onClose={() => store.dispatch(offDialog())}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
-          <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}}>
+          <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} onClick={() => handleAddingStyleSwtich()}>
             <AddToPhotosIcon />
           </IconButton>
         </DialogTitle>

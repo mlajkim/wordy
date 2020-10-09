@@ -1,4 +1,4 @@
-import { Word, SnackbarType, WordData, DialogType } from '../types';
+import { Word, SnackbarType, WordData, DialogType, NewWordAddingType } from '../types';
 import * as actions from './actionTypes';
 
 // @ DIALOG
@@ -77,6 +77,13 @@ export const setDeletedWordsCount = (count: number) => {
 export const incrementAddedWordsCount = () => {return { type: actions.INCREMENT_ADDED_WORDS_COUNT }};
 
 export const incrementDeletedWordsCount = () => {return { type: actions.INCREMENT_DELETED_WORDS_COUNT }};
+
+export const setNewWordAddingType = (type: NewWordAddingType) => {
+  return {
+    type: actions.SET_NEW_WORD_ADDING_TYPE,
+    payload: { type }
+  }
+}
 
 // @ YEARS
 export const setYears = (addWhat: object[]) => {

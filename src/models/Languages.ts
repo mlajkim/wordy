@@ -5,6 +5,7 @@ const languageSchema = new Schema({
   ownerID: String,
   firstName: String,
   addedWordsCount: Number,
+  newWordAddingType: String,
   deletedWordsCount: Number,
   addWordLangPref: String,
   data: Array

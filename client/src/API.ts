@@ -6,7 +6,7 @@ import { GoogleRes, ProfileObj } from './types';
 import store from './redux/store';
 import {
   setSignedIn, setPage, setLanguage, setUser, 
-  setYears, offDialog, setAddedWordsCount, setDeletedWordsCount
+  setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType
 } from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
@@ -82,28 +82,32 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
       // default english, stil adding data null
       payload: { 
         ownerID: user._id, firstName: user.firstName, addWordLangPref: 'en', data: [], 
-        addedWordsCount: 0, deletedWordsCount: 0
+        addedWordsCount: 0, deletedWordsCount: 0, newWordAddingType: 'one'
       }
     }, getAuthorization())).data;
   } else { // if exists
     // Check to make sure it exists (New feature, modification required)
     // ***Data Checking***
     if(languagesRes.payload.addedWordsCount === undefined) {
-      languagesRes.addedWordsCount = languagesRes.payload.addedWordsCount ? languagesRes.payload.addedWordsCount : 0;
+      languagesRes.payload.addedWordsCount = 0;
       axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
         addedWordsCount: 0
       }}, getAuthorization())
     }
     if(languagesRes.payload.deletedWordsCount === undefined) {
-      languagesRes.deletedWordsCount = languagesRes.payload.deletedWordsCount ? languagesRes.payload.deletedWordsCount : 0;
+      languagesRes.payload.deletedWordsCount = 0;
       axios.put(`/api/v2/mongo/languages/${user._id}`, 
       {payload: { deletedWordsCount: 0 }}, 
       getAuthorization())
+    }
+    if(languagesRes.payload.newWordAddingType === undefined) {
+      languagesRes.payload.newWordAddingType = 'one'
     }
   }
   // ..Set up the front
   store.dispatch(setAddedWordsCount(languagesRes.payload.addedWordsCount));
   store.dispatch(setDeletedWordsCount(languagesRes.payload.deletedWordsCount));
+  store.dispatch(setNewWordAddingType(languagesRes.payload.newWordAddingType))
 }
 
 export const getAuthorization = () => {

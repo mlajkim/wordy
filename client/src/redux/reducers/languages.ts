@@ -29,8 +29,12 @@ const languages = (state = initialState, action: any) => {
       return {...state, deletedWordsCount: action.payload.count};
 
     case actions.INCREMENT_DELETED_WORDS_COUNT:
-        const prevDeletedWordsCount = state.deletedWordsCount;
-        return {...state, deletedWordsCount: prevDeletedWordsCount + 1};
+      const prevDeletedWordsCount = state.deletedWordsCount;
+      return {...state, deletedWordsCount: prevDeletedWordsCount + 1};
+      
+    // MASS or single word adding style
+    case actions.SET_NEW_WORD_ADDING_TYPE:
+      return {...state, newWordAddingType: action.payload.type}
 
       // This is kinda wierd. delete later after confirmation
     // case actions.SET_LANGUAGES:
