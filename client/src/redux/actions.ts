@@ -1,4 +1,4 @@
-import { Word, SnackbarType } from '../types';
+import { Word, SnackbarType, WordData } from '../types';
 import * as actions from './actionTypes';
 
 // @ DIALOG
@@ -106,10 +106,10 @@ export const addOneWordIntoData = ( word: Word ) => {
   }
 };
 
-export const deleteOneWordFromData = (wordID: string, year: number, sem: number) => {
+export const deleteOneWordFromData = (deletingTarget: WordData, wordID: string, year: number, sem: number) => {
   return {
     type: actions.DELETE_ONE_WORD_FROM_DATA,
-    payload: { wordID, year, sem }
+    payload: { deletingTarget, wordID, year, sem }
   }
 }
 

@@ -25,40 +25,34 @@ const  ConfirmDelete:React.FC= () => {
   // @ ABSOLUTE
   const handleWordDelete = async () => {
     // @ ABSOLUTE
-    // Delete Back
+    // First check if the array has only one data left.
+    // MAKES SURE THIS HAPPENS BEFORE DELETING THE WORD
+    const deletingTarget = words.find((datus: WordData) => datus.year === payload.word.year && datus.sem === payload.word.sem);
+    // ***Error Checking***
+    if(!deletingTarget) { // extreme error
+      store.dispatch(setSnackbar('[ERROR] EXTREME LOGICAL ERROR', 'warning'));
+      return;
+    }
+    if(deletingTarget.data.length === 1) {
+      // Sync with Years if the year has only one word data left.
+      // Backend of Year
+      axios.delete(
+        `/api/v2/mongo/years/one/${user.ID}/${payload.word.year}/${payload.word.sem}`, 
+        API.getAuthorization()
+      );
+      // Frontend of Year
+      store.dispatch(deleteOneYear(payload.word.year, payload.word.sem));
+    }
+    // @ ABSOLUTE
+    // Delete Back of Word
     axios.delete(`/api/v2/mongo/words/one/${payload.word._id}`, API.getAuthorization())
       .then(_res => {
         store.dispatch(setSnackbar(tr.deletedMessage[ln]))
         store.dispatch(offDialog());
       })
-
     // @ ABSOLUTE
-    // Also has to delete years if that was the last word!
-    // MAKES SURE THIS HAPPENS BEFORE DELETING THE WORD
-    const found = words.find((datus: WordData) => datus.year === payload.word.year && datus.sem === payload.word.sem);
-    if(!found) { // extreme error
-      store.dispatch(setSnackbar('[ERROR] EXTREME LOGICAL ERROR', 'warning'));
-      return;
-    }
-    if(found.data.length === 1) {
-      // Backend
-      axios.delete(
-        `/api/v2/mongo/years/one/${user.ID}/${payload.word.year}/${payload.word.sem}`, 
-        API.getAuthorization()
-      );
-      // Frontend
-      store.dispatch(deleteOneYear(payload.word.year, payload.word.sem));
-      
-    }
-
-    // @ ABSOLUTE
-    // Delete Front
-    store.dispatch(deleteOneWordFromData(payload.word._id, payload.word.year, payload.word.sem));
-
-    
-    
-    
-    
+    // Delete Front of Word
+    store.dispatch(deleteOneWordFromData(deletingTarget, payload.word._id, payload.word.year, payload.word.sem));
   };
 
   return (
