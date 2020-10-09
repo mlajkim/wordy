@@ -1,12 +1,15 @@
 import * as actions from '../actionTypes';
+import { Languages } from '../../types';
 
-const initialState = {
-  addWordLangPref: 'en',
-  addedWordsCount: 0,
+const initialState: Languages = {
+  addWordLangPref: 'en', // user's prefrenece of adding language
+  newWordAddingType: 'mass',
+  addedWordsCount: 0, // 
   deletedWordsCount: 0,
-  data: []
+  orderPref: []
 };
 
+// this is more of userPreference (I will change the naming later)
 const languages = (state = initialState, action: any) => {
   switch(action.type) {
     case actions.SET_ADD_WORD_LANG_PREF:

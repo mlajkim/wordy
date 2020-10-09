@@ -28,10 +28,13 @@ export type SnackbarState = {
 
 export type Languages = {
   addWordLangPref: string;
-  data: string[];
+  newWordAddingType: 'one' | 'mass';
   addedWordsCount: number;
   deletedWordsCount: number;
+  orderPref: AddableLang[]
 }
+
+export type AddableLang = 'ko' | 'en' | 'ja' | 'zh';
 
 export type WordData = {
   year: number,

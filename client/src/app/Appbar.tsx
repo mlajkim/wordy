@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import tr from './appbar.tr.json'
-import {Language} from '../types';
+import { State, Language } from '../types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from './Drawer';
@@ -28,7 +28,7 @@ import {GOOGLE_CLIENT_ID} from '../credential';
 
 const Appbar = () => {
   const classes = MUIStyle();
-  const {language, isSignedIn, user} = useSelector((state: {language: Language, isSignedIn: boolean, user:any}) => state);
+  const {language, isSignedIn, user, languages} = useSelector((state: State) => state);
   const ln = language;
   const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
 
@@ -57,6 +57,7 @@ const Appbar = () => {
     store.dispatch(setDialog('LoginDialog'));
   }
 
+  // @ LOGOUT FUNCTIONS
   const handleLogout = () => {
     API.killCookie('login');
     setProfileMenu(null);
@@ -84,7 +85,10 @@ const Appbar = () => {
             Wordy
           </Typography>
           {isSignedIn &&
-            <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" onClick={() => store.dispatch(setDialog('AddWordsDialog'))}>
+            <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 
+              onClick={() => languages.newWordAddingType === 'one' 
+                ? store.dispatch(setDialog('AddWordsDialog'))
+                : null }>
               <AddIcon fontSize="small" />
             </IconButton>
           }
