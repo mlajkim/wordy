@@ -73,8 +73,8 @@ words.delete("/one/:wordID", async (req: Request, res: Response) => {
   const { wordID } = req.params;
   await wordSchema.findByIdAndDelete(wordID);
 
-  res.send({
-    status: 200,
+  res.status(204).send({
+    status: 204,
     error: false,
     message: "[OK] Item 'word' deleted."
   })

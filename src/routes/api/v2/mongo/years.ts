@@ -60,8 +60,14 @@ years.put("/:ownerID", async (_req: Request, _res: Response) => {
 });
 
 // @ DELETE
-years.delete("", (_req: Request, _res: Response) => {
+years.delete("/one/:ownerID/:year/:sem", async (req: Request, res: Response) => {
+  await yearSchema.findOneAndDelete({ ...req.params });
 
+  res.status(204).send({
+    status: 204,
+    error: false,
+    message: "[OK] Item 'year' deleted."
+  })
 });
 
 export default years;

@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { State, Word } from '../../types';
+import { State, Word, WordData } from '../../types';
 import axios from 'axios';
 // Translation
 import tr from './confirm_delete.tr.json';
@@ -18,7 +18,7 @@ import {useSelector} from 'react-redux';
 type CustomPayloadType = { word: Word }
 
 const  ConfirmDelete:React.FC= () => {
-  const {language, dialog} = useSelector((state: State) => state);
+  const {language, dialog, words, user} = useSelector((state: State) => state);
   const ln = language;
   const payload = dialog.payload as CustomPayloadType;
 
@@ -33,11 +33,26 @@ const  ConfirmDelete:React.FC= () => {
       })
 
     // @ ABSOLUTE
+    // Also has to delete years if that was the last word!
+    // MAKES SURE THIS HAPPENS BEFORE DELETING THE WORD
+    const found = words.find((datus: WordData) => datus.year === payload.word.year && datus.sem === payload.word.sem);
+    if(!found) { // extreme error
+      store.dispatch(setSnackbar('[ERROR] EXTREME LOGICAL ERROR', 'warning'));
+      return;
+    }
+    if(found.data.length === 1) {
+      // Backend
+      axios.delete(`/api/v2/mongo/years/one/${user.ID}/${payload.word.year}/${payload.word.sem}`, API.getAuthorization());
+
+      // Frontend
+      
+    }
+
+    // @ ABSOLUTE
     // Delete Front
     store.dispatch(deleteOneWordFromData(payload.word._id, payload.word.year, payload.word.sem));
 
-    // @ ABSOLUTE
-    // Also has to delete years if that was the last word!
+    
     
     
     
