@@ -1,5 +1,5 @@
 export type State = {
-  dialog: string;
+  dialog: Dialog;
   language: Language;
   languages: Languages;
   isSignedIn: string;
@@ -7,6 +7,11 @@ export type State = {
   years: Array<{year: number, sem: number}>;
   words: WordData[],
   snackbar: SnackbarState
+}
+
+export type Dialog = {
+  isOpen: boolean,
+  payload: object
 }
 
 export type SnackbarState = {

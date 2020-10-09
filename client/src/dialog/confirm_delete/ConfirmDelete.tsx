@@ -1,28 +1,32 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { State } from '../../types';
 // Translation
 import tr from './confirm_delete.tr.json';
-import { Language } from '../../types';
 // Redux
 import store from '../../redux/store';
 import {offDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
+type PayloadType = { wordID: string, word: string }
+
 const  ConfirmDelete:React.FC= () => {
-  const {language} = useSelector((state: {language: Language}) => state);
+  const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
   // @ ABSOLUTE
-  // const handleWordDelete = () => {
+  const handleWordDelete = () => {
     
-  // };
+  };
+
+  const payload = dialog.payload as PayloadType;
 
   return (
-    <div>
+    <Fragment>
       <Dialog
         open={true}
         onClose={() => store.dispatch(offDialog())}
@@ -32,7 +36,7 @@ const  ConfirmDelete:React.FC= () => {
         <DialogTitle id="alert-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-word-confirm">
-            {`${tr.word[ln]}:`}
+            {`${tr.word[ln]}: ${payload.word}`}
           </DialogContentText>
           <DialogContentText id="alert-dialog">
             {tr.ask[ln]}
@@ -47,7 +51,7 @@ const  ConfirmDelete:React.FC= () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   );
 }
 

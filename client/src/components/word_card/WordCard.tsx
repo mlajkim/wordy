@@ -58,7 +58,7 @@ const WordCard: React.FC<Props> = ({word: {
   const handleToolClick = (type: Type) => {
     switch(type) {
       case 'delete':
-        store.dispatch(setDialog('ConfirmDelete'));
+        store.dispatch(setDialog('ConfirmDelete', {wordID: _id, word}));
         break;
       
       default:

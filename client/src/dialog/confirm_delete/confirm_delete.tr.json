@@ -12,7 +12,7 @@
   "ask": {
     "ko": "삭제하시겠습니까?",
     "en": "Are you sure you would like to delete?",
-    "ja": "単語"
+    "ja": "削除しますか？"
   },
   "warning": {
     "ko": "삭제 후 복구 불가합니다",
