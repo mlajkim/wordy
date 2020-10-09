@@ -12,8 +12,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
 // Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 // Translation
 import tr from './add_words_dialog.tr.json';
 import {State, Word} from '../../types';
@@ -99,7 +101,12 @@ const AddWordsDialog: React.FC = () => {
     <div>
       {extraYear}
       <Dialog open={true} onClose={() => store.dispatch(offDialog())}>
-        <DialogTitle id="form-dialog-title">{tr.title[ln]}</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          <span>{tr.title[ln]}</span>
+          <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}}>
+            <AddToPhotosIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <AvailableLangs />
           <TextField autoFocus margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)}/>

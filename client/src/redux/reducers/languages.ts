@@ -3,7 +3,7 @@ import { Languages } from '../../types';
 
 const initialState: Languages = {
   addWordLangPref: 'en', // user's prefrenece of adding language
-  newWordAddingType: 'mass',
+  newWordAddingType: 'one',
   addedWordsCount: 0, // 
   deletedWordsCount: 0,
   orderPref: []
