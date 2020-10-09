@@ -7,6 +7,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+// Icons
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const useStyles = makeStyles({
   bullet: {
@@ -23,7 +26,7 @@ const useStyles = makeStyles({
 });
 
 type Props = { word: Word };
-
+// @ MAIN
 const WordCard: React.FC<Props> = ({word: {
   _id, year, sem, word, pronun, meaning
 }}) => {
@@ -46,6 +49,10 @@ const WordCard: React.FC<Props> = ({word: {
         </Typography>
       </CardContent>
       <CardActions>
+        <IconButton disabled size="small" color="inherit" >
+          <FavoriteBorderIcon />
+        </IconButton>
+        
         <Button disabled size="small">Learn More</Button>
       </CardActions>
     </Card>
