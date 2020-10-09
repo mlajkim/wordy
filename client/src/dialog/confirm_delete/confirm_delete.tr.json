@@ -28,5 +28,10 @@
     "ko": "삭제 (복구불가)",
     "en": "Delete (Irriversible)",
     "ja": "削除（復旧不可能）"
+  },
+  "deletedMessage": {
+    "ko": "삭제되었습니다",
+    "en": "Deleted",
+    "ja": "削除されました"
   }
 }

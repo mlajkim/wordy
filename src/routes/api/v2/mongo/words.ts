@@ -69,8 +69,15 @@ words.put("/tag", async (_req: Request, _res: Response) => {
 });
 
 // @ DELETE
-words.delete("", (_req: Request, _res: Response) => {
+words.delete("/one/:wordID", async (req: Request, res: Response) => {
+  const { wordID } = req.params;
+  await wordSchema.findByIdAndDelete(wordID);
 
+  res.send({
+    status: 200,
+    error: false,
+    message: "[OK] Item 'word' deleted."
+  })
 });
 
 export default words;
