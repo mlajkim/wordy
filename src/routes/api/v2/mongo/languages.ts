@@ -42,7 +42,8 @@ languages.get("/:ownerID", async (req: Request, res: Response) => {
 // @ UPDATE
 languages.put("/:ownerID", async (req: Request, res: Response) => {
   // put whatever you wish to edit in req.body.payload
-  console.log(req.body);
+  console.log('Changing the following...');
+  console.log(req.body.payload);
   await languageSchema.findOneAndUpdate({
     ownerID: req.params.ownerID
   }, {...req.body.payload}, {useFindAndModify: false});

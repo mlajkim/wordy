@@ -2,7 +2,7 @@ import * as actions from '../actionTypes';
 
 const initialState = {
   addWordLangPref: 'en',
-  adddedWordsCount: 0,
+  addedWordsCount: 0,
   deletedWordsCount: 0,
   data: []
 };
@@ -17,7 +17,7 @@ const languages = (state = initialState, action: any) => {
       return {...state, addedWordsCount: action.payload.count};
 
     case actions.INCREMENT_ADDED_WORDS_COUNT:
-      const prevAdddedWordsCount = state.adddedWordsCount;
+      const prevAdddedWordsCount = state.addedWordsCount;
       console.log(prevAdddedWordsCount)
       return {...state, addedWordsCount: prevAdddedWordsCount + 1};
 

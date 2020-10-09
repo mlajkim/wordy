@@ -4,7 +4,10 @@ import { FederalProvider, UsersDB } from './types';
 import { GoogleRes, ProfileObj } from './types';
 // Redux
 import store from './redux/store';
-import {setSignedIn, setPage, setLanguage, setUser, setYears, offDialog, setAddedWordsCount} from './redux/actions';
+import {
+  setSignedIn, setPage, setLanguage, setUser, 
+  setYears, offDialog, setAddedWordsCount, setDeletedWordsCount
+} from './redux/actions';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
@@ -100,6 +103,7 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   }
   // ..Set up the front
   store.dispatch(setAddedWordsCount(languagesRes.payload.addedWordsCount));
+  store.dispatch(setDeletedWordsCount(languagesRes.payload.deletedWordsCount));
 }
 
 export const getAuthorization = () => {

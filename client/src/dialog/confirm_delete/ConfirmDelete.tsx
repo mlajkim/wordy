@@ -12,13 +12,13 @@ import axios from 'axios';
 import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setSnackbar, deleteOneWordFromData, deleteOneYear  } from '../../redux/actions';
+import {offDialog, setSnackbar, deleteOneWordFromData, deleteOneYear, incrementDeletedWordsCount } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 type CustomPayloadType = { word: Word }
 
 const  ConfirmDelete:React.FC= () => {
-  const {language, dialog, words, user} = useSelector((state: State) => state);
+  const {language, dialog, words, user, languages} = useSelector((state: State) => state);
   const ln = language;
   const payload = dialog.payload as CustomPayloadType;
 
@@ -53,6 +53,12 @@ const  ConfirmDelete:React.FC= () => {
     // @ ABSOLUTE
     // Delete Front of Word
     store.dispatch(deleteOneWordFromData(deletingTarget, payload.word._id, payload.word.year, payload.word.sem));
+    // @ ABSOLUTE
+    // Add deleted amounts
+    store.dispatch(incrementDeletedWordsCount());
+    axios.put(`/api/v2/mongo/languages/${user.ID}`, {payload: {
+      deletedWordsCount: languages.deletedWordsCount + 1
+    }}, API.getAuthorization())
   };
 
   return (
