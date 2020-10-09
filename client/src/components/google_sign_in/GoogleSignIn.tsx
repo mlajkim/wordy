@@ -2,11 +2,9 @@
 import React, {Fragment} from 'react';
 import * as API from '../../API';
 import axios from 'axios';
-// temporary
-import {handleGettingUserIntoFront} from './GoogleSignInAPI'
-//
 import { GoogleRes, User } from '../../types';
 import {GoogleLogin} from 'react-google-login';
+// Translation
 import tr from './google_sign_in.tr.json'
 import { Language } from '../../types';
 // Credential

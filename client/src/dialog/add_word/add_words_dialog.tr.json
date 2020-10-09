@@ -63,5 +63,10 @@
     "en": "Add",
     "ko": "추가",
     "ja": "追加"
+  },
+  "successAddWord": {
+    "en": "Add Complete",
+    "ko": "단어 추가 완료",
+    "ja": "追加完了"
   }
 }

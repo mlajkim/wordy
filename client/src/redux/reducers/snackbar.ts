@@ -1,7 +1,7 @@
 import * as actions from '../actionTypes';
 
 const DEFAULT_SEVRITY_TYPE = 'success';
-const DEFAULT_DURATION_SECS = 5; // seconds
+const DEFAULT_DURATION_SECS = 2; // seconds
 
 const initialState = {
   isOpen: false

@@ -77,7 +77,7 @@ const AddWordsDialog: React.FC = () => {
       }}, API.getAuthorization())).data.payload;
     }
     // Let user know it has been successful add
-    store.dispatch(setSnackbar('yes!'))
+    store.dispatch(setSnackbar(tr.successAddWord[ln]))
 
     // Sycn (Word)
     store.dispatch(addOneWordIntoData(payload))
