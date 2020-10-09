@@ -14,12 +14,12 @@ const languages = (state = initialState, action: any) => {
     
     // Count mechanism
     case actions.SET_ADDED_WORDS_COUNT:
-      return {...state, adddedWordsCount: action.payload.count};
+      return {...state, addedWordsCount: action.payload.count};
 
     case actions.INCREMENT_ADDED_WORDS_COUNT:
       const prevAdddedWordsCount = state.adddedWordsCount;
       console.log(prevAdddedWordsCount)
-      return {...state, adddedWordsCount: prevAdddedWordsCount + 1};
+      return {...state, addedWordsCount: prevAdddedWordsCount + 1};
 
     // Deleted Count
     case actions.SET_DELETED_WORDS_COUNT:

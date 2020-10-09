@@ -85,21 +85,21 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   } else { // if exists
     // Check to make sure it exists (New feature, modification required)
     // ***Data Checking***
-    if(languagesRes.addedWordsCount === undefined) {
-      languagesRes.addedWordsCount = languagesRes.addedWordsCount ? languagesRes.addedWordsCount : 0;
+    if(languagesRes.payload.addedWordsCount === undefined) {
+      languagesRes.addedWordsCount = languagesRes.payload.addedWordsCount ? languagesRes.payload.addedWordsCount : 0;
       axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
         addedWordsCount: 0
       }}, getAuthorization())
     }
-    if(languagesRes.deletedWordsCount === undefined) {
-      languagesRes.deletedWordsCount = languagesRes.deletedWordsCount ? languagesRes.deletedWordsCount : 0;
+    if(languagesRes.payload.deletedWordsCount === undefined) {
+      languagesRes.deletedWordsCount = languagesRes.payload.deletedWordsCount ? languagesRes.payload.deletedWordsCount : 0;
       axios.put(`/api/v2/mongo/languages/${user._id}`, 
       {payload: { deletedWordsCount: 0 }}, 
       getAuthorization())
     }
   }
   // ..Set up the front
-  store.dispatch(setAddedWordsCount(languagesRes.addedWordsCount));
+  store.dispatch(setAddedWordsCount(languagesRes.payload.addedWordsCount));
 }
 
 export const getAuthorization = () => {

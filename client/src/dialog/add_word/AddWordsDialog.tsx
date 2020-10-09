@@ -22,8 +22,6 @@ import store from '../../redux/store';
 import {offDialog, addYears, addOneWordIntoData, setSnackbar, incrementAddedWordsCount } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
-
-
 const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: number) => {
   // Only run when you have detected your front is different
   // Double checking if the data exists
