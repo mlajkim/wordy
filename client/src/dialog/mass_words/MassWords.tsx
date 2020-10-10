@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as API from '../../API';
 import { AddableLang, State } from '../../types';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
+import {VALID_YEAR} from '../add_word/AddWordsDialog';
 // Translation
 import tr from './mass_words.tr.json';
 import trAddWord from '../add_word/add_words_dialog.tr.json';
@@ -19,19 +20,21 @@ import TextField from '@material-ui/core/TextField';
 import SwitchBackToOneMode from '@material-ui/icons/AddBox';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setNewWordAddingType, setDialog } from '../../redux/actions';
+import {offDialog, setSnackbar, setDialog } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import ParsingAPI from './ParsingAPI';
 const LETTERS_LIMITATION = 30000
 
 const MassWords = () => {
   // Redux states
-  const {user, language} = useSelector((state: State) => state);
+  const {user, language, languages} = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [count, setCount] = useState(0);
   const [massData, setMassData] = useState('');
   const [maxError, setMaxError] = useState(false);
+  const [year, setYear] = useState('');
+  const [sem, setSem] = useState('');
 
   type Preference = {
     year: number;
@@ -51,9 +54,13 @@ const MassWords = () => {
   }
 
   const handleAddingMassData = () => {
+    if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR.from, VALID_YEAR.to)) {
+      store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR.from}~${VALID_YEAR.to}) OR SEM (1~4)`, 'warning', 5))
+      return;
+    }
     store.dispatch(offDialog())
     // Data check
-    ParsingAPI(massData, 2018, 2);
+    ParsingAPI(massData, parseInt(year), parseInt(sem), languages.addWordLangPref);
   }
 
   return (
@@ -78,6 +85,14 @@ const MassWords = () => {
             {tr.desc[ln]}
           </DialogContentText>
           <AvailableLangs />
+          <TextField margin="dense" label={trAddWord.year[ln]} 
+            fullWidth value={year} 
+            onChange={(e) => setYear(e.target.value)}
+          />
+          <TextField margin="dense" label={trAddWord.sem[ln]}  
+            fullWidth value={sem}
+            onChange={(e) => setSem(e.target.value)}
+          />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
             style={{width: '100%', textAlign:'center'}} multiline rows={15} rowsMax={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}

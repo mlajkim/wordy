@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as API from '../../API';
+import { AddableLang } from '../../types';
 
 type ReturningType = {
   word: string, 
@@ -10,19 +11,18 @@ type ReturningType = {
 }
 
 //@ MAIN
-const ParsingAPI = (massiveLine: string, year: number, sem: number) => {
+const ParsingAPI = (massiveLine: string, year: number, sem: number, language: AddableLang) => {
   const data = massiveLine.split("\n").map(line => parseA(line));
-  syncBack(data, year, sem);
+  syncBack(data, year, sem, language);
   syncFront(data);
 }
 
-const syncBack = (data: ReturningType[], year: number, sem: number) => {
+const syncBack = (data: ReturningType[], year: number, sem: number, language: AddableLang) => {
   axios.post(`/api/v2/mongo/words/chunk`, {
-    payload: {
-      data
-  }, extra: {
-      year, sem
-  }}, API.getAuthorization())
+    payload: [... data],
+    extra: { year, sem, language }
+  }, API.getAuthorization());
+  
 };
 
 const syncFront = (data: ReturningType[]) => {

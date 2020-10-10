@@ -49,8 +49,8 @@ words.post("/chunk", (req: Request, res: Response) => {
       dateAdded: moment(),
       ...datus,
       language: req.body.extra.language,
-      year: req.body.extra.extraYear,
-      sem: req.body.extra.extraSem
+      year: req.body.extra.year,
+      sem: req.body.extra.sem
     }).save();
   })
 

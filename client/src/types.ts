@@ -31,7 +31,7 @@ export type SnackbarState = {
 }
 
 export type Languages = {
-  addWordLangPref: string;
+  addWordLangPref: AddableLang;
   newWordAddingType: NewWordAddingType;
   addedWordsCount: number;
   deletedWordsCount: number;

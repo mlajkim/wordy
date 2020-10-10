@@ -38,7 +38,7 @@ const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: n
 }
 
 // @ ABSOLUTE
-const VALID_YEAR = { from: 2000, to: 2020 };
+export const VALID_YEAR = { from: 2000, to: 2020 };
 
 const AddWordsDialog: React.FC = () => {
   // Redux states
