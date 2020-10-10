@@ -11,7 +11,7 @@ import {useSelector} from 'react-redux';
 
 const Page = () => {
   // states
-  const {page, isSignedIn} = useSelector((state: any) => state);
+  const {page, user} = useSelector((state: any) => state);
   
   switch(page) {
     case '' || 'home': 
@@ -20,10 +20,10 @@ const Page = () => {
     case 'dashboard':
       return <Dashboard />;
     
-    case isSignedIn && 'review':
+    case user.isSignedIn && 'review':
       return <Review />;
 
-    case isSignedIn && 'list':
+    case user.isSignedIn && 'list':
       return <List />;
 
     default:

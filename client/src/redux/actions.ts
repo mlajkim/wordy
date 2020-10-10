@@ -28,24 +28,6 @@ export const setLanguage = (toWhat: string) => {
   };
 };
 
-export const setSignedIn = (toWhat: boolean) => {
-  return {
-    type: actions.SET_IS_SIGNED_IN,
-    payload: {
-      toWhat
-    }
-  };
-};
-
-export const setUser = (_id: string, lastName: string, firstName: string, imageUrl: string) => {
-  return {
-    type: actions.SET_USER,
-    payload: {
-      ID: _id, lastName, firstName, imageUrl
-    }
-  };
-};
-
 export const setLanguages = (toWhat: string[]) => {
   return {
     type: actions.SET_LANGUAGES,

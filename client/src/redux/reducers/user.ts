@@ -1,9 +1,14 @@
-import * as actions from '../actionTypes';
+import { UserState } from '../../types';
+import {UPDATE_USER} from '../actions/user';
 
-const user = (state = {}, action: any) => {
+const initialState: UserState = {
+  isSignedIn: false
+}
+
+const user = (state = initialState, action: any) => {
   switch(action.type) {
-    case actions.SET_USER:
-      return {...action.payload};
+    case UPDATE_USER:
+      return action.payload;
       
     default:
       return state;

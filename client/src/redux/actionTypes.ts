@@ -4,8 +4,6 @@ export const OFF_DIALOG = "[DIALOG] OFF_DIALOG";
 // 
 export const SET_PAGE="[PAGE] SET_PAGE";
 export const SET_LANGUAGE="[PAGE] SET_LANGUAGE";
-export const SET_IS_SIGNED_IN="[PAGE] SET_IS_SIGNED_IN";
-export const SET_USER="[USER] SET_USER";
 export const SET_LANGUAGES="[USER] SET_LANGUAGES";
 // languages
 export const SET_ADD_WORD_LANG_PREF="[PREFERENCE] SET_ADD_WORD_LANG_PREF";

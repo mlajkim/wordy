@@ -1,7 +1,13 @@
-import {createStore} from 'redux';
+import {createStore, compose, applyMiddleware} from 'redux';
+import { userMdl } from './middleware/user';
 import rootReducer from "./reducers";
+
+// dev tool
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default createStore(
   rootReducer, 
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(
+    applyMiddleware(...userMdl)
+  )
 );

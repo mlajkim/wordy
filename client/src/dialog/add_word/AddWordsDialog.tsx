@@ -90,7 +90,7 @@ const AddWordsDialog: React.FC = () => {
     const found = years.find(year => year.year === payload.year && year.sem === payload.sem)
     if(!found) {
       store.dispatch(addYears({year: payload.year, sem: payload.sem}));
-      syncYearsDB(true, user.ID, payload.year, payload.sem);
+      syncYearsDB(true, user.ID!, payload.year, payload.sem);
     };
 
     // Sync (languages) 
@@ -107,7 +107,7 @@ const AddWordsDialog: React.FC = () => {
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
           <IconButton disabled size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
-            onClick={() => API.handleNewWordAddingType(user.ID, 'mass')}>
+            onClick={() => API.handleNewWordAddingType(user.ID!, 'mass')}>
             <AddToPhotosIcon />
           </IconButton>
         </DialogTitle>

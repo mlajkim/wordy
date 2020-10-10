@@ -1,12 +1,12 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
-import { FederalProvider, UsersDB, NewWordAddingType, GoogleRes, ProfileObj } from './types';
+import { FederalProvider, UsersDB, NewWordAddingType, GoogleRes, ProfileObj, UserState } from './types';
 // Redux
 import store from './redux/store';
-import {
-  setSignedIn, setPage, setLanguage, setUser, 
+import { setPage, setLanguage, 
   setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType, setDialog
 } from './redux/actions';
+import { updateUser } from './redux/actions/user';
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
@@ -61,11 +61,16 @@ export const checkIfUserExists = async (accessToken: string) => {
 export const setupFront = async (user: UsersDB, accessToken: string) => {
   store.dispatch(offDialog())
   store.dispatch(setPage('dashboard'));
-  store.dispatch(setSignedIn(true))
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)
   store.dispatch(setPage('list'));
   // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
-  store.dispatch(setUser(user._id, user.lastName, user.firstName, user.imageUrl));
+  store.dispatch(updateUser({
+    isSignedIn: true,
+    ID: user._id,
+    lastName: user.lastName,
+    firstName: user.firstName,
+    imageUrl: user.imageUrl
+  } as UserState))
   store.dispatch(setLanguage(user.languagePreference))
   
   // Handles 'years' collection

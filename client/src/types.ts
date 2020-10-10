@@ -90,10 +90,11 @@ export type UsersDB = {
 export type Language = 'en' | 'ko' | 'ja';
 
 export type UserState = {
-  ID: string;
-  lastName: string;
-  firstName: string;
-  imageUrl: string;
+  isSignedIn: boolean;
+  ID?: string;
+  lastName?: string;
+  firstName?: string;
+  imageUrl?: string;
 };
 
 export type AddingLangAvailable = 

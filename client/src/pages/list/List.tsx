@@ -27,11 +27,11 @@ const List = () => {
           ? <div style={{paddingTop: 50}}>
               <h4>{tr.empty[ln]}</h4>
               <Button variant="outlined" color="primary" 
-                onClick={() => API.handleNewWordAddingType(user.ID, 'one')}>
+                onClick={() => API.handleNewWordAddingType(user.ID!, 'one')}>
                 {tr.emptyBtn[ln]}
               </Button>
               <Button disabled variant="outlined" color="secondary" 
-                onClick={() => API.handleNewWordAddingType(user.ID, 'mass')}>
+                onClick={() => API.handleNewWordAddingType(user.ID!, 'mass')}>
                 {tr.emptyProBtn[ln]}
               </Button>
             </div>

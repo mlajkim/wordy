@@ -69,7 +69,7 @@ const MassWords = () => {
         <DialogTitle id="alert-dialog-title">
           {tr.title[ln]}
           <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
-            onClick={() => API.handleNewWordAddingType(user.ID, 'one')}>
+            onClick={() => API.handleNewWordAddingType(user.ID!, 'one')}>
             <SwitchBackToOneMode />
           </IconButton>
         </DialogTitle>

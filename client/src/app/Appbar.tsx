@@ -17,7 +17,8 @@ import * as API from '../API';
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
-import {setSignedIn, setDialog, setLanguage, setPage, setUser, offDialog, setSnackbar} from '../redux/actions';
+import {setDialog, setLanguage, setPage, offDialog, setSnackbar} from '../redux/actions';
+import {updateUser} from '../redux/actions/user';
 import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
@@ -61,8 +62,7 @@ const Appbar = () => {
   const handleLogout = () => {
     API.killCookie('login');
     setProfileMenu(null);
-    store.dispatch(setUser('', '', '', ''));
-    store.dispatch(setSignedIn(false));
+    store.dispatch(updateUser({isSignedIn: false}));
     store.dispatch(offDialog());
     store.dispatch(setPage('home'));
     signOut();
