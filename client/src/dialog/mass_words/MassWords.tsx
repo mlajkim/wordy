@@ -47,7 +47,7 @@ const MassWords = () => {
   const handleAddingMassData = () => {
     store.dispatch(offDialog())
     // Data check
-    ParsingAPI();
+    ParsingAPI(massData);
   }
 
   return (
