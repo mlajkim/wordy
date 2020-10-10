@@ -1,8 +1,13 @@
 import { Word, WordData } from '../../types';
 import * as actions from '../actionTypes';
+import {UPDATE_WORDS} from '../actions/words';
 
 const words = (state = [], action: any) => {
   switch(action.type) {
+    case UPDATE_WORDS:
+      return action.payload;
+
+    // old these
     case actions.ADD_CHUNK_INTO_DATA:
       return [...state, {
         ...action.payload
