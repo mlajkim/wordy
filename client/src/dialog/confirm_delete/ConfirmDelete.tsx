@@ -6,13 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { State, Word, WordData } from '../../types';
+import { State, Word } from '../../types';
 import axios from 'axios';
 // Translation
 import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setSnackbar, deleteOneWordFromData, deleteOneYear, incrementDeletedWordsCount } from '../../redux/actions';
+import {offDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 type CustomPayloadType = { word: Word }
@@ -21,45 +21,6 @@ const  ConfirmDelete:React.FC= () => {
   const {language, dialog, words, user, languages} = useSelector((state: State) => state);
   const ln = language;
   const payload = dialog.payload as CustomPayloadType;
-
-  // @ ABSOLUTE
-  const handleWordDelete = async () => {
-    // @ ABSOLUTE
-    // First check if the array has only one data left.
-    // MAKES SURE THIS HAPPENS BEFORE DELETING THE WORD
-    const deletingTarget = words.find((datus: WordData) => datus.year === payload.word.year && datus.sem === payload.word.sem);
-    // ***Error Checking***
-    if(!deletingTarget) { // extreme error
-      store.dispatch(setSnackbar('[ERROR] EXTREME LOGICAL ERROR', 'warning'));
-      return;
-    }
-    if(deletingTarget.data.length === 1) {
-      // Sync with Years if the year has only one word data left.
-      // Backend of Year
-      axios.delete(
-        `/api/v2/mongo/years/one/${user.ID}/${payload.word.year}/${payload.word.sem}`, 
-        API.getAuthorization()
-      );
-      // Frontend of Year
-      store.dispatch(deleteOneYear(payload.word.year, payload.word.sem));
-    }
-    // @ ABSOLUTE
-    // Delete Back of Word
-    axios.delete(`/api/v2/mongo/words/one/${payload.word._id}`, API.getAuthorization())
-      .then(_res => {
-        store.dispatch(setSnackbar(tr.deletedMessage[ln]))
-        store.dispatch(offDialog());
-      })
-    // @ ABSOLUTE
-    // Delete Front of Word
-    store.dispatch(deleteOneWordFromData(deletingTarget, payload.word._id, payload.word.year, payload.word.sem));
-    // @ ABSOLUTE
-    // Add deleted amounts
-    store.dispatch(incrementDeletedWordsCount());
-    axios.put(`/api/v2/mongo/languages/${user.ID}`, {payload: {
-      deletedWordsCount: languages.deletedWordsCount + 1
-    }}, API.getAuthorization())
-  };
   
   return (
     <Fragment>
@@ -82,7 +43,7 @@ const  ConfirmDelete:React.FC= () => {
           <Button onClick={() => store.dispatch(offDialog())} color="primary">
             {tr.cancelBtn[ln]}
           </Button>
-          <Button onClick={() => handleWordDelete()} color="secondary" autoFocus>
+          <Button disabled onClick={() => null} color="secondary" autoFocus>
             {tr.deleteBtn[ln]}
           </Button>
         </DialogActions>

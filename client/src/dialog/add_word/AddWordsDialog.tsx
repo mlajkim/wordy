@@ -21,7 +21,7 @@ import {State, Word} from '../../types';
 // Redux
 import store from '../../redux/store';
 import {
-  offDialog, addYears, addOneWordIntoData, setSnackbar, incrementAddedWordsCount 
+  offDialog, addYears, setSnackbar, incrementAddedWordsCount 
 } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
@@ -54,51 +54,6 @@ const AddWordsDialog: React.FC = () => {
   const [isShowingExtra, setShowingExtra] = useState(false);
   const [extraYear, setExtraYear] = useState('');
   const [extraSem, setExtraSem] = useState('');
-
-  const handleAddWords = async () => {
-    // Checker
-    if(isShowingExtra && !API.checkValidDataOfExtraYear(extraYear, extraSem, VALID_YEAR.from, VALID_YEAR.to)) {
-      store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR.from}~${VALID_YEAR.to}) OR SEM (1~4)`, 'warning', 5))
-      return;
-    }
-    // Handle the disapatch
-    store.dispatch(offDialog());
-    let payload : Word;
-    if(isShowingExtra) {
-      payload = (await axios.post(`/api/v2/mongo/words/extra`, {
-        payload: {
-          ownerID: user.ID, word, pronun, meaning, example, isPublic, language: languages.addWordLangPref,
-          order: languages.addedWordsCount
-        },
-        extra: {
-          extraYear, extraSem
-        }
-    }, API.getAuthorization())).data.payload;
-    } else {
-      payload = (await axios.post(`/api/v2/mongo/words/default`, {payload: {
-        ownerID: user.ID, word, pronun, meaning, example, isPublic,
-        language: languages.addWordLangPref, order: languages.addedWordsCount
-      }}, API.getAuthorization())).data.payload;
-    }
-    // Let user know it has been successful add
-    store.dispatch(setSnackbar(tr.successAddWord[ln]))
-
-    // Sycn (Word)
-    store.dispatch(addOneWordIntoData(payload))
-    
-    // Sync (Year)
-    const found = years.find(year => year.year === payload.year && year.sem === payload.sem)
-    if(!found) {
-      store.dispatch(addYears({year: payload.year, sem: payload.sem}));
-      syncYearsDB(true, user.ID!, payload.year, payload.sem);
-    };
-
-    // Sync (languages) 
-    await axios.put(`/api/v2/mongo/languages/${user.ID}`, 
-    {payload: { addedWordsCount: languages.addedWordsCount + 1 }}, 
-    API.getAuthorization());
-    store.dispatch(incrementAddedWordsCount());
-  }
 
   return (
     <div>
@@ -150,7 +105,7 @@ const AddWordsDialog: React.FC = () => {
           <Button onClick={() => store.dispatch(offDialog())} color="secondary">
             {tr.btnCancel[ln]}
           </Button>
-          <Button onClick={() => handleAddWords()} color="primary" variant="contained">
+          <Button color="primary" variant="contained">
             {tr.btnOkay[ln]}
           </Button>
         </DialogActions>

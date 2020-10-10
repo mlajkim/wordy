@@ -1,4 +1,4 @@
-import { Word, SnackbarType, WordData, DialogType, NewWordAddingType } from '../types';
+import { SnackbarType, DialogType, NewWordAddingType } from '../types';
 import * as actions from './actionTypes';
 
 // @ DIALOG
@@ -91,30 +91,6 @@ export const deleteOneYear = (year: number, sem: number) => {
     type: actions.DELETE_ONE_YEAR, payload: { year, sem }
   }
 };
-
-// @ WORDS
-export const addChunkIntoData = (insertWhat: {year: number, sem: number, data: object[]}) => {
-  return {
-    type: actions.ADD_CHUNK_INTO_DATA,
-    payload: {
-      ...insertWhat
-    }
-  }
-};
-
-export const addOneWordIntoData = ( word: Word ) => {
-  return {
-    type: actions.ADD_ONE_WORD_INTO_DATA,
-    payload: { word }
-  }
-};
-
-export const deleteOneWordFromData = (deletingTarget: WordData, wordID: string, year: number, sem: number) => {
-  return {
-    type: actions.DELETE_ONE_WORD_FROM_DATA,
-    payload: { deletingTarget, wordID, year, sem }
-  }
-}
 
 // @ SNACKBAR
 export const setSnackbar = (desc: string, type?: SnackbarType, duration?: number) => {

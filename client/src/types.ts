@@ -4,7 +4,7 @@ export type State = {
   languages: Languages;
   user: UserState,
   years: Years[];
-  words: WordData[],
+  words: [Word[]],
   snackbar: SnackbarState
 }
 
@@ -39,13 +39,10 @@ export type Languages = {
 
 export type NewWordAddingType = 'one' | 'mass';
 
+// 追加できる言語
 export type AddableLang = 'ko' | 'en' | 'ja' | 'zh';
-
-export type WordData = {
-  year: number,
-  sem: number,
-  data: Word[]
-}
+// 翻訳されてる言語
+export type Language = 'en' | 'ko' | 'ja';
 
 export type Word = {
   _id: string;
@@ -86,7 +83,7 @@ export type UsersDB = {
   languagePreference: string;
   }
 
-export type Language = 'en' | 'ko' | 'ja';
+
 
 export type UserState = {
   isSignedIn: boolean;
