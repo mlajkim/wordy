@@ -37,6 +37,9 @@ const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: n
   }, API.getAuthorization());
 }
 
+// @ ABSOLUTE
+const VALID_YEAR = { from: 2000, to: 2020 };
+
 const AddWordsDialog: React.FC = () => {
   // Redux states
   const {language, user, languages, years} = useSelector((state: State) => state);
@@ -54,10 +57,9 @@ const AddWordsDialog: React.FC = () => {
 
   const handleAddWords = async () => {
     // Checker
-    if(isShowingExtra) {
-      if(!parseInt(extraYear) || ! parseInt(extraSem)) return;
-      if (2000 > parseInt(extraYear) || parseInt(extraYear) > 2022 ) return;
-      if (parseInt(extraSem) < 1 || parseInt(extraSem) > 4) return;
+    if(isShowingExtra && !API.checkValidDataOfExtraYear(extraYear, extraSem, VALID_YEAR.from, VALID_YEAR.to)) {
+      store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR.from}~${VALID_YEAR.to}) OR SEM (1~4)`, 'warning', 5))
+      return;
     }
     // Handle the disapatch
     store.dispatch(offDialog());

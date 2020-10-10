@@ -139,3 +139,12 @@ export const handleNewWordAddingType = (userID: string, type: NewWordAddingType)
   store.dispatch(setNewWordAddingType(type));
 }
 
+// handle incapable numbers given
+export const checkValidDataOfExtraYear = (year: string, sem: string, from: number, to: number): boolean => {
+  if(!parseInt(year) || ! parseInt(sem)) return false;
+  if (from > parseInt(year) || parseInt(sem) > to ) return false;
+  if (parseInt(year) < 1 || parseInt(sem) > 4) return false;
+
+  return true;
+}
+
