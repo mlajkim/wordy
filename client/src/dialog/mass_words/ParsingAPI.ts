@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Word} from '../../types';
+import * as API from '../../API';
 
 type ReturningType = {
   word: string, 
@@ -10,14 +10,19 @@ type ReturningType = {
 }
 
 //@ MAIN
-const ParsingAPI = (massiveLine: string) => {
+const ParsingAPI = (massiveLine: string, year: number, sem: number) => {
   const data = massiveLine.split("\n").map(line => parseA(line));
-  syncBack(data);
+  syncBack(data, year, sem);
   syncFront(data);
 }
 
-const syncBack = (data: ReturningType[]) => {
-
+const syncBack = (data: ReturningType[], year: number, sem: number) => {
+  axios.post(`/api/v2/mongo/words/chunk`, {
+    payload: {
+      data
+  }, extra: {
+      year, sem
+  }}, API.getAuthorization())
 };
 
 const syncFront = (data: ReturningType[]) => {
@@ -33,7 +38,7 @@ const parseA = (line: string): ReturningType => {
   let ultimateReturn: ReturningType = { word: '' };
   
   const tagIndex = line.search(/#/g); // -1 if not found. 
-  if(tagIndex == -1) ultimateReturn = partA(line);
+  if(tagIndex === -1) ultimateReturn = partA(line);
   else {
     ultimateReturn = partA(line.slice(0, tagIndex));
     ultimateReturn = {...ultimateReturn, tag: [...partB(line.slice(tagIndex + 1), tagIndex)]} // does not include '='
@@ -50,23 +55,23 @@ const isGramaticallyWrong = (line: string): boolean => {
 const partA = (partA: string): ReturningType => {
   let partATemporary: ReturningType = {word: partA};
 
-  // meaning
+  // example (sentence)
   const exampleIndex = partA.search(/=/g);
-  if(exampleIndex != -1) {
+  if(exampleIndex !== -1) {
     partATemporary.example = partA.slice(exampleIndex + 1)
     partA = partA.slice(0, exampleIndex);
   }
 
   // meaning
   const meaningIndex = partA.search(/[\]:]/g);
-  if(meaningIndex != -1) {
+  if(meaningIndex !== -1) {
     partATemporary.meaning = partA.slice(meaningIndex + 1)
     partA = partA.slice(0, meaningIndex);
   }
 
   // pronun
   const pronunIndex = partA.search(/\[/g);
-  if(pronunIndex != -1) {
+  if(pronunIndex !== -1) {
     partATemporary.pronun = partA.slice(pronunIndex + 1)
     partA = partA.slice(0, pronunIndex);
   }
@@ -78,7 +83,8 @@ const partA = (partA: string): ReturningType => {
 }
 
 const partB = (partB: string, tagAt: number): string[] => {
-    return partB.replace("#", " ").split(" ").filter(elem => elem != " ");
+  // handle tags
+  return partB.replace("#", " ").split(" ").filter(elem => elem !== " ");
 }
 
 

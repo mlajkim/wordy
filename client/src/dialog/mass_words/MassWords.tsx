@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import * as API from '../../API';
-import { NewWordAddingType, State } from '../../types';
+import { AddableLang, State } from '../../types';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Translation
 import tr from './mass_words.tr.json';
@@ -33,6 +33,12 @@ const MassWords = () => {
   const [massData, setMassData] = useState('');
   const [maxError, setMaxError] = useState(false);
 
+  type Preference = {
+    year: number;
+    sem: number;
+    language: AddableLang;
+  }
+
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMassData(e.target.value);
     setCount(e.target.value.length);
@@ -47,7 +53,7 @@ const MassWords = () => {
   const handleAddingMassData = () => {
     store.dispatch(offDialog())
     // Data check
-    ParsingAPI(massData);
+    ParsingAPI(massData, 2018, 2);
   }
 
   return (
