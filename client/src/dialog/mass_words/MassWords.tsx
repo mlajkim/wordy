@@ -35,13 +35,6 @@ const MassWords = () => {
   const [maxError, setMaxError] = useState(false);
   const [year, setYear] = useState('');
   const [sem, setSem] = useState('');
-
-  type Preference = {
-    year: number;
-    sem: number;
-    language: AddableLang;
-  }
-
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMassData(e.target.value);
     setCount(e.target.value.length);

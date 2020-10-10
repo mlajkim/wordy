@@ -13,21 +13,18 @@ type ReturningType = {
 //@ MAIN
 const ParsingAPI = (massiveLine: string, year: number, sem: number, language: AddableLang) => {
   const data = massiveLine.split("\n").map(line => parseA(line));
-  syncBack(data, year, sem, language);
-  syncFront(data);
+  sync(data, year, sem, language);
+  
 }
 
-const syncBack = (data: ReturningType[], year: number, sem: number, language: AddableLang) => {
+const sync = (data: ReturningType[], year: number, sem: number, language: AddableLang) => {
+  // Execute no matter what because you have to put them in any way
   axios.post(`/api/v2/mongo/words/chunk`, {
     payload: [... data],
     extra: { year, sem, language }
   }, API.getAuthorization());
-  
 };
 
-const syncFront = (data: ReturningType[]) => {
-
-};
 
 const parseA = (line: string): ReturningType => {
   // Ideal Example

@@ -30,7 +30,7 @@ const List = () => {
                 onClick={() => API.handleNewWordAddingType(user.ID, 'one')}>
                 {tr.emptyBtn[ln]}
               </Button>
-              <Button variant="outlined" color="secondary" 
+              <Button disabled variant="outlined" color="secondary" 
                 onClick={() => API.handleNewWordAddingType(user.ID, 'mass')}>
                 {tr.emptyProBtn[ln]}
               </Button>
