@@ -29,7 +29,7 @@ import {GOOGLE_CLIENT_ID} from '../credential';
 
 const Appbar = () => {
   const classes = MUIStyle();
-  const {language, isSignedIn, user, languages} = useSelector((state: State) => state);
+  const {language, user, languages} = useSelector((state: State) => state);
   const ln = language;
   const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
 
@@ -84,7 +84,7 @@ const Appbar = () => {
           <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
             Wordy
           </Typography>
-          {isSignedIn &&
+          {user.isSignedIn &&
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 
               onClick={() => languages.newWordAddingType === 'one' 
                 ? store.dispatch(setDialog('AddWordsDialog'))
@@ -117,9 +117,9 @@ const Appbar = () => {
             open={Boolean(profileMenu)}
             onClose={() => setProfileMenu(null)}
           >
-            {isSignedIn && <MenuItem disabled onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
-            {!isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
-            {isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
+            {user.isSignedIn && <MenuItem disabled onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
+            {!user.isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
+            {user.isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
           </Menu>
         </Toolbar>
       </AppBar>

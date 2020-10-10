@@ -61,9 +61,7 @@ export const checkIfUserExists = async (accessToken: string) => {
 export const setupFront = async (user: UsersDB, accessToken: string) => {
   store.dispatch(offDialog())
   store.dispatch(setPage('dashboard'));
-  // ONLY FOR THE TESTING QUICKER REASON (BELOW)
-  store.dispatch(setPage('list'));
-  // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
+  
   store.dispatch(updateUser({
     isSignedIn: true,
     ID: user._id,
@@ -72,6 +70,9 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
     imageUrl: user.imageUrl
   } as UserState))
   store.dispatch(setLanguage(user.languagePreference))
+  // ONLY FOR THE TESTING QUICKER REASON (BELOW)
+  store.dispatch(setPage('list'));
+  // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
   
   // Handles 'years' collection
   const { error, payload } = (await axios.get(`/api/v2/mongo/years/all/${user._id}`, {

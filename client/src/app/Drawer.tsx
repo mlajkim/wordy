@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 const DrawerComponent = (props: any) => {
   const classes = useStyles();
   const {isDrawerOpen, setDrawer} = props;
-  const {language, isSignedIn, user} = useSelector((state: {language: Language, isSignedIn: boolean, user: UserState}) => state);
+  const {language, user} = useSelector((state: {language: Language, isSignedIn: boolean, user: UserState}) => state);
   const ln = language;
 
   //
@@ -59,7 +59,7 @@ const DrawerComponent = (props: any) => {
     <div>
       <React.Fragment>
         <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawer(false)}>
-          {!isSignedIn
+          {!user.isSignedIn
             ? <ListItem  button className={classes.list} onClick={() => store.dispatch(setDialog('LoginDialog'))}>
                 <ListItemIcon><LoginButton /></ListItemIcon>
                 <ListItemText primary={appbarTr.login[ln]} />

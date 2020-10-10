@@ -2,7 +2,6 @@ export type State = {
   dialog: Dialog;
   language: Language;
   languages: Languages;
-  isSignedIn: string;
   user: UserState,
   years: Years[];
   words: WordData[],
