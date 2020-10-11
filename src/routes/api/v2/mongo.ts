@@ -2,7 +2,7 @@ import express, {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import { IS_DEV_MODE } from '../../../index';
+import { IS_DEV_MODE } from '../../../server';
 // Routers
 import users from './mongo/users';
 import languages from './mongo/languages'

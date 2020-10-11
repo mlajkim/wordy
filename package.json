@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "v1": "nodemon server.js dev",
-    "live": "node dist/index.js",
-    "start": "nodemon dist/index.js dev",
+    "live": "node dist/server.js",
+    "start": "nodemon dist/server.js dev",
     "watch": "tsc -w",
     "build": "tsc"
   },
