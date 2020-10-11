@@ -1,10 +1,19 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import wordSchema from '../../../../models/Words';
 const words = express.Router();
 
+// @ LOGGER
+const ROUTER_NAME = 'Word';
+words.use('', (req: Request, _res: Response, next: NextFunction) => {
+  process.stdout.write(`${ROUTER_NAME} `);
+  req.body.ownerID = req.params.ownerID;
+  next();
+})
+const logger = (data: string) => console.log(data + "...");
+
 // @ CREATE
 words.post("", (req: Request, res: Response) => {
-  console.log(`${req.body.payload.length} amount of words about to be saved.`);
+  logger(`${req.body.payload.length} amount of words about to be saved`);
   req.body.payload.forEach(async (datus: any) => {
     new wordSchema({ ...datus }).save()
       .then(_resp => res.send({
@@ -18,13 +27,9 @@ words.post("", (req: Request, res: Response) => {
   })
 });
 
-// @ CREATE
-words.post("/extra", async (_req: Request, _res: Response) => {
-
-});
 
 // @ READ
-words.get("/section/:ownerID/:year/:sem/", async (req: Request, res: Response) => {
+words.get("", async (req: Request, res: Response) => {
   const {ownerID, year, sem} = req.params;
   const data = await wordSchema.find({ownerID, year, sem});
 
@@ -48,7 +53,7 @@ words.put("", async (_req: Request, _res: Response) => {
 });
 
 // @ DELETE
-words.delete("/one/:wordID", async (req: Request, res: Response) => {
+words.delete("", async (req: Request, res: Response) => {
   const { wordID } = req.params;
   await wordSchema.findByIdAndDelete(wordID);
 

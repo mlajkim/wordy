@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { IS_DEV_MODE } from '../../../server';
 // Routers
 import words from './mongo/words';
+import supports from './mongo/supports';
 
 // @ MIDDLEWARE: AUTHENTICATION
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -50,6 +51,7 @@ const mongo = express.Router();
 dotenv.config(); // bring dotenv callable
 mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
-mongo.use("/words", words);
+mongo.use("/words/:ownerID", words);
+mongo.use("/supports/:ownerID", supports);
 
 export default mongo;

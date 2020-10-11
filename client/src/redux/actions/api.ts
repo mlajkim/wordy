@@ -1,4 +1,5 @@
-export const FETCHY = '[API] Fetch';
+export const FETCHY = '[API] Fetchy';
+export const FETCHY_FINALLY = '[API] Fetchy Finally'
 
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete',
@@ -10,4 +11,3 @@ export const fetchy = (
     payload: {method, url, payload}
   }
 }
-

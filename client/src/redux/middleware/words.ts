@@ -25,14 +25,17 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
     const {user, words: previosWords, support}: State = getState(); // interesting (learn something)
 
     // #2 Put some more necessary data
-    const newPayload = payload.map((word: Word, idx: number) => {
+    let newWordCnt: number = support.addedWordsCount;
+    const newPayload = payload.map((word: Word) => {
+      newWordCnt += 1;
       return {
-        ...word, ownerID: user.ID, isFavorite: false, order: support.addedWordsCount + 1 + idx
+        ...word, ownerID: user.ID, isFavorite: false, order: newWordCnt
       } as Word
     });
 
     // #3 Handle Back-end
     dispatch(fetchy('post', '/words', newPayload));
+    dispatch(fetchy('put', '/supports', [{ newWordCnt }]));
 
     // #4 Handle Front-end
     const sem = (newPayload as WordsChunk)[0].sem;
