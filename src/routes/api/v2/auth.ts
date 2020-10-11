@@ -1,10 +1,15 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 
 const auth = express.Router();
 dotenv.config();
 const LOGIN_TOKEN_EXPIRES_IN_DAYS = 6; 
+
+auth.use((req: Request, _res: Response, next: NextFunction) => {
+  process.stdout.write(`[${req.body.lastName} ${req.body.lastName}] `);
+  next();
+})
 
 // @POST: LOGIN
 auth.post("/login", (req: Request, res: Response) => {

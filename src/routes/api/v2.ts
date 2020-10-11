@@ -2,11 +2,11 @@ import express, {Request, Response, NextFunction} from 'express';
 import auth from './v2/auth';
 import mongo from './v2/mongo';
 import ip from './v2/ip';
+import moment from 'moment';
 
 const v2 = express.Router();
 v2.use((_req: Request, _res: Response, next: NextFunction) => {
-  console.log("\n*********************************************************");
-  console.log(`${new Date().toString()}`);
+  process.stdout.write(`[${moment().format('ddd')}] [${moment().format('h:mm a')}] `);
   next();
 });
 v2.use('/ip', ip);

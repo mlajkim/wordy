@@ -26,9 +26,7 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
         message: 'FORBIDDEN: TOKEN EXPIRED OR INVALID'
       });
     req.body.user = user;
-
-    // For readability
-    console.log(`He / She is now accessing to MongoDB indirectly.`)
+    process.stdout.write(`[${user.firstName} ${user.lastName}] `);
     next();
   });
 };
@@ -38,14 +36,14 @@ const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => 
   if (IS_DEV_MODE) {
     const url = process.env.LOCAL_MONGO_SERVER_URL as string;
     mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-    console.log('[LOCAL MONGO SERVER] connected.');
+    process.stdout.write('[LOCAL]\n')
   } else {
     const MONGO_OWNER_NAME = process.env.MONGO_OWNER_NAME;
     const MONGO_CLUSTER_PASSWORD = process.env.MONGO_CLUSTER_PASSWORD;
     const MONGO_DATABASE_NAME = process.env.MONGO_DATABASE_NAME;
     const url = `mongodb+srv://${MONGO_OWNER_NAME}:${MONGO_CLUSTER_PASSWORD}@${MONGO_DATABASE_NAME}`;
     mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-    console.log('[REMOTE LIVE MONGO SERVER] connected.');
+    process.stdout.write('[LIVE]\n')
   }
   
   next();
