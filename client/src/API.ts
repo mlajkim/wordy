@@ -15,9 +15,10 @@ export const handleUserChangeDB = (accessToken: string, payload: any) => {
 }
 
 // @ AUTHENTICATION 
-export const generateAccessToken = async (federalProvider: FederalProvider, federalID: string) => {
+export const generateAccessToken = async ({googleId, profileObj}: GoogleRes) => {
+  const {familyName, givenName, email} = profileObj;
   const data = (await axios.post(`/api/v2/auth/login`, {
-    federalProvider, federalID
+    federalProvider: 'google', federalID: googleId, firstName: givenName, lastName: familyName, email
   })).data;
 
   return {

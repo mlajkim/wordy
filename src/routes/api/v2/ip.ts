@@ -6,7 +6,7 @@ const ip = express.Router();
 ip.get('/location', (req: Request, res: Response) => {
   const ip = req.connection.remoteAddress;
   const area = geoip.lookup(ip as string);
-  process.stdout.write(`[${area ? area : 'Area: ?'}]\n`);
+  process.stdout.write(`[Area: ${area? area : '?'}]\n`);
   if(area) {
     console.log(`IP: ${ip} ISO Country Code: ${area.country} Connected`)
     res.status(200).send({

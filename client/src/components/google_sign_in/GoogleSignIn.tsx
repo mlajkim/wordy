@@ -22,7 +22,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
   const ln = language;
   
   const generateAccessToken = async (googleRes: GoogleRes) => {
-    const {error, accessToken, expires} = await API.generateAccessToken('google', googleRes.googleId);
+    const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
     if (error) return;
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);

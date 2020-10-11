@@ -26,7 +26,7 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
         message: 'FORBIDDEN: TOKEN EXPIRED OR INVALID'
       });
     req.body.user = user;
-    process.stdout.write(`[${user.firstName} ${user.lastName}] `);
+    process.stdout.write(`[${user.firstName} ${user.lastName}] [${user.email}] `);
     next();
   });
 };

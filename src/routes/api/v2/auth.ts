@@ -18,8 +18,7 @@ auth.post("/login", (req: Request, res: Response) => {
     federalID: req.body.federalID,
     lastName: req.body.lastName,
     firstName: req.body.firstName,
-    email: req.body.email,
-    imageUrl: req.body.imageUrl
+    email: req.body.email
   };
   const accessToken = generateUserAccessToken(signInAttemptingUser);
 
