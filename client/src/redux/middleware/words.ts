@@ -1,5 +1,6 @@
 import { WordsChunk, Word, State } from '../../types';
 import {ADD_WORDS, updateWords} from '../actions/words';
+import {setSupport} from '../actions/support';
 import {fetchy} from '../actions/api';
 import {setSnackbar} from '../actions';
 
@@ -25,7 +26,7 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
     const {user, words: previosWords, support}: State = getState(); // interesting (learn something)
 
     // #2 Put some more necessary data
-    let newWordCnt: number = support.addedWordsCount;
+    let newWordCnt: number = support.newWordCnt;
     const newPayload = payload.map((word: Word) => {
       newWordCnt += 1;
       return {
@@ -35,7 +36,10 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
 
     // #3 Handle Back-end
     dispatch(fetchy('post', '/words', newPayload));
+
+    // Support
     dispatch(fetchy('put', '/supports', [{ newWordCnt }]));
+    dispatch(setSupport({newWordCnt}))
 
     // #4 Handle Front-end
     const sem = (newPayload as WordsChunk)[0].sem;

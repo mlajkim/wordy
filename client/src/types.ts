@@ -33,6 +33,8 @@ export type SnackbarState = {
 
 export type Support = {
   addWordLangPref: AddableLang;
+  newWordCnt: number;
+  sem: number[];
   newWordAddingType: NewWordAddingType;
   addedWordsCount: number;
   deletedWordsCount: number;

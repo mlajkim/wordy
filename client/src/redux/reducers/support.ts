@@ -6,6 +6,8 @@ import {UPDATE_SUPPORT} from '../actions/support';
 const initialState: Support = {
   addWordLangPref: 'en', // user's prefrenece of adding language
   newWordAddingType: 'one',
+  newWordCnt: 0,
+  sems: [],
   addedWordsCount: 0, // 
   deletedWordsCount: 0,
   orderPref: []
