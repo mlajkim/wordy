@@ -12,6 +12,7 @@ import tr from './list.tr.json';
 // Redux
 import store from '../../redux/store';
 import {setDialog} from '../../redux/actions';
+import {addWords} from '../../redux/actions/words'
 import {useSelector} from 'react-redux';
 
 const List = () => {
@@ -21,6 +22,7 @@ const List = () => {
 
   return (
     <Fragment>
+      <Button onClick={() => store.dispatch(addWords([]))}>OHSHAT</Button> 
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
       <Typography component="div" style={{ backgroundColor: '#F2F2F2', height: '100vh' }}>
         {years.length === 0

@@ -4,9 +4,11 @@ export type State = {
   languages: Languages;
   user: UserState,
   years: Years[];
-  words: [Word[]],
+  words: WordsChunk[],
   snackbar: SnackbarState
 }
+
+export type WordsChunk = Word[];
 
 export type Years = {
   year: number,
@@ -56,7 +58,6 @@ export type Word = {
   tag: string[];
   language: string;
   dateAdded: string;
-  year: number;
   sem: number;
 }
 

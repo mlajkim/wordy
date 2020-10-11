@@ -68,7 +68,7 @@ const WordCard: React.FC<Props> = ({word}) => {
     <Card style={{width: '90%', margin: 15}}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {word.year}-{word.sem}
+          {Math.floor(word.sem / 10)}-{word.sem % 10}
         </Typography>
         <Typography variant="h5" component="h2">
           {word.word}

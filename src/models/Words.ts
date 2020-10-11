@@ -5,8 +5,7 @@ const wordSchema = new Schema({
   ownerID: String,
   order: Number,
   dateAdded: String,
-  year: Number,
-  sem: Number,
+  sem: Number, // 204 = 2020 year of 4th semester
   language: String,
   tag: Array,
   word: String,
