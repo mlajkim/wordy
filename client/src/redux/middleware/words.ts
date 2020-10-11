@@ -23,11 +23,11 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
     const isDataValid = validate(payload);
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
     if (isDataValid === false) return;
-    const {user, words: previosWords, support}: State = getState(); // interesting (learn something)
+    const {user, words: previosWords, supports}: State = getState(); // interesting (learn something)
     const sem = (payload as WordsChunk)[0].sem;
 
     // #2 Put some more necessary data
-    let newWordCnt: number = support.newWordCnt;
+    let newWordCnt: number = supports.newWordCnt;
     const newPayload = payload.map((word: Word) => {
       newWordCnt += 1;
       return {

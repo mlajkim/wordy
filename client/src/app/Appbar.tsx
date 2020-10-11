@@ -29,7 +29,7 @@ import {GOOGLE_CLIENT_ID} from '../credential';
 
 const Appbar = () => {
   const classes = MUIStyle();
-  const {language, user, support} = useSelector((state: State) => state);
+  const {language, user, supports} = useSelector((state: State) => state);
   const ln = language;
   const [isDrawerOpen, setDrawer] = React.useState(false); // Drawer
 
@@ -86,7 +86,7 @@ const Appbar = () => {
           </Typography>
           {user.isSignedIn &&
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 
-              onClick={() => support.newWordAddingType === 'one' 
+              onClick={() => supports.newWordAddingType === 'one' 
                 ? store.dispatch(setDialog('AddWordsDialog'))
                 : store.dispatch(setDialog('MassWordsDialog')) }>
               <AddIcon fontSize="small" />

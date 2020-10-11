@@ -1,7 +1,7 @@
 export type State = {
   dialog: Dialog;
   language: Language;
-  support: Support;
+  supports: Support;
   user: UserState,
   years: Years[];
   words: WordsChunk[],

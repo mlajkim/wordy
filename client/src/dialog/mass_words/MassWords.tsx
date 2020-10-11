@@ -27,7 +27,7 @@ const LETTERS_LIMITATION = 30000
 
 const MassWords = () => {
   // Redux states
-  const {user, language, support} = useSelector((state: State) => state);
+  const {user, language, supports} = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [count, setCount] = useState(0);
@@ -53,7 +53,7 @@ const MassWords = () => {
     }
     store.dispatch(offDialog())
     // Data check
-    ParsingAPI(massData, parseInt(year), parseInt(sem), support.addWordLangPref);
+    ParsingAPI(massData, parseInt(year), parseInt(sem), supports.addWordLangPref);
   }
 
   return (

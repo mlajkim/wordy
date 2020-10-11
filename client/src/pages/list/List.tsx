@@ -17,7 +17,7 @@ import {useSelector} from 'react-redux';
 
 const List = () => {
   // Redux states
-  const {language, years, user} = useSelector((state: State) => state);
+  const {language, supports, user} = useSelector((state: State) => state);
   const ln = language;
 
   return (
@@ -25,7 +25,7 @@ const List = () => {
       <Button onClick={() => store.dispatch(addWords([]))}>OHSHAT</Button> 
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
       <Typography component="div" style={{ backgroundColor: '#F2F2F2', height: '100vh' }}>
-        {years.length === 0
+        {supports.sem.length === 0
           ? <div style={{paddingTop: 50}}>
               <h4>{tr.empty[ln]}</h4>
               <Button variant="outlined" color="primary" 
