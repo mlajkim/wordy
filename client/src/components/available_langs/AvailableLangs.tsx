@@ -19,7 +19,7 @@ const LANGUAGES_AVAILABLE_LIST = [
 ];
 
 const AvailableLangs: React.FC = () => {
-  const {language, user, languages} = useSelector((state: State) => state);
+  const {language, user, support} = useSelector((state: State) => state);
   const ln = language;
   const [open, setOpen] = React.useState(false);
 
@@ -63,7 +63,7 @@ const AvailableLangs: React.FC = () => {
           open={open}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
-          value={languages.addWordLangPref}
+          value={support.addWordLangPref}
           onChange={(e) => handleChange(e)}
         >
           {menuItems}

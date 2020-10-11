@@ -1,7 +1,7 @@
 export type State = {
   dialog: Dialog;
   language: Language;
-  languages: Languages;
+  support: Support;
   user: UserState,
   years: Years[];
   words: WordsChunk[],
@@ -31,7 +31,7 @@ export type SnackbarState = {
   duration: number
 }
 
-export type Languages = {
+export type Support = {
   addWordLangPref: AddableLang;
   newWordAddingType: NewWordAddingType;
   addedWordsCount: number;

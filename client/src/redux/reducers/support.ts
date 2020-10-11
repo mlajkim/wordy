@@ -1,7 +1,9 @@
 import * as actions from '../actionTypes';
-import { Languages } from '../../types';
+import { Support } from '../../types';
+import {UPDATE_SUPPORT} from '../actions/support';
 
-const initialState: Languages = {
+
+const initialState: Support = {
   addWordLangPref: 'en', // user's prefrenece of adding language
   newWordAddingType: 'one',
   addedWordsCount: 0, // 
@@ -10,8 +12,11 @@ const initialState: Languages = {
 };
 
 // this is more of userPreference (I will change the naming later)
-const languages = (state = initialState, action: any) => {
+const support = (state = initialState, action: any) => {
   switch(action.type) {
+    case UPDATE_SUPPORT:
+      return {...state, ...action.payload}
+    //
     case actions.SET_ADD_WORD_LANG_PREF:
       return {...state, addWordLangPref: action.payload.toWhat};
     
@@ -45,4 +50,4 @@ const languages = (state = initialState, action: any) => {
   }
 }
 
-export default languages;
+export default support;

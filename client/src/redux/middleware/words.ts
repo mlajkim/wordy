@@ -22,12 +22,12 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
     const isDataValid = validate(payload);
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
     if (isDataValid === false) return;
-    const {user, words: previosWords, languages}: State = getState(); // interesting (learn something)
+    const {user, words: previosWords, support}: State = getState(); // interesting (learn something)
 
     // #2 Put some more necessary data
     const newPayload = payload.map((word: Word, idx: number) => {
       return {
-        ...word, ownerID: user.ID, isFavorite: false, order: languages.addedWordsCount + 1 + idx
+        ...word, ownerID: user.ID, isFavorite: false, order: support.addedWordsCount + 1 + idx
       } as Word
     });
 

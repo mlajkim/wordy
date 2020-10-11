@@ -18,7 +18,7 @@ import {useSelector} from 'react-redux';
 type CustomPayloadType = { word: Word }
 
 const  ConfirmDelete:React.FC= () => {
-  const {language, dialog, words, user, languages} = useSelector((state: State) => state);
+  const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
   const payload = dialog.payload as CustomPayloadType;
   

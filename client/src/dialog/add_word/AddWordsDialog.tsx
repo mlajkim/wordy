@@ -35,7 +35,7 @@ export const VALID_YEAR = { from: 2000, to: 2020 };
 
 const AddWordsDialog: React.FC = () => {
   // Redux states
-  const {language, user, languages, years} = useSelector((state: State) => state);
+  const {language, user, support, years} = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [word, setWord] = useState('');
