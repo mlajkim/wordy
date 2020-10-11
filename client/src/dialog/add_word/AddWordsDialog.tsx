@@ -51,7 +51,7 @@ const AddWordsDialog: React.FC = () => {
   const handleSavingWords = () => {
     const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
     store.dispatch(addWords([{
-      word, pronun, meaning, example, isPublic, sem
+      word, pronun, meaning, example, isPublic, sem, tag: []
     }]))
   }
 

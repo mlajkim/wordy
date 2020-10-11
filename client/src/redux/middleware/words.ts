@@ -1,5 +1,6 @@
 import { WordsChunk, Word, State } from '../../types';
 import {ADD_WORDS, updateWords} from '../actions/words';
+import {fetchy} from '../actions/api';
 import {setSnackbar} from '../actions';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -16,7 +17,7 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
   next(action);
   
   if (action.type === ADD_WORDS) {
-    // #1 Validate and declare
+    // #1 Validate given data and Declare the necessary.
     const {payload} = action;
     const isDataValid = validate(payload);
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
@@ -27,12 +28,15 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
     const newPayload = payload.map((word: Word, idx: number) => {
       return {
         ...word, ownerID: user.ID, isFavorite: false, order: languages.addedWordsCount + 1 + idx
-      }
-    })
+      } as Word
+    });
 
-    // #3 Add them into state
+    // #3 Handle Back-end
+    dispatch(fetchy('post', '/words', newPayload));
+
+    // #4 Handle Front-end
     const sem = (newPayload as WordsChunk)[0].sem;
-    let hasFound = (previosWords as WordsChunk[]).filter(elem => elem[0].sem !== sem);
+    let hasFound = (previosWords as WordsChunk[]).filter(elem => elem[0].sem === sem);
     if(hasFound === undefined) {
       // If the same sem chunk is not found, I can simply add them into.
       dispatch(updateWords([...previosWords, newPayload]));
