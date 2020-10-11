@@ -3,11 +3,11 @@ export const FETCHY = '[API] Fetch';
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete',
   url: string,
-  data: object
+  payload?: object[]
 ) => {
   return {
     type: FETCHY,
-    payload: {method, url, data}
+    payload: {method, url, payload}
   }
 }
 

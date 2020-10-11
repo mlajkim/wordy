@@ -3,8 +3,20 @@ import wordSchema from '../../../../models/Words';
 const words = express.Router();
 
 // @ CREATE
-words.post("", async (_req: Request, _res: Response) => {
-
+words.post("", (req: Request, res: Response) => {
+  console.log(req.body);// testing
+  console.log(`${req.body.payload.length} amount of words about to be saved.`);
+  req.body.payload.forEach(async (datus: any) => {
+    new wordSchema({ ...datus }).save()
+      .then(_resp => res.send({
+        status:200,
+        message: `[OK]`
+      }))
+      .catch(err => res.status(404).send({
+        status: 404,
+        message: `[FAIL] ${err}`
+      }))
+  })
 });
 
 // @ CREATE

@@ -5,6 +5,6 @@ import v3Router from './api/v3Router';
 const api = express.Router();
 
 api.use("/v2", v2)
-api.use("/v2", v3Router)
+api.use("/v3", v3Router)
 
 export default api;

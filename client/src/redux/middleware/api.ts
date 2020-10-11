@@ -7,12 +7,12 @@ export const fetchy = ({dispatch, getState} : any) => (next: any) => (action: an
   next(action);
 
   if (action.type === FETCHY) {
-    const { method, url, data } = action.payload;
+    const { method, url, payload } = action.payload;
     axios({
       method,
       headers: { Authorization: `Bearer ${API.getAccessToken()}`},
       url: `/api/v3/mongo${url}`,
-      data
+      data: payload ? {payload} : null
     })
     .then(res => res)
     .catch(err => err)
