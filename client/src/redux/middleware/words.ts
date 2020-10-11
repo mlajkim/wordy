@@ -1,4 +1,4 @@
-import { WordsChunk, Word } from '../../types';
+import { WordsChunk, Word, State } from '../../types';
 import {ADD_WORDS, updateWords} from '../actions/words';
 import {setSnackbar} from '../actions';
 
@@ -15,24 +15,30 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
   // Declaration and data validation check
   next(action);
   
-
   if (action.type === ADD_WORDS) {
+    // #1 Validate and declare
     const {payload} = action;
     const isDataValid = validate(payload);
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
     if (isDataValid === false) return;
+    const {user, words: previosWords, languages}: State = getState(); // interesting (learn something)
 
-    const {words: previosWords} = getState(); // interesting (learn something)
-    const sem = (payload as WordsChunk)[0].sem;
-    // Simple logic following:
-    // Figure out if has found, if not, its a new sem chunk, simply add.
+    // #2 Put some more necessary data
+    const newPayload = payload.map((word: Word, idx: number) => {
+      return {
+        ...word, ownerID: user.ID, isFavorite: false, order: languages.addedWordsCount + 1 + idx
+      }
+    })
+
+    // #3 Add them into state
+    const sem = (newPayload as WordsChunk)[0].sem;
     let hasFound = (previosWords as WordsChunk[]).filter(elem => elem[0].sem !== sem);
     if(hasFound === undefined) {
       // If the same sem chunk is not found, I can simply add them into.
-      dispatch(updateWords([...previosWords, payload]));
+      dispatch(updateWords([...previosWords, newPayload]));
     }
     else {
-      hasFound = [...hasFound, ...payload];
+      hasFound = [...hasFound, ...newPayload];
       dispatch(updateWords([...(previosWords as WordsChunk[]).filter(elem => elem[0].sem !== sem), hasFound]))
     }
   }

@@ -9,6 +9,6 @@ const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
 export default createStore(
   rootReducer, 
   composeEnhancers(
-    //  gapplyMiddleware(...userMdl, ...wordsMdl)
+    applyMiddleware(...userMdl, ...wordsMdl)
   )
 );

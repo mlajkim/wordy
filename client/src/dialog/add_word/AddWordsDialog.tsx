@@ -2,6 +2,8 @@ import React, {useState, Fragment} from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
+import moment from 'moment';
+import {format_into_sem, get_sem} from '../../utils';
 // Material UI
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';  
@@ -24,21 +26,12 @@ import {
   offDialog, addYears, setSnackbar, incrementAddedWordsCount 
 } from '../../redux/actions';
 import {useSelector} from 'react-redux';
-
-const syncYearsDB = (doubleCheck: boolean, ownerID: string, year: number, sem: number) => {
-  // Only run when you have detected your front is different
-  // Double checking if the data exists
-  if(doubleCheck) {
-    axios.get(`/api/v2/mongo/years/one/${ownerID}/${year}/${sem}`,API.getAuthorization())
-      .then(res => { if (res.status === 200) return; })
-  }
-  axios.post(`/api/v2/mongo/years`, {
-    payload: { ownerID, year, sem }
-  }, API.getAuthorization());
-}
+import {addWords} from '../../redux/actions/words';
 
 // @ ABSOLUTE
 export const VALID_YEAR = { from: 2000, to: 2020 };
+
+
 
 const AddWordsDialog: React.FC = () => {
   // Redux states
@@ -54,6 +47,13 @@ const AddWordsDialog: React.FC = () => {
   const [isShowingExtra, setShowingExtra] = useState(false);
   const [extraYear, setExtraYear] = useState('');
   const [extraSem, setExtraSem] = useState('');
+
+  const handleSavingWords = () => {
+    const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
+    store.dispatch(addWords([{
+      word, pronun, meaning, example, isPublic, sem
+    }]))
+  }
 
   return (
     <div>
@@ -105,7 +105,7 @@ const AddWordsDialog: React.FC = () => {
           <Button onClick={() => store.dispatch(offDialog())} color="secondary">
             {tr.btnCancel[ln]}
           </Button>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={() => handleSavingWords()}>
             {tr.btnOkay[ln]}
           </Button>
         </DialogActions>

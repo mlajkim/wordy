@@ -49,6 +49,7 @@ export type Language = 'en' | 'ko' | 'ja';
 export type Word = {
   _id: string;
   ownerID: string;
+  isFavorite: boolean;
   order: number,
   word: string;
   pronun: string;

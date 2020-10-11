@@ -2,10 +2,10 @@ import {WordsChunk} from '../../types';
 export const UPDATE_WORDS="[WORDS] Update";
 export const ADD_WORDS = "[WORDS] Add";
 
-export const addWords = (chunk: WordsChunk) => {
+export const addWords = (data: any) => {
   return {
     type: ADD_WORDS,
-    payload: chunk
+    payload: data
   }
 }
 
