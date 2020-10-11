@@ -6,22 +6,11 @@ import moment from 'moment';
 
 const v2 = express.Router();
 v2.use((_req: Request, _res: Response, next: NextFunction) => {
-  process.stdout.write(`[${moment().format('ddd')}] [${moment().format('h:mm a')}] `);
+  process.stdout.write(`\n[${moment().format('ddd')}] [${moment().format('h:mm a')}] `);
   next();
 });
 v2.use('/ip', ip);
 v2.use('/auth', auth);
 v2.use('/mongo', mongo);
-
-
-// @GET
-v2.get("", (_req: Request, res: Response) => {
-  res.status(200).send({
-    status: 200,
-    message: 'OK'
-  });
-});
-
-
 
 export default v2;
