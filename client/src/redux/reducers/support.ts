@@ -7,7 +7,7 @@ const initialState: Support = {
   addWordLangPref: 'en', // user's prefrenece of adding language
   newWordAddingType: 'one',
   newWordCnt: 0,
-  sems: [],
+  sem: [],
   addedWordsCount: 0, // 
   deletedWordsCount: 0,
   orderPref: []
@@ -16,6 +16,7 @@ const initialState: Support = {
 // this is more of userPreference (I will change the naming later)
 const support = (state = initialState, action: any) => {
   switch(action.type) {
+    
     case UPDATE_SUPPORT:
       return {...state, ...action.payload}
     //

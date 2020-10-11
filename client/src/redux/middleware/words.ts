@@ -1,6 +1,6 @@
 import { WordsChunk, Word, State } from '../../types';
 import {ADD_WORDS, updateWords} from '../actions/words';
-import {setSupport} from '../actions/support';
+import {setSupport, addSem} from '../actions/support';
 import {fetchy} from '../actions/api';
 import {setSnackbar} from '../actions';
 
@@ -24,6 +24,7 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
     if (isDataValid === false) return;
     const {user, words: previosWords, support}: State = getState(); // interesting (learn something)
+    const sem = (payload as WordsChunk)[0].sem;
 
     // #2 Put some more necessary data
     let newWordCnt: number = support.newWordCnt;
@@ -39,10 +40,11 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
 
     // Support
     dispatch(fetchy('put', '/supports', [{ newWordCnt }]));
-    dispatch(setSupport({newWordCnt}))
+    dispatch(setSupport({newWordCnt}));
+    dispatch(addSem(sem))
 
     // #4 Handle Front-end
-    const sem = (newPayload as WordsChunk)[0].sem;
+    
     let hasFound = (previosWords as WordsChunk[]).filter(elem => elem[0].sem === sem);
     if(hasFound === undefined) {
       // If the same sem chunk is not found, I can simply add them into.
