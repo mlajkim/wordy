@@ -40,17 +40,17 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
 
 // #SYNC
 export const syncWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-
+  next(action);
 };
 
 // #MODIFY
 export const modifyWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-
+  next(action);
 };
 
 // #REMOVE
 export const removeWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-
+  next(action);
 };
 
 
