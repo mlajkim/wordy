@@ -41,7 +41,6 @@ export const postWords  = ({dispatch, getState} : any) => (next: any) => (action
     dispatch(setWords(newPayload))
 
     // Adding Words will have an affect on supports.
-    dispatch(fetchy('put', '/supports', [{ newWordCnt }]));
     dispatch(modifySupport({ newWordCnt }));
     dispatch(addSemNoDup(sem));
   }
