@@ -1,6 +1,7 @@
 import {WordsChunk} from '../../types';
 export const UPDATE_WORDS="[WORDS] Update";
 export const POST_WORDS = "[WORDS] Post";
+export const GET_WORDS = '[WORDS] Get'
 export const SET_WORDS = "[WORDS] Set"
 export const SYNC_WORDS = "[WORDS] Sync";
 export const MODIFY_WORDS = "[WORDS] Modify";

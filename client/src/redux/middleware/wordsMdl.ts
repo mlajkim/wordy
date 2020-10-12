@@ -1,5 +1,5 @@
-import { WordsChunk, Word, State } from '../../types';
-import {updateWords, POST_WORDS, SYNC_WORDS, SET_WORDS} from '../actions/wordsAction';
+import { WordsChunk, Word, State, FetchyResponse } from '../../types';
+import {updateWords, getWords, POST_WORDS, SYNC_WORDS, SET_WORDS, GET_WORDS} from '../actions/wordsAction';
 import {setSupport, modifySupport, addSemNoDup} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
 import {setWords} from '../actions/wordsAction';
@@ -13,8 +13,19 @@ const validate = (payload: WordsChunk): boolean => {
   return result.length === 0 ? true : false;
 }
 
+export const getMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === GET_WORDS) {
+    const {empty, data}  = action.payload as FetchyResponse;
+    if(empty) console.log('HUGE ERROR')
+
+    console.log(data);
+  }
+};
+
 // #POST
-export const postWords  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const postMdl  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   // Declaration and data validation check
   next(action);
   
@@ -47,30 +58,28 @@ export const postWords  = ({dispatch, getState} : any) => (next: any) => (action
 };
 
 // #SYNC
-export const syncWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const syncMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if(action.type === SYNC_WORDS) {
     const {words}: State = getState();
     const sem = action.payload[0].sem;
-    const newData = dispatch(fetchy('get', '/words', action.payload));
-    console.log(newData); // testing
-    dispatch(updateWords([...words.filter((datus: WordsChunk) => datus[0].sem !== sem), ...newData]))
+    dispatch(fetchy('get', '/words', null, getWords, `/${sem}`));
   }
 };
 
 // #MODIFY
-export const modifyWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const modifyMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 };
 
 // #REMOVE
-export const removeWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const removeMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 };
 
 // #SET
-export const declareWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const declareMDl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if(action.type === SET_WORDS) {
@@ -92,4 +101,4 @@ export const declareWords = ({dispatch, getState} : any) => (next: any) => (acti
 };
 
 
-export const wordsMdl = [postWords, syncWords, modifyWords, removeWords, declareWords]; 
+export const wordsMdl = [getMdl, postMdl, syncMdl, modifyMdl, removeMdl, declareMDl]; 

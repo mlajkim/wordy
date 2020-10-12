@@ -5,10 +5,11 @@ export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete',
   url: string,
   payload?: object[] | null,
-  onSuccess?: any
+  onSuccess?: any,
+  additionalUrl?: string | null
 ) => {
   return {
     type: FETCHY,
-    payload: {method, url, payload, onSuccess}
+    payload: {method, url, payload, onSuccess, additionalUrl}
   }
 }
