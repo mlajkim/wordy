@@ -68,16 +68,6 @@ export const syncMdl = ({dispatch, getState} : any) => (next: any) => (action: a
   }
 };
 
-// #MODIFY
-export const modifyMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-  next(action);
-};
-
-// #REMOVE
-export const removeMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-  next(action);
-};
-
 // #SET
 export const declareMDl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
@@ -101,4 +91,4 @@ export const declareMDl = ({dispatch, getState} : any) => (next: any) => (action
 };
 
 
-export const wordsMdl = [getMdl, postMdl, syncMdl, modifyMdl, removeMdl, declareMDl]; 
+export const wordsMdl = [getMdl, postMdl, syncMdl, declareMDl]; 

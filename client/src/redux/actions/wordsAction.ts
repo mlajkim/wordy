@@ -15,6 +15,13 @@ export const updateWords = (data: any) => {
   };
 };
 
+export const getWords = (data: any) => {
+  return {
+    type: GET_WORDS,
+    payload: data
+  }
+}
+
 // @POST
 export const postWords = (data: Required[]) => {
   return {
