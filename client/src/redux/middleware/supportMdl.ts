@@ -1,26 +1,24 @@
 import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, SYNC_SUPPORT, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
-import {setSupport} from '../actions/supportAction';
-import {State} from '../../types';
+import {getSupport} from '../actions/supportAction';
+import {State, FetchyResponse} from '../../types';
 import { fetchy } from '../actions/apiAction';
-import * as API from '../../API';
 
-export const getSupport = ({dispatch} : any) => (next: any) => (action: any) => {
+export const getMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === GET_SUPPORT) {
-    dispatch(updateSupport(action.payload))
+    const {empty, data}  = action.payload as FetchyResponse;
+    if(empty) dispatch(fetchy('post', '/supports'))
+    // since it is the fresh new baked data from database (Ultimate soruce) set it to front
+    dispatch(updateSupport({
+      sems: empty ? [] : data.sems,
+      newWordCnt: empty ? 0 : data.newWordCnt,
+      deletedWordCnt: empty ? 0 : data.deletedWordCnt
+    }))
   }
 }
 
-export const declareSupport = ({dispatch} : any) => (next: any) => (action: any) => {
-  next(action);
-
-  if (action.type === SET_SUPPORT) {
-    dispatch(updateSupport(action.payload));
-  }
-}
-
-export const modifySupport = ({dispatch} : any) => (next: any) => (action: any) => {
+export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === MODIFY_SUPPORT) {
@@ -31,15 +29,15 @@ export const modifySupport = ({dispatch} : any) => (next: any) => (action: any) 
   }
 }
 
-export const syncSupport = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const syncMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
-  const {user}: State = getState();
+  
   if (action.type === SYNC_SUPPORT) {
-    dispatch(fetchy('get', '/supports', null, setSupport));
+    dispatch(fetchy('get', '/supports', null, getSupport));
   }
 }
 
-export const addSemNoDup = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const addSemNoDupMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === ADD_SEM_NO_DUPLICATE) {
@@ -60,4 +58,4 @@ export const addSemNoDup = ({dispatch, getState} : any) => (next: any) => (actio
 
 
 
-export const supportMdl = [getSupport, declareSupport, modifySupport, syncSupport, addSemNoDup]; 
+export const supportMdl = [getMdl, modifyMdl, syncMdl, addSemNoDupMdl]; 

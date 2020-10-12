@@ -10,7 +10,7 @@ export type State = {
 
 export type FetchyResponse = {
   empty: boolean,
-  length: number,
+  length?: number,
   data?: any
 };
 

@@ -51,7 +51,7 @@ const mongo = express.Router();
 dotenv.config(); // bring dotenv callable
 mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
-mongo.use("/words/:ownerID", words);
-mongo.use("/supports/:ownerID", supports);
+mongo.use("/words", words);
+mongo.use("/supports", supports);
 
 export default mongo;

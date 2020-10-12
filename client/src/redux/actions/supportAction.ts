@@ -3,7 +3,7 @@ export const GET_SUPPORT = '[SUPPORT] Get'
 export const UPDATE_SUPPORT = '[SUPPORT] Update';
 export const SET_SUPPORT = '[SUPPORT] Set';
 export const MODIFY_SUPPORT = '[SUPPORT] Modify'
-export const SYNC_SUPPORT = '[SYNC_SUPPORT] Sync Suppor//t'
+export const SYNC_SUPPORT = '[SYNC_SUPPORT] Sync Support'
 export const ADD_SEM_NO_DUPLICATE = '[SUPPORT] Add Sem (No Duplicate)';
 
 // Ultimately
@@ -14,7 +14,7 @@ export const updateSupport = (data: object) => {
   };
 };
 
-export const getSupport = (data: object) => {
+export const getSupport = (data: any) => {
   return {
     type: GET_SUPPORT,
     payload: data
