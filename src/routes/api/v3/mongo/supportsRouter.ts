@@ -2,6 +2,8 @@ import express, {NextFunction, Request, Response} from 'express';
 import supportSchema from '../../../../models/Supports';
 const supports = express.Router();
 
+const DefaultValue = {sems: [], newWordCnt: 0, deletedWordCnt: 0};
+
 // @ LOGGER
 const ROUTER_NAME = 'Support';
 supports.use('', (req: Request, _res: Response, next: NextFunction) => {
@@ -12,48 +14,15 @@ supports.use('', (req: Request, _res: Response, next: NextFunction) => {
 const logger = (data: string) => console.log(data + "...");
 
 // @ CREATE
-supports.post("", (req: Request, res: Response) => {
-  const {ownerID, payload, isDefault} = req.body;
-  if(isDefault) {
-    logger('Creating Default');
-    new supportSchema({
-      ownerID,
-      sems: [],
-      newWordCnt: 0,
-      deletedWordCnt: 0
-    }).save()
-      .then(_data => res.send({
-        status: 200,
-        message: '[OK]',
-        empty: true,
-        legnth: 0
-      }))
-      .catch(err => res.status(500).send({
-        status: 500,
-        message: `[ERROR] ${err}`,
-        empty: true,
-        legnth: 0
-      }))
-  } else {
-    logger('Creating with payload')
-    new supportSchema({
-      ownerID,
-      ...payload
-    }).save()
-      .then(_data => res.send({
-        status: 200,
-        message: '[OK]',
-        empty: true,
-        legnth: 0
-      }))
-      .catch(err => res.status(500).send({
-        status: 500,
-        message: `[ERROR] ${err}`,
-        empty: true,
-        legnth: 0
-      }))
-  }
-
+supports.post("", async (req: Request, res: Response) => {
+  const {ownerID} = req.body;
+  logger('Creating Default');
+  await new supportSchema({
+    ownerID,
+    ...DefaultValue
+  });
+  
+  res.send({ empty: true })
 });
 
 // @ READ
