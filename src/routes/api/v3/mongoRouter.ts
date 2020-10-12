@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { IS_DEV_MODE } from '../../../server';
 // Routers
-import words from './mongo/words';
-import supports from './mongo/supports';
+import words from './mongo/wordsRouter';
+import supports from './mongo/supportsRouter';
 
 // @ MIDDLEWARE: AUTHENTICATION
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {

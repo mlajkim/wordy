@@ -1,5 +1,5 @@
 import express, {Request, Response, NextFunction} from 'express';
-import mongo from './v3/mongo';
+import mongo from './v3/mongoRouter';
 import moment from 'moment';
 
 const v3Router = express.Router();
