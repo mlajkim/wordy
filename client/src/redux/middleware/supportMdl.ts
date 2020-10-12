@@ -50,7 +50,8 @@ export const addSemNoDup = ({dispatch, getState} : any) => (next: any) => (actio
     const isFound = support.sems.find(elem => elem === sem) ? true : false;
     if(isFound === false) {
       const newSem = [...support.sems, sem] // existed + new(payload)
-      dispatch(updateSupport({sem: newSem}));
+      dispatch(updateSupport({sems: newSem}));
+      dispatch(fetchy('put', '/supports', [{sems: newSem}]))
     }
     
   }
