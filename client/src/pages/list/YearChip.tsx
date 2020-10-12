@@ -37,7 +37,7 @@ const YearChip = () => {
   // Component state
   const [selectedSem, setSelectedSem] = useState(0);
   // Redux states
-  const {language, support, user, years, words} = useSelector((state: State) => state);
+  const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
   const propriateWordsChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
 
@@ -46,7 +46,7 @@ const YearChip = () => {
 
     let found: boolean = false;
     if(words.length !== 0) 
-      found = words.find((datum: WordsChunk) => datum[0].sem === sem) ? true : false;
+      found = words.find((datum: WordsChunk) => datum[0].sem === sem) !== undefined ? true : false;
     // Not Found? Start Downloading.
     if(found === false) {
       // handle ownloading the data
