@@ -15,7 +15,6 @@ const logger = (data: string) => console.log(data + "...");
 // @ CREATE
 supports.post("/:ownerID", async (req: Request, res: Response) => {
   const ownerID = req.params.ownerID;
-  console.log('wtf', ownerID)
   const newSupport = await new supportSchema({
     ownerID,
     ...DefaultValue,
@@ -26,7 +25,7 @@ supports.post("/:ownerID", async (req: Request, res: Response) => {
 
 // @ READ
 supports.get("/:ownerID", async (req: Request, res: Response) => {
-  const ownerID = req.body.ownerID;
+  const ownerID = req.params.ownerID;
   const support = await supportSchema.findOne({ownerID})
   logger(`Found ${support}`);
   res.send({

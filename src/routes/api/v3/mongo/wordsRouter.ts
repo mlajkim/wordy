@@ -12,7 +12,7 @@ words.use('', (req: Request, _res: Response, next: NextFunction) => {
 const logger = (data: string) => console.log(data + "...");
 
 // @ CREATE
-words.post("", (req: Request, res: Response) => {
+words.post("/:ownerID", (req: Request, res: Response) => {
   logger(`${req.body.payload.length} amount of words about to be saved`);
   req.body.payload.forEach(async (datus: any) => {
     new wordSchema({ ...datus }).save()
@@ -29,9 +29,9 @@ words.post("", (req: Request, res: Response) => {
 
 
 // @ READ
-words.get("/:payload", async (req: Request, res: Response) => {
+words.get("/:ownerID/:payload", async (req: Request, res: Response) => {
   const payload = JSON.parse(req.params.payload);
-  const ownerID = req.body.ownerID;
+  const ownerID = req.params.ownerID;
   logger(`finding words with the following condition: ${req.params.payload}`)
   console.log(payload) // testing
 
@@ -44,12 +44,12 @@ words.get("/:payload", async (req: Request, res: Response) => {
 });
 
 // @ UPDATE
-words.put("", async (_req: Request, _res: Response) => {
+words.put("/:ownerID", async (_req: Request, _res: Response) => {
 
 });
 
 // @ DELETE
-words.delete("", async (req: Request, res: Response) => {
+words.delete("/:ownerID", async (req: Request, res: Response) => {
   const { wordID } = req.params;
   await wordSchema.findByIdAndDelete(wordID);
 

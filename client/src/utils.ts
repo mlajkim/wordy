@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export const convertSem = (sem: number) => {
   return {
-    year: sem % 10 + 2000,
+    year: (Math.floor(sem / 10)) + 2000,
     sem: sem % 10
   } 
 }
@@ -17,7 +17,7 @@ export const get_sem = () => {
   if(parseInt(now.format('MM')) >= 10) sem = 4;
   else if (parseInt(now.format('MM')) >= 7) sem = 3;
   else if (parseInt(now.format('MM')) >= 4) sem = 2;
-  return parseInt(now.format('YYYY')) % 100 * 10 + sem
+  return (parseInt(now.format('YYYY')) % 100) * 10 + sem
 };
 
 export const handleCountryCode = (countryCode: string) => {
