@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useGoogleLogout} from 'react-google-login'
 import Cookie from 'js-cookie';
+import {countryCodeIntoLanguage} from '../utils';
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -102,10 +103,10 @@ const Appbar = () => {
             open={Boolean(menu)}
             onClose={() => openMenu(null)}
           >
-            <MenuItem onClick={() => handleLanguageChange('ko')}>한국어</MenuItem>
-            <MenuItem onClick={() => handleLanguageChange('en')}>English</MenuItem>
-            <MenuItem onClick={() => handleLanguageChange('ja')}>日本語</MenuItem>
-            <MenuItem disabled onClick={() => handleLanguageChange('en')}>中文 (简体)</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('ko')}>{countryCodeIntoLanguage('ko')}</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('en')}>{countryCodeIntoLanguage('en')}</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('ja')}>{countryCodeIntoLanguage('ja')}</MenuItem>
+            <MenuItem disabled onClick={() => handleLanguageChange('en')}>{countryCodeIntoLanguage('zh')}</MenuItem>
           </Menu>
           <IconButton size="small" color="inherit" onClick={(e) => handleProfileMenu(e)}>
             <Avatar alt={user.firstName} src={user.imageUrl} />

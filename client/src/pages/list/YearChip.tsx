@@ -94,9 +94,21 @@ const YearChip = () => {
           : <Fragment>
               <Chip 
                 clickable
+                label={tr.all[ln]} 
+                onClick={() => setSelectedTag(tr.all[ln])}
+                color={selectedTag === tr.all[ln] ? 'primary' : 'default'}
+              />
+              <Chip 
+                clickable
                 label={'#Favorite'} 
                 onClick={() => setSelectedTag('#Favorite')}
                 color={selectedTag === '#Favorite' ? 'primary' : 'default'}
+              />
+              <Chip 
+                clickable
+                label={tr.today[ln]} 
+                onClick={() => setSelectedTag(tr.today[ln])}
+                color={selectedTag === tr.today[ln] ? 'primary' : 'default'}
               />
               {
                 tags.map((tag: string) => (
