@@ -7,7 +7,7 @@ import { setPage, setLanguage,
   setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType, setDialog
 } from './redux/actions';
 import { updateUser } from './redux/actions/userAction';
-import { syncSupport } from './redux/actions/supportAction';
+import { getSupport } from './redux/actions/supportAction';
 
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean
@@ -139,7 +139,7 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
     }
   }
   // ..Set up the front
-  store.dispatch(syncSupport());
+  store.dispatch(getSupport());
   store.dispatch(setAddedWordsCount(languagesRes.payload.addedWordsCount));
   store.dispatch(setDeletedWordsCount(languagesRes.payload.deletedWordsCount));
   store.dispatch(setNewWordAddingType(languagesRes.payload.newWordAddingType))

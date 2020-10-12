@@ -14,16 +14,15 @@ export const updateSupport = (data: object) => {
   };
 };
 
-export const getSupport = (data: any) => {
+export const getSupport = () => {
   return {
-    type: GET_SUPPORT,
-    payload: data
+    type: GET_SUPPORT
   };
 };
 
 export const setSupport = (data: any) => {
   return {
-    type: UPDATE_SUPPORT,
+    type: SET_SUPPORT,
     payload: data
   };
 };

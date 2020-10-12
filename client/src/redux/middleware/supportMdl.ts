@@ -1,14 +1,23 @@
 import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, SYNC_SUPPORT, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
-import {getSupport} from '../actions/supportAction';
+import {setSupport} from '../actions/supportAction';
 import {State, FetchyResponse} from '../../types';
 import { fetchy } from '../actions/apiAction';
 
-export const getMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+export const getSupportMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === GET_SUPPORT) {
+    dispatch(fetchy('get', '/supports', null, setSupport));
+  }
+}
+
+export const setSupportMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === SET_SUPPORT) {
     const {empty, data}  = action.payload as FetchyResponse;
-    if(empty) dispatch(fetchy('post', '/supports'))
+    console.log(action.payload);
+    if(empty) dispatch(fetchy('post', '/supports'));
     // since it is the fresh new baked data from database (Ultimate soruce) set it to front
     dispatch(updateSupport({
       sems: empty ? [] : data.sems,
@@ -26,14 +35,6 @@ export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
     console.log(payload);
     dispatch(fetchy('put', '/supports', [payload]))
     dispatch(updateSupport(payload));
-  }
-}
-
-export const syncMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-  next(action);
-  
-  if (action.type === SYNC_SUPPORT) {
-    dispatch(fetchy('get', '/supports', null, getSupport));
   }
 }
 
@@ -58,4 +59,4 @@ export const addSemNoDupMdl = ({dispatch, getState} : any) => (next: any) => (ac
 
 
 
-export const supportMdl = [getMdl, modifyMdl, syncMdl, addSemNoDupMdl]; 
+export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl]; 
