@@ -12,6 +12,7 @@ const wordSchema = new Schema({
   seederID: String, // who originally created this? (If owner and seeder does not match, you can edit it, but you cant sell it.)
   packageID: String, // what kind of pacakge? (package has its own owner, selling price.. sold amounts etvc...)
   // Personal data 
+  isFavorite: Boolean,
   sem: Number,
   language: String,
   tag: Array,

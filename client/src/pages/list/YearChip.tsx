@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from 'react';
-import {convertSem} from '../../utils';
+import {convertSem, countryCodeIntoLanguage} from '../../utils';
 import { State, WordsChunk } from '../../types';
 import axios from 'axios';
 import * as API from '../../API';
@@ -36,14 +36,21 @@ const YearChip = () => {
   const classes = useStyles();
   // Component state
   const [selectedSem, setSelectedSem] = useState(0);
+  const [selectedTag, setSelectedTag] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
   // Redux states
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
   const propriateWordsChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
-
   const handleChipClick = (sem: number) => {
+    setTags([]);
+    setSelectedTag(''); // by defalt
+    if (selectedSem === sem) {
+      setSelectedSem(0);
+      return;
+    };
+    
     setSelectedSem(sem); 
-
     let found: boolean = false;
     if(words.length !== 0) 
       found = words.find((datum: WordsChunk) => datum[0].sem === sem) !== undefined ? true : false;
@@ -53,6 +60,16 @@ const YearChip = () => {
       store.dispatch(getWords(sem));
     }
   };
+
+  const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
+  if(hasFound !== undefined) {
+    hasFound.forEach(word => {
+      const {language, tag} = word;
+      const convertedLanguage = countryCodeIntoLanguage(language);
+      if (tags.findIndex(elem => elem === convertedLanguage) === -1) setTags([...tags, convertedLanguage])
+    })
+  }
+      
 
   return (
     <Fragment>
@@ -71,6 +88,30 @@ const YearChip = () => {
             ))
           )
         }
+      </Grid>
+        {selectedSem === 0 
+          ? null
+          : <Fragment>
+              <Chip 
+                clickable
+                label={'#Favorite'} 
+                onClick={() => setSelectedTag('#Favorite')}
+                color={selectedTag === '#Favorite' ? 'primary' : 'default'}
+              />
+              {
+                tags.map((tag: string) => (
+                  <Chip 
+                    key={tag} 
+                    clickable
+                    label={tag} 
+                    onClick={() => setSelectedTag(tag)}
+                    color={(tag === selectedTag) ? 'primary' : 'default'}
+                  />
+                ))
+              }
+            </Fragment>
+        }
+      <Grid style={{textAlign: 'center'}}>
       </Grid>
       {words.length === 0 
       ? null
