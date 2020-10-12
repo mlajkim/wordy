@@ -13,7 +13,7 @@ const validate = (payload: WordsChunk): boolean => {
 }
 
 // #ADD
-export const addWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const postWords  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   // Declaration and data validation check
   next(action);
   
@@ -81,4 +81,4 @@ export const removeWords = ({dispatch, getState} : any) => (next: any) => (actio
 };
 
 
-export const wordsMdl = [addWords, syncWords, modifyWords, removeWords]; 
+export const wordsMdl = [postWords, syncWords, modifyWords, removeWords]; 

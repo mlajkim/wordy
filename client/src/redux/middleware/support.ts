@@ -1,5 +1,7 @@
-import {SET_SUPPORT, ADD_SEM, updateSupport} from '../actions/support';
+import {SET_SUPPORT, ADD_SEM, SYNC_SUPPORT, updateSupport} from '../actions/support';
 import {State} from '../../types';
+import { fetchy } from '../actions/api';
+import * as API from '../../API';
 
 export const setSupport = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
@@ -26,5 +28,14 @@ export const addSem = ({dispatch, getState} : any) => (next: any) => (action: an
   }
 }
 
+export const syncSupport = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+  const {user}: State = getState();
+  if (action.type === SYNC_SUPPORT) {
+    const {empty, data} = API.fetchy('get', '/supports', user.ID!);
+    if(!empty) dispatch(updateSupport(data[0]))
+  }
+}
 
-export const supportMdl = [setSupport, addSem]; 
+
+export const supportMdl = [setSupport, addSem, syncSupport]; 

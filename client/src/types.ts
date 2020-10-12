@@ -8,6 +8,12 @@ export type State = {
   snackbar: SnackbarState
 }
 
+export type FetchyResponse = {
+  empty: boolean,
+  length: number,
+  data?: any
+};
+
 export type WordsChunk = Word[];
 
 export type Years = {

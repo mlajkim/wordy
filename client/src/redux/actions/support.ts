@@ -1,7 +1,7 @@
 export const UPDATE_SUPPORT = '[SUPPORT] Update';
 export const SET_SUPPORT = '[SUPPORT] Set';
 export const ADD_SEM = '[SUPPORT] Add Sem';
-
+export const SYNC_SUPPORT = '[SYNC_SUPPORT] Sync Support'
 
 // Ultimately
 export const updateSupport = (data: object) => {
@@ -10,6 +10,12 @@ export const updateSupport = (data: object) => {
     payload: data
   };
 };
+
+export const syncSupport = () => {
+  return {
+    type: SYNC_SUPPORT
+  }
+}
 
 export const setSupport = (data: any) => {
   return {

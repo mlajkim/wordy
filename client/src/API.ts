@@ -1,12 +1,40 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
-import { FederalProvider, UsersDB, NewWordAddingType, GoogleRes, ProfileObj, UserState } from './types';
+import { FetchyResponse, UsersDB, NewWordAddingType, GoogleRes, ProfileObj, UserState } from './types';
 // Redux
 import store from './redux/store';
 import { setPage, setLanguage, 
   setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType, setDialog
 } from './redux/actions';
 import { updateUser } from './redux/actions/user';
+import { syncSupport } from './redux/actions/support';
+
+export const fetchy = (
+  method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean
+  ): FetchyResponse => {
+    let additionalUrl = '';
+    if((method === 'get' || method === 'delete') && payload) { // only happens when payload exists
+      additionalUrl = '/' + JSON.stringify(payload![0]);
+    }
+  axios({
+    method,
+    headers: { Authorization: `Bearer ${getAccessToken()}`},
+    url: `/api/v3/mongo${url}/${ownerID}${additionalUrl}`,
+    data: { ownerID, payload: payload ? payload : null, isDefault: isDefault ? isDefault : false}
+  })
+  .then(res => {return res.data})
+
+  // by default
+  return {
+    empty: true,
+    length: 0
+  }
+}
+
+
+
+
+//###################
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
@@ -111,6 +139,7 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
     }
   }
   // ..Set up the front
+  store.dispatch(syncSupport());
   store.dispatch(setAddedWordsCount(languagesRes.payload.addedWordsCount));
   store.dispatch(setDeletedWordsCount(languagesRes.payload.deletedWordsCount));
   store.dispatch(setNewWordAddingType(languagesRes.payload.newWordAddingType))
