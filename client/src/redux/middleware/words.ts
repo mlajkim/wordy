@@ -1,7 +1,8 @@
 import { WordsChunk, Word, State } from '../../types';
-import {updateWords, ADD_WORDS, SYNC_WORDS} from '../actions/words';
+import {updateWords, POST_WORDS, SYNC_WORDS, SET_WORDS} from '../actions/words';
 import {setSupport, addSem} from '../actions/support';
 import {fetchy} from '../actions/api';
+import {setWords} from '../actions/words';
 import {setSnackbar} from '../actions';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -12,12 +13,12 @@ const validate = (payload: WordsChunk): boolean => {
   return result.length === 0 ? true : false;
 }
 
-// #ADD
+// #POST
 export const postWords  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   // Declaration and data validation check
   next(action);
   
-  if (action.type === ADD_WORDS) {
+  if (action.type === POST_WORDS) {
     // #1 Validate given data and Declare the necessary.
     const {payload} = action;
     const isDataValid = validate(payload);
@@ -35,25 +36,14 @@ export const postWords  = ({dispatch, getState} : any) => (next: any) => (action
       } as Word
     });
 
-    // #3 Handle Back-end
+    // #3 Handle Back & Front
     dispatch(fetchy('post', '/words', newPayload));
+    dispatch(setWords(newPayload))
 
-    // Support
+    // Adding Words will have an affect on supports.
     dispatch(fetchy('put', '/supports', [{ newWordCnt }]));
     dispatch(setSupport({newWordCnt}));
     dispatch(addSem(sem))
-
-    // #4 Handle Front-end
-    
-    let hasFound = (previosWords as WordsChunk[]).filter(elem => elem[0].sem === sem);
-    if(hasFound === undefined) {
-      // If the same sem chunk is not found, I can simply add them into.
-      dispatch(updateWords([...previosWords, newPayload]));
-    }
-    else {
-      hasFound = [...hasFound, ...newPayload];
-      dispatch(updateWords([...(previosWords as WordsChunk[]).filter(elem => elem[0].sem !== sem), hasFound]))
-    }
   }
 };
 
@@ -80,5 +70,27 @@ export const removeWords = ({dispatch, getState} : any) => (next: any) => (actio
   next(action);
 };
 
+// #SET
+export const declareWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
 
-export const wordsMdl = [postWords, syncWords, modifyWords, removeWords]; 
+  if(action.type === SET_WORDS) {
+    const newWords: WordsChunk = action.payload; // payload first
+    const {words: prevWords}: State = getState(); // global states next
+    const standardSem = newWords[0].sem;
+    // Logic
+    let hasFound = (prevWords as WordsChunk[]).find(datus => datus[0].sem === standardSem);
+    if(hasFound === undefined) {
+      // If the same sem chunk is not found, I can simply add them into.
+      dispatch(updateWords([...prevWords, newWords]));
+    }
+    else {
+      hasFound = [...hasFound, ...newWords];
+      dispatch(updateWords([...(prevWords as WordsChunk[]).filter(elem => elem[0].sem !== standardSem), hasFound]))
+    }
+    
+  }
+};
+
+
+export const wordsMdl = [postWords, syncWords, modifyWords, removeWords, declareWords]; 

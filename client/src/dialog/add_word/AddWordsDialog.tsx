@@ -26,7 +26,7 @@ import {
   offDialog, addYears, setSnackbar, incrementAddedWordsCount 
 } from '../../redux/actions';
 import {useSelector} from 'react-redux';
-import {addWords} from '../../redux/actions/words';
+import {postWords} from '../../redux/actions/words';
 
 // @ ABSOLUTE
 export const VALID_YEAR = { from: 2000, to: 2020 };
@@ -50,7 +50,7 @@ const AddWordsDialog: React.FC = () => {
 
   const handleSavingWords = () => {
     const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
-    store.dispatch(addWords([{
+    store.dispatch(postWords([{
       word, pronun, meaning, example, isPublic, sem, tag: []
     }]))
   }

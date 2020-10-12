@@ -9,10 +9,6 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 // Translation
 import tr from './list.tr.json';
-// Redux
-import store from '../../redux/store';
-import {setDialog} from '../../redux/actions';
-import {addWords} from '../../redux/actions/words'
 import {useSelector} from 'react-redux';
 
 const List = () => {
