@@ -1,19 +1,9 @@
-import express, {Request, Response, NextFunction} from 'express';
+import express, {Request, Response} from 'express';
 import wordSchema from '../../../../models/Words';
 const words = express.Router();
 
-// @ LOGGER
-const ROUTER_NAME = 'Word';
-words.use('', (req: Request, _res: Response, next: NextFunction) => {
-  process.stdout.write(`${ROUTER_NAME} `);
-  req.body.ownerID = req.params.ownerID;
-  next();
-})
-const logger = (data: string) => console.log(data + "...");
-
 // @ CREATE
 words.post("/:ownerID", (req: Request, res: Response) => {
-  logger(`${req.body.payload.length} amount of words about to be saved`);
   req.body.payload.forEach(async (datus: any) => {
     new wordSchema({ ...datus }).save()
       .then(_resp => res.send({
@@ -29,13 +19,10 @@ words.post("/:ownerID", (req: Request, res: Response) => {
 
 
 // @ READ
-words.get("/:ownerID/:payload", async (req: Request, res: Response) => {
-  const payload = JSON.parse(req.params.payload);
-  const ownerID = req.params.ownerID;
-  logger(`finding words with the following condition: ${req.params.payload}`)
-  console.log(payload) // testing
+words.get("/:ownerID/:sem", async (req: Request, res: Response) => {
+  const {ownerID, sem} = req.params;
 
-  const data = await wordSchema.find({ownerID, ...payload});
+  const data = await wordSchema.find({ownerID, sem});
   res.send({
     empty: data.length === 0 ? true : false,
     length: data.length,
