@@ -3,7 +3,6 @@ import {UPDATE_WORDS} from '../actions/wordsAction';
 const words = (state = [], action: any) => {
   switch(action.type) {
     case UPDATE_WORDS:
-      console.log('does it even reach')
       return action.payload;
 
     default:

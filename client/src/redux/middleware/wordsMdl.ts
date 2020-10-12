@@ -1,6 +1,6 @@
 import { WordsChunk, Word, State } from '../../types';
 import {updateWords, POST_WORDS, SYNC_WORDS, SET_WORDS} from '../actions/wordsAction';
-import {setSupport, addSem} from '../actions/supportAction';
+import {setSupport, modifySupport, addSemNoDup} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
 import {setWords} from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
@@ -42,8 +42,8 @@ export const postWords  = ({dispatch, getState} : any) => (next: any) => (action
 
     // Adding Words will have an affect on supports.
     dispatch(fetchy('put', '/supports', [{ newWordCnt }]));
-    dispatch(setSupport({newWordCnt}));
-    dispatch(addSem(sem))
+    dispatch(modifySupport({ newWordCnt }));
+    dispatch(addSemNoDup(sem));
   }
 };
 

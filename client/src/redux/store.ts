@@ -2,7 +2,7 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import rootReducer from "./reducers/indexReducer";
 // Middlewares
 import { userMdl } from './middleware/userMdl';
-import { wordsMdl } from './middleware/words';
+import { wordsMdl } from './middleware/wordsMdl';
 import { apiMdl } from './middleware/apiMdl';
 import { supportMdl } from './middleware/supportMdl';
 // dev tool
