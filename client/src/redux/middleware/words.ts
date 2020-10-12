@@ -1,5 +1,5 @@
 import { WordsChunk, Word, State } from '../../types';
-import {ADD_WORDS, updateWords} from '../actions/words';
+import {updateWords, ADD_WORDS, SYNC_WORDS} from '../actions/words';
 import {setSupport, addSem} from '../actions/support';
 import {fetchy} from '../actions/api';
 import {setSnackbar} from '../actions';
@@ -60,6 +60,14 @@ export const addWords = ({dispatch, getState} : any) => (next: any) => (action: 
 // #SYNC
 export const syncWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
+
+  if(action.type === SYNC_WORDS) {
+    const {words}: State = getState();
+    const sem = action.payload[0].sem;
+    const newData = dispatch(fetchy('get', '/words', action.payload));
+    console.log(newData); // testing
+    dispatch(updateWords([...words.filter((datus: WordsChunk) => datus[0].sem !== sem), ...newData]))
+  }
 };
 
 // #MODIFY

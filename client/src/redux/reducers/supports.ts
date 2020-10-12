@@ -14,7 +14,7 @@ const initialState: Support = {
 };
 
 // this is more of userPreference (I will change the naming later)
-const support = (state = initialState, action: any) => {
+const supports = (state = initialState, action: any) => {
   switch(action.type) {
     
     case UPDATE_SUPPORT:
@@ -53,4 +53,4 @@ const support = (state = initialState, action: any) => {
   }
 }
 
-export default support;
+export default supports;

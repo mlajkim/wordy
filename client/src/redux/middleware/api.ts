@@ -17,21 +17,25 @@ export const fetchy = ({dispatch, getState} : any) => (next: any) => async (acti
     }
 
     // #2 Run
-    await hiddenFetchFunction(method, url, user.ID!, payload);
+    return await hiddenFetchFunction(method, url, user.ID!, payload);
   }
 };
 
 const hiddenFetchFunction = async (
   method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean
   ) => {
+    let additionalUrl = '';
+    if((method === 'get' || method === 'delete') && payload) { // only happens when payload exists
+      additionalUrl = '/' + JSON.stringify(payload![0]);
+    }
    const data = (await axios({
     method,
     headers: { Authorization: `Bearer ${API.getAccessToken()}`},
-    url: `/api/v3/mongo${url}/${ownerID}`,
+    url: `/api/v3/mongo${url}/${ownerID}${additionalUrl}`,
     data: { ownerID, payload: payload ? payload : null, isDefault: isDefault ? isDefault : false}
   })).data;
 
-  return data;
+  return data as FetchResult;
 }
 
 type FetchResult = {

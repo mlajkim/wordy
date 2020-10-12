@@ -29,22 +29,18 @@ words.post("", (req: Request, res: Response) => {
 
 
 // @ READ
-words.get("", async (req: Request, res: Response) => {
-  const {ownerID, year, sem} = req.params;
-  const data = await wordSchema.find({ownerID, year, sem});
+words.get("/:payload", async (req: Request, res: Response) => {
+  const payload = JSON.parse(req.params.payload);
+  const ownerID = req.body.ownerID;
+  logger(`finding words with the following condition: ${req.params.payload}`)
+  console.log(payload) // testing
 
-  // Respond accordingly
-  if (data.length === 0) res.status(404).send({ // NOT UNDEFINED.
-    status: 404,
-    message: "[EMPTY ARRAY] The words data not found",
-    payload: null
-  });
-  else res.status(200).send({
-    status: 200,
-    message: "[SUCCESS] The words has been found",
-    payload: data
-  });
-
+  const data = await wordSchema.find({ownerID, ...payload});
+  res.send({
+    empty: data.length === 0 ? true : false,
+    length: data.length,
+    data: data
+  })
 });
 
 // @ UPDATE

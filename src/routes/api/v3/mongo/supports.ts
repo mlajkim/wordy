@@ -58,7 +58,7 @@ supports.post("", (req: Request, res: Response) => {
 
 // @ READ
 supports.get("", async (req: Request, res: Response) => {
-  const {ownerID} = req.body;
+  const ownerID = req.body.ownerID;
   logger('Attempting to get data');
   supportSchema.find({ownerID})
   .then(data => res.send({
