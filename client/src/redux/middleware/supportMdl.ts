@@ -1,9 +1,18 @@
-import {updateSupport, SET_SUPPORT, MODIFY_SUPPORT, SYNC_SUPPORT, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
+import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, SYNC_SUPPORT, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
+import {setSupport} from '../actions/supportAction';
 import {State} from '../../types';
 import { fetchy } from '../actions/apiAction';
 import * as API from '../../API';
 
-export const setSupport = ({dispatch} : any) => (next: any) => (action: any) => {
+export const getSupport = ({dispatch} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === GET_SUPPORT) {
+    dispatch(updateSupport(action.payload))
+  }
+}
+
+export const declareSupport = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === SET_SUPPORT) {
@@ -26,8 +35,7 @@ export const syncSupport = ({dispatch, getState} : any) => (next: any) => (actio
   next(action);
   const {user}: State = getState();
   if (action.type === SYNC_SUPPORT) {
-    const {empty, data} = API.fetchy('get', '/supports', user.ID!);
-    if(!empty) dispatch(updateSupport(data[0]))
+    dispatch(fetchy('get', '/supports', null, setSupport));
   }
 }
 
@@ -51,4 +59,4 @@ export const addSemNoDup = ({dispatch, getState} : any) => (next: any) => (actio
 
 
 
-export const supportMdl = [setSupport, modifySupport, syncSupport, addSemNoDup]; 
+export const supportMdl = [getSupport, declareSupport, modifySupport, syncSupport, addSemNoDup]; 

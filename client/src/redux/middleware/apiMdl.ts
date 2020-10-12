@@ -9,7 +9,7 @@ export const fetchy = ({dispatch, getState} : any) => (next: any) => async (acti
 
   if (action.type === FETCHY) {
     const { user }: State = getState();
-    const { method, url, payload } = action.payload;
+    const { method, url, payload, onSuccess } = action.payload;
     // #1 If put, first check if exists, if not, make a new one
     if (method === 'put') {
       const {empty} = API.fetchy('get', url, user.ID!);
@@ -17,7 +17,10 @@ export const fetchy = ({dispatch, getState} : any) => (next: any) => async (acti
     }
 
     // #2 Run
-    API.fetchy(method, url, user.ID!, payload);
+    if (method !== 'get') API.fetchy(method, url, user.ID!, payload);
+    else axios.get(`/api/v3/mongo${url}/${user.ID}`, API.getAuthorization())
+      .then(({data}) => dispatch(onSuccess(data.data)))
+      .catch(err => console.log(err))
   }
 };
 

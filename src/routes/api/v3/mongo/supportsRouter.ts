@@ -29,19 +29,12 @@ supports.post("", async (req: Request, res: Response) => {
 supports.get("", async (req: Request, res: Response) => {
   const ownerID = req.body.ownerID;
   logger('Attempting to get data');
-  supportSchema.find({ownerID})
-  .then(data => res.send({
-    status: 200,
-    message: `[OK]`,
-    empty: data.length === 0 ? true : false,
-    length: data.length,
-    data
-  }))
-  .catch(err => res.status(404).send({
-    status: 404,
-    message: `[FAIL] ${err}`,
-    empty: true
-  }))
+  const support = await supportSchema.findOne({ownerID})
+  res.send({
+    empty: support ? false : true,
+    length: 1,
+    data: support
+  })
 });
 
 // @ UPDATE
