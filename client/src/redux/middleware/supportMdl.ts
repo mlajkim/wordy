@@ -15,13 +15,13 @@ export const addSem = ({dispatch, getState} : any) => (next: any) => (action: an
   next(action);
 
   if (action.type === ADD_SEM) {
-    const {supports}: State = getState();
+    const {support}: State = getState();
     const sem = action.payload;
 
     // #1 if already exists, no need to update at all
-    const isFound = supports.sem.find(elem => elem === sem) ? true : false;
+    const isFound = support.sems.find(elem => elem === sem) ? true : false;
     if(isFound === false) {
-      const newSem = [...supports.sem, sem] // existed + new(payload)
+      const newSem = [...support.sems, sem] // existed + new(payload)
       dispatch(updateSupport({sem: newSem}));
     }
     

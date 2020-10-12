@@ -1,7 +1,7 @@
 export type State = {
   dialog: Dialog;
   language: Language;
-  supports: Support;
+  support: Support;
   user: UserState,
   years: Years[];
   words: WordsChunk[],
@@ -40,7 +40,7 @@ export type SnackbarState = {
 export type Support = {
   addWordLangPref: AddableLang;
   newWordCnt: number;
-  sem: number[];
+  sems: number[];
   newWordAddingType: NewWordAddingType;
   addedWordsCount: number;
   deletedWordsCount: number;

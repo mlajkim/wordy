@@ -7,7 +7,7 @@ const initialState: Support = {
   addWordLangPref: 'en', // user's prefrenece of adding language
   newWordAddingType: 'one',
   newWordCnt: 0,
-  sem: [],
+  sems: [],
   addedWordsCount: 0, // 
   deletedWordsCount: 0,
   orderPref: []

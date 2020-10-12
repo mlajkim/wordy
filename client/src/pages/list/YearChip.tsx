@@ -37,7 +37,7 @@ const YearChip = () => {
   // Component state
   const [selectedSem, setSelectedSem] = useState(0);
   // Redux states
-  const {language, supports, user, years, words} = useSelector((state: State) => state);
+  const {language, support, user, years, words} = useSelector((state: State) => state);
   const ln = language;
   const propriateWordsChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
 
@@ -57,10 +57,10 @@ const YearChip = () => {
   return (
     <Fragment>
       <Grid style={{textAlign: 'center'}}>
-        {supports.sem.length === 0 
+        {support.sems.length === 0 
           ? null
           : (
-            supports.sem.map((sem: number) => (
+            support.sems.map((sem: number) => (
               <Chip 
                 key={sem} 
                 clickable
