@@ -3,18 +3,12 @@ import wordSchema from '../../../../models/Words';
 const words = express.Router();
 
 // @ CREATE
-words.post("/:ownerID", (req: Request, res: Response) => {
-  req.body.payload.forEach(async (datus: any) => {
+words.post("/:ownerID", async (req: Request, res: Response) => {
+  await req.body.payload.forEach((datus: any) => {
     new wordSchema({ ...datus }).save()
-      .then(_resp => res.send({
-        status:200,
-        message: `[OK]`
-      }))
-      .catch(err => res.status(404).send({
-        status: 404,
-        message: `[FAIL] ${err}`
-      }))
   })
+
+  res.send({empty: true})
 });
 
 

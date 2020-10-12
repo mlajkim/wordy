@@ -53,7 +53,7 @@ export const postMdl  = ({dispatch, getState} : any) => (next: any) => (action: 
     const newPayload = payload.map((word: Word) => {
       newWordCnt += 1;
       return {
-        ...word, ownerID: user.ID, isFavorite: false, order: newWordCnt
+        ...word, ownerID: user.ID, isFavorite: false, order: newWordCnt, language: support.addWordLangPref
       } as Word
     });
 

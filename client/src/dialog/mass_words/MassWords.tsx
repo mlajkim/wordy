@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import axios from 'axios';
 import * as API from '../../API';
-import { AddableLang, State } from '../../types';
+import {format_into_sem} from '../../utils'
+import { State } from '../../types';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 import {VALID_YEAR} from '../add_word/AddWordsDialog';
 // Translation
@@ -20,14 +20,15 @@ import TextField from '@material-ui/core/TextField';
 import SwitchBackToOneMode from '@material-ui/icons/AddBox';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setSnackbar, setDialog } from '../../redux/actions';
+import {offDialog, setSnackbar } from '../../redux/actions';
+import {postWords} from '../../redux/actions/wordsAction';
 import {useSelector} from 'react-redux';
 import ParsingAPI from './ParsingAPI';
 const LETTERS_LIMITATION = 30000
 
 const MassWords = () => {
   // Redux states
-  const {user, language, support} = useSelector((state: State) => state);
+  const {user, language} = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [count, setCount] = useState(0);
@@ -35,6 +36,7 @@ const MassWords = () => {
   const [maxError, setMaxError] = useState(false);
   const [year, setYear] = useState('');
   const [sem, setSem] = useState('');
+
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMassData(e.target.value);
     setCount(e.target.value.length);
@@ -53,7 +55,9 @@ const MassWords = () => {
     }
     store.dispatch(offDialog())
     // Data check
-    ParsingAPI(massData, parseInt(year), parseInt(sem), support.addWordLangPref);
+    const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)));
+    store.dispatch(postWords(data));
+    
   }
 
   return (

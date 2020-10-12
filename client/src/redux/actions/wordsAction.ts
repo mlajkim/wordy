@@ -58,10 +58,10 @@ export const syncWords = (sem: number) => {
 
 type Required = {
   word: string
-  pronun: string 
-  meaning: string 
-  example: string 
-  isPublic: boolean
+  pronun?: string 
+  meaning?: string 
+  example?: string 
+  isPublic?: boolean
   sem: number
-  tag: string[]
+  tag?: string[]
 }

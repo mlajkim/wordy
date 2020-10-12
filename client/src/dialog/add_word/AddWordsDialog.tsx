@@ -62,7 +62,7 @@ const AddWordsDialog: React.FC = () => {
       <Dialog open={true} onClose={() => store.dispatch(offDialog())}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
-          <IconButton disabled size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
+          <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
             onClick={() => API.handleNewWordAddingType(user.ID!, 'mass')}>
             <AddToPhotosIcon />
           </IconButton>
