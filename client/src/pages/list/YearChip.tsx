@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid'
 import tr from './year_chip.tr.json';
 // Redux
 import store from '../../redux/store';
-import {syncWords} from '../../redux/actions/wordsAction';
+import {getWords} from '../../redux/actions/wordsAction';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: 'wrap',
       '& > *': {
         margin: theme.spacing(0.5),
-      },
+      }
     },
   }),
 );
@@ -50,7 +50,7 @@ const YearChip = () => {
     // Not Found? Start Downloading.
     if(found === false) {
       // handle ownloading the data
-      store.dispatch(syncWords(sem));
+      store.dispatch(getWords(sem));
     }
   };
 

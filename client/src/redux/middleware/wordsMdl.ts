@@ -1,8 +1,8 @@
 import { WordsChunk, Word, State, FetchyResponse } from '../../types';
-import {updateWords, getWords, POST_WORDS, SYNC_WORDS, SET_WORDS, GET_WORDS} from '../actions/wordsAction';
+import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS} from '../actions/wordsAction';
 import {setSupport, modifySupport, addSemNoDup} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
-import {setWords} from '../actions/wordsAction';
+import {setWords, savingHelper} from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -13,15 +13,25 @@ const validate = (payload: WordsChunk): boolean => {
   return result.length === 0 ? true : false;
 }
 
-export const getMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const getWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === GET_WORDS) {
-    const {empty, data}  = action.payload as FetchyResponse;
-    if(empty) console.log('HUGE ERROR')
-
-    console.log(data);
+    const sem = action.payload;
+    dispatch(fetchy('get', '/words', null, setWords, `/${sem}`));
   }
+};
+
+export const setWordsMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === SET_WORDS) {
+    const {empty, data}  = action.payload as FetchyResponse;
+    if(empty) return; 
+    console.log(data);
+
+    dispatch(savingHelper(data));
+  } 
 };
 
 // #POST
@@ -49,7 +59,7 @@ export const postMdl  = ({dispatch, getState} : any) => (next: any) => (action: 
 
     // #3 Handle Back & Front
     dispatch(fetchy('post', '/words', newPayload));
-    dispatch(setWords(newPayload))
+    dispatch(savingHelper(newPayload))
 
     // Adding Words will have an affect on supports.
     dispatch(modifySupport({ newWordCnt }));
@@ -57,22 +67,11 @@ export const postMdl  = ({dispatch, getState} : any) => (next: any) => (action: 
   }
 };
 
-// #SYNC
-export const syncMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
-  next(action);
-
-  if(action.type === SYNC_WORDS) {
-    const {words}: State = getState();
-    const sem = action.payload[0].sem;
-    dispatch(fetchy('get', '/words', null, getWords, `/${sem}`));
-  }
-};
-
 // #SET
-export const declareMDl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
-  if(action.type === SET_WORDS) {
+  if(action.type === SAVING_HELPER) {
     const newWords: WordsChunk = action.payload; // payload first
     const {words: prevWords}: State = getState(); // global states next
     const standardSem = newWords[0].sem;
@@ -91,4 +90,4 @@ export const declareMDl = ({dispatch, getState} : any) => (next: any) => (action
 };
 
 
-export const wordsMdl = [getMdl, postMdl, syncMdl, declareMDl]; 
+export const wordsMdl = [getWordsMdl, setWordsMdl, postMdl, savingHelperMdl]; 

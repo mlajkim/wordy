@@ -3,6 +3,7 @@ export const UPDATE_WORDS="[WORDS] Update";
 export const POST_WORDS = "[WORDS] Post";
 export const GET_WORDS = '[WORDS] Get'
 export const SET_WORDS = "[WORDS] Set"
+export const SAVING_HELPER = '[WORDS] Saving Helper'
 export const SYNC_WORDS = "[WORDS] Sync";
 export const MODIFY_WORDS = "[WORDS] Modify";
 export const DELETE_WORDS = "[WORDS] Delete";
@@ -15,9 +16,23 @@ export const updateWords = (data: any) => {
   };
 };
 
-export const getWords = (data: any) => {
+export const getWords = (sem: number) => {
   return {
     type: GET_WORDS,
+    payload: sem
+  }
+}
+
+export const setWords = (data: any) => {
+  return {
+    type: SET_WORDS,
+    payload: data
+  }
+}
+
+export const savingHelper = (data: any) => {
+  return {
+    type: SAVING_HELPER,
     payload: data
   }
 }
@@ -31,12 +46,7 @@ export const postWords = (data: Required[]) => {
 }
 
 // @SET
-export const setWords = (data: WordsChunk) => {
-  return {
-    type: SET_WORDS,
-    payload: data
-  }
-}
+
 
 // @SYNC
 export const syncWords = (sem: number) => {

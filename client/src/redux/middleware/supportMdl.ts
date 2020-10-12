@@ -16,7 +16,6 @@ export const setSupportMdl = ({dispatch} : any) => (next: any) => (action: any) 
 
   if (action.type === SET_SUPPORT) {
     const {empty, data}  = action.payload as FetchyResponse;
-    console.log(action.payload);
     if(empty) dispatch(fetchy('post', '/supports'));
     // since it is the fresh new baked data from database (Ultimate soruce) set it to front
     dispatch(updateSupport({

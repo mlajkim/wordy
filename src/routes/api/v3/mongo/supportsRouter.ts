@@ -11,7 +11,7 @@ supports.post("/:ownerID", async (req: Request, res: Response) => {
     ownerID,
     ...DefaultValue,
   }).save();
-  res.send({ empty: true })
+  res.send({ empty: false, length: 1, data: newSupport })
 });
 
 // @ READ
