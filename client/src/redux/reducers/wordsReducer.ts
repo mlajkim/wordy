@@ -1,4 +1,4 @@
-import {UPDATE_WORDS} from '../actions/words';
+import {UPDATE_WORDS} from '../actions/wordsAction';
 
 const words = (state = [], action: any) => {
   switch(action.type) {

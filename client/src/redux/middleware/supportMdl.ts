@@ -1,6 +1,6 @@
-import {SET_SUPPORT, ADD_SEM, SYNC_SUPPORT, updateSupport} from '../actions/support';
+import {SET_SUPPORT, ADD_SEM, SYNC_SUPPORT, updateSupport} from '../actions/supportAction';
 import {State} from '../../types';
-import { fetchy } from '../actions/api';
+import { fetchy } from '../actions/apiAction';
 import * as API from '../../API';
 
 export const setSupport = ({dispatch} : any) => (next: any) => (action: any) => {

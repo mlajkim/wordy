@@ -1,9 +1,9 @@
 import {createStore, compose, applyMiddleware} from 'redux';
-import rootReducer from "./reducers";
+import rootReducer from "./reducers/indexReducer";
 // Middlewares
-import { userMdl } from './middleware/user';
+import { userMdl } from './middleware/userMdl';
 import { wordsMdl } from './middleware/words';
-import { apiMdl } from './middleware/api';
+import { apiMdl } from './middleware/apiMdl';
 import { supportMdl } from './middleware/supportMdl';
 // dev tool
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

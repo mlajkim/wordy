@@ -26,7 +26,7 @@ import {
   offDialog, addYears, setSnackbar, incrementAddedWordsCount 
 } from '../../redux/actions';
 import {useSelector} from 'react-redux';
-import {postWords} from '../../redux/actions/words';
+import {postWords} from '../../redux/actions/wordsAction';
 
 // @ ABSOLUTE
 export const VALID_YEAR = { from: 2000, to: 2020 };

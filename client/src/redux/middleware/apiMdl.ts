@@ -1,4 +1,4 @@
-import {FETCHY, FETCHY_FINALLY} from '../actions/api';
+import {FETCHY, FETCHY_FINALLY} from '../actions/apiAction';
 import axios from 'axios';
 import * as API from '../../API';
 import { State, FetchyResponse } from '../../types';

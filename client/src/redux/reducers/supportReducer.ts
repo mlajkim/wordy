@@ -1,6 +1,6 @@
 import * as actions from '../actionTypes';
 import { Support } from '../../types';
-import {UPDATE_SUPPORT} from '../actions/support';
+import {UPDATE_SUPPORT} from '../actions/supportAction';
 
 
 const initialState: Support = {

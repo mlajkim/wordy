@@ -1,4 +1,4 @@
-import {UPDATE_USER} from '../actions/user';
+import {UPDATE_USER} from '../actions/userAction';
 
 export const doNothing = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);

@@ -6,8 +6,8 @@ import store from './redux/store';
 import { setPage, setLanguage, 
   setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType, setDialog
 } from './redux/actions';
-import { updateUser } from './redux/actions/user';
-import { syncSupport } from './redux/actions/support';
+import { updateUser } from './redux/actions/userAction';
+import { syncSupport } from './redux/actions/supportAction';
 
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean

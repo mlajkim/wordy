@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid'
 import tr from './year_chip.tr.json';
 // Redux
 import store from '../../redux/store';
-import {syncWords} from '../../redux/actions/words';
+import {syncWords} from '../../redux/actions/wordsAction';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>

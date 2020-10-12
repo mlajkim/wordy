@@ -1,8 +1,8 @@
 import { WordsChunk, Word, State } from '../../types';
-import {updateWords, POST_WORDS, SYNC_WORDS, SET_WORDS} from '../actions/words';
-import {setSupport, addSem} from '../actions/support';
-import {fetchy} from '../actions/api';
-import {setWords} from '../actions/words';
+import {updateWords, POST_WORDS, SYNC_WORDS, SET_WORDS} from '../actions/wordsAction';
+import {setSupport, addSem} from '../actions/supportAction';
+import {fetchy} from '../actions/apiAction';
+import {setWords} from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
 
 const validate = (payload: WordsChunk): boolean => {

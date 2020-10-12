@@ -3,10 +3,10 @@ import { combineReducers } from 'redux';
 import dialog from './dialog';
 import page from './page';
 import language from './language';
-import user from './user';
+import user from './userReducer';
 import support from './supportReducer';
 import years from './years';
-import words from './words';
+import words from './wordsReducer';
 import snackbar from './snackbar';
 
 export default combineReducers({

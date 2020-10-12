@@ -18,7 +18,7 @@ import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
 import {setDialog, setLanguage, setPage, offDialog, setSnackbar} from '../redux/actions';
-import {updateUser} from '../redux/actions/user';
+import {updateUser} from '../redux/actions/userAction';
 import {useSelector} from 'react-redux';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';

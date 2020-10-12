@@ -1,5 +1,5 @@
 import { UserState } from '../../types';
-import {UPDATE_USER} from '../actions/user';
+import {UPDATE_USER} from '../actions/userAction';
 
 const initialState: UserState = {
   isSignedIn: false
