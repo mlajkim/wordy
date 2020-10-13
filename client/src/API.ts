@@ -12,14 +12,14 @@ import { getSupport } from './redux/actions/supportAction';
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean
   ): FetchyResponse => {
-    let additionalUrl = '';
-    if((method === 'get' || method === 'delete') && payload) { // only happens when payload exists
-      additionalUrl = '/' + JSON.stringify(payload![0]);
-    }
+    // let additionalUrl = '';
+    // if((method === 'get' || method === 'delete') && payload) { // only happens when payload exists
+    //   additionalUrl = '/' + JSON.stringify(payload![0]);
+    // }
   axios({
     method,
     headers: { Authorization: `Bearer ${getAccessToken()}`},
-    url: `/api/v3/mongo${url}/${ownerID}${additionalUrl}`,
+    url: `/api/v3/mongo${url}/${ownerID}`,
     data: { ownerID, payload: payload ? payload : null, isDefault: isDefault ? isDefault : false}
   })
   .then(res => {return res.data})

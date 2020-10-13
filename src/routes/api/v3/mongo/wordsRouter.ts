@@ -38,15 +38,11 @@ words.put("/:ownerID", async (req: Request, res: Response) => {
 
 // @ DELETE
 words.delete("/:ownerID", async (req: Request, res: Response) => {
-  // const { wordID } = req.params;
-  // const {sem, IDs} = req.body.payload;
-  console.log(req.body);
+  const IDs = req.body.payload;
+  console.log(IDs);
+  IDs.forEach(async ({ID}: {ID: string}) => await wordSchema.findOneAndDelete({_id: ID}));
 
-  res.status(204).send({
-    status: 204,
-    error: false,
-    message: "[OK] Item 'word' deleted."
-  })
+  res.status(204).send({empty: true});
 });
 
 export default words;

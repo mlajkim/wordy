@@ -88,6 +88,8 @@ export const modifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
       });
       dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newWords])) //add
     }
+
+    // Removing words may have an affect on supports
   }
 };
 
