@@ -1,11 +1,11 @@
 import express, {Request, Response} from 'express';
 import userSchema from '../../../../models/Users';
-
+import moment from 'moment';
 const users = express.Router();
 
 // @ CREATE
 users.post("", async (req: Request, res: Response) => {
-  const newUser = await new userSchema({...req.body.payload}).save();
+  const newUser = await new userSchema({...req.body.payload, dateAdded: moment().valueOf()}).save();
   console.log(`
     ***NEW USER ADDED***
     Name: ${req.body.payload.firstName} ${req.body.payload.lastName} 

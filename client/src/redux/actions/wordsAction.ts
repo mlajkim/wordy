@@ -4,7 +4,6 @@ export const POST_WORDS = "[WORDS] Post";
 export const GET_WORDS = '[WORDS] Get'
 export const SET_WORDS = "[WORDS] Set"
 export const SAVING_HELPER = '[WORDS] Saving Helper'
-export const SYNC_WORDS = "[WORDS] Sync";
 export const MODIFY_WORDS = "[WORDS] Modify";
 export const DELETE_WORDS = "[WORDS] Delete";
 
@@ -30,14 +29,6 @@ export const setWords = (data: any) => {
   }
 }
 
-export const savingHelper = (data: any) => {
-  return {
-    type: SAVING_HELPER,
-    payload: data
-  }
-}
-
-// @POST
 export const postWords = (data: Required[]) => {
   return {
     type: POST_WORDS,
@@ -45,15 +36,23 @@ export const postWords = (data: Required[]) => {
   }
 }
 
-// @SET
-
-
-// @SYNC
-export const syncWords = (sem: number) => {
+export const modifyWords = (sem: number, data: Data[])  => {
   return {
-    type: SYNC_WORDS,
-    payload: [{sem}]
+    type: MODIFY_WORDS,
+    payload: { sem, data }
   }
+}
+
+export const savingHelper = (data: any) => {
+  return {
+    type: SAVING_HELPER,
+    payload: data
+  }
+}
+
+type Data = {
+  ID: string,
+  payload: object
 }
 
 type Required = {

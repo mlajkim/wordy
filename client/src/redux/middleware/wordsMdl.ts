@@ -1,5 +1,7 @@
+// types
 import { WordsChunk, Word, State, FetchyResponse } from '../../types';
-import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS} from '../actions/wordsAction';
+// actions
+import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS} from '../actions/wordsAction';
 import {setSupport, modifySupport, addSemNoDup} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
 import {setWords, savingHelper} from '../actions/wordsAction';
@@ -28,14 +30,13 @@ export const setWordsMdl = ({dispatch} : any) => (next: any) => (action: any) =>
   if (action.type === SET_WORDS) {
     const {empty, data}  = action.payload as FetchyResponse;
     if(empty) return; 
-    console.log(data);
 
     dispatch(savingHelper(data));
   } 
 };
 
 // #POST
-export const postMdl  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   // Declaration and data validation check
   next(action);
   
@@ -67,7 +68,29 @@ export const postMdl  = ({dispatch, getState} : any) => (next: any) => (action: 
   }
 };
 
-// #SET
+export const modifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if(action.type === MODIFY_WORDS) {
+    const {sem, data}: {sem: number, data: {ID: string, payload: object}[]} = action.payload;
+    const {words}: State = getState();
+
+    const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
+    if (hasFound !== undefined) {
+      const newWords = hasFound.map(word => {
+        const index = data.findIndex(datus => datus.ID === word._id);
+        if (index !== -1) {
+          const newProperty = data.splice(index, 1)[0].payload;
+          return {...word, ...newProperty}
+        }
+        return word;
+      });
+      // remove
+      dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newWords])) //add
+    }
+  }
+};
+
 export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
@@ -90,4 +113,4 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
 };
 
 
-export const wordsMdl = [getWordsMdl, setWordsMdl, postMdl, savingHelperMdl]; 
+export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, savingHelperMdl]; 

@@ -96,7 +96,8 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
     ID: user._id,
     lastName: user.lastName,
     firstName: user.firstName,
-    imageUrl: user.imageUrl
+    imageUrl: user.imageUrl,
+    dateAdded: user.dateAdded
   } as UserState))
   store.dispatch(setLanguage(user.languagePreference))
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)

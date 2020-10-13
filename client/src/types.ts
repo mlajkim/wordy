@@ -90,6 +90,7 @@ export type ProfileObj = {
 
 export type UsersDB = {
   _id: string;
+  dateAdded: number;
   federalProvider: string;
   federalID: string;
   lastName: string;

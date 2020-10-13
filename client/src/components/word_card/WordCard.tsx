@@ -18,6 +18,7 @@ import StarReviewIocn from '@material-ui/icons/PlayArrow';
 // Redux
 import store from '../../redux/store';
 import {setDialog} from '../../redux/actions';
+import { modifyWords } from '../../redux/actions/wordsAction';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -57,6 +58,7 @@ const WordCard: React.FC<Props> = ({word}) => {
   const handleToolClick = (type: Type) => {
     switch(type) {
       case 'like':
+        store.dispatch(modifyWords(word.sem, [{ID: word._id, payload: {isFavorite: !word.isFavorite}}]));
         break;
 
       case 'delete':
