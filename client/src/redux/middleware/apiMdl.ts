@@ -11,7 +11,6 @@ export const fetchy = ({dispatch, getState} : any) => (next: any) => async (acti
     const { user }: State = getState();
     const { method, url, payload, onSuccess, additionalUrl } = action.payload;
     const extraUrl = additionalUrl === undefined ? '' : additionalUrl
-
     if (method !== 'get') API.fetchy(method, url, user.ID!, payload);
     else axios.get(`/api/v3/mongo${url}/${user.ID}${extraUrl}`, API.getAuthorization())
       .then(({data}) => {

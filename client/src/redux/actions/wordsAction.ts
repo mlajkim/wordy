@@ -51,7 +51,7 @@ export const savingHelper = (data: any) => {
 }
 
 type Data = {
-  ID: string,
+  wordID: string,
   payload: object
 }
 

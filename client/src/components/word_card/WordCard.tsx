@@ -58,7 +58,7 @@ const WordCard: React.FC<Props> = ({word}) => {
   const handleToolClick = (type: Type) => {
     switch(type) {
       case 'like':
-        store.dispatch(modifyWords(word.sem, [{ID: word._id, payload: {isFavorite: !word.isFavorite}}]));
+        store.dispatch(modifyWords(word.sem, [{wordID: word._id, payload: {isFavorite: !word.isFavorite}}]));
         break;
 
       case 'delete':

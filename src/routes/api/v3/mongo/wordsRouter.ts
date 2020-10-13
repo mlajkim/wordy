@@ -27,7 +27,12 @@ words.get("/:ownerID/:sem", async (req: Request, res: Response) => {
 });
 
 // @ UPDATE
-words.put("/:ownerID", async (_req: Request, _res: Response) => {
+words.put("/:ownerID", async (req: Request, res: Response) => {
+  const payload = req.body.payload;
+  payload.forEach(async (elem: any) => {
+    await wordSchema.findOneAndUpdate({_id: elem.wordID}, {isFavorite: true}, {useFindAndModify: false})
+  })
+  res.send({empty: true});
 
 });
 

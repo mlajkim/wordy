@@ -72,20 +72,20 @@ export const modifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
   next(action);
 
   if(action.type === MODIFY_WORDS) {
-    const {sem, data}: {sem: number, data: {ID: string, payload: object}[]} = action.payload;
+    const {sem, data}: {sem: number, data: {wordID: string, payload: object}[]} = action.payload;
     const {words}: State = getState();
 
+    dispatch(fetchy('put', '/words', data));
     const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
     if (hasFound !== undefined) {
       const newWords = hasFound.map(word => {
-        const index = data.findIndex(datus => datus.ID === word._id);
+        const index = data.findIndex(datus => datus.wordID === word._id);
         if (index !== -1) {
           const newProperty = data.splice(index, 1)[0].payload;
           return {...word, ...newProperty}
         }
         return word;
       });
-      // remove
       dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newWords])) //add
     }
   }
