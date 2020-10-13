@@ -103,15 +103,15 @@ export const deleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
     dispatch(fetchy('delete', '/words', IDs));
     const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
     if (hasFound !== undefined) {
-      const newWords = hasFound.map(word => {
+      const newChunk = hasFound.filter(word => {
         const index = IDs.findIndex(datus => datus.ID === word._id);
         if (index !== -1) {
           IDs.splice(index, 1);
-          return null;
+          return false;
         }
-        return word;
+        return true;
       });
-      dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newWords])) //add
+      dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newChunk])) //add
     }
   }
 };

@@ -13,7 +13,7 @@ import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
 import {deleteWords} from '../../redux/actions/wordsAction';
-import {offDialog} from '../../redux/actions';
+import {offDialog, setSnackbar} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
 type CustomPayloadType = { sem: number, IDs: {ID: string}[] }
@@ -22,6 +22,12 @@ const  ConfirmDelete:React.FC= () => {
   const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
   const {sem, IDs} = dialog.payload as CustomPayloadType;
+
+  const handleDelete = () => {
+    store.dispatch(offDialog());
+    store.dispatch(setSnackbar(tr.deletedMessage[ln], 'info'));
+    store.dispatch(deleteWords(sem, IDs));
+  }
   
   return (
     <Fragment>
@@ -44,7 +50,7 @@ const  ConfirmDelete:React.FC= () => {
           <Button onClick={() => store.dispatch(offDialog())} color="primary" autoFocus>
             {tr.cancelBtn[ln]}
           </Button>
-          <Button onClick={() => store.dispatch(deleteWords(sem, IDs))} color="secondary">
+          <Button onClick={() => handleDelete()} color="secondary">
             {tr.deleteBtn[ln]}
           </Button>
         </DialogActions>
