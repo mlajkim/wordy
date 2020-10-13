@@ -177,7 +177,7 @@ const YearChip = () => {
       {selectedSem === 0
       ? <h3>Choose your semester! :)</h3>
       : !selectedChunk 
-        ? <h3>No words...</h3>
+        ? <h3>{tr.waiting[ln]}</h3>
         : selectedTags.length === 0
           ? null
           : selectedChunk.map(datus => <WordCard key={datus._id} word={datus} />)

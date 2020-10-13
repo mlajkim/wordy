@@ -76,6 +76,9 @@ const DrawerComponent = (props: any) => {
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary={appbarTr.setting[ln]} />
           </ListItem>
+          <ListItem disabled >
+            <ListItemText style={{fontSize: 4}} primary={'Version: Beta'} />
+          </ListItem>
         </Drawer>
       </React.Fragment>
     </div>
