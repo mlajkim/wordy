@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 // Icons
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -55,6 +56,9 @@ const WordCard: React.FC<Props> = ({word}) => {
 
   const handleToolClick = (type: Type) => {
     switch(type) {
+      case 'like':
+        break;
+
       case 'delete':
         store.dispatch(setDialog('ConfirmDelete', {word}));
         break;
@@ -81,8 +85,11 @@ const WordCard: React.FC<Props> = ({word}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButton disabled size="small" color="inherit" onClick={() => handleToolClick('like')} >
-          <FavoriteBorderIcon />
+        <IconButton size="small" color="inherit" onClick={() => handleToolClick('like')} >
+          {word.isFavorite
+            ? <FavoriteIcon style={{color: 'red'}}/>
+            : <FavoriteBorderIcon />
+          }
         </IconButton>
         {!open && (
           <IconButton onClick={() => setOpen(!open)}size="small" color="inherit" >
