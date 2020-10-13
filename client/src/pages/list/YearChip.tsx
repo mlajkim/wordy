@@ -32,21 +32,21 @@ const useStyles = makeStyles((theme: Theme) =>
 // @ MAIN
 const YearChip = () => {
   const classes = useStyles();
-  // Component state
-  const [allTag, setAllTag] = useState(false);
-  const [selectedSem, setSelectedSem] = useState(0);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
   // Redux states
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
-  const propriateWordsChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
+  // Component state
+  const [allTag, setAllTag] = useState(true);
+  const [selectedSem, setSelectedSem] = useState<number>(0);
+  const [selectedTags, setSelectedTags] = useState<string[]>([tr.all[ln]]);
+  const [normalTags, setNormalTags] = useState<string[]>([]);
   // Declare Special Tags
   const SPECIAL_TAGS = [tr.favorite[ln], tr.today[ln]];
 
   const handleSemChipClick = (sem: number) => {
-    setTags([]);
-    setSelectedTags([]);
+    setNormalTags([]);
+    setAllTag(true);
+    setSelectedTags([tr.all[ln]]);
     if (selectedSem === sem) {
       setSelectedSem(0);
       return;
@@ -62,7 +62,7 @@ const YearChip = () => {
     }
   };
 
-  const handleAllTag = (tag: string) => {
+  const handleAllTag = () => {
     if (allTag === true) {
       setAllTag(false)
       setSelectedTags([]);
@@ -88,6 +88,8 @@ const YearChip = () => {
     }
   };
 
+  const selectedChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
+
   
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
@@ -95,10 +97,10 @@ const YearChip = () => {
     hasFound.forEach(word => {
       const {language, tag} = word;
       const convertedLanguage = "#" + countryCodeIntoLanguage(language);
-      if (tags.findIndex(elem => elem === convertedLanguage) === -1) setTags([...tags, convertedLanguage])
+      if (normalTags.findIndex(elem => elem === convertedLanguage) === -1) setNormalTags([...normalTags, convertedLanguage])
       tag.forEach(tag => {
-        if (tags.find(elem => elem === `#${tag}`) === undefined)  // 여기서 elem은 이미 # 태그가 붙어있음.
-          setTags([...tags, `#${tag}`]);
+        if (normalTags.find(elem => elem === `#${tag}`) === undefined)  // 여기서 elem은 이미 # 태그가 붙어있음.
+          setNormalTags([...normalTags, `#${tag}`]);
       })
     })
   }
@@ -129,7 +131,7 @@ const YearChip = () => {
               <Chip 
                 clickable
                 label={tr.all[ln]} 
-                onClick={() => handleAllTag(tr.all[ln])}
+                onClick={() => handleAllTag()}
                 color={selectedTags.findIndex(selectedTag => selectedTag === tr.all[ln]) !== -1 ? 'primary' : 'default'}
               />
               <Chip 
@@ -145,7 +147,7 @@ const YearChip = () => {
                 color={selectedTags.findIndex(selectedTag => selectedTag === tr.today[ln]) !== -1 ? 'primary' : 'default'}
               />
               {
-                tags.map((tag: string) => (
+                normalTags.map((tag: string) => (
                   <Chip 
                     key={tag} 
                     clickable
@@ -158,9 +160,11 @@ const YearChip = () => {
             </Fragment>
         }
       </Grid>
-      {words.length === 0 
-      ? null
-      : propriateWordsChunk && propriateWordsChunk.map(datus => <WordCard key={datus._id} word={datus} />)
+      {selectedSem === 0
+      ? <h3>Choose your semester! :)</h3>
+      : !selectedChunk 
+        ? <h3>No words...</h3>
+        : selectedChunk.map(datus => <WordCard key={datus._id} word={datus} />)
       }
     </Fragment>
   );
