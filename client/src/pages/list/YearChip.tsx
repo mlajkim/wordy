@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const YearChip = () => {
   const classes = useStyles();
   // Component state
+  const [allTag, setAllTag] = useState(false);
   const [selectedSem, setSelectedSem] = useState(0);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
@@ -42,14 +43,16 @@ const YearChip = () => {
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
   const propriateWordsChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
-  const handleChipClick = (sem: number) => {
+  // Declare Special Tags
+  const SPECIAL_TAGS = [tr.favorite[ln], tr.today[ln]];
+
+  const handleSemChipClick = (sem: number) => {
     setTags([]);
-    setSelectedTags([]); // by defalt
+    setSelectedTags([]);
     if (selectedSem === sem) {
       setSelectedSem(0);
       return;
     };
-    
     setSelectedSem(sem); 
     let found: boolean = false;
     if(words.length !== 0) 
@@ -61,16 +64,33 @@ const YearChip = () => {
     }
   };
 
-  const handleClickTag = (tag: string) => {
-    
-    const hasFound = selectedTags.find((selectedTag => selectedTag === tag));
-    if (hasFound === undefined) {
-      setSelectedTags([...selectedTags, tag]);
+  const handleAllTag = (tag: string) => {
+    if (allTag === true) {
+      setAllTag(false)
+      setSelectedTags([]);
     }
     else {
-      setSelectedTags(selectedTags.filter(elem => elem !== hasFound));
+      setAllTag(true)
+      setSelectedTags([tr.all[ln]]);
     }
-  }
+  };
+
+  const handleTagClick = (tag: string) => {
+    let prevSelectedTags = selectedTags;
+    if (allTag) {
+      setAllTag(false);
+      prevSelectedTags = [];
+    }
+    const hasFound = prevSelectedTags.find((selectedTag => selectedTag === tag));
+    if (hasFound === undefined) {
+      setSelectedTags([...prevSelectedTags, tag]);
+    }
+    else {
+      setSelectedTags(prevSelectedTags.filter(elem => elem !== hasFound));
+    }
+  };
+
+  
 
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
   if(hasFound !== undefined) {
@@ -81,11 +101,7 @@ const YearChip = () => {
     })
   }
 
-  const handleClickAll = (tag: string) => {
-    setSelectedTags([tag]);
-  }
-      
-
+  
   return (
     <Fragment>
       <Grid style={{textAlign: 'center'}}>
@@ -97,7 +113,7 @@ const YearChip = () => {
                 key={sem} 
                 clickable
                 label={`${convertSem(sem).year}${tr.year[ln]} ${convertSem(sem).sem}${tr.sem[ln]}`} 
-                onClick={() => handleChipClick(sem)}
+                onClick={() => handleSemChipClick(sem)}
                 color={(sem === selectedSem) ? 'primary' : 'default'}
               />
             ))
@@ -111,19 +127,19 @@ const YearChip = () => {
               <Chip 
                 clickable
                 label={tr.all[ln]} 
-                onClick={() => handleClickAll(tr.all[ln])}
+                onClick={() => handleAllTag(tr.all[ln])}
                 color={selectedTags.findIndex(selectedTag => selectedTag === tr.all[ln]) !== -1 ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
                 label={tr.favorite[ln]} 
-                onClick={() => handleClickTag(tr.favorite[ln])}
+                onClick={() => handleTagClick(tr.favorite[ln])}
                 color={selectedTags.findIndex(selectedTag => selectedTag === tr.favorite[ln]) !== -1 ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
                 label={tr.today[ln]} 
-                onClick={() => handleClickTag(tr.today[ln])}
+                onClick={() => handleTagClick(tr.today[ln])}
                 color={selectedTags.findIndex(selectedTag => selectedTag === tr.today[ln]) !== -1 ? 'primary' : 'default'}
               />
               {
@@ -132,7 +148,7 @@ const YearChip = () => {
                     key={tag} 
                     clickable
                     label={tag} 
-                    onClick={() => handleClickTag(tag)}
+                    onClick={() => handleTagClick(tag)}
                     color={selectedTags.findIndex(selectedTag => selectedTag === tag) !== -1 ? 'primary' : 'default'}
                   />
                 ))
