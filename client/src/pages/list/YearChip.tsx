@@ -29,8 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
-
 // @ MAIN
 const YearChip = () => {
   const classes = useStyles();
@@ -91,13 +89,17 @@ const YearChip = () => {
   };
 
   
-
+  // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
   if(hasFound !== undefined) {
     hasFound.forEach(word => {
       const {language, tag} = word;
-      const convertedLanguage = countryCodeIntoLanguage(language);
+      const convertedLanguage = "#" + countryCodeIntoLanguage(language);
       if (tags.findIndex(elem => elem === convertedLanguage) === -1) setTags([...tags, convertedLanguage])
+      tag.forEach(tag => {
+        if (tags.find(elem => elem === `#${tag}`) === undefined)  // 여기서 elem은 이미 # 태그가 붙어있음.
+          setTags([...tags, `#${tag}`]);
+      })
     })
   }
 
