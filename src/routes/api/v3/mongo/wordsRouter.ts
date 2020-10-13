@@ -7,7 +7,7 @@ const words = express.Router();
 // @ CREATE
 words.post("/:ownerID", async (req: Request, res: Response) => {
   await req.body.payload.forEach((datus: any) => {
-    new wordSchema({ ...datus, dateAdded: moment() }).save()
+    new wordSchema({ ...datus, dateAdded: moment().valueOf() }).save()
   })
 
   res.send({empty: true})

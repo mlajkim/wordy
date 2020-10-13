@@ -5,7 +5,7 @@ const wordSchema = new Schema({
   //Data wise (Personal as well) (I can calculated, how many times reviewd for each semester, does it have to be reviwed now? etc..)
   ownerID: String, // who owns this?
   order: Number, // the order number
-  dateAdded: String, // 204 = 2020 year of 4th semester
+  dateAdded: Number, // 204 = 2020 year of 4th semester
   lastReviewed: String,
   review: Array, // contains like following .. [24, 15, 30, 24] => the last 24 will be the last Review Date's semester
   // Community Data

@@ -57,19 +57,23 @@ export type AddableLang = 'ko' | 'en' | 'ja' | 'zh';
 export type Language = 'en' | 'ko' | 'ja';
 
 export type Word = {
-  _id: string;
-  ownerID: string;
-  isFavorite: boolean;
-  order: number,
-  word: string;
-  pronun: string;
-  meaning: string;
-  example: string;
-  isPublic: boolean;
-  tag: string[];
-  language: string;
-  dateAdded: string | Moment;
-  sem: number;
+  _id: string,
+  ownerID: string,
+  order: number, 
+  dateAdded: number, 
+  lastReviewed: string,
+  review: number[], 
+  seederID: string, 
+  packageID: string, 
+  isFavorite: boolean,
+  sem: number,
+  language: string,
+  tag: string[],
+  word: string,
+  pronun: string,
+  meaning: string,
+  example: string,
+  isPublic: boolean,
 }
 
 export type GoogleRes = {

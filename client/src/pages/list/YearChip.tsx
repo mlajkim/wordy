@@ -72,6 +72,9 @@ const YearChip = () => {
     else {
       setAllTag(true)
       setSelectedTags([tr.all[ln]]);
+      // Special ones
+      setFavoriteTag(false);
+      setNowTag(false);
     }
   };
 
@@ -99,7 +102,7 @@ const YearChip = () => {
     ? words.find((datus: WordsChunk) => datus[0].sem === selectedSem)
     : words.find((datus: WordsChunk) => datus[0].sem === selectedSem)!
       .filter(word => favoriteTag ? word.isFavorite : true)
-      .filter(word => nowTag ? (checkIfToday(word.dateAdded as Moment) ? true : false) : true)
+      .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
 
   
   // # Language & Tags Creating
@@ -175,7 +178,9 @@ const YearChip = () => {
       ? <h3>Choose your semester! :)</h3>
       : !selectedChunk 
         ? <h3>No words...</h3>
-        : selectedChunk.map(datus => <WordCard key={datus._id} word={datus} />)
+        : selectedTags.length === 0
+          ? null
+          : selectedChunk.map(datus => <WordCard key={datus._id} word={datus} />)
       }
     </Fragment>
   );

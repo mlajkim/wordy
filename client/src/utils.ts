@@ -50,7 +50,7 @@ export const countryCodeIntoLanguage = (countryCode: string) => {
   }
 };
 
-export const checkIfToday = (time: string | Moment): boolean => {
+export const checkIfToday = (time: number): boolean => {
   // addedDate
   const givenTime = moment(time).valueOf(); //moment = time
   const beginningOfToday = moment().startOf('day').valueOf();
