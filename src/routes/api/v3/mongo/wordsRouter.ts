@@ -1,11 +1,13 @@
 import express, {Request, Response} from 'express';
 import wordSchema from '../../../../models/Words';
+import moment from 'moment';
+
 const words = express.Router();
 
 // @ CREATE
 words.post("/:ownerID", async (req: Request, res: Response) => {
   await req.body.payload.forEach((datus: any) => {
-    new wordSchema({ ...datus }).save()
+    new wordSchema({ ...datus, dateAdded: moment() }).save()
   })
 
   res.send({empty: true})

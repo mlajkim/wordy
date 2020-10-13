@@ -1,3 +1,5 @@
+import {Moment} from 'moment';
+
 export type State = {
   dialog: Dialog;
   language: Language;
@@ -66,7 +68,7 @@ export type Word = {
   isPublic: boolean;
   tag: string[];
   language: string;
-  dateAdded: string;
+  dateAdded: string | Moment;
   sem: number;
 }
 

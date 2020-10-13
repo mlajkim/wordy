@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react';
-import {convertSem, countryCodeIntoLanguage} from '../../utils';
+import {convertSem, countryCodeIntoLanguage, checkIfToday} from '../../utils';
 import { State, WordsChunk } from '../../types';
+import {Moment} from 'moment';
 import axios from 'axios';
 import * as API from '../../API';
 // Components
@@ -41,6 +42,8 @@ const YearChip = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([tr.all[ln]]);
   const [normalTags, setNormalTags] = useState<string[]>([]);
   // Declare Special Tags
+  const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
+  const [nowTag, setNowTag] = useState<boolean>(false);
   const SPECIAL_TAGS = [tr.favorite[ln], tr.today[ln]];
 
   const handleSemChipClick = (sem: number) => {
@@ -88,7 +91,11 @@ const YearChip = () => {
     }
   };
 
-  const selectedChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
+  const selectedChunk = allTag
+    ? words.find((datus: WordsChunk) => datus[0].sem === selectedSem)
+    : words.find((datus: WordsChunk) => datus[0].sem === selectedSem)!
+      .filter(word => favoriteTag ? word.isFavorite : true)
+      .filter(word => nowTag ? (checkIfToday(word.dateAdded as Moment) ? true : false) : true)
 
   
   // # Language & Tags Creating

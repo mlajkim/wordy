@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 export const convertSem = (sem: number) => {
   return {
@@ -49,3 +49,13 @@ export const countryCodeIntoLanguage = (countryCode: string) => {
       return '?'
   }
 };
+
+export const checkIfToday = (time: Moment): boolean => {
+  // addedDate
+  const givenTime = time.valueOf(); //moment = time
+  const beginningOfToday = moment().startOf('day').valueOf();
+
+  console.log(beginningOfToday, givenTime);
+  return beginningOfToday <= givenTime ? true : false;
+
+}
