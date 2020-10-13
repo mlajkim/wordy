@@ -2,7 +2,7 @@
 import { WordsChunk, Word, State, FetchyResponse } from '../../types';
 // actions
 import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
-import {setSupport, modifySupport, addSemNoDup} from '../actions/supportAction';
+import {setSupport, modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
 import {setWords, savingHelper} from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
@@ -98,7 +98,8 @@ export const deleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
 
   if(action.type === DELETE_WORDS) {
     const {sem, IDs}: {sem: number, IDs: {ID: string}[]} = action.payload;
-    const {words}: State = getState();
+    const {words, support}: State = getState();
+    const deletedWordCnt = support.deletedWordCnt + IDs.length;
 
     dispatch(fetchy('delete', '/words', IDs));
     const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
@@ -111,8 +112,14 @@ export const deleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
         }
         return true;
       });
-      dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newChunk])) //add
+      if (newChunk.length === 0) {
+        dispatch(deleteSem(sem));
+        dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem)]));
+      }
+      else
+        dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newChunk]));
     }
+    dispatch(modifySupport({ deletedWordCnt }))
   }
 };
 

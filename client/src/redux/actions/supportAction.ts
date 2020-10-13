@@ -5,6 +5,7 @@ export const SET_SUPPORT = '[SUPPORT] Set';
 export const MODIFY_SUPPORT = '[SUPPORT] Modify'
 export const SYNC_SUPPORT = '[SYNC_SUPPORT] Sync Support'
 export const ADD_SEM_NO_DUPLICATE = '[SUPPORT] Add Sem (No Duplicate)';
+export const DELETE_SEM = '[SUPPORT] Delete sem';
 
 // Ultimately
 export const updateSupport = (data: object) => {
@@ -49,3 +50,9 @@ export const addSemNoDup = (data: number) => {
   }
 }
 
+export const deleteSem = (sem: number) => {
+  return {
+    type: DELETE_SEM,
+    payload: sem
+  }
+}

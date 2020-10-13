@@ -1,4 +1,4 @@
-import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, SYNC_SUPPORT, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
+import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
 import {setSupport} from '../actions/supportAction';
 import {State, FetchyResponse} from '../../types';
 import { fetchy } from '../actions/apiAction';
@@ -31,7 +31,6 @@ export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
 
   if (action.type === MODIFY_SUPPORT) {
     const payload: object = action.payload;
-    console.log(payload);
     dispatch(fetchy('put', '/supports', [payload]))
     dispatch(updateSupport(payload));
   }
@@ -53,9 +52,19 @@ export const addSemNoDupMdl = ({dispatch, getState} : any) => (next: any) => (ac
     }
     
   }
-}
+};
 
+export const deleteSemMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
 
+  if (action.type === DELETE_SEM) {
+    const {support}: State = getState();
+    const sem = action.payload;
 
+    const newSem = support.sems.filter(elem => elem !== sem);
+    dispatch(updateSupport({sems: newSem}));
+    dispatch(fetchy('put', '/supports', [{sems: newSem}]))
+  };
+};
 
-export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl]; 
+export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl, deleteSemMdl]; 
