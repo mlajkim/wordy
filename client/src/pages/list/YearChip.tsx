@@ -89,6 +89,7 @@ const YearChip = () => {
           )
         }
       </Grid>
+      <Grid style={{textAlign: 'center', margin: 8}}>
         {selectedSem === 0 
           ? null
           : <Fragment>
@@ -100,9 +101,9 @@ const YearChip = () => {
               />
               <Chip 
                 clickable
-                label={'#Favorite'} 
-                onClick={() => setSelectedTag('#Favorite')}
-                color={selectedTag === '#Favorite' ? 'primary' : 'default'}
+                label={tr.favorite[ln]} 
+                onClick={() => setSelectedTag(tr.favorite[ln])}
+                color={selectedTag === tr.favorite[ln] ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
@@ -123,7 +124,6 @@ const YearChip = () => {
               }
             </Fragment>
         }
-      <Grid style={{textAlign: 'center'}}>
       </Grid>
       {words.length === 0 
       ? null

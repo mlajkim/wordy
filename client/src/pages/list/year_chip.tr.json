@@ -14,6 +14,11 @@
     "en": "#All",
     "ja": "#全部"
   },
+  "favorite": {
+    "ko": "#좋아요",
+    "en": "#Favorite",
+    "ja": "#いいね"
+  },
   "today": {
     "ko": "#오늘",
     "en": "#Today",
