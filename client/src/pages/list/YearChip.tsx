@@ -44,7 +44,6 @@ const YearChip = () => {
   // Declare Special Tags
   const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
   const [nowTag, setNowTag] = useState<boolean>(false);
-  const SPECIAL_TAGS = [tr.favorite[ln], tr.today[ln]];
 
   const handleSemChipClick = (sem: number) => {
     setNormalTags([]);
@@ -82,6 +81,10 @@ const YearChip = () => {
       setAllTag(false);
       prevSelectedTags = [];
     }
+    // handleSpecialTags
+    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
+    else if(tag === tr.today[ln]) setNowTag(!nowTag);
+
     const hasFound = prevSelectedTags.find((selectedTag => selectedTag === tag));
     if (hasFound === undefined) {
       setSelectedTags([...prevSelectedTags, tag]);
@@ -91,6 +94,7 @@ const YearChip = () => {
     }
   };
 
+  // Filtering Algorithm
   const selectedChunk = allTag
     ? words.find((datus: WordsChunk) => datus[0].sem === selectedSem)
     : words.find((datus: WordsChunk) => datus[0].sem === selectedSem)!
