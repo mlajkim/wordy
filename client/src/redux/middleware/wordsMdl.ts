@@ -1,7 +1,7 @@
 // types
 import { WordsChunk, Word, State, FetchyResponse } from '../../types';
 // actions
-import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS} from '../actions/wordsAction';
+import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
 import {setSupport, modifySupport, addSemNoDup} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
 import {setWords, savingHelper} from '../actions/wordsAction';
@@ -91,6 +91,29 @@ export const modifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
   }
 };
 
+export const deleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if(action.type === DELETE_WORDS) {
+    const {sem, IDs}: {sem: number, IDs: {ID: string}[]} = action.payload;
+    const {words}: State = getState();
+
+    dispatch(fetchy('delete', '/words', IDs));
+    const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
+    if (hasFound !== undefined) {
+      const newWords = hasFound.map(word => {
+        const index = IDs.findIndex(datus => datus.ID === word._id);
+        if (index !== -1) {
+          IDs.splice(index, 1);
+          return null;
+        }
+        return word;
+      });
+      dispatch(updateWords([...words.filter(wordsChunk => wordsChunk[0].sem !== sem), newWords])) //add
+    }
+  }
+};
+
 export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
@@ -113,4 +136,4 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
 };
 
 
-export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, savingHelperMdl]; 
+export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, deleteWordsMdl, savingHelperMdl]; 

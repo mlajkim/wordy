@@ -38,8 +38,9 @@ words.put("/:ownerID", async (req: Request, res: Response) => {
 
 // @ DELETE
 words.delete("/:ownerID", async (req: Request, res: Response) => {
-  const { wordID } = req.params;
-  await wordSchema.findByIdAndDelete(wordID);
+  // const { wordID } = req.params;
+  // const {sem, IDs} = req.body.payload;
+  console.log(req.body);
 
   res.status(204).send({
     status: 204,

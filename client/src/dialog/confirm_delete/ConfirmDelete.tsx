@@ -12,15 +12,16 @@ import axios from 'axios';
 import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
+import {deleteWords} from '../../redux/actions/wordsAction';
 import {offDialog} from '../../redux/actions';
 import {useSelector} from 'react-redux';
 
-type CustomPayloadType = { word: Word }
+type CustomPayloadType = { sem: number, IDs: {ID: string}[] }
 
 const  ConfirmDelete:React.FC= () => {
   const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
-  const payload = dialog.payload as CustomPayloadType;
+  const {sem, IDs} = dialog.payload as CustomPayloadType;
   
   return (
     <Fragment>
@@ -33,17 +34,17 @@ const  ConfirmDelete:React.FC= () => {
         <DialogTitle id="alert-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-word-confirm">
-            {`${tr.word[ln]}: ${payload.word.word}`}
+            {`${tr.tellNumberOfWords[ln]}: ${IDs.length}`}
           </DialogContentText>
           <DialogContentText id="alert-dialog">
             {tr.ask[ln]}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => store.dispatch(offDialog())} color="primary">
+          <Button onClick={() => store.dispatch(offDialog())} color="primary" autoFocus>
             {tr.cancelBtn[ln]}
           </Button>
-          <Button disabled onClick={() => null} color="secondary" autoFocus>
+          <Button onClick={() => store.dispatch(deleteWords(sem, IDs))} color="secondary">
             {tr.deleteBtn[ln]}
           </Button>
         </DialogActions>

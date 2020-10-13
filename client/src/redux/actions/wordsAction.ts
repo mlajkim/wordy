@@ -43,6 +43,13 @@ export const modifyWords = (sem: number, data: Data[])  => {
   }
 }
 
+export const deleteWords = (sem: number, IDs: {ID: string}[])  => {
+  return {
+    type: DELETE_WORDS,
+    payload: {sem, IDs}
+  }
+}
+
 export const savingHelper = (data: any) => {
   return {
     type: SAVING_HELPER,

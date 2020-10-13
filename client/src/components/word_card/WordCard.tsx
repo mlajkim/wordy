@@ -62,7 +62,7 @@ const WordCard: React.FC<Props> = ({word}) => {
         break;
 
       case 'delete':
-        store.dispatch(setDialog('ConfirmDelete', {word}));
+        store.dispatch(setDialog('ConfirmDelete', {sem: word.sem ,IDs: [{ID: word._id}]}));
         break;
       
       default:
