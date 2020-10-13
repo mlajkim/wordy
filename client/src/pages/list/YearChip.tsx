@@ -36,7 +36,7 @@ const YearChip = () => {
   const classes = useStyles();
   // Component state
   const [selectedSem, setSelectedSem] = useState(0);
-  const [selectedTag, setSelectedTag] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   // Redux states
   const {language, support, words} = useSelector((state: State) => state);
@@ -44,7 +44,7 @@ const YearChip = () => {
   const propriateWordsChunk = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
   const handleChipClick = (sem: number) => {
     setTags([]);
-    setSelectedTag(''); // by defalt
+    setSelectedTags([]); // by defalt
     if (selectedSem === sem) {
       setSelectedSem(0);
       return;
@@ -61,6 +61,17 @@ const YearChip = () => {
     }
   };
 
+  const handleClickTag = (tag: string) => {
+    
+    const hasFound = selectedTags.find((selectedTag => selectedTag === tag));
+    if (hasFound === undefined) {
+      setSelectedTags([...selectedTags, tag]);
+    }
+    else {
+      setSelectedTags(selectedTags.filter(elem => elem !== hasFound));
+    }
+  }
+
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
   if(hasFound !== undefined) {
     hasFound.forEach(word => {
@@ -68,6 +79,10 @@ const YearChip = () => {
       const convertedLanguage = countryCodeIntoLanguage(language);
       if (tags.findIndex(elem => elem === convertedLanguage) === -1) setTags([...tags, convertedLanguage])
     })
+  }
+
+  const handleClickAll = (tag: string) => {
+    setSelectedTags([tag]);
   }
       
 
@@ -96,20 +111,20 @@ const YearChip = () => {
               <Chip 
                 clickable
                 label={tr.all[ln]} 
-                onClick={() => setSelectedTag(tr.all[ln])}
-                color={selectedTag === tr.all[ln] ? 'primary' : 'default'}
+                onClick={() => handleClickAll(tr.all[ln])}
+                color={selectedTags.findIndex(selectedTag => selectedTag === tr.all[ln]) !== -1 ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
                 label={tr.favorite[ln]} 
-                onClick={() => setSelectedTag(tr.favorite[ln])}
-                color={selectedTag === tr.favorite[ln] ? 'primary' : 'default'}
+                onClick={() => handleClickTag(tr.favorite[ln])}
+                color={selectedTags.findIndex(selectedTag => selectedTag === tr.favorite[ln]) !== -1 ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
                 label={tr.today[ln]} 
-                onClick={() => setSelectedTag(tr.today[ln])}
-                color={selectedTag === tr.today[ln] ? 'primary' : 'default'}
+                onClick={() => handleClickTag(tr.today[ln])}
+                color={selectedTags.findIndex(selectedTag => selectedTag === tr.today[ln]) !== -1 ? 'primary' : 'default'}
               />
               {
                 tags.map((tag: string) => (
@@ -117,8 +132,8 @@ const YearChip = () => {
                     key={tag} 
                     clickable
                     label={tag} 
-                    onClick={() => setSelectedTag(tag)}
-                    color={(tag === selectedTag) ? 'primary' : 'default'}
+                    onClick={() => handleClickTag(tag)}
+                    color={selectedTags.findIndex(selectedTag => selectedTag === tag) !== -1 ? 'primary' : 'default'}
                   />
                 ))
               }
