@@ -70,6 +70,11 @@ const YearChip = () => {
     
   }, [support.sems]);
 
+  useEffect(() => {
+    if(selectedNormalTags.length === 0 && !favoriteTag && !nowTag)
+      setAllTag(true);
+  }, [selectedNormalTags, favoriteTag, nowTag])
+
   const handleAllTag = () => {
     if (allTag === true) {
       setAllTag(false)
@@ -151,7 +156,7 @@ const YearChip = () => {
   
   return (
     <Fragment>
-      {console.log(selectedNormalTags)}
+      {console.log(allTag)}
       <Grid style={{textAlign: 'center'}}>
         {support.sems.length === 0 
           ? null
