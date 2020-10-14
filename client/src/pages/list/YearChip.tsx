@@ -39,7 +39,7 @@ const YearChip = () => {
   // Component state
   const [allTag, setAllTag] = useState(true);
   const [selectedSem, setSelectedSem] = useState<number>(0);
-  const [selectedTags, setSelectedTags] = useState<string[]>([tr.all[ln]]);
+  const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([]);
   const [normalTags, setNormalTags] = useState<string[]>([]);
   // Declare Special Tags
   const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const YearChip = () => {
   const handleSemChipClick = (sem: number) => {
     setNormalTags([]);
     setAllTag(true);
-    setSelectedTags([tr.all[ln]]);
+    // setSelectedNormalTags([tr.all[ln]]);
     if (selectedSem === sem) {
       setSelectedSem(0);
       return;
@@ -73,42 +73,65 @@ const YearChip = () => {
   const handleAllTag = () => {
     if (allTag === true) {
       setAllTag(false)
-      setSelectedTags([]);
+      setSelectedNormalTags([]);
     }
     else {
       setAllTag(true)
-      setSelectedTags([tr.all[ln]]);
-      // Special ones
-      setFavoriteTag(false);
-      setNowTag(false);
+      setSelectedNormalTags([]);
+      setFavoriteTag(false); // Special Tags
+      setNowTag(false); // Special Tags (Add below if new special tag implemented)
     }
   };
 
-  const handleTagClick = (tag: string) => {
-    let prevSelectedTags = selectedTags;
+  const specialNormalShared = (tagsSelected: string[]) => {
     if (allTag) {
       setAllTag(false);
-      prevSelectedTags = [];
+      return [];
     }
+    return tagsSelected;
+  }
+
+  const handleSpecialTags = (tag: string) => {
+    specialNormalShared(selectedNormalTags);
+    // handleSpecialTags
+    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
+    else if(tag === tr.today[ln]) setNowTag(!nowTag);
+  }
+
+  const handleNormalTags = (tag: string) => {
+    let prevSelectedTags = specialNormalShared(selectedNormalTags);
     // handleSpecialTags
     if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
     else if(tag === tr.today[ln]) setNowTag(!nowTag);
 
     const hasFound = prevSelectedTags.find((selectedTag => selectedTag === tag));
     if (hasFound === undefined) {
-      setSelectedTags([...prevSelectedTags, tag]);
+      setSelectedNormalTags([...prevSelectedTags, tag]);
     }
     else {
-      setSelectedTags(prevSelectedTags.filter(elem => elem !== hasFound));
+      setSelectedNormalTags(prevSelectedTags.filter(elem => elem !== hasFound));
     }
   };
 
   // Filtering Algorithm
-  const selectedChunk = allTag
+  const filteredWordsList = allTag
     ? words.find((datus: WordsChunk) => datus[0].sem === selectedSem)
     : words.find((datus: WordsChunk) => datus[0].sem === selectedSem)!
       .filter(word => favoriteTag ? word.isFavorite : true)
       .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
+      .filter(word => {
+        // languages & tags filter
+        if (selectedNormalTags.length !== 0) {
+          let flag = false;
+          selectedNormalTags.forEach(tag => {
+            flag = countryCodeIntoLanguage(word.language) === tag.substring(1)
+            if(!flag) flag = word.tag.find(wordTag => wordTag === tag.substring(1)) !== undefined
+          })
+          return flag;
+        } 
+
+        return true;
+      });
 
   
   // # Language & Tags Creating
@@ -128,6 +151,7 @@ const YearChip = () => {
   
   return (
     <Fragment>
+      {console.log(selectedSem)}
       <Grid style={{textAlign: 'center'}}>
         {support.sems.length === 0 
           ? null
@@ -152,19 +176,19 @@ const YearChip = () => {
                 clickable
                 label={tr.all[ln]} 
                 onClick={() => handleAllTag()}
-                color={selectedTags.findIndex(selectedTag => selectedTag === tr.all[ln]) !== -1 ? 'primary' : 'default'}
+                color={allTag ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
                 label={tr.favorite[ln]} 
-                onClick={() => handleTagClick(tr.favorite[ln])}
-                color={selectedTags.findIndex(selectedTag => selectedTag === tr.favorite[ln]) !== -1 ? 'primary' : 'default'}
+                onClick={() => handleSpecialTags(tr.favorite[ln])}
+                color={favoriteTag ? 'primary' : 'default'}
               />
               <Chip 
                 clickable
                 label={tr.today[ln]} 
-                onClick={() => handleTagClick(tr.today[ln])}
-                color={selectedTags.findIndex(selectedTag => selectedTag === tr.today[ln]) !== -1 ? 'primary' : 'default'}
+                onClick={() => handleSpecialTags(tr.today[ln])}
+                color={nowTag ? 'primary' : 'default'}
               />
               {
                 normalTags.map((tag: string) => (
@@ -172,8 +196,8 @@ const YearChip = () => {
                     key={tag} 
                     clickable
                     label={tag} 
-                    onClick={() => handleTagClick(tag)}
-                    color={selectedTags.findIndex(selectedTag => selectedTag === tag) !== -1 ? 'primary' : 'default'}
+                    onClick={() => handleNormalTags(tag)}
+                    color={selectedNormalTags.findIndex(selectedTag => selectedTag === tag) !== -1 ? 'primary' : 'default'}
                   />
                 ))
               }
@@ -182,11 +206,9 @@ const YearChip = () => {
       </Grid>
       {selectedSem === 0
       ? <h3>{tr.chooseSem[ln]}</h3>
-      : !selectedChunk 
+      : !filteredWordsList 
         ? <h3>{tr.waiting[ln]}</h3>
-        : selectedTags.length === 0
-          ? null
-          : selectedChunk.map(datus => <WordCard key={datus._id} word={datus} />)
+        : filteredWordsList.map(datus => <WordCard key={datus._id} word={datus} />)
       }
     </Fragment>
   );
