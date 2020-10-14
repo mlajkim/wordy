@@ -55,5 +55,8 @@ export const checkIfToday = (time: number): boolean => {
   const givenTime = moment(time).valueOf(); //moment = time
   const beginningOfToday = moment().startOf('day').valueOf();
   return beginningOfToday <= givenTime ? true : false;
+};
 
-}
+export const today = () => {
+  return convertSem(get_sem());
+};

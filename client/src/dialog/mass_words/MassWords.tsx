@@ -1,7 +1,9 @@
+// Mains & Types
 import React, {useState} from 'react';
 import * as API from '../../API';
-import {format_into_sem} from '../../utils'
+import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
+// Components
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 import {VALID_YEAR} from '../add_word/AddWordsDialog';
 // Translation
@@ -24,6 +26,7 @@ import {offDialog, setSnackbar } from '../../redux/actions';
 import {postWords} from '../../redux/actions/wordsAction';
 import {useSelector} from 'react-redux';
 import ParsingAPI from './ParsingAPI';
+import { stringify } from 'querystring';
 const LETTERS_LIMITATION = 30000
 
 const MassWords = () => {
@@ -34,9 +37,10 @@ const MassWords = () => {
   const [count, setCount] = useState(0);
   const [massData, setMassData] = useState('');
   const [maxError, setMaxError] = useState(false);
-  const [year, setYear] = useState('');
-  const [sem, setSem] = useState('');
+  const [year, setYear] = useState(today().year.toString());
+  const [sem, setSem] = useState(today().sem.toString());
 
+  // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMassData(e.target.value);
     setCount(e.target.value.length);
@@ -55,10 +59,9 @@ const MassWords = () => {
     }
     store.dispatch(offDialog())
     // Data check
-    const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)));
-    store.dispatch(postWords(data));
-    
-  }
+    const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)))
+    store.dispatch(postWords(data))
+  };
 
   return (
     <div>
