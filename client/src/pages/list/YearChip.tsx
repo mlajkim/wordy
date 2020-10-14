@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {convertSem, countryCodeIntoLanguage, checkIfToday} from '../../utils';
 import { State, WordsChunk } from '../../types';
 import {Moment} from 'moment';
@@ -63,6 +63,12 @@ const YearChip = () => {
       store.dispatch(getWords(sem));
     }
   };
+
+  useEffect(() => {
+    if (support.sems.findIndex(sem => sem === selectedSem) === -1)
+      setSelectedSem(0);
+    
+  }, [support.sems]);
 
   const handleAllTag = () => {
     if (allTag === true) {
@@ -175,7 +181,7 @@ const YearChip = () => {
         }
       </Grid>
       {selectedSem === 0
-      ? <h3>Choose your semester! :)</h3>
+      ? <h3>{tr.chooseSem[ln]}</h3>
       : !selectedChunk 
         ? <h3>{tr.waiting[ln]}</h3>
         : selectedTags.length === 0

@@ -24,6 +24,11 @@
     "en": "#Today",
     "ja": "#今日"
   },
+  "chooseSem": {
+    "ko": "분기를 선택해주세요 :)",
+    "en": "Choose your year & quadrant :)",
+    "ja": "分岐を選択してください (´･ω･`)"
+  },
   "waiting": {
     "ko": "불러오는 중...",
     "en": "Extracting...",
