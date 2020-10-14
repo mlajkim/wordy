@@ -8,7 +8,7 @@ ip.get('/location', (req: Request, res: Response) => {
   const area = geoip.lookup(ip as string);
   process.stdout.write(`[Area: ${area? area : '?'}]\n`);
   if(area) {
-    console.log(`IP: ${ip} ISO Country Code: ${area.country} Connected`)
+    console.log(`IPv6: [${ip}] | ISO Country Code: [${area.country}] Connected`)
     res.status(200).send({
       status: 200,
       message: "[OK]",
