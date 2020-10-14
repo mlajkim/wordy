@@ -48,18 +48,18 @@ const AddWordsDialog: React.FC = () => {
   const [extraYear, setExtraYear] = useState('');
   const [extraSem, setExtraSem] = useState('');
 
+  // Methods
   const handleSavingWords = () => {
-    store.dispatch(offDialog())
+    store.dispatch(offDialog());
+    store.dispatch(setSnackbar(tr.successAddWord[ln], 'info'));
     const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
-    store.dispatch(postWords([{
-      word, pronun, meaning, example, isPublic, sem, tag: []
-    }]))
+    store.dispatch(postWords([{ word, pronun, meaning, example, isPublic, sem, tag: [] }]));
   } 
 
   return (
     <div>
       {extraYear}
-      <Dialog open={true} onClose={() => store.dispatch(offDialog())}>
+      <Dialog open={true}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
           <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 

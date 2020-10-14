@@ -10,6 +10,7 @@ import WordCard from '../../components/word_card/WordCard';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid'
+import CircularProgress from '@material-ui/core/CircularProgress';
 // Translation
 import tr from './year_chip.tr.json';
 // Redux
@@ -211,7 +212,7 @@ const YearChip = () => {
       {selectedSem === 0
       ? <h3>{tr.chooseSem[ln]}</h3>
       : !filteredWordsList 
-        ? <h3>{tr.waiting[ln]}</h3>
+        ? <CircularProgress />
         : filteredWordsList.map(datus => <WordCard key={datus._id} word={datus} />)
       }
     </Fragment>

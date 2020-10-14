@@ -15,6 +15,7 @@ const validate = (payload: WordsChunk): boolean => {
   return result.length === 0 ? true : false;
 }
 
+// Middlewares
 export const getWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
