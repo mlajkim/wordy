@@ -124,7 +124,7 @@ const YearChip = () => {
         if (selectedNormalTags.length !== 0) {
           let flag = false;
           selectedNormalTags.forEach(tag => {
-            flag = countryCodeIntoLanguage(word.language) === tag.substring(1)
+            if(!flag) flag = countryCodeIntoLanguage(word.language) === tag.substring(1)
             if(!flag) flag = word.tag.find(wordTag => wordTag === tag.substring(1)) !== undefined
           })
           return flag;
@@ -151,7 +151,7 @@ const YearChip = () => {
   
   return (
     <Fragment>
-      {console.log(selectedSem)}
+      {console.log(selectedNormalTags)}
       <Grid style={{textAlign: 'center'}}>
         {support.sems.length === 0 
           ? null
