@@ -1,5 +1,6 @@
 import React from 'react';
 import { Word } from '../../types';
+import { convertSem } from '../../utils';
 // Material UI
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -74,7 +75,7 @@ const WordCard: React.FC<Props> = ({word}) => {
     <Card style={{width: '90%', margin: 15}}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {Math.floor(word.sem / 10)}-{word.sem % 10}
+          {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}
         </Typography>
         <Typography variant="h5" component="h2">
           {word.word}
@@ -83,7 +84,10 @@ const WordCard: React.FC<Props> = ({word}) => {
           {word.pronun}
         </Typography>
         <Typography variant="body2" component="p">
-          {word.meaning}
+          <span style={{margin: 3}}>{word.meaning}</span>
+        </Typography>
+        <Typography variant="body2" component="h4" >
+          {word.example && `"${word.example}"`}
         </Typography>
       </CardContent>
       <CardActions>

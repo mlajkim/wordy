@@ -156,7 +156,6 @@ const YearChip = () => {
   
   return (
     <Fragment>
-      {console.log(allTag)}
       <Grid style={{textAlign: 'center'}}>
         {support.sems.length === 0 
           ? null
