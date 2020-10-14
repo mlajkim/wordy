@@ -19,10 +19,12 @@ import {useSelector} from 'react-redux';
 type CustomPayloadType = { sem: number, IDs: {ID: string}[] }
 
 const  ConfirmDelete:React.FC= () => {
+  // Redux States
   const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
   const {sem, IDs} = dialog.payload as CustomPayloadType;
 
+  // Methods
   const handleDelete = () => {
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.deletedMessage[ln], 'info'));

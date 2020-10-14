@@ -29,7 +29,7 @@ export type Dialog = {
   payload: object
 }
 
-export type DialogType = 'LoginDialog' | 'SignUpDialog' | 'AddWordsDialog' | 
+export type DialogType = 'LoginDialog' | 'SignUpDialog' | 'AddWordsDialog' | 'EditWord' |
   'MassWordsDialog' | 'ConfirmDelete' | 'Warning401' | 'Warning403';
 
 export type SnackbarState = {

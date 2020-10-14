@@ -1,0 +1,17 @@
+{
+  "title": {
+    "ko": "단어 수정",
+    "en": "Edit Word",
+    "ja": "語彙修正"
+  },
+  "editedMessage": {
+    "ko": "수정되었습니다.",
+    "en": "Successfully edited",
+    "ja": "修正されました"
+  },
+  "btnConfirm": {
+    "ko": "수정",
+    "en": "Change",
+    "ja": "修正"
+  }
+}

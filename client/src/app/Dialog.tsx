@@ -7,7 +7,7 @@ import WarningDialog from '../dialog/warning/WarningDialog';
 import AddWordsDialog from '../dialog/add_word/AddWordsDialog';
 import ConfirmDelete from '../dialog/confirm_delete/ConfirmDelete';
 import MassWordsDialog from '../dialog/mass_words/MassWords';
-
+import EditWordDialog from '../dialog/edit_word/EditWord';
 
 const Dialog = () => {
   // states
@@ -25,6 +25,9 @@ const Dialog = () => {
 
     case 'MassWordsDialog': 
       return <MassWordsDialog />;
+
+    case 'EditWord':
+      return <EditWordDialog />;
 
     case 'ConfirmDelete':
       return <ConfirmDelete />

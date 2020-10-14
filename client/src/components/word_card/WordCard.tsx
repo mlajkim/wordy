@@ -18,6 +18,7 @@ import StatIcon from '@material-ui/icons/Equalizer';
 import StarReviewIocn from '@material-ui/icons/PlayArrow';
 // Redux
 import store from '../../redux/store';
+// Redux Actions
 import {setDialog} from '../../redux/actions';
 import { modifyWords } from '../../redux/actions/wordsAction';
 
@@ -46,7 +47,7 @@ const WordCard: React.FC<Props> = ({word}) => {
 
   const tools = [
     // the disabled button is only temporary and will be deleted.
-    { type: 'edit', icon: <EditIcon />, disabled: true},
+    { type: 'edit', icon: <EditIcon />, disabled: false},
     { type: 'delete', icon: <DeleteIcon />, disabled: false},
     { type: 'stat', icon: <StatIcon />, disabled: true},
     { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
@@ -64,6 +65,10 @@ const WordCard: React.FC<Props> = ({word}) => {
 
       case 'delete':
         store.dispatch(setDialog('ConfirmDelete', {sem: word.sem ,IDs: [{ID: word._id}]}));
+        break;
+
+      case 'edit':
+        store.dispatch(setDialog('EditWord', {prevWord: word, sem: word.sem ,IDs: [{ID: word._id}]}));
         break;
       
       default:

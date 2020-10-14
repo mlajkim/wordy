@@ -30,7 +30,7 @@ words.get("/:ownerID/:sem", async (req: Request, res: Response) => {
 words.put("/:ownerID", async (req: Request, res: Response) => {
   const payload = req.body.payload;
   payload.forEach(async (elem: any) => {
-    await wordSchema.findOneAndUpdate({_id: elem.wordID}, {isFavorite: true}, {useFindAndModify: false})
+    await wordSchema.findOneAndUpdate({_id: elem.wordID}, elem.payload, {useFindAndModify: false})
   })
   res.send({empty: true});
 
