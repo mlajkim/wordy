@@ -1,7 +1,4 @@
-import axios from 'axios';
-import * as API from '../../API';
-import { AddableLang } from '../../types';
-
+// Types
 type ReturningType = {
   word: string, 
   pronun?: string, 
@@ -11,7 +8,7 @@ type ReturningType = {
 }
 
 //@ MAIN
-const ParsingAPI = (massiveLine: string, sem: number) => {
+export default function ParsingAPI (massiveLine: string, sem: number) {
   return massiveLine.split("\n").map(line => {return {...parsingMechanism(line), sem, isPublic: false}});  
 }
 
@@ -69,4 +66,3 @@ const partB = (partB: string, tagAt: number): string[] => {
   return partB.replace("#", " ").split(" ").filter(elem => elem !== " ");
 };
 
-export default ParsingAPI;
