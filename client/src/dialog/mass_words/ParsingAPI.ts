@@ -8,18 +8,18 @@ type ReturningType = {
 }
 
 //@ MAIN
-export default function ParsingAPI (massiveLine: string, sem: number) {
-  return massiveLine.split("\n").map(line => {return {...parsingMechanism(line), sem, isPublic: false}});  
+export default function ParsingAPI (massiveLine: string, sem: number, basicTags: string[]) {
+  return massiveLine.split("\n").map(line => {return {...parsingMechanism(line, basicTags), sem, isPublic: false}});  
 }
 
-const parsingMechanism = (line: string): ReturningType => {
-  let ultimateReturn: ReturningType = { word: '' }; // tag will be empty by defeault
+const parsingMechanism = (line: string, basicTags: string[]): ReturningType => {
+  let ultimateReturn: ReturningType = { word: ''}; // tag will be empty by defeault
   
   const tagIndex = line.search(/#/g); // -1 if not found. 
-  if(tagIndex === -1) ultimateReturn = {...partA(line), tag: []};
+  if(tagIndex === -1) ultimateReturn = {...partA(line), tag: basicTags};
   else {
     ultimateReturn = partA(line.slice(0, tagIndex));
-    ultimateReturn = {...ultimateReturn, tag:  [...partB(line.slice(tagIndex + 1), tagIndex)]} // does not include '='
+    ultimateReturn = {...ultimateReturn, tag:  [...partB(line.slice(tagIndex + 1), tagIndex), ...basicTags]} // does not include '='
   }
   // by default
   return ultimateReturn;

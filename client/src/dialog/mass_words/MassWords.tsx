@@ -27,6 +27,7 @@ import {useSelector} from 'react-redux';
 // Redux Actions
 import { offDialog, setSnackbar } from '../../redux/actions';
 import {postWords} from '../../redux/actions/wordsAction';
+import TagsList from '../../components/tags_list/TagsList';
 // Declarations
 const LETTERS_LIMITATION = 30000
 
@@ -40,7 +41,8 @@ const MassWords = () => {
   const [maxError, setMaxError] = useState(false);
   const [year, setYear] = useState(today().year.toString());
   const [sem, setSem] = useState(today().sem.toString());
-
+  const [tags, setTags] = useState<string[]>([]);
+  
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMassData(e.target.value);
@@ -60,7 +62,7 @@ const MassWords = () => {
       return;
     }
     store.dispatch(offDialog())
-    const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)))
+    const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)), tags)
     store.dispatch(postWords(data))
     store.dispatch(setSnackbar(trAddWord.successAddWord[ln]));
   };
@@ -96,8 +98,9 @@ const MassWords = () => {
             fullWidth value={sem}
             onChange={(e) => setSem(e.target.value)}
           />
+          <TagsList ln={ln} tags={tags} setTags={setTags} />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
-            style={{width: '100%', textAlign:'center'}} multiline rows={15} rowsMax={20}
+            style={{width: '100%', textAlign:'center'}} multiline rows={5} rowsMax={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}
             error={maxError}
           />
