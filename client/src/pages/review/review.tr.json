@@ -1,0 +1,12 @@
+{
+  "notEnough": {
+    "ko": "단어 수가 부족합니다. 최소 필요한 단어 갯수",
+    "en": "Number of Words Required for the service",
+    "ja": "語彙の数がた少ないです。 必要な単語の数"
+  },
+  "userHas": {
+    "ko": "현재 단어 수",
+    "en": "number of words now",
+    "ja": "現在語彙の数"
+  }
+}

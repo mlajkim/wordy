@@ -101,7 +101,7 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   } as UserState))
   store.dispatch(setLanguage(user.languagePreference))
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)
-  // store.dispatch(setPage('list'));
+  store.dispatch(setPage('review'));
   // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
   
   // Handles 'years' collection

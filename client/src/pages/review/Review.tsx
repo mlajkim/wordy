@@ -1,34 +1,57 @@
 import React, {Fragment} from 'react';
-import Background from '../../img/reviewPage.jpeg';
+import { State, Language } from '../../types';
+import * as API from '../../API';
 // Translation
-// import tr from './review.tr.json';
-// import {Language} from '../../types';
+import tr from './review.tr.json';
+import listTr from '../list/list.tr.json';
 // Redux
-// import store from '../../redux/store';
-// import {setDialog, setLanguage} from '../../redux/actions';
-// import {useSelector} from 'react-redux';
+import store from '../../redux/store';
+import {useSelector} from 'react-redux';
+// Actions
+import {setDialog, setPage} from '../../redux/actions';
+// Material UI
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+//Requirements
+const REQUIRED_WORDS_COUNT = 100;
 
 const Review = () => {
-  // const {language} = useSelector((state: {language: Language}) => state);
-  // const ln = language;
+  // Redux states
+  const {language, support, user} = useSelector((state: State) => state);
+  const ln = language;
+  // Requirements
+  const notEnoughWords = support.newWordCnt - support.deletedWordCnt < REQUIRED_WORDS_COUNT;
 
+  // Methods
+  const handleAddWordClick = () => {
+    store.dispatch(setPage('list'))
+    API.handleNewWordAddingType(user.ID!, 'one');
+  }
+  
   return (
     <Fragment>
-      <div style={{
-        backgroundImage: `url(${Background})`,
-        marginTop: 10,
-        height: 650,
-        width: "100%",
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-      }}>
-        <h4>서비스 개발중입니다 (10월 내)</h4>
-        <h4>Under construction (Within October)</h4>
-        <h4>準備中でございます (10月の末まで) </h4>
-        <h4>现在作成中 (到十月)</h4>
-      </div>
+      <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
+        <Typography component="div" style={{ backgroundColor: '#F2F2F2', height: '18vh' }}>
+          <div style={{paddingTop: 50}}>
+            {notEnoughWords
+              ? (
+                <Fragment>
+                  <h4>{tr.notEnough[ln]}: {REQUIRED_WORDS_COUNT}</h4>
+                  <h5>({tr.userHas[ln]}: {support.newWordCnt-support.deletedWordCnt})</h5>
+                  <Button variant="outlined" color="primary" 
+                    onClick={() => handleAddWordClick()}>
+                    {listTr.emptyBtn[ln]}
+                  </Button>
+                </Fragment>
+                )
+              : <h4>ok</h4>
+            }
+          </div>
+        </Typography>
+      </Container>
+      
     </Fragment>
-    
   )
 };
 
