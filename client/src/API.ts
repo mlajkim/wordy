@@ -34,7 +34,7 @@ export const fetchy = (
 
 
 
-//###################
+//################### V3 Above
 
 export const handleUserChangeDB = (accessToken: string, payload: any) => {
   axios.put(`/api/v2/mongo/users`, {payload: {...payload}}, {
@@ -101,7 +101,7 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   } as UserState))
   store.dispatch(setLanguage(user.languagePreference))
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)
-  store.dispatch(setPage('list'));
+  // store.dispatch(setPage('list'));
   // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
   
   // Handles 'years' collection

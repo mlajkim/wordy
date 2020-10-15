@@ -1,9 +1,7 @@
+// Main & Types
 import React, {Fragment, useState, useEffect} from 'react';
 import {convertSem, countryCodeIntoLanguage, checkIfToday} from '../../utils';
 import { State, WordsChunk } from '../../types';
-import {Moment} from 'moment';
-import axios from 'axios';
-import * as API from '../../API';
 // Components
 import WordCard from '../../components/word_card/WordCard';
 // Material UI
@@ -46,10 +44,35 @@ const YearChip = () => {
   const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
   const [nowTag, setNowTag] = useState<boolean>(false);
 
+  // Effects
+  useEffect(() => {
+    if (support.sems.findIndex(sem => sem === selectedSem) === -1)
+      setSelectedSem(0);
+  }, [support.sems]);
+  // ..Effect
+  useEffect(() => {
+    if(selectedNormalTags.length === 0 && !favoriteTag && !nowTag)
+      setAllTag(true);
+  }, [selectedNormalTags, favoriteTag, nowTag])
+
+  // Methods
+  const handleAllTag = () => {
+    if (allTag === true) {
+      setAllTag(false)
+      setSelectedNormalTags([]);
+    }
+    else {
+      setAllTag(true)
+      setSelectedNormalTags([]);
+      setFavoriteTag(false); // Special Tags
+      setNowTag(false); // Special Tags (Add below if new special tag implemented)
+    }
+  };
+  // ..Method
   const handleSemChipClick = (sem: number) => {
     setNormalTags([]);
     setAllTag(true);
-    // setSelectedNormalTags([tr.all[ln]]);
+    setSelectedNormalTags([]); // Reset
     if (selectedSem === sem) {
       setSelectedSem(0);
       return;
@@ -64,31 +87,7 @@ const YearChip = () => {
       store.dispatch(getWords(sem));
     }
   };
-
-  useEffect(() => {
-    if (support.sems.findIndex(sem => sem === selectedSem) === -1)
-      setSelectedSem(0);
-    
-  }, [support.sems]);
-
-  useEffect(() => {
-    if(selectedNormalTags.length === 0 && !favoriteTag && !nowTag)
-      setAllTag(true);
-  }, [selectedNormalTags, favoriteTag, nowTag])
-
-  const handleAllTag = () => {
-    if (allTag === true) {
-      setAllTag(false)
-      setSelectedNormalTags([]);
-    }
-    else {
-      setAllTag(true)
-      setSelectedNormalTags([]);
-      setFavoriteTag(false); // Special Tags
-      setNowTag(false); // Special Tags (Add below if new special tag implemented)
-    }
-  };
-
+  // ..method
   const specialNormalShared = (tagsSelected: string[]) => {
     if (allTag) {
       setAllTag(false);
@@ -96,20 +95,15 @@ const YearChip = () => {
     }
     return tagsSelected;
   }
-
+  // ..method
   const handleSpecialTags = (tag: string) => {
     specialNormalShared(selectedNormalTags);
-    // handleSpecialTags
-    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
-    else if(tag === tr.today[ln]) setNowTag(!nowTag);
+    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag); // handleSpecialTags
+    else if(tag === tr.today[ln]) setNowTag(!nowTag); // handleSpecialTags
   }
-
+  // ..method
   const handleNormalTags = (tag: string) => {
     let prevSelectedTags = specialNormalShared(selectedNormalTags);
-    // handleSpecialTags
-    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
-    else if(tag === tr.today[ln]) setNowTag(!nowTag);
-
     const hasFound = prevSelectedTags.find((selectedTag => selectedTag === tag));
     if (hasFound === undefined) {
       setSelectedNormalTags([...prevSelectedTags, tag]);
@@ -126,8 +120,7 @@ const YearChip = () => {
       .filter(word => favoriteTag ? word.isFavorite : true)
       .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
       .filter(word => {
-        // languages & tags filter
-        if (selectedNormalTags.length !== 0) {
+        if (selectedNormalTags.length !== 0) { // languages & tags filter
           let flag = false;
           selectedNormalTags.forEach(tag => {
             if(!flag) flag = countryCodeIntoLanguage(word.language) === tag.substring(1)
@@ -135,11 +128,9 @@ const YearChip = () => {
           })
           return flag;
         } 
-
         return true;
       });
 
-  
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
   if(hasFound !== undefined) {
@@ -154,7 +145,7 @@ const YearChip = () => {
     })
   }
 
-  
+  // Return
   return (
     <Fragment>
       <Grid style={{textAlign: 'center'}}>
