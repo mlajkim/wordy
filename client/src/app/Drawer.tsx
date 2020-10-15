@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // Translation
 import * as tr from './drawer.tr.json'
 import menuTr from '../components/menu/menu.tr.json';
-import {Language, UserState} from '../types';
+import {Language, State} from '../types';
 import appbarTr from '../app/appbar.tr.json';
 // Icons
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 const DrawerComponent = (props: any) => {
   const classes = useStyles();
   const {isDrawerOpen, setDrawer} = props;
-  const {language, user} = useSelector((state: {language: Language, isSignedIn: boolean, user: UserState}) => state);
+  const {language, user, support} = useSelector((state: State) => state);
   const ln = language;
 
   //
@@ -77,7 +77,7 @@ const DrawerComponent = (props: any) => {
             <ListItemText primary={appbarTr.setting[ln]} />
           </ListItem>
           <ListItem disabled >
-            <ListItemText style={{fontSize: 4}} primary={'Version: Beta'} />
+            <ListItemText style={{fontSize: 4}} primary={'Version: ' + support.version} />
           </ListItem>
         </Drawer>
       </React.Fragment>

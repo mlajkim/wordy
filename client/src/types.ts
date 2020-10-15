@@ -40,6 +40,7 @@ export type SnackbarState = {
 }
 
 export type Support = {
+  version: string;
   addWordLangPref: AddableLang;
   newWordCnt: number;
   deletedWordCnt: number;
