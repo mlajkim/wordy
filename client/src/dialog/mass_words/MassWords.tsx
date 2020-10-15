@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
+import ParsingAPI from './ParsingAPI';
 // Components
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 import {VALID_YEAR} from '../add_word/AddWordsDialog';
@@ -22,11 +23,11 @@ import TextField from '@material-ui/core/TextField';
 import SwitchBackToOneMode from '@material-ui/icons/AddBox';
 // Redux
 import store from '../../redux/store';
-import {offDialog, setSnackbar } from '../../redux/actions';
-import {postWords} from '../../redux/actions/wordsAction';
 import {useSelector} from 'react-redux';
-import ParsingAPI from './ParsingAPI';
-import { stringify } from 'querystring';
+// Redux Actions
+import { offDialog, setSnackbar } from '../../redux/actions';
+import {postWords} from '../../redux/actions/wordsAction';
+// Declarations
 const LETTERS_LIMITATION = 30000
 
 const MassWords = () => {
@@ -52,17 +53,19 @@ const MassWords = () => {
     }
   }
 
+  // ...Method
   const handleAddingMassData = () => {
     if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR.from, VALID_YEAR.to)) {
       store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR.from}~${VALID_YEAR.to}) OR SEM (1~4)`, 'warning', 5))
       return;
     }
     store.dispatch(offDialog())
-    // Data check
     const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)))
     store.dispatch(postWords(data))
+    store.dispatch(setSnackbar(trAddWord.successAddWord[ln]));
   };
 
+  // Return
   return (
     <div>
       <Dialog

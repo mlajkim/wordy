@@ -64,10 +64,10 @@ type Data = {
 
 type Required = {
   word: string
+  sem: number
   pronun?: string 
   meaning?: string 
   example?: string 
   isPublic?: boolean
-  sem: number
   tag?: string[]
 }

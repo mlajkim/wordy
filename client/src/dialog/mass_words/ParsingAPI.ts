@@ -7,36 +7,32 @@ type ReturningType = {
   pronun?: string, 
   meaning?: string, 
   example?: string, 
-  tag?: string[]
+  tag?: string[] // this is actually required, but I wont solve it for now.
 }
 
 //@ MAIN
 const ParsingAPI = (massiveLine: string, sem: number) => {
-  return massiveLine.split("\n").map(line => {return {...parseA(line), sem, isPublic: false}});  
+  return massiveLine.split("\n").map(line => {return {...parsingMechanism(line), sem, isPublic: false}});  
 }
 
-const parseA = (line: string): ReturningType => {
+const parsingMechanism = (line: string): ReturningType => {
   // Ideal Example
   // Parliament [par-luh-munt] 의회 (국회) .. = British Parliament
   // Parliament: 의회 (국회) = British Parliament
   // Parliament - 의회 인경우 Parliament - 의회
-  if(isGramaticallyWrong(line)) return { word: line }
   let ultimateReturn: ReturningType = { word: '' };
   
   const tagIndex = line.search(/#/g); // -1 if not found. 
-  if(tagIndex === -1) ultimateReturn = partA(line);
+  if(tagIndex === -1) ultimateReturn = {...partA(line), tag: []};
   else {
     ultimateReturn = partA(line.slice(0, tagIndex));
-    ultimateReturn = {...ultimateReturn, tag: [...partB(line.slice(tagIndex + 1), tagIndex)]} // does not include '='
+    ultimateReturn = {...ultimateReturn, tag:  [...partB(line.slice(tagIndex + 1), tagIndex)]} // does not include '='
   }
   console.log(ultimateReturn)
   // by default
   return ultimateReturn;
 };
 
-const isGramaticallyWrong = (line: string): boolean => {
-  return false;
-}
 
 const partA = (partA: string): ReturningType => {
   let partATemporary: ReturningType = {word: partA};
@@ -66,16 +62,11 @@ const partA = (partA: string): ReturningType => {
   partATemporary.word = partA;
   
   return partATemporary;
-}
+};
 
 const partB = (partB: string, tagAt: number): string[] => {
   // handle tags
   return partB.replace("#", " ").split(" ").filter(elem => elem !== " ");
-}
-
-
-
-
-
+};
 
 export default ParsingAPI;
