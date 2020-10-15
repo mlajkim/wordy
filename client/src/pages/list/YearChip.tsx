@@ -4,6 +4,7 @@ import {convertSem, countryCodeIntoLanguage, checkIfToday} from '../../utils';
 import { State, WordsChunk } from '../../types';
 // Components
 import WordCard from '../../components/word_card/WordCard';
+import ListSetting from './ListSetting';
 // Material UI
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
@@ -13,8 +14,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import tr from './year_chip.tr.json';
 // Redux
 import store from '../../redux/store';
-import {getWords} from '../../redux/actions/wordsAction';
 import {useSelector} from 'react-redux';
+import {getWords} from '../../redux/actions/wordsAction';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -148,7 +149,8 @@ const YearChip = () => {
   // Return
   return (
     <Fragment>
-      <Grid style={{textAlign: 'center'}}>
+      <ListSetting />
+      <Grid style={{textAlign: 'center', paddingTop: 50}}>
         {support.sems.length === 0 
           ? null
           : (

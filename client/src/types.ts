@@ -46,6 +46,7 @@ export type Support = {
   deletedWordCnt: number;
   sems: number[];
   newWordAddingType: NewWordAddingType;
+  // old
   addedWordsCount: number;
   deletedWordsCount: number;
   orderPref: AddableLang[]
