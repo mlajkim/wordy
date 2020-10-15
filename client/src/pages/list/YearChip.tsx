@@ -200,12 +200,14 @@ const YearChip = () => {
             </Fragment>
         }
       </Grid>
-      {selectedSem === 0
-      ? <h3>{tr.chooseSem[ln]}</h3>
-      : !filteredWordsList 
-        ? <CircularProgress />
-        : filteredWordsList.map(datus => <WordCard key={datus._id} word={datus} />)
-      }
+      <Grid style={{textAlign: 'center', margin: 8}}>
+        {selectedSem === 0
+        ? <h3>{tr.chooseSem[ln]}</h3>
+        : !filteredWordsList 
+          ? <CircularProgress />
+          : filteredWordsList.map(datus => <WordCard key={datus._id} word={datus} />)
+        }
+      </Grid>
     </Fragment>
   );
 }

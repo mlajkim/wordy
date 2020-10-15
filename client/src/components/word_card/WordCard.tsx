@@ -77,7 +77,7 @@ const WordCard: React.FC<Props> = ({word}) => {
   }
 
   return (
-    <Card style={{width: '90%', margin: 15}}>
+    <Card style={{width: '100%', marginBottom: 10}}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}
