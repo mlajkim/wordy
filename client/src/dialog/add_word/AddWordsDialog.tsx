@@ -27,6 +27,7 @@ import {
 } from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import {postWords} from '../../redux/actions/wordsAction';
+import TagsList from '../../components/tags_list/TagsList';
 
 // @ ABSOLUTE
 export const VALID_YEAR = { from: 2000, to: 2020 };
@@ -42,6 +43,7 @@ const AddWordsDialog: React.FC = () => {
   const [pronun, setPronun] = useState('' ); 
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
+  const [tags, setTags] = useState<string[]>([]);
   const [isPublic, setPublic] = useState(true);
   // Extra Component states
   const [isShowingExtra, setShowingExtra] = useState(false);
@@ -53,7 +55,7 @@ const AddWordsDialog: React.FC = () => {
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.successAddWord[ln], 'info'));
     const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
-    store.dispatch(postWords([{ word, pronun, meaning, example, isPublic, sem, tag: [] }]));
+    store.dispatch(postWords([{ word, pronun, meaning, example, isPublic, sem, tag: tags }]));
   } 
 
   return (
@@ -73,6 +75,7 @@ const AddWordsDialog: React.FC = () => {
           <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)}/>
           <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}/>
           <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}/>
+          <TagsList ln={ln} tags={tags} setTags={setTags} />
           {tr.askForPublic[ln]}
           <FormControlLabel
             value="end"
