@@ -22,7 +22,10 @@ const Review = () => {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}>
-        
+        <h4>서비스 개발중입니다 (10월 내)</h4>
+        <h4>Under construction (Within October)</h4>
+        <h4>準備中でございます (10月の末まで) </h4>
+        <h4>现在作成中 (到十月)</h4>
       </div>
     </Fragment>
     
