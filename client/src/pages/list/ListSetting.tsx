@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Grid from '@material-ui/core/Grid'
 // Icons
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -18,7 +19,7 @@ import { useSelector } from 'react-redux';
 import { modifySupport } from '../../redux/actions/supportAction';
 
 // @@ Supportive
-const Lists: React.FC = () => {
+const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
   const {language, support} = useSelector((state: State) => state);
   const ln = language;
 
@@ -53,6 +54,9 @@ const Lists: React.FC = () => {
         <MenuItem value='wordcard'>{tr.wordcard[ln]}</MenuItem>
         <MenuItem value='list'>{tr.list[ln]}</MenuItem>
       </Select>
+      <IconButton onClick={() => setShowing(false)}>
+        <ChevronRightIcon />
+      </IconButton>
     </Grid>
   )
 }
@@ -65,7 +69,7 @@ const ListSetting: React.FC = () => {
     <Fragment>
       {isShowing
         ? (
-          <Lists />
+          <Lists setShowing={setShowing} />
         )
         : (
           <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => setShowing(true)}>
