@@ -5,6 +5,7 @@ import { State, WordsChunk } from '../../types';
 // Components
 import WordCard from '../../components/word_card/WordCard';
 import ListSetting from './ListSetting';
+import WordList from '../../components/word_list/WordList';
 // Material UI
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
@@ -205,12 +206,15 @@ const YearChip = () => {
             </Fragment>
         }
       </Grid>
-      <Grid style={{textAlign: 'center', margin: 8}}>
+      <Grid style={{ margin: 8}}>
         {selectedSem === 0
         ? <h3>{tr.chooseSem[ln]}</h3>
         : !filteredWordsList 
           ? <CircularProgress />
-          : filteredWordsList.map(datus => <WordCard key={datus._id} word={datus} />)
+          : filteredWordsList.map((datus, idx) => {
+            if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
+            else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
+          })
         }
       </Grid>
     </Fragment>

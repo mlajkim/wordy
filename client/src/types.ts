@@ -47,7 +47,8 @@ export type Support = {
   sems: number[];
   newWordAddingType: NewWordAddingType;
   wordOrderPref: AscDescType;
-  yearOrderPref: AscDescType
+  yearOrderPref: AscDescType,
+  wordDisplayPref: 'wordcard' | 'list';
   // old
   addedWordsCount: number;
   deletedWordsCount: number;

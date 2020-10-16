@@ -11,8 +11,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Grid from '@material-ui/core/Grid'
 // Icons
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
-import ArrowUp from '@material-ui/icons/ArrowUpward';
-import ArrowDown from '@material-ui/icons/ArrowDownward';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -46,6 +44,14 @@ const Lists: React.FC = () => {
       >
         <MenuItem value='asc'>{tr.asc[ln]}</MenuItem>
         <MenuItem value='desc'>{tr.desc[ln]}</MenuItem>
+      </Select>
+      <InputLabel id="wordListingType">{tr.wordDispalyType[ln]}</InputLabel>
+      <Select
+        value={support.wordDisplayPref}
+        onChange={(e) => store.dispatch(modifySupport({ wordDisplayPref: e.target.value }))}
+      >
+        <MenuItem value='wordcard'>{tr.wordcard[ln]}</MenuItem>
+        <MenuItem value='list'>{tr.list[ln]}</MenuItem>
       </Select>
     </Grid>
   )

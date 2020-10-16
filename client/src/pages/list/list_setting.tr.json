@@ -9,6 +9,11 @@
     "en": "Year Order",
     "ja": "年度順番"
   },
+  "wordDispalyType": {
+    "ko": "단어 표시",
+    "en": "Word Display",
+    "ja": "語彙表示"
+  },
   "asc": {
     "ko": "오름차순",
     "en": "Ascending",
@@ -18,5 +23,15 @@
     "ko": "내림차순",
     "en": "Descending",
     "ja": "降順"
+  },
+  "wordcard": {
+    "ko": "단어카드",
+    "en": "Wordcard",
+    "ja": "ワードカード"
+  },
+  "list": {
+    "ko": "리스트",
+    "en": "List",
+    "ja": "リスト"
   }
 }

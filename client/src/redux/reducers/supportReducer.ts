@@ -12,6 +12,7 @@ const initialState: Support = {
   sems: [],
   wordOrderPref: 'asc',
   yearOrderPref: 'asc',
+  wordDisplayPref: 'wordcard',
   // old
   addedWordsCount: 0, // 
   deletedWordsCount: 0
