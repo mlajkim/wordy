@@ -154,7 +154,9 @@ const YearChip = () => {
         {support.sems.length === 0 
           ? null
           : (
-            support.sems.map((sem: number) => (
+            support.sems
+            .sort((a, b) => support.yearOrderPref === 'desc' ? b - a : a - b)
+            .map((sem: number) => (
               <Chip 
                 key={sem} 
                 clickable
@@ -163,6 +165,7 @@ const YearChip = () => {
                 color={(sem === selectedSem) ? 'primary' : 'default'}
               />
             ))
+            
           )
         }
       </Grid>

@@ -6,7 +6,8 @@ const supportSchema = new Schema({
   sems: Array,
   newWordCnt: Number,
   deletedWordCnt: Number,
-  wordOrderPref: String
+  wordOrderPref: String,
+  yearOrderPref: String,
 });
 
 export default mongoose.model('supports', supportSchema); 

@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import Grid from '@material-ui/core/Grid'
 // Icons
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import ArrowUp from '@material-ui/icons/ArrowUpward';
@@ -23,31 +24,30 @@ const Lists: React.FC = () => {
   const {language, support} = useSelector((state: State) => state);
   const ln = language;
 
-  const wordOrderItems = [
-    {
-      value: 'asc',
-      translated: tr.asc[ln]
-    },
-    {
-      value: 'desc',
-      translated: tr.desc[ln]
-    },
-  ];
+  const AscDescMenuItems = <Fragment>
+    <MenuItem value='asc'>{tr.asc[ln]}</MenuItem>
+    <MenuItem value='desc'>{tr.desc[ln]}</MenuItem>
+  </Fragment>
   
   return (
-    <Fragment>
-      <InputLabel id="demo-simple-select-label">{tr.wordOrder[ln]}</InputLabel>
+    <Grid style={{display: 'flex', textAlign: 'center'}}>
+      <InputLabel id="wordOrder">{tr.wordOrder[ln]}</InputLabel>
         <Select
           value={support.wordOrderPref}
           onChange={(e) => store.dispatch(modifySupport({ wordOrderPref: e.target.value }))}
         >
-          {
-            wordOrderItems.map(elem => (
-              <MenuItem value={elem.value}>{elem.translated}</MenuItem>
-            ))
-          }
+          <MenuItem value='asc'>{tr.asc[ln]}</MenuItem>
+          <MenuItem value='desc'>{tr.desc[ln]}</MenuItem>
         </Select>
-    </Fragment>
+      <InputLabel id="yearOrder">{tr.yearOrder[ln]}</InputLabel>
+      <Select
+        value={support.yearOrderPref}
+        onChange={(e) => store.dispatch(modifySupport({ yearOrderPref: e.target.value }))}
+      >
+        <MenuItem value='asc'>{tr.asc[ln]}</MenuItem>
+        <MenuItem value='desc'>{tr.desc[ln]}</MenuItem>
+      </Select>
+    </Grid>
   )
 }
 

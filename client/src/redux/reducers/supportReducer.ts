@@ -11,6 +11,7 @@ const initialState: Support = {
   deletedWordCnt: 0,
   sems: [],
   wordOrderPref: 'asc',
+  yearOrderPref: 'asc',
   // old
   addedWordsCount: 0, // 
   deletedWordsCount: 0

@@ -4,6 +4,11 @@
     "en": "Word Order",
     "ja": "語彙順番"
   },
+  "yearOrder": {
+    "ko": "연도 순서",
+    "en": "Year Order",
+    "ja": "年度順番"
+  },
   "asc": {
     "ko": "오름차순",
     "en": "Ascending",

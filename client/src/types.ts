@@ -46,13 +46,14 @@ export type Support = {
   deletedWordCnt: number;
   sems: number[];
   newWordAddingType: NewWordAddingType;
-  wordOrderPref: WordOrderPref;
+  wordOrderPref: AscDescType;
+  yearOrderPref: AscDescType
   // old
   addedWordsCount: number;
   deletedWordsCount: number;
 }
 
-export type WordOrderPref = 'asc' | 'desc';
+export type AscDescType = 'asc' | 'desc';
 
 export type NewWordAddingType = 'one' | 'mass';
 
