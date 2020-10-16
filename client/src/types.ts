@@ -46,11 +46,14 @@ export type Support = {
   deletedWordCnt: number;
   sems: number[];
   newWordAddingType: NewWordAddingType;
+  wordOrderPref: WordOrderPref;
   // old
   addedWordsCount: number;
   deletedWordsCount: number;
   orderPref: AddableLang[]
 }
+
+export type WordOrderPref = 'oldest' | 'latest';
 
 export type NewWordAddingType = 'one' | 'mass';
 

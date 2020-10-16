@@ -5,7 +5,8 @@ const supportSchema = new Schema({
   ownerID: String,
   sems: Array,
   newWordCnt: Number,
-  deletedWordCnt: Number
+  deletedWordCnt: Number,
+  wordOrderPref: String
 });
 
 export default mongoose.model('supports', supportSchema); 

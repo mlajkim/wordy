@@ -3,5 +3,15 @@
     "ko": "단어 순서",
     "en": "Word Order",
     "ja": "語彙順番"
+  },
+  "latest": {
+    "ko": "최근순",
+    "en": "Latest",
+    "ja": "新しい順番"
+  },
+  "oldest": {
+    "ko": "오래된순",
+    "en": "Oldest",
+    "ja": "古い順番"
   }
 }

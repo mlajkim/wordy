@@ -10,6 +10,8 @@ const initialState: Support = {
   newWordCnt: 0,
   deletedWordCnt: 0,
   sems: [],
+  wordOrderPref: 'oldest',
+  // old
   addedWordsCount: 0, // 
   deletedWordsCount: 0,
   orderPref: []
