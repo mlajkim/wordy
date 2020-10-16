@@ -25,13 +25,13 @@ const Lists: React.FC = () => {
 
   const wordOrderItems = [
     {
-      value: 'latest',
-      translated: tr.latest[ln]
+      value: 'asc',
+      translated: tr.asc[ln]
     },
     {
-      value: 'oldest',
-      translated: tr.oldest[ln]
-    }
+      value: 'desc',
+      translated: tr.desc[ln]
+    },
   ];
   
   return (

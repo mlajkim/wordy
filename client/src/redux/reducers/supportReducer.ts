@@ -10,11 +10,10 @@ const initialState: Support = {
   newWordCnt: 0,
   deletedWordCnt: 0,
   sems: [],
-  wordOrderPref: 'oldest',
+  wordOrderPref: 'asc',
   // old
   addedWordsCount: 0, // 
-  deletedWordsCount: 0,
-  orderPref: []
+  deletedWordsCount: 0
 };
 
 // this is more of userPreference (I will change the naming later)

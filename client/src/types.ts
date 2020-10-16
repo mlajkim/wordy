@@ -50,10 +50,9 @@ export type Support = {
   // old
   addedWordsCount: number;
   deletedWordsCount: number;
-  orderPref: AddableLang[]
 }
 
-export type WordOrderPref = 'oldest' | 'latest';
+export type WordOrderPref = 'asc' | 'desc';
 
 export type NewWordAddingType = 'one' | 'mass';
 

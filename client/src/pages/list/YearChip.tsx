@@ -115,9 +115,8 @@ const YearChip = () => {
   };
 
   // Filtering Algorithm
-  const filteredWordsList = allTag
-    ? words.find((datus: WordsChunk) => datus[0].sem === selectedSem)
-    : words.find((datus: WordsChunk) => datus[0].sem === selectedSem)!
+  const filterTargetWords = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
+  const filteredWordsList = filterTargetWords !== undefined && filterTargetWords
       .filter(word => favoriteTag ? word.isFavorite : true)
       .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
       .filter(word => {
@@ -130,7 +129,8 @@ const YearChip = () => {
           return flag;
         } 
         return true;
-      });
+      })
+      .sort((a, b) => support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order)
 
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
