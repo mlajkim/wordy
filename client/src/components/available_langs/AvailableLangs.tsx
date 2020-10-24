@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import axios from 'axios';
 import * as API from '../../API';
-import { State } from '../../types';
+import { countryCodeIntoLanguage } from '../../utils'
+import { State, AddableLang } from '../../types';
 // Translation
 import tr from './available_langs.tr.json';
 // Material UI
@@ -13,10 +14,7 @@ import {useSelector} from 'react-redux';
 import store from '../../redux/store';
 import {setAddWordLangPref} from '../../redux/actions';
 
-const LANGUAGES_AVAILABLE_LIST = [
-  {code: 'ko', name: '한국어'},{code: 'en', name: 'English'},
-  {code: 'ja', name: '日本語'},{code: 'zh', name: '中文 (简体)'}
-];
+const LANGUAGES_AVAILABLE_LIST: AddableLang[] = ['ko', 'en', 'ja', 'zh'];
 
 const AvailableLangs: React.FC = () => {
   const {language, user, support} = useSelector((state: State) => state);
@@ -51,7 +49,7 @@ const AvailableLangs: React.FC = () => {
   }, [user]);
 
   const menuItems = LANGUAGES_AVAILABLE_LIST.map(lang => (
-    <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>
+    <MenuItem key={lang} value={lang}>{countryCodeIntoLanguage(lang)}</MenuItem>
   ));
 
   return (
