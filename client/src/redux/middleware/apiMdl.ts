@@ -1,7 +1,9 @@
-import {FETCHY} from '../actions/apiAction';
+import { FETCHY, FETCHY3 } from '../actions/apiAction';
+import { Fetchy3ActionPayload } from '../actions/apiAction';
 import axios from 'axios';
 import * as API from '../../API';
 import { State } from '../../types';
+import { setSnackbar } from '../actions';
 
 // #FETCH
 export const fetchy = ({dispatch, getState} : any) => (next: any) => async (action: any) => {
@@ -20,4 +22,32 @@ export const fetchy = ({dispatch, getState} : any) => (next: any) => async (acti
   }
 };
 
-export const apiMdl = [fetchy]; 
+export const fetchy3 = ({dispatch, getState} : any) => (next: any) => async (action: any) => {
+  next(action);
+
+  if (action.type === FETCHY3) {
+    // payload
+    const { method, url, payload, onSuccess } = action.payload as Fetchy3ActionPayload;
+    const { user }: State = getState();
+    axios({
+      method,
+      headers: { Authorization: `Bearer ${API.getAccessToken()}`},
+      url: `/api/v3/mongo${url}`,
+      data: { 
+        ownerID: user.ID, 
+        payload: payload ? payload : null
+      }
+    })
+    .then(res => {
+      if (onSuccess !== null) onSuccess(res.data);
+    })
+    .catch(err => {
+      dispatch(setSnackbar('ERROR WITH FETCHY3 (CHECK CONSOLE)', 'error'))
+      console.log(err);
+    })
+  
+    
+  }
+};
+
+export const apiMdl = [fetchy, fetchy3]; 
