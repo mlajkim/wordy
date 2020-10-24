@@ -3,9 +3,6 @@ import React, { Fragment } from 'react';
 import { Language } from '../../types';
 // Translation
 import tr from './tag_list.tr.json';
-// Material UIs
-import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
 // Etc
 import ChipInput from 'material-ui-chip-input'
 

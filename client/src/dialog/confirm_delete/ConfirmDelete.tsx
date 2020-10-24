@@ -1,13 +1,11 @@
 import React, {Fragment} from 'react';
-import * as API from '../../API';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { State, Word } from '../../types';
-import axios from 'axios';
+import { State } from '../../types';
 // Translation
 import tr from './confirm_delete.tr.json';
 // Redux
@@ -27,7 +25,7 @@ const  ConfirmDelete:React.FC= () => {
   // Methods
   const handleDelete = () => {
     store.dispatch(offDialog());
-    store.dispatch(setSnackbar(tr.deletedMessage[ln], 'info'));
+    store.dispatch(setSnackbar(tr.deletedMessage[ln]));
     store.dispatch(deleteWords(sem, IDs));
   }
   

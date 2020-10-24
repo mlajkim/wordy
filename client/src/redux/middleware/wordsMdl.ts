@@ -1,8 +1,8 @@
 // types
 import { WordsChunk, Word, State, FetchyResponse } from '../../types';
 // actions
-import {updateWords, getWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
-import {setSupport, modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
+import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
+import {modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
 import {fetchy} from '../actions/apiAction';
 import {setWords, savingHelper} from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
@@ -16,7 +16,7 @@ const validate = (payload: WordsChunk): boolean => {
 }
 
 // Middlewares
-export const getWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const getWordsMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === GET_WORDS) {
@@ -47,7 +47,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
     const isDataValid = validate(payload);
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
     if (isDataValid === false) return;
-    const {user, words: previosWords, support}: State = getState(); // interesting (learn something)
+    const {user, support}: State = getState(); // interesting (learn something)
     const sem = (payload as WordsChunk)[0].sem;
 
     // #2 Put some more necessary data

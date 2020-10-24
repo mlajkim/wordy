@@ -1,5 +1,5 @@
 // Main & Types
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { Fragment } from 'react';
 // Types
 import { Word } from '../../types';
 type Props = { word: Word, idx: number }

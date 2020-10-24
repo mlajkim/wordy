@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 
 export const convertSem = (sem: number) => {
   return {

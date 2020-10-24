@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import { State, Language } from '../../types';
+import { State } from '../../types';
 import * as API from '../../API';
 // Translation
 import tr from './review.tr.json';
@@ -8,7 +8,7 @@ import listTr from '../list/list.tr.json';
 import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 // Actions
-import {setDialog, setPage} from '../../redux/actions';
+import {setPage} from '../../redux/actions';
 // Material UI
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';

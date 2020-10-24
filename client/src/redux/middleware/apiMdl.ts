@@ -1,7 +1,7 @@
-import {FETCHY, FETCHY_FINALLY} from '../actions/apiAction';
+import {FETCHY} from '../actions/apiAction';
 import axios from 'axios';
 import * as API from '../../API';
-import { State, FetchyResponse } from '../../types';
+import { State } from '../../types';
 
 // #FETCH
 export const fetchy = ({dispatch, getState} : any) => (next: any) => async (action: any) => {

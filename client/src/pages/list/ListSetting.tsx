@@ -22,11 +22,6 @@ import { modifySupport } from '../../redux/actions/supportAction';
 const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
   const {language, support} = useSelector((state: State) => state);
   const ln = language;
-
-  const AscDescMenuItems = <Fragment>
-    <MenuItem value='asc'>{tr.asc[ln]}</MenuItem>
-    <MenuItem value='desc'>{tr.desc[ln]}</MenuItem>
-  </Fragment>
   
   return (
     <Grid style={{display: 'flex', textAlign: 'center'}}>

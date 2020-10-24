@@ -1,4 +1,3 @@
-import {WordsChunk} from '../../types';
 export const UPDATE_WORDS="[WORDS] Update";
 export const POST_WORDS = "[WORDS] Post";
 export const GET_WORDS = '[WORDS] Get'

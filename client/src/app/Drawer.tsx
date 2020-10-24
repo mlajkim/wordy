@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // Translation
 import * as tr from './drawer.tr.json'
 import menuTr from '../components/menu/menu.tr.json';
-import {Language, State} from '../types';
+import { State } from '../types';
 import appbarTr from '../app/appbar.tr.json';
 // Icons
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -18,8 +18,8 @@ import ListIcon from '@material-ui/icons/FormatListBulleted';
 import LoginButton from '@material-ui/icons/ExitToApp';
 // Redux
 import store from '../redux/store';
-import {setDialog, setPage} from '../redux/actions';
-import {useSelector} from 'react-redux';
+import { setDialog, setPage } from '../redux/actions';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   list: {

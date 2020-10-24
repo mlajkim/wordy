@@ -7,7 +7,6 @@ import WordCard from '../../components/word_card/WordCard';
 import ListSetting from './ListSetting';
 import WordList from '../../components/word_list/WordList';
 // Material UI
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -18,22 +17,8 @@ import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      '& > *': {
-        margin: theme.spacing(0.5),
-      }
-    },
-  }),
-);
-
 // @ MAIN
 const YearChip = () => {
-  const classes = useStyles();
   // Redux states
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
@@ -50,7 +35,8 @@ const YearChip = () => {
   useEffect(() => {
     if (support.sems.findIndex(sem => sem === selectedSem) === -1)
       setSelectedSem(0);
-  }, [support.sems]);
+  }, [support.sems, selectedSem]);
+
   // ..Effect
   useEffect(() => {
     if(selectedNormalTags.length === 0 && !favoriteTag && !nowTag)
@@ -214,6 +200,7 @@ const YearChip = () => {
           : filteredWordsList.map((datus, idx) => {
             if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
             else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
+            else return null;
           })
         }
       </Grid>

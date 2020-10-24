@@ -1,9 +1,7 @@
 import React, {useState, Fragment} from 'react';
-import axios from 'axios';
 import * as API from '../../API';
+import { format_into_sem, get_sem } from '../../utils';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
-import moment from 'moment';
-import {format_into_sem, get_sem} from '../../utils';
 // Material UI
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';  
@@ -19,13 +17,11 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 // Translation
 import tr from './add_words_dialog.tr.json';
-import {State, Word} from '../../types';
+import { State } from '../../types';
 // Redux
 import store from '../../redux/store';
-import {
-  offDialog, addYears, setSnackbar, incrementAddedWordsCount 
-} from '../../redux/actions';
-import {useSelector} from 'react-redux';
+import { offDialog, setSnackbar } from '../../redux/actions';
+import { useSelector } from 'react-redux';
 import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
 

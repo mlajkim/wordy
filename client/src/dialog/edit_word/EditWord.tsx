@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 // Redux
@@ -26,15 +25,14 @@ type CustomPayloadType = {prevWord: Word, sem: number, IDs: {ID: string}[] }
 // Export Default
 export default function EditDialog() {
   // Redux states
-  const {language, dialog} = useSelector((state: State) => state);
+  const { language, dialog } = useSelector((state: State) => state);
   const ln = language;
-  const {prevWord, sem, IDs} = dialog.payload as CustomPayloadType;
+  const { prevWord } = dialog.payload as CustomPayloadType;
   const [word, setWord] = useState(prevWord.word);
   const [pronun, setPronun] = useState(prevWord.pronun); 
   const [meaning, setMeaning] = useState(prevWord.meaning); 
   const [example, setExample] = useState(prevWord.example);
   const [tags, setTags] = useState<string[]>(prevWord.tag);
-  const [isPublic, setPublic] = useState(prevWord.isPublic);
 
   // Methods
   const handleSave = () => {

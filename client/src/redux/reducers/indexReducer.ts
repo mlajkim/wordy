@@ -5,7 +5,6 @@ import page from './page';
 import language from './language';
 import user from './userReducer';
 import support from './supportReducer';
-import years from './years';
 import words from './wordsReducer';
 import snackbar from './snackbar';
 
@@ -18,8 +17,6 @@ export default combineReducers({
   // it should ideally contain only datas tto identify them
   user, 
   support,
-  // This years data is for the performance of data loading
-  years,
   // handles all those downloaded words (usually used for the data preservance and speed)
   words,
   snackbar
