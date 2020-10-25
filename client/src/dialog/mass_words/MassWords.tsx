@@ -72,7 +72,6 @@ const MassWords = () => {
     <div>
       <Dialog
         open={true}
-        onClose={() => store.dispatch(offDialog())}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         fullWidth

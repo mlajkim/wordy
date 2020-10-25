@@ -6,8 +6,10 @@ const wordSchema = new Schema({
   ownerID: String, // who owns this?
   order: Number, // the order number
   dateAdded: Number, // 204 = 2020 year of 4th semester
-  lastReviewed: String,
-  review: Array, // contains like following .. [24, 15, 30, 24] => the last 24 will be the last Review Date's semester
+  // Review System
+  lastReviewed: Number,
+  reviewdOn: Array, // contains like following .. [24, 15, 30, 24] => the last 24 will be the last Review Date's semester
+  step: Number,
   // Community Data
   seederID: String, // who originally created this? (If owner and seeder does not match, you can edit it, but you cant sell it.)
   packageID: String, // what kind of pacakge? (package has its own owner, selling price.. sold amounts etvc...)

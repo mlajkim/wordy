@@ -49,6 +49,9 @@ export type Support = {
   wordOrderPref: AscDescType;
   yearOrderPref: AscDescType,
   wordDisplayPref: 'wordcard' | 'list';
+  // Reviews
+  maxStep: number,
+  steps: number[],
   // old
   addedWordsCount: number;
   deletedWordsCount: number;
@@ -69,7 +72,8 @@ export type Word = {
   order: number, 
   dateAdded: number, 
   lastReviewed: string,
-  review: number[], 
+  reviewdOn: number[], 
+  step: number,
   seederID: string, 
   packageID: string, 
   isFavorite: boolean,
