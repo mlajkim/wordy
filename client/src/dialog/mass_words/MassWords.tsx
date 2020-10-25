@@ -33,7 +33,7 @@ const LETTERS_LIMITATION = 30000
 
 const MassWords = () => {
   // Redux states
-  const {user, language} = useSelector((state: State) => state);
+  const {user, language, support} = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [count, setCount] = useState(0);
@@ -41,7 +41,7 @@ const MassWords = () => {
   const [maxError, setMaxError] = useState(false);
   const [year, setYear] = useState(today().year.toString());
   const [sem, setSem] = useState(today().sem.toString());
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(support.tags);
   
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
