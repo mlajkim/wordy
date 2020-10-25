@@ -38,13 +38,13 @@ export const handleCountryCode = (countryCode: string) => {
 export const countryCodeIntoLanguage = (countryCode: string) => {
   switch(countryCode) {
     case 'ko':
-      return '🇰🇷 한국어'
+      return '한국어🇰🇷'
     case 'en':
-      return '🇺🇸 English'
+      return 'English🇺🇸'
     case 'ja':
-      return '🇯🇵 日本語' // chinese not yet
+      return '日本語🇯🇵' // chinese not yet
     case 'zh':
-      return '🇨🇳 中文 (简体)'
+      return '中文 (简体)🇨🇳'
     default:
       return '?'
   }
