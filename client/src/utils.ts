@@ -57,6 +57,15 @@ export const checkIfToday = (time: number): boolean => {
   return beginningOfToday <= givenTime ? true : false;
 };
 
+// beforeDays에 입력된 값 (예를들어 1일경우 어제가 됩니다.)
+export const checkIfThisDay = (time: number, beforeDays: number): boolean => {
+  const givenTime = moment(time).valueOf(); //moment = time
+  const theDaysBefore = beforeDays * 24 * 60 * 60 * 1000;
+  const endOfTheBeforeDays = moment().endOf('day').valueOf() - theDaysBefore;
+  const beginningOfTheBeforeDays = moment().startOf('day').valueOf() - theDaysBefore;
+  return endOfTheBeforeDays >= givenTime && beginningOfTheBeforeDays <= givenTime ? true : false;
+}
+
 export const today = () => {
   return convertSem(get_sem());
 };

@@ -1,6 +1,6 @@
 // Main & Types
 import React, {Fragment, useState, useEffect} from 'react';
-import {convertSem, countryCodeIntoLanguage, checkIfToday} from '../../utils';
+import {convertSem, countryCodeIntoLanguage, checkIfToday, checkIfThisDay} from '../../utils';
 import { State, WordsChunk } from '../../types';
 // Components
 import WordCard from '../../components/word_card/WordCard';
@@ -30,6 +30,7 @@ const YearChip = () => {
   // Declare Special Tags
   const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
   const [nowTag, setNowTag] = useState<boolean>(false);
+  const [yesterdayTag, setYesterdayTag] = useState<boolean>(false);
 
   // Effects
   useEffect(() => {
@@ -53,7 +54,8 @@ const YearChip = () => {
       setAllTag(true)
       setSelectedNormalTags([]);
       setFavoriteTag(false); // Special Tags
-      setNowTag(false); // Special Tags (Add below if new special tag implemented)
+      setNowTag(false); // Special Tags
+      setYesterdayTag(false); // Special Tags (Add below if new special tag implemented)
     }
   };
   // ..Method
@@ -88,7 +90,9 @@ const YearChip = () => {
     specialNormalShared(selectedNormalTags);
     if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag); // handleSpecialTags
     else if(tag === tr.today[ln]) setNowTag(!nowTag); // handleSpecialTags
+    else if(tag === tr.yesterday[ln]) setYesterdayTag(!yesterdayTag); // Add the new special tag below
   }
+
   // ..method
   const handleNormalTags = (tag: string) => {
     let prevSelectedTags = specialNormalShared(selectedNormalTags);
@@ -106,6 +110,7 @@ const YearChip = () => {
   const filteredWordsList = filterTargetWords !== undefined && filterTargetWords
       .filter(word => favoriteTag ? word.isFavorite : true)
       .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
+      .filter(word => yesterdayTag ? checkIfThisDay(word.dateAdded, 1) : true)
       .filter(word => {
         if (selectedNormalTags.length !== 0) { // languages & tags filter
           let flag = false;
@@ -177,6 +182,12 @@ const YearChip = () => {
                 label={tr.today[ln]} 
                 onClick={() => handleSpecialTags(tr.today[ln])}
                 color={nowTag ? 'primary' : 'default'}
+              />
+              <Chip 
+                clickable
+                label={tr.yesterday[ln]} 
+                onClick={() => handleSpecialTags(tr.yesterday[ln])}
+                color={yesterdayTag ? 'primary' : 'default'}
               />
               {
                 normalTags.map((tag: string) => (

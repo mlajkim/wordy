@@ -24,6 +24,11 @@
     "en": "#Today",
     "ja": "#今日"
   },
+  "yesterday": {
+    "ko": "#어제",
+    "en": "#Yesterday",
+    "ja": "#昨日"
+  },
   "chooseSem": {
     "ko": "분기를 선택해주세요 :)",
     "en": "Choose your year & quadrant :)",
