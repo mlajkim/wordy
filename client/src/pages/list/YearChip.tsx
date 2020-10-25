@@ -167,7 +167,7 @@ const YearChip = () => {
           : <Fragment>
               <Chip 
                 clickable
-                label={tr.all[ln]} 
+                label={tr.all[ln] + ` (${filterTargetWords === undefined ? 'Wait..' : filterTargetWords.length})`} 
                 onClick={() => handleAllTag()}
                 color={allTag ? 'primary' : 'default'}
               />
