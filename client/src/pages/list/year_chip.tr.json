@@ -29,6 +29,16 @@
     "en": "#Yesterday",
     "ja": "#昨日"
   },
+  "weekAgo": {
+    "ko": "#1주일전",
+    "en": "#A week ago",
+    "ja": "#１週間前"
+  },
+  "monthAgo": {
+    "ko": "#한달전",
+    "en": "#A month ago",
+    "ja": "#一ヶ月前"
+  },
   "chooseSem": {
     "ko": "분기를 선택해주세요 :)",
     "en": "Choose your year & quadrant :)",

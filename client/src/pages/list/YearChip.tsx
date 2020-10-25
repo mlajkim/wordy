@@ -31,6 +31,8 @@ const YearChip = () => {
   const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
   const [nowTag, setNowTag] = useState<boolean>(false);
   const [yesterdayTag, setYesterdayTag] = useState<boolean>(false);
+  const [weekBeforeTag, setWeekBeforeTag] = useState<boolean>(false);
+  const [monthBeforeTag, setMonthBeforeTag] = useState<boolean>(false);
 
   // Effects
   useEffect(() => {
@@ -55,7 +57,9 @@ const YearChip = () => {
       setSelectedNormalTags([]);
       setFavoriteTag(false); // Special Tags
       setNowTag(false); // Special Tags
-      setYesterdayTag(false); // Special Tags (Add below if new special tag implemented)
+      setYesterdayTag(false); //  Special Tags
+      setWeekBeforeTag(false);  //  Special Tags
+      setMonthBeforeTag(false);// Special Tags (Add below if new special tag implemented)
     }
   };
   // ..Method
@@ -88,9 +92,12 @@ const YearChip = () => {
   // ..method
   const handleSpecialTags = (tag: string) => {
     specialNormalShared(selectedNormalTags);
-    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag); // handleSpecialTags
-    else if(tag === tr.today[ln]) setNowTag(!nowTag); // handleSpecialTags
-    else if(tag === tr.yesterday[ln]) setYesterdayTag(!yesterdayTag); // Add the new special tag below
+    // Special Tags
+    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
+    else if(tag === tr.today[ln]) setNowTag(!nowTag);
+    else if(tag === tr.yesterday[ln]) setYesterdayTag(!yesterdayTag); 
+    else if(tag === tr.weekAgo[ln]) setWeekBeforeTag(!weekBeforeTag); 
+    else if(tag === tr.monthAgo[ln]) setMonthBeforeTag(!monthBeforeTag); // Add the new special tag below
   }
 
   // ..method
@@ -111,6 +118,8 @@ const YearChip = () => {
       .filter(word => favoriteTag ? word.isFavorite : true)
       .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
       .filter(word => yesterdayTag ? checkIfThisDay(word.dateAdded, 1) : true)
+      .filter(word => weekBeforeTag ? checkIfThisDay(word.dateAdded, 7) : true)
+      .filter(word => monthBeforeTag ? checkIfThisDay(word.dateAdded, 30) : true)
       .filter(word => {
         if (selectedNormalTags.length !== 0) { // languages & tags filter
           let flag = false;
@@ -188,6 +197,18 @@ const YearChip = () => {
                 label={tr.yesterday[ln]} 
                 onClick={() => handleSpecialTags(tr.yesterday[ln])}
                 color={yesterdayTag ? 'primary' : 'default'}
+              />
+              <Chip 
+                clickable
+                label={tr.weekAgo[ln]} 
+                onClick={() => handleSpecialTags(tr.weekAgo[ln])}
+                color={weekBeforeTag ? 'primary' : 'default'}
+              />
+              <Chip 
+                clickable
+                label={tr.monthAgo[ln]} 
+                onClick={() => handleSpecialTags(tr.monthAgo[ln])}
+                color={monthBeforeTag ? 'primary' : 'default'}
               />
               {
                 normalTags.map((tag: string) => (
