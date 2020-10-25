@@ -71,9 +71,11 @@ export type Word = {
   ownerID: string,
   order: number, 
   dateAdded: number, 
-  lastReviewed: string,
+  // reviews
+  lastReviewed: number,
   reviewdOn: number[], 
   step: number,
+  // others
   seederID: string, 
   packageID: string, 
   isFavorite: boolean,
