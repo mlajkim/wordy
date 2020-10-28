@@ -23,8 +23,8 @@ This service - I also use - helps me focusing on my profession, yet simply revie
 Welcome to our community. Your journey has just started with us.
 Join here now at: https://wordy-cloud.com/
 
-![alt text](https://github.com/PeacefulHaru/wordy/img/intro1_feature.jpeg)
-![alt text](https://github.com/PeacefulHaru/wordy/img/intro2_multitask.jpeg)
+![](https://github.com/PeacefulHaru/wordy/blob/master/img/intro1_features.jpeg)
+![](https://github.com/PeacefulHaru/wordy/blob/master/img/intro2_multitask.jpeg)
 
 # Programming Tools
 1. Front-End: TypeScript, React, Redux, Apollo, GraphQL
