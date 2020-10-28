@@ -1,5 +1,5 @@
 // Mains & Types
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { State } from '../../types';
 // Translation
 import tr from './list_setting.tr.json';
@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid'
 // Icons
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import RefreshIcon from '@material-ui/icons/Refresh';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -59,6 +61,38 @@ const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
 // @@ MAIN
 const ListSetting: React.FC = () => {
   const [isShowing, setShowing] = useState<boolean>(false);
+  const [refreshStep, setRefreshStep] = useState<0 | 1 | 2>(2); // 0: loading 1: done 2: back to clickable
+
+  // Method
+  const handleRefresh = () => {
+    setRefreshStep(0);
+    setRefreshStep(1);
+  }
+
+  // Effect
+  useEffect(() => {
+    if (refreshStep === 1) {
+      setRefreshStep(2);
+    }
+  }, [refreshStep]);
+
+  // renderer
+  const refreshIcon = () => {
+    switch (refreshStep) {
+      case 0:
+        return <CircularProgress />;
+      case 1:
+        return <h3>DONE</h3>;
+      case 2:
+        return (
+          <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => handleRefresh()}>
+            <RefreshIcon />
+          </IconButton>
+        )
+      default:
+        return <h3>ERROR! IF YOU ARE ADMIN, CHECK YOUR CODE</h3>
+    }
+  }
 
   return (
     <Fragment>
@@ -67,9 +101,12 @@ const ListSetting: React.FC = () => {
           <Lists setShowing={setShowing} />
         )
         : (
-          <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => setShowing(true)}>
-            <TuneOutlinedIcon />
-          </IconButton>
+          <Fragment>
+            { refreshIcon }
+            <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => setShowing(true)}>
+              <TuneOutlinedIcon />
+            </IconButton>
+          </Fragment>
         )
       }
     </Fragment>

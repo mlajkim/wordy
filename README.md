@@ -1,16 +1,8 @@
+# Wordy (Your Multilingual Partner)
 Join here:
 https://wordy-cloud.com/
 
-# Programming Tools
-1. Front-End: TypeScript, React, Redux, Apollo, GraphQL
-2. Back-End: TypeScript, Express, NodeJS, GraphQL
-3. Database: Mongoose, MongoDB
-4. Security: HTTPS, SSL, JWT
-5. Server: AWS EC2 Ubuntu
-6. External APIs: Google Sign-In API, PayPal API
-7. Others: Google Material UI
-
-# Wordy
+# Introduction
 Wordy-cloud service provides you the best way to become multilingual.
 This service is especially for those who have their own professional field and wishing to 
 improve their language, yet, they want some management system not to forget important 
@@ -31,9 +23,20 @@ This service - I also use - helps me focusing on my profession, yet simply revie
 Welcome to our community. Your journey has just started with us.
 Join here now at: https://wordy-cloud.com/
 
+![alt text](https://github.com/PeacefulHaru/wordy/img/intro1_feature.jpeg)
+![alt text](https://github.com/PeacefulHaru/wordy/img/intro2_multitask.jpeg)
 
-# Language Support
+# Programming Tools
+1. Front-End: TypeScript, React, Redux, Apollo, GraphQL
+2. Back-End: TypeScript, Express, NodeJS, GraphQL
+3. Database: Mongoose, MongoDB
+4. Security: HTTPS, SSL, JWT
+5. Server: AWS EC2 Ubuntu
+6. External APIs: Google Sign-In API, PayPal API
+7. Others: Google Material UI
+
+# Page Language Support
 1. English
-2. Korean (Future)
-3. Japanese (Future)
+2. Korean
+3. Japanese
 4. Chinese (Future)
