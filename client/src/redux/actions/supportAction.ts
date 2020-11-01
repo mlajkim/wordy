@@ -6,6 +6,7 @@ export const MODIFY_SUPPORT = '[SUPPORT] Modify'
 export const SYNC_SUPPORT = '[SYNC_SUPPORT] Sync Support'
 export const ADD_SEM_NO_DUPLICATE = '[SUPPORT] Add Sem (No Duplicate)';
 export const DELETE_SEM = '[SUPPORT] Delete sem';
+export const MODIFY_RECOMMANDED_TAGS = '[SUPPORT] Modify Recommanded Tags';
 
 // Ultimately
 export const updateSupport = (data: object) => {
@@ -54,5 +55,12 @@ export const deleteSem = (sem: number) => {
   return {
     type: DELETE_SEM,
     payload: sem
+  }
+}
+
+export const modifyRecommandedTags = (newRecommandedTags: string[]) => {
+  return {
+    type: MODIFY_RECOMMANDED_TAGS,
+    payload: newRecommandedTags
   }
 }

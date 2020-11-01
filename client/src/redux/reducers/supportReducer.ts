@@ -14,6 +14,7 @@ const initialState: Support = {
   yearOrderPref: 'asc',
   wordDisplayPref: 'wordcard',
   lastTags: [],
+  recommandedTags: [],
   // reviews
   maxStep: 8,
   steps: [1, 8, 24, 72, 168, 336, 720, 720],

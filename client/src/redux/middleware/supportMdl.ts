@@ -1,5 +1,5 @@
-import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE} from '../actions/supportAction';
-import {setSupport} from '../actions/supportAction';
+import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE, MODIFY_RECOMMANDED_TAGS} from '../actions/supportAction';
+import { setSupport , modifySupport } from '../actions/supportAction';
 import {State, FetchyResponse} from '../../types';
 import { fetchy } from '../actions/apiAction';
 
@@ -68,4 +68,30 @@ export const deleteSemMdl = ({dispatch, getState} : any) => (next: any) => (acti
   };
 };
 
-export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl, deleteSemMdl]; 
+export const modifyRecommandedTagsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === MODIFY_RECOMMANDED_TAGS) {
+    // payload and states
+    const newRecommandedTags: string[] = action.payload;
+    const {support}: State = getState();
+    const lastTags = support.lastTags;
+    const recommandedTags = support.recommandedTags;
+    const MAX_LENGTH = 3; // absolute
+
+    if (lastTags.length < newRecommandedTags.length) {
+      const newTag = newRecommandedTags[newRecommandedTags.length - 1];
+      const foundIndex = recommandedTags.findIndex(prevTag => prevTag === newTag);
+      if (foundIndex === -1) { // it means the same thing does not exist, so put it in front and save it
+        dispatch(modifySupport({ recommandedTags: [newTag, ...recommandedTags].slice(0, MAX_LENGTH)}));
+      }
+      else {
+        recommandedTags.splice(foundIndex, 1);
+        dispatch(modifySupport({ recommandedTags: [newTag, ...recommandedTags]})); // don't need to check the maxCount cuz it will delete
+      }
+    }
+    
+  };
+};
+
+export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl, deleteSemMdl, modifyRecommandedTagsMdl]; 

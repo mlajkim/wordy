@@ -71,7 +71,7 @@ const AddWordsDialog: React.FC = () => {
           <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)}/>
           <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}/>
           <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}/>
-          <TagsList ln={ln} tags={tags} setTags={setTags} />
+          <TagsList tags={tags} setTags={setTags} />
           {tr.askForPublic[ln]}
           <FormControlLabel
             value="end"

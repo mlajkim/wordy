@@ -97,7 +97,7 @@ const MassWords = () => {
             fullWidth value={sem}
             onChange={(e) => setSem(e.target.value)}
           />
-          <TagsList ln={ln} tags={tags} setTags={setTags} />
+          <TagsList tags={tags} setTags={setTags} />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
             style={{width: '100%', textAlign:'center'}} multiline rows={5} rowsMax={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}

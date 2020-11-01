@@ -51,6 +51,7 @@ export type Support = {
   deletedWordCnt: number;
   sems: number[];
   lastTags: string[];
+  recommandedTags: string[];
   newWordAddingType: NewWordAddingType;
   wordOrderPref: AscDescType;
   yearOrderPref: AscDescType,
