@@ -39,14 +39,12 @@ export const fetchy3 = ({dispatch, getState} : any) => (next: any) => async (act
       }
     })
     .then(res => {
-      if (onSuccess !== null) onSuccess(res.data);
+      if (onSuccess !== null) dispatch(onSuccess(res.data.payload));
     })
     .catch(err => {
       dispatch(setSnackbar('ERROR WITH FETCHY3 (CHECK CONSOLE)', 'error'))
       console.log(err);
     })
-  
-    
   }
 };
 

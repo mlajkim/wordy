@@ -1,3 +1,6 @@
+// Types
+import { WordsChunk } from '../../types';
+// Actions
 export const UPDATE_WORDS="[WORDS] Update";
 export const POST_WORDS = "[WORDS] Post";
 export const GET_WORDS = '[WORDS] Get'
@@ -49,10 +52,10 @@ export const deleteWords = (sem: number, IDs: {ID: string}[])  => {
   }
 }
 
-export const savingHelper = (data: any) => {
+export const savingHelper = (words: WordsChunk) => {
   return {
     type: SAVING_HELPER,
-    payload: data
+    payload: words
   }
 }
 

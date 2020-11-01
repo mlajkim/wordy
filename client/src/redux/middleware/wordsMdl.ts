@@ -3,7 +3,7 @@ import { WordsChunk, Word, State, FetchyResponse } from '../../types';
 // actions
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
-import {fetchy} from '../actions/apiAction';
+import { fetchy, fetchy3 } from '../actions/apiAction';
 import {setWords, savingHelper} from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
 
@@ -52,7 +52,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
 
     // #2 Put some more necessary data
     let newWordCnt: number = support.newWordCnt;
-    const newPayload = payload.map((word: Word) => {
+    const newWordsPayload = payload.map((word: Word) => {
       newWordCnt += 1;
       return {
         ...word, ownerID: user.ID, isFavorite: false, order: newWordCnt, language: support.addWordLangPref,
@@ -61,8 +61,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
     });
 
     // #3 Handle Back & Front
-    dispatch(fetchy('post', '/words', newPayload));
-    dispatch(savingHelper(newPayload))
+    dispatch(fetchy3('post', '/words/fetchy3', newWordsPayload, savingHelper));
 
     // Adding Words will have an affect on supports.
     dispatch(modifySupport({ newWordCnt }));
@@ -70,6 +69,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
   }
 };
 
+// #MODIFY
 export const modifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 

@@ -11,14 +11,13 @@ export const fetchy = (
   }
 }
 
-export type Fetchy3ActionPayload = {
-  method: 'get' | 'post' | 'put' | 'delete',
-  url: string,
-  payload: object[] | null,
-  onSuccess: any | null
-}
+export type Fetchy3ActionPayload = { method: Method, url: Url, payload: Payload, onSuccess: OnSuccess }
+type Method = 'get' | 'post' | 'put' | 'delete';
+type Url = string;
+type Payload = null | object[];
+type OnSuccess = any;
 
-export const fetchy3 = ({ method, url, payload, onSuccess }: Fetchy3ActionPayload) => {
+export const fetchy3 = (method: Method, url: Url, payload: Payload, onSuccess: OnSuccess) => {
   return {
     type: FETCHY3,
     payload: { method, url, payload, onSuccess }
