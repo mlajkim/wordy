@@ -32,6 +32,7 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
     ? support.recommandedTags.map(tag => {
       return (
         <Chip
+          key={tag}
           label={tag}
           color="primary"
           variant="outlined"

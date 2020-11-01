@@ -10,8 +10,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 // Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
@@ -40,7 +38,6 @@ const AddWordsDialog: React.FC = () => {
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
   const [tags, setTags] = useState<string[]>(support.lastTags);
-  const [isPublic, setPublic] = useState(true);
   // Extra Component states
   const [isShowingExtra, setShowingExtra] = useState(false);
   const [extraYear, setExtraYear] = useState('');
@@ -51,7 +48,7 @@ const AddWordsDialog: React.FC = () => {
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.successAddWord[ln]));
     const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
-    store.dispatch(postWords([{ word, pronun, meaning, example, isPublic, sem, tag: tags }]));
+    store.dispatch(postWords([{ word, pronun, meaning, example, isPublic: false, sem, tag: tags }]));
   } 
 
   return (
@@ -72,13 +69,6 @@ const AddWordsDialog: React.FC = () => {
           <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}/>
           <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}/>
           <TagsList tags={tags} setTags={setTags} />
-          {tr.askForPublic[ln]}
-          <FormControlLabel
-            value="end"
-            control={<Switch checked={isPublic} onChange={() => setPublic(!isPublic)} color="primary" />}
-            label={isPublic ? tr.printPublicTrue[ln] : tr.printPublicFalse[ln]}
-            labelPlacement="end"
-          />
           {isShowingExtra
             ? (
               <Fragment>
