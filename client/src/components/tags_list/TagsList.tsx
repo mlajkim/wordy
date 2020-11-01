@@ -39,12 +39,12 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
         />
       )
     })
-    : null
+    : <h4>Add your tag first :)</h4>
 
   return (
     <div>
       <ChipInput label={tr.tag[ln]} onChange={(value) => handleChange(value)} defaultValue={tags} fullWidth />
-      <InputLabel id="recTagLabel" style={{marginTop: 10, marginBottom: 10}}>{tr.recTag[ln]}</InputLabel>
+      {support.recommandedTags.length > 0  && <InputLabel id="recTagLabel" style={{marginTop: 10, marginBottom: 10}}>{tr.recTag[ln]}</InputLabel>}
       { recommandedChips }
     </div>
   );
