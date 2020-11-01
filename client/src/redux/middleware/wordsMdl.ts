@@ -4,7 +4,7 @@ import { WordsChunk, Word, State, FetchyResponse } from '../../types';
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
-import {setWords, savingHelper} from '../actions/wordsAction';
+import { setWords, savingHelper } from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -130,17 +130,23 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
 
   if(action.type === SAVING_HELPER) {
     const newWords: WordsChunk = action.payload; // payload first
-    const {words: prevWords}: State = getState(); // global states next
-    const standardSem = newWords[0].sem;
+    const {words: prevWords, support}: State = getState(); // global states next
+    const semOfNewWords = newWords[0].sem;
+    const sems = support.sems;
     // Logic
-    let hasFound = (prevWords as WordsChunk[]).find(datus => datus[0].sem === standardSem);
+    let hasFound = (prevWords as WordsChunk[]).find(datus => datus[0].sem === semOfNewWords);
     if(hasFound === undefined) {
-      // If the same sem chunk is not found, I can simply add them into.
-      dispatch(updateWords([...prevWords, newWords]));
+      // You want to chwck if it exists in the database.
+      const foundIndex = sems.findIndex(sem => sem === semOfNewWords);
+      if (foundIndex === -1) dispatch(updateWords([...prevWords, newWords])); // because it does not exist
+      else {
+        // dispatch(getWords(semOfNewWords));
+      }
+      
     }
-    else {
+    else { // already has been downloaded.
       hasFound = [...hasFound, ...newWords];
-      dispatch(updateWords([...(prevWords as WordsChunk[]).filter(elem => elem[0].sem !== standardSem), hasFound]))
+      dispatch(updateWords([...(prevWords as WordsChunk[]).filter(elem => elem[0].sem !== semOfNewWords), hasFound]))
     }
     
   }
