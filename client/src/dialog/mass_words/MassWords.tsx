@@ -41,7 +41,7 @@ const MassWords = () => {
   const [maxError, setMaxError] = useState(false);
   const [year, setYear] = useState(today().year.toString());
   const [sem, setSem] = useState(today().sem.toString());
-  const [tags, setTags] = useState<string[]>(support.tags);
+  const [tags, setTags] = useState<string[]>(support.lastTags);
   
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

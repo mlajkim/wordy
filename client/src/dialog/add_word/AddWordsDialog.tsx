@@ -39,7 +39,7 @@ const AddWordsDialog: React.FC = () => {
   const [pronun, setPronun] = useState('' ); 
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
-  const [tags, setTags] = useState<string[]>(support.tags);
+  const [tags, setTags] = useState<string[]>(support.lastTags);
   const [isPublic, setPublic] = useState(true);
   // Extra Component states
   const [isShowingExtra, setShowingExtra] = useState(false);

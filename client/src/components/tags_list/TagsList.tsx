@@ -17,7 +17,7 @@ const TagsList: React.FC <PropsRequired> = ({ ln, tags, setTags, recommandedTags
   const recVal = recommandedTags?.map(tag => `${tr.rec[ln]}` + tag);
 
   const handleChange = (newTags: string[]) => {
-    store.dispatch(modifySupport({tags: newTags}))
+    store.dispatch(modifySupport({lastTags: newTags}))
     setTags(newTags);
   }
 
