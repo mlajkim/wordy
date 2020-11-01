@@ -1,5 +1,5 @@
 // types
-import { WordsChunk, Word, State, FetchyResponse } from '../../types';
+import { WordsChunk, Word, State } from '../../types';
 // actions
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
@@ -16,23 +16,29 @@ const validate = (payload: WordsChunk): boolean => {
 }
 
 // Middlewares
-export const getWordsMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+// Fecthy 3
+export const getWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === GET_WORDS) {
+    const { user }: State = getState();
     const sem = action.payload;
-    dispatch(fetchy('get', '/words', null, setWords, `/${sem}`));
+    dispatch(fetchy3('get', `/words/${user.ID}/${sem}`, null, setWords));
   }
 };
 
-export const setWordsMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+// Fetchy 3
+export const setWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === SET_WORDS) {
-    const {empty, data}  = action.payload as FetchyResponse;
-    if(empty) return; 
+    // Payload and States
+    const payload: WordsChunk  = action.payload;
+    const { words }: State = getState();
+    
+    if(payload.length === 0) return; 
+    dispatch(updateWords([...words, payload]));
 
-    dispatch(savingHelper(data));
   } 
 };
 
@@ -139,10 +145,7 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
       // You want to chwck if it exists in the database.
       const foundIndex = sems.findIndex(sem => sem === semOfNewWords);
       if (foundIndex === -1) dispatch(updateWords([...prevWords, newWords])); // because it does not exist
-      else {
-        // dispatch(getWords(semOfNewWords));
-      }
-      
+      // 만약에 다운을 안 받은 상태면 애초에 다운 받을 필요가 없으므로 안함. 누르고 추가 잘 되므로 이상.
     }
     else { // already has been downloaded.
       hasFound = [...hasFound, ...newWords];

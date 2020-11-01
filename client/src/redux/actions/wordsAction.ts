@@ -24,10 +24,10 @@ export const getWords = (sem: number) => {
   }
 }
 
-export const setWords = (data: any) => {
+export const setWords = (payload: any) => {
   return {
     type: SET_WORDS,
-    payload: data
+    payload
   }
 }
 

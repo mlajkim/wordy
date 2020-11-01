@@ -49,7 +49,7 @@ const AddWordsDialog: React.FC = () => {
   // Methods
   const handleSavingWords = () => {
     store.dispatch(offDialog());
-    store.dispatch(setSnackbar(tr.successAddWord[ln], 'info'));
+    store.dispatch(setSnackbar(tr.successAddWord[ln]));
     const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
     store.dispatch(postWords([{ word, pronun, meaning, example, isPublic, sem, tag: tags }]));
   } 

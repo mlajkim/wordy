@@ -10,6 +10,11 @@ export type State = {
   snackbar: SnackbarState
 }
 
+export type Fetchy3Response = {
+  empty: boolean,
+  payload: any
+}
+
 export type FetchyResponse = {
   empty: boolean,
   length?: number,

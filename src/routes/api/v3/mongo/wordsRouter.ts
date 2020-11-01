@@ -21,24 +21,14 @@ words.post("/fetchy3", (req: Request, res: Response) => {
   })
 });
 
-// @ CREATE
-words.post("/:ownerID", async (req: Request, res: Response) => {
-  await req.body.payload.forEach((datus: any) => {
-    new wordSchema({ ...datus, dateAdded: moment().valueOf() }).save()
-  })
-
-  res.send({empty: true})
-});
-
-// @ READ
+// @ READ (Fetchy 3)
 words.get("/:ownerID/:sem", async (req: Request, res: Response) => {
   const {ownerID, sem} = req.params;
 
   const data = await wordSchema.find({ownerID, sem});
   res.send({
     empty: data.length === 0 ? true : false,
-    length: data.length,
-    data: data
+    payload: data
   })
 });
 

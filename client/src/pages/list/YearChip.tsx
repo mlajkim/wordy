@@ -230,8 +230,8 @@ const YearChip = () => {
         : !filteredWordsList 
           ? <CircularProgress />
           : filteredWordsList.map((datus, idx) => {
-            if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id + idx} word={datus} />
-            else if (support.wordDisplayPref === 'list') return <WordList key={datus._id + idx} word={datus} idx={idx + 1} />
+            if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
+            else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
             else return null;
           })
         }
