@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Chip from '@material-ui/core/Chip';
 // Icons
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -76,6 +77,13 @@ const WordCard: React.FC<Props> = ({word}) => {
     }
   }
 
+  // Tags
+  const tags = word.tag.length === 0
+    ? null
+    : word.tag.map(tag => (
+      <Chip size="small" label={`#${tag}`} />
+    )) 
+
   return (
     <Card style={{width: '100%', marginBottom: 10}}>
       <CardContent>
@@ -95,6 +103,7 @@ const WordCard: React.FC<Props> = ({word}) => {
           {word.example && `"${word.example}"`}
         </Typography>
       </CardContent>
+      { tags }
       <CardActions>
         <IconButton size="small" color="inherit" onClick={() => handleToolClick('like')} >
           {word.isFavorite
