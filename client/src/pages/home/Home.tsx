@@ -1,14 +1,18 @@
+// Main & Types
 import React, {Fragment} from 'react';
-import './Home.css';
-import Button from '@material-ui/core/Button';
-import tr from './home.tr.json';
 import {Language} from '../../types';
-// imgs
+import './Home.css';
 import Background from '../../img/home_background.jpeg';
+// Material UI
+import Button from '@material-ui/core/Button';
+// Translation
+import tr from './home.tr.json';
+import trAppbar from '../../app/appbar.tr.json';
 // Redux
 import store from '../../redux/store';
-import {setDialog, setLanguage} from '../../redux/actions';
 import {useSelector} from 'react-redux';
+// Actions
+import {setDialog, setLanguage, setSnackbar} from '../../redux/actions';
 
 const style = {
   intro: {
@@ -29,6 +33,7 @@ const Home = () => {
   const ln = useSelector((state: {language: Language}) => state.language);
 
   const handleLanguageChange = () => {
+    store.dispatch(setSnackbar(trAppbar.languageChanged['en']));
     store.dispatch(setLanguage('en'));
   };
   const handleDialog = (type: 'LoginDialog' | 'SignUpDialog') => {

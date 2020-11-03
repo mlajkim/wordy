@@ -41,6 +41,7 @@ const Appbar = () => {
   };
 
   const handleLanguageChange = (ln: Language) => {
+    store.dispatch(setSnackbar(tr.languageChanged[ln]))
     store.dispatch(setLanguage(ln));
     const accessToken = Cookie.get('login');
     const payload = {languagePreference: ln};

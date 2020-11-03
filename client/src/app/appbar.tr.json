@@ -13,5 +13,10 @@
     "en": "Sign out",
     "ko": "로그아웃",
     "ja": "ログアウト"
+  },
+  "languageChanged": {
+    "ko": "변경되었습니다",
+    "en": "Language Changed",
+    "ja": "変更しました"
   }
 }
