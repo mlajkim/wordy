@@ -77,7 +77,7 @@ export const modifyRecommandedTagsMdl = ({dispatch, getState} : any) => (next: a
     const {support}: State = getState();
     const lastTags = support.lastTags;
     const recommandedTags = support.recommandedTags;
-    const MAX_LENGTH = 3; // absolute
+    const MAX_LENGTH = 4; // absolute
 
     if (lastTags.length < newRecommandedTags.length) {
       const newTag = newRecommandedTags[newRecommandedTags.length - 1];

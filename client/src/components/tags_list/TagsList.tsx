@@ -13,7 +13,7 @@ import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Actions
 import { modifyRecommandedTags, modifySupport } from '../../redux/actions/supportAction';
-
+import { setSnackbar } from '../../redux/actions';
 // Type
 type PropsRequired = {tags: string[], setTags: React.Dispatch<React.SetStateAction<string[]>> };
 
@@ -26,8 +26,7 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
   const handleAddTag = (tag: string) => {
     const newTags = [...tags, tag];
     setTags(newTags);
-    store.dispatch(modifySupport({lastTags: newTags}));
-    store.dispatch(modifySupport({lastTags: newTags}));
+    store.dispatch(modifyRecommandedTags(newTags))
   }
   // ..Method
   const handleDeleteTag = (index: number) => {
@@ -37,7 +36,10 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
   }
   // ..Method
   const handleRecTag = (tag: string) => {
-    console.log('rectag clicked', tag);
+    if (tags.findIndex(datus => datus === tag) !== -1) {
+      store.dispatch(setSnackbar(tr.exists[ln], 'warning'));
+    }
+    else handleAddTag(tag);
   }
   // Render (Recomannded Chip)
   const recommandedChips = support.recommandedTags.length > 0 

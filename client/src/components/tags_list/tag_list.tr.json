@@ -13,5 +13,10 @@
     "ko": "(추천) ",
     "en": "(Rec.) ",
     "ja": "(推薦) "
+  }, 
+  "exists": {
+    "ko": "이미 추가된 태그입니다",
+    "en": "The tag is already in the list",
+    "ja": "もはや追加されたタグです"
   }
 }
