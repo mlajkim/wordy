@@ -55,7 +55,7 @@ export default function EditDialog() {
           <TextField margin="dense" id='pronun' value={pronun} label={trAddWordsDialog.pronun[ln]} fullWidth onChange={(e) => setPronun(e.target.value)}/>
           <TextField margin="dense" id='meaning' value={meaning} label={trAddWordsDialog.meaning[ln]} fullWidth onChange={(e) => setMeaning(e.target.value)}/>
           <TextField margin="dense" id='example' value={example} label={trAddWordsDialog.example[ln]} fullWidth onChange={(e) => setExample(e.target.value)}/>
-          <TagsList tags={prevWord.tag} setTags={setTags} />
+          <TagsList tags={tags} setTags={setTags} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => store.dispatch(offDialog())} color="primary"> {trAddWordsDialog.btnCancel[ln]} </Button>
