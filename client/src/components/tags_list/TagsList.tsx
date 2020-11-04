@@ -34,6 +34,7 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
     const length = tags.length;
     const newTags = [...tags.slice(0, index), ...tags.slice(index + 1, length)];
     setTags(newTags);
+    store.dispatch(modifySupport({ lastTags: newTags }));
   }
   // ..Method
   const handleRecTag = (tag: string) => {
