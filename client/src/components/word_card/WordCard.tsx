@@ -1,6 +1,6 @@
 import React from 'react';
 import { Word } from '../../types';
-import { convertSem } from '../../utils';
+import { convertSem, countryCodeIntoLanguage } from '../../utils';
 // Material UI
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -76,14 +76,13 @@ const WordCard: React.FC<Props> = ({word}) => {
         return
     }
   }
-
-  // Tags
+  // Render Tags
   const tags = word.tag.length === 0
     ? null
     : word.tag.map(tag => (
-      <Chip key={tag} size="small" label={`#${tag}`} />
-    )) 
-
+      <Chip key={tag} label={`#${tag}`} variant="outlined" size="small" />
+    ));
+  // Return
   return (
     <Card style={{width: '100%', marginBottom: 10}}>
       <CardContent>
@@ -103,6 +102,7 @@ const WordCard: React.FC<Props> = ({word}) => {
           {word.example && `"${word.example}"`}
         </Typography>
       </CardContent>
+      <Chip label={`#${countryCodeIntoLanguage(word.language)}`} variant="outlined" size="small" />
       { tags }
       <CardActions>
         <IconButton size="small" color="inherit" onClick={() => handleToolClick('like')} >
