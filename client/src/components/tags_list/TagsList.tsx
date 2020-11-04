@@ -22,17 +22,30 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
   const {language, support} = useSelector((state: State) => state);
   const ln = language;
 
-  const handleChange = (newTags: string[]) => {
-    store.dispatch(modifyRecommandedTags(newTags));
+  // Method
+  const handleAddTag = (tag: string) => {
+    const newTags = [...tags, tag];
+    setTags(newTags);
     store.dispatch(modifySupport({lastTags: newTags}));
+    store.dispatch(modifySupport({lastTags: newTags}));
+  }
+  // ..Method
+  const handleDeleteTag = (index: number) => {
+    const length = tags.length;
+    const newTags = [...tags.slice(0, index), ...tags.slice(index + 1, length)];
     setTags(newTags);
   }
-
+  // ..Method
+  const handleRecTag = (tag: string) => {
+    console.log('rectag clicked', tag);
+  }
+  // Render (Recomannded Chip)
   const recommandedChips = support.recommandedTags.length > 0 
     ? support.recommandedTags.map(tag => {
       return (
         <Chip
           key={tag}
+          onClick={() => handleRecTag(tag)}
           label={tag}
           color="primary"
           variant="outlined"
@@ -40,10 +53,16 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
       )
     })
     : <h4>Add your tag first :)</h4>
-
+  // Return JSX 
   return (
     <div>
-      <ChipInput label={tr.tag[ln]} onChange={(value) => handleChange(value)} defaultValue={tags} fullWidth />
+      <ChipInput 
+        label={tr.tag[ln]} 
+        value={tags}
+        onAdd={(tag) => handleAddTag(tag)}
+        onDelete={(_tag, index) => handleDeleteTag(index)}
+        fullWidth 
+      />
       {support.recommandedTags.length > 0  && <InputLabel id="recTagLabel" style={{marginTop: 10, marginBottom: 10}}>{tr.recTag[ln]}</InputLabel>}
       { recommandedChips }
     </div>
