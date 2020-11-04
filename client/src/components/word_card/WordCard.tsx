@@ -81,7 +81,7 @@ const WordCard: React.FC<Props> = ({word}) => {
   const tags = word.tag.length === 0
     ? null
     : word.tag.map(tag => (
-      <Chip size="small" label={`#${tag}`} />
+      <Chip key={tag} size="small" label={`#${tag}`} />
     )) 
 
   return (
