@@ -26,7 +26,8 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
   const handleAddTag = (tag: string) => {
     const newTags = [...tags, tag];
     setTags(newTags);
-    store.dispatch(modifyRecommandedTags(newTags))
+    store.dispatch(modifyRecommandedTags(newTags)); // these two are different
+    store.dispatch(modifySupport({ lastTags: newTags })); // these two are different
   }
   // ..Method
   const handleDeleteTag = (index: number) => {
