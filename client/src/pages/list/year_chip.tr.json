@@ -31,12 +31,17 @@
   },
   "weekAgo": {
     "ko": "#1주일전",
-    "en": "#A week ago",
+    "en": "#1 week ago",
     "ja": "#1週間前"
   },
+  "twoWeeksAgo":{
+    "ko": "#2주일전",
+    "en": "#2 weeks ago",
+    "ja": "#2週間前"
+  },
   "monthAgo": {
-    "ko": "#한달전",
-    "en": "#A month ago",
+    "ko": "#1달전",
+    "en": "#1 month ago",
     "ja": "#1ヶ月前"
   },
   "chooseSem": {
