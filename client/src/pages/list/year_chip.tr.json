@@ -53,5 +53,10 @@
     "ko": "불러오는 중...",
     "en": "Extracting...",
     "ja": "お待ち下さい"
+  },
+  "": {
+    "ko": "DUMMY",
+    "en": "DO NOT",
+    "ja": "DELETE"
   }
 }

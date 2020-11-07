@@ -19,6 +19,7 @@ import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
+type SpecialTag = '' | 'favorite' | 'today' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
 // @ MAIN
 const YearChip = () => {
   // Redux states
@@ -30,34 +31,24 @@ const YearChip = () => {
   const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([]);
   const [normalTags, setNormalTags] = useState<string[]>([]);
   const [downloadedSems, setDownloadedSems] = useState<number[]>([]);
-  // Declare Special Tags
-  const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
-  const [nowTag, setNowTag] = useState<boolean>(false);
-  const [yesterdayTag, setYesterdayTag] = useState<boolean>(false);
-  const [weekBeforeTag, setWeekBeforeTag] = useState<boolean>(false);
-  const [twoWeeks, setTwoWeeks] = useState<boolean>(false);
-  const [monthBeforeTag, setMonthBeforeTag] = useState<boolean>(false);
+  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>('');
 
   // Effect
   useEffect(() => {
     if (support.sems.findIndex(sem => sem === selectedSem) === -1)
       setSelectedSem(0);
   }, [support.sems, selectedSem]);
-  // ..Effect
+  // Effect (Auto Selecting All, if slsectedNorma lTag is empty and special is not clikced
   useEffect(() => {
-    if(selectedNormalTags.length === 0 && !favoriteTag && !nowTag)
+    if (selectedNormalTags.length === 0 && selectedSpecialTag === '') {
       setAllTag(true);
-  }, [selectedNormalTags, favoriteTag, nowTag])
+    }
+  }, [selectedNormalTags, selectedSpecialTag])
   // Method
   const reset = () => {
+    setSelectedSpecialTag('');
     setAllTag(true)
     setSelectedNormalTags([]);
-    setFavoriteTag(false); // Special Tags
-    setNowTag(false); // Special Tags
-    setYesterdayTag(false); //  Special Tags
-    setWeekBeforeTag(false);  //  Special Tags
-    setTwoWeeks(false);
-    setMonthBeforeTag(false);// Special Tags (Add below if new special tag implemented)
   }
   // ..Method
   const handleAllTag = () => {
@@ -96,15 +87,9 @@ const YearChip = () => {
     return tagsSelected;
   }
   // ..method
-  const handleSpecialTags = (tag: string) => {
+  const handleSpecialTags = (tag: SpecialTag) => {
     specialNormalShared(selectedNormalTags);
-    // Special Tags
-    if(tag === tr.favorite[ln]) setFavoriteTag(!favoriteTag);
-    else if(tag === tr.today[ln]) setNowTag(!nowTag);
-    else if(tag === tr.yesterday[ln]) setYesterdayTag(!yesterdayTag); 
-    else if(tag === tr.weekAgo[ln]) setWeekBeforeTag(!weekBeforeTag);
-    else if(tag === tr.twoWeeksAgo[ln]) setTwoWeeks(!twoWeeks);  
-    else if(tag === tr.monthAgo[ln]) setMonthBeforeTag(!monthBeforeTag); // Add the new special tag below
+    setSelectedSpecialTag(tag);
   }
 
   // ..method
@@ -122,12 +107,12 @@ const YearChip = () => {
   // Filtering Algorithm
   const filterTargetWords = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
   const filteredWordsList = filterTargetWords !== undefined && filterTargetWords
-      .filter(word => favoriteTag ? word.isFavorite : true)
-      .filter(word => nowTag ? checkIfToday(word.dateAdded) : true)
-      .filter(word => yesterdayTag ? checkIfThisDay(word.dateAdded, 1) : true)
-      .filter(word => weekBeforeTag ? checkIfThisDay(word.dateAdded, 7) : true)
-      .filter(word => twoWeeks ? checkIfThisDay(word.dateAdded, 14) : true)
-      .filter(word => monthBeforeTag ? checkIfThisDay(word.dateAdded, 30) : true)
+      .filter(word => selectedSpecialTag === 'favorite' ? word.isFavorite : true)
+      .filter(word => selectedSpecialTag === 'today' ? checkIfToday(word.dateAdded) : true)
+      .filter(word => selectedSpecialTag === 'yesterday' ? checkIfThisDay(word.dateAdded, 1) : true)
+      .filter(word => selectedSpecialTag === 'weekAgo' ? checkIfThisDay(word.dateAdded, 7) : true)
+      .filter(word => selectedSpecialTag === 'twoWeeksAgo' ? checkIfThisDay(word.dateAdded, 14) : true)
+      .filter(word => selectedSpecialTag === 'monthAgo' ? checkIfThisDay(word.dateAdded, 30) : true)
       .filter(word => {
         if (selectedNormalTags.length !== 0) { // languages & tags filter
           let flag = false;
@@ -154,6 +139,19 @@ const YearChip = () => {
       })
     })
   }
+  // Special Tag Rendering
+  const specialTagsList: SpecialTag[] = ['favorite' , 'today', 'yesterday', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
+  const renderSpecialTags = specialTagsList.map(specialTag => {
+    return (
+      <Chip
+        key={specialTag} 
+        clickable
+        label={tr[specialTag][ln]} 
+        onClick={() => handleSpecialTags(specialTag)}
+        color={selectedSpecialTag === specialTag ? 'primary' : 'default'}
+      />
+    )
+  })
 
   // Return
   return (
@@ -190,42 +188,7 @@ const YearChip = () => {
                 onClick={() => handleAllTag()}
                 color={allTag ? 'primary' : 'default'}
               />
-              <Chip 
-                clickable
-                label={tr.favorite[ln]} 
-                onClick={() => handleSpecialTags(tr.favorite[ln])}
-                color={favoriteTag ? 'primary' : 'default'}
-              />
-              <Chip 
-                clickable
-                label={tr.today[ln]} 
-                onClick={() => handleSpecialTags(tr.today[ln])}
-                color={nowTag ? 'primary' : 'default'}
-              />
-              <Chip 
-                clickable
-                label={tr.yesterday[ln]} 
-                onClick={() => handleSpecialTags(tr.yesterday[ln])}
-                color={yesterdayTag ? 'primary' : 'default'}
-              />
-              <Chip 
-                clickable
-                label={tr.weekAgo[ln]} 
-                onClick={() => handleSpecialTags(tr.weekAgo[ln])}
-                color={weekBeforeTag ? 'primary' : 'default'}
-              />
-              <Chip 
-                clickable
-                label={tr.twoWeeksAgo[ln]} 
-                onClick={() => handleSpecialTags(tr.twoWeeksAgo[ln])}
-                color={twoWeeks ? 'primary' : 'default'}
-              />
-              <Chip 
-                clickable
-                label={tr.monthAgo[ln]} 
-                onClick={() => handleSpecialTags(tr.monthAgo[ln])}
-                color={monthBeforeTag ? 'primary' : 'default'}
-              />
+              { renderSpecialTags }
               {
                 normalTags.map((tag: string) => (
                   <Chip 
