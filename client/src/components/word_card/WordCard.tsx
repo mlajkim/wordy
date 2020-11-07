@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Chip from '@material-ui/core/Chip';
 // Icons
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -107,7 +107,7 @@ const WordCard: React.FC<Props> = ({word}) => {
       <CardActions>
         <IconButton size="small" color="inherit" onClick={() => handleToolClick('like')} >
           {word.isFavorite
-            ? <FavoriteIcon style={{color: 'red'}}/>
+            ? <FavoriteTwoToneIcon style={{color: 'red'}}/>
             : <FavoriteBorderIcon />
           }
         </IconButton>
