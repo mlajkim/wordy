@@ -17,14 +17,14 @@ export const updateWords = (data: any) => {
     payload: data
   };
 };
-
+// Fetchy 3
 export const getWords = (sem: number) => {
   return {
     type: GET_WORDS,
     payload: sem
   }
 }
-
+// Fetchy 3
 export const setWords = (payload: any) => {
   return {
     type: SET_WORDS,
@@ -59,7 +59,7 @@ export const savingHelper = (words: WordsChunk) => {
     payload: words
   }
 };
-
+// Fetchy 3
 export const syncWords = (syncTargetSem: number) => {
   return {
     type: SYNC_WORDS,

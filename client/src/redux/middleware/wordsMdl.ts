@@ -42,7 +42,7 @@ export const setWordsMdl = ({dispatch, getState} : any) => (next: any) => (actio
   } 
 };
 
-// #POST
+// Fetchy 3
 export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   // Declaration and data validation check
   next(action);

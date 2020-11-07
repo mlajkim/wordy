@@ -29,7 +29,7 @@ import { offDialog, setSnackbar } from '../../redux/actions';
 import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
 // Declarations
-const LETTERS_LIMITATION = 30000
+const LETTERS_LIMITATION = 8000 // was able to handle 8,750
 
 const MassWords = () => {
   // Redux states
