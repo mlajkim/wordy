@@ -10,6 +10,8 @@ import WordList from '../../components/word_list/WordList';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress';
+// Icons
+import DoneIcon from '@material-ui/icons/Done';
 // Translation
 import tr from './year_chip.tr.json';
 // Redux
@@ -27,6 +29,7 @@ const YearChip = () => {
   const [selectedSem, setSelectedSem] = useState<number>(0);
   const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([]);
   const [normalTags, setNormalTags] = useState<string[]>([]);
+  const [downloadedSems, setDownloadedSems] = useState<number[]>([]);
   // Declare Special Tags
   const [favoriteTag, setFavoriteTag] = useState<boolean>(false);
   const [nowTag, setNowTag] = useState<boolean>(false);
@@ -81,6 +84,7 @@ const YearChip = () => {
     if(found === false) {
       // handle ownloading the data
       store.dispatch(getWords(sem));
+      setDownloadedSems([...downloadedSems, sem]);
     }
   };
   // ..method
@@ -165,7 +169,9 @@ const YearChip = () => {
               <Chip 
                 key={sem} 
                 clickable
-                label={`${convertSem(sem).year}${tr.year[ln]} ${convertSem(sem).sem}${tr.sem[ln]}`} 
+                label={`${convertSem(sem).year}${tr.year[ln]} ${convertSem(sem).sem}${tr.sem[ln]}`}
+                onDelete={downloadedSems.find(datus => datus === sem) ? () => handleSemChipClick(sem) : undefined}
+                deleteIcon={<DoneIcon style={{ fontSize: 16 }}/>} 
                 onClick={() => handleSemChipClick(sem)}
                 color={(sem === selectedSem) ? 'primary' : 'default'}
               />
