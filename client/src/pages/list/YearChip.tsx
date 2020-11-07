@@ -154,7 +154,7 @@ const YearChip = () => {
   // Return
   return (
     <Fragment>
-      <ListSetting />
+      <ListSetting selectedSem={selectedSem} />
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
         {support.sems.length === 0 
           ? null

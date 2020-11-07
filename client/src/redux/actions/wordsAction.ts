@@ -8,6 +8,7 @@ export const SET_WORDS = "[WORDS] Set"
 export const SAVING_HELPER = '[WORDS] Saving Helper'
 export const MODIFY_WORDS = "[WORDS] Modify";
 export const DELETE_WORDS = "[WORDS] Delete";
+export const SYNC_WORDS = "[WORDS] Sync";
 
 // Ultimate
 export const updateWords = (data: any) => {
@@ -56,6 +57,13 @@ export const savingHelper = (words: WordsChunk) => {
   return {
     type: SAVING_HELPER,
     payload: words
+  }
+};
+
+export const syncWords = (syncTargetSem: number) => {
+  return {
+    type: SYNC_WORDS,
+    payload: { syncTargetSem }
   }
 }
 

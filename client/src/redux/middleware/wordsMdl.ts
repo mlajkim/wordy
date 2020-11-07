@@ -1,10 +1,10 @@
 // types
 import { WordsChunk, Word, State } from '../../types';
 // actions
-import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS} from '../actions/wordsAction';
+import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
-import { setWords, savingHelper } from '../actions/wordsAction';
+import { getWords, setWords, savingHelper } from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -155,5 +155,18 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
   }
 };
 
+export const syncWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+  if(action.type === SYNC_WORDS) {
+    // Payload and States
+    const { syncTargetSem } = action.payload;
+    const { words }: State = getState();
+    // Delete the sem
+    const newWordsList = words.filter(wordChunk => wordChunk[0].sem !== syncTargetSem);
+    dispatch(updateWords(newWordsList));
+    // Get the fresh words from database
+    dispatch(getWords(syncTargetSem));
+  };
+};
 
-export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, deleteWordsMdl, savingHelperMdl]; 
+export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, deleteWordsMdl, savingHelperMdl, syncWordsMdl]; 

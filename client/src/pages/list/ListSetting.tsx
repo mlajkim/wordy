@@ -1,6 +1,7 @@
 // Mains & Types
 import React, { Fragment, useEffect, useState } from 'react';
 import { State } from '../../types';
+import moment from 'moment';
 // Translation
 import tr from './list_setting.tr.json';
 // Material UI
@@ -12,14 +13,15 @@ import Grid from '@material-ui/core/Grid'
 // Icons
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import CloudDoneIcon from '@material-ui/icons/CloudDoneOutlined';
+import CheckIcon from '@material-ui/icons/Check';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Actions
 import { modifySupport } from '../../redux/actions/supportAction';
-
+import { syncWords } from '../../redux/actions/wordsAction';
 // @@ Supportive
 const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
   const {language, support} = useSelector((state: State) => state);
@@ -59,36 +61,50 @@ const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
 }
 
 // @@ MAIN
-const ListSetting: React.FC = () => {
+const CLOUD_ICON_LASTING_TIMER = 2000; // how long it will show the cloud image
+type Props = { selectedSem: number };
+const ListSetting: React.FC<Props> = (props) => {
+  const { selectedSem } = props;
   const [isShowing, setShowing] = useState<boolean>(false);
   const [refreshStep, setRefreshStep] = useState<0 | 1 | 2>(2); // 0: loading 1: done 2: back to clickable
-
+  const [timer, setTimer] = useState<number>(0);
   // Method
   const handleRefresh = () => {
     setRefreshStep(0);
+    store.dispatch(syncWords(selectedSem));
+    setTimer(moment().valueOf() + CLOUD_ICON_LASTING_TIMER);
     setRefreshStep(1);
   }
-
   // Effect
   useEffect(() => {
-    if (refreshStep === 1) {
-      setRefreshStep(2);
+    if (timer > moment().valueOf()) {
+      const interval = setInterval(() => {
+        setRefreshStep(2);
+      }, CLOUD_ICON_LASTING_TIMER);
+      return () => clearInterval(interval);
     }
-  }, [refreshStep]);
-
+  }, [refreshStep, timer]);
   // renderer
   const refreshIcon = () => {
     switch (refreshStep) {
       case 0:
-        return <CircularProgress />;
+        return (
+          <IconButton disabled style={{ float:'right',textAlign:'right'}}>
+            <CheckIcon />
+          </IconButton>
+        );
       case 1:
-        return <h3>DONE</h3>;
+        return (
+          <IconButton disabled style={{ float:'right',textAlign:'right'}}>
+            <CloudDoneIcon />
+          </IconButton>
+        );
       case 2:
         return (
           <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => handleRefresh()}>
             <RefreshIcon />
           </IconButton>
-        )
+        );
       default:
         return <h3>ERROR! IF YOU ARE ADMIN, CHECK YOUR CODE</h3>
     }
@@ -102,10 +118,10 @@ const ListSetting: React.FC = () => {
         )
         : (
           <Fragment>
-            { refreshIcon }
             <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => setShowing(true)}>
               <TuneOutlinedIcon />
             </IconButton>
+            { selectedSem !== 0 && refreshIcon() }
           </Fragment>
         )
       }
