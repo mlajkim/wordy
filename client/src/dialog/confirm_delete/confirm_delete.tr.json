@@ -5,9 +5,9 @@
     "ja": "語彙削除"
   }, 
   "tellNumberOfWords": {
-    "ko": "삭제할 단어의 갯수: ",
-    "en": "Number of words about to be deleted: ",
-    "ja": "削除する語彙の数: "
+    "ko": "삭제할 단어의 갯수",
+    "en": "Number of words about to be deleted",
+    "ja": "削除する語彙の数"
   },
   "ask": {
     "ko": "삭제하시겠습니까?",

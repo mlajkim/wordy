@@ -56,7 +56,7 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
         />
       )
     })
-    : <h4>Add your tag first :)</h4>
+    : null;
   // Return JSX 
   return (
     <div>
