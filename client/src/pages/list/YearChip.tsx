@@ -62,7 +62,6 @@ const YearChip = () => {
   const handleSemChipClick = (sem: number) => {
     reset();
     setNormalTags([]);
-    setSelectedNormalTags([]); // Reset
     if (selectedSem === sem) {
       setSelectedSem(0);
       return;
