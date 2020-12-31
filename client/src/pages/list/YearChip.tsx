@@ -10,8 +10,10 @@ import WordList from '../../components/word_list/WordList';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
 // Icons
 import DoneIcon from '@material-ui/icons/Done';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Translation
 import tr from './year_chip.tr.json';
 // Redux
@@ -20,6 +22,8 @@ import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
 type SpecialTag = '' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
+const ADDING_MORE_WORDS_AMOUNT = 100;
+const DEFAULT_MORE_WORDS_AMOUNT = 100;
 // @ MAIN
 const YearChip = () => {
   // Redux states
@@ -32,7 +36,7 @@ const YearChip = () => {
   const [normalTags, setNormalTags] = useState<string[]>([]);
   const [downloadedSems, setDownloadedSems] = useState<number[]>([]);
   const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>('');
-
+  const [wordCardsMax, setWordCardsMax] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
   // Effect
   useEffect(() => {
     if (support.sems.findIndex(sem => sem === selectedSem) === -1)
@@ -63,6 +67,7 @@ const YearChip = () => {
   };
   // ..Method
   const handleSemChipClick = (sem: number) => {
+    setWordCardsMax(DEFAULT_MORE_WORDS_AMOUNT); // Because if you click it, it just has to do it.
     reset();
     setNormalTags([]);
     if (selectedSem === sem) {
@@ -156,6 +161,17 @@ const YearChip = () => {
     )
   })
 
+  const handleMoreClick = () => {
+    console.log("more butotn clicked!");
+    setWordCardsMax(wordCardsMax + ADDING_MORE_WORDS_AMOUNT);
+  }
+
+  const renderMoreButton = (
+    <IconButton className={"ShowMoreButton"} color="inherit" aria-label="more" onClick={() => handleMoreClick()}>
+      <ExpandMoreIcon fontSize="small" />
+    </IconButton>
+  )
+
   // Return
   return (
     <Fragment>
@@ -211,13 +227,14 @@ const YearChip = () => {
         ? <h3>{tr.chooseSem[ln]}</h3>
         : !filteredWordsList 
           ? <CircularProgress />
-          : filteredWordsList.map((datus, idx) => {
+          : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
             if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
             else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
             else return null;
           })
         }
       </Grid>
+      { selectedSem !== 0 && typeof filteredWordsList !== "boolean" && wordCardsMax < filteredWordsList.length! && renderMoreButton }
     </Fragment>
   );
 }
