@@ -56,7 +56,10 @@ const YearChip = () => {
       setAllTag(false)
       setSelectedNormalTags([]);
     }
-    else reset();
+    else {
+      setSelectedSpecialTag('');
+      setAllTag(true)
+    }
   };
   // ..Method
   const handleSemChipClick = (sem: number) => {
