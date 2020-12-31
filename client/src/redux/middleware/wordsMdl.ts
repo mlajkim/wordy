@@ -86,7 +86,7 @@ export const modifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
 
     dispatch(fetchy('put', '/words', data));
     const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
-    if (hasFound !== undefined) {
+    if (typeof hasFound !== "undefined") {
       const newWords = hasFound.map(word => {
         const index = data.findIndex(datus => datus.wordID === word._id);
         if (index !== -1) {
@@ -112,7 +112,7 @@ export const deleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
 
     dispatch(fetchy('delete', '/words', IDs));
     const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
-    if (hasFound !== undefined) {
+    if (typeof hasFound !== "undefined") {
       const newChunk = hasFound.filter(word => {
         const index = IDs.findIndex(datus => datus.ID === word._id);
         if (index !== -1) {
@@ -142,7 +142,7 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
     const sems = support.sems;
     // Logic
     let hasFound = (prevWords as WordsChunk[]).find(datus => datus[0].sem === semOfNewWords);
-    if(hasFound === undefined) {
+    if(typeof hasFound === "undefined") {
       // You want to chwck if it exists in the database.
       const foundIndex = sems.findIndex(sem => sem === semOfNewWords);
       if (foundIndex === -1) dispatch(updateWords([...prevWords, newWords])); // because it does not exist

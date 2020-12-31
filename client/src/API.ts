@@ -121,19 +121,19 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   } else { // if exists
     // Check to make sure it exists (New feature, modification required)
     // ***Data Checking***
-    if(languagesRes.payload.addedWordsCount === undefined) {
+    if(typeof languagesRes.payload.addedWordsCount === "undefined") {
       languagesRes.payload.addedWordsCount = 0;
       axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
         addedWordsCount: 0
       }}, getAuthorization())
     }
-    if(languagesRes.payload.deletedWordsCount === undefined) {
+    if(typeof languagesRes.payload.addedWordsCount === "undefined") {
       languagesRes.payload.deletedWordsCount = 0;
       axios.put(`/api/v2/mongo/languages/${user._id}`, 
       {payload: { deletedWordsCount: 0 }}, 
       getAuthorization())
     }
-    if(languagesRes.payload.newWordAddingType === undefined) {
+    if(typeof languagesRes.payload.addedWordsCount === "undefined") {
       languagesRes.payload.newWordAddingType = 'one'
     }
   }

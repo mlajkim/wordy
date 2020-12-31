@@ -12,8 +12,8 @@ const WordList: React.FC<Props> = ({ word, idx }) => {
   // Making Word
   returningString += word.word// Word (Since it must exists)
   returningString += isPronunAvailable ? ` [${word.pronun}]` : ''; // Pronun
-  returningString += word.meaning!== undefined && word.meaning.length > 0 ? (isPronunAvailable ? ` ${word.meaning}` : `: ${word.meaning}`) : ''; // Meaning
-  returningString += word.example!== undefined && word.example.length > 0 ? ` = ${word.example}` : ''; // Example
+  returningString += typeof word.meaning!== "undefined" && word.meaning.length > 0 ? (isPronunAvailable ? ` ${word.meaning}` : `: ${word.meaning}`) : ''; // Meaning
+  returningString += typeof word.example!== "undefined" && word.example.length > 0 ? ` = ${word.example}` : ''; // Example
   word.tag.forEach(tag => returningString += ' #' + tag )
   
   return (

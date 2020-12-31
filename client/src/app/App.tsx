@@ -19,7 +19,7 @@ const App = () => {
       .then(res => store.dispatch(setLanguage(handleCountryCode(res.data.payload))));
     
     // Check the google signin cookie
-    if(API.getAccessToken() !== undefined) {
+    if(typeof API.getAccessToken() !== "undefined") {
       API.handleEverySignIn(API.getAccessToken());
     }
   }, []);

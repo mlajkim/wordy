@@ -69,7 +69,7 @@ const YearChip = () => {
     setSelectedSem(sem); 
     let found: boolean = false;
     if(words.length !== 0) 
-      found = words.find((datum: WordsChunk) => datum[0].sem === sem) !== undefined ? true : false;
+      found = typeof words.find((datum: WordsChunk) => datum[0].sem === sem) !== "undefined" ? true : false;
     // Not Found? Start Downloading.
     if(found === false) {
       // handle ownloading the data
@@ -95,7 +95,7 @@ const YearChip = () => {
   const handleNormalTags = (tag: string) => {
     let prevSelectedTags = specialNormalShared(selectedNormalTags);
     const hasFound = prevSelectedTags.find((selectedTag => selectedTag === tag));
-    if (hasFound === undefined) {
+    if (typeof hasFound === "undefined") {
       setSelectedNormalTags([...prevSelectedTags, tag]);
     }
     else {
@@ -105,7 +105,7 @@ const YearChip = () => {
 
   // Filtering Algorithm
   const filterTargetWords = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
-  const filteredWordsList = filterTargetWords !== undefined && filterTargetWords
+  const filteredWordsList = typeof filterTargetWords !== "undefined" && filterTargetWords
       .filter(word => selectedSpecialTag === 'favorite' ? word.isFavorite : true)
       .filter(word => selectedSpecialTag === 'today' ? checkIfToday(word.dateAdded) : true)
       .filter(word => selectedSpecialTag === 'yesterday' ? checkIfThisDay(word.dateAdded, 1) : true)
@@ -127,13 +127,13 @@ const YearChip = () => {
 
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
-  if(hasFound !== undefined) {
+  if(typeof hasFound !== "undefined") {
     hasFound.forEach(word => {
       const {language, tag} = word;
       const convertedLanguage = "#" + countryCodeIntoLanguage(language);
       if (normalTags.findIndex(elem => elem === convertedLanguage) === -1) setNormalTags([...normalTags, convertedLanguage])
       tag.forEach(tag => {
-        if (normalTags.find(elem => elem === `#${tag}`) === undefined)  // 여기서 elem은 이미 # 태그가 붙어있음.
+        if (typeof normalTags.find(elem => elem === `#${tag}`) === "undefined")  // 여기서 elem은 이미 # 태그가 붙어있음.
           setNormalTags([...normalTags, `#${tag}`]);
       })
     })
@@ -183,7 +183,7 @@ const YearChip = () => {
           : <Fragment>
               <Chip 
                 clickable
-                label={tr.all[ln] + ` (${filterTargetWords === undefined ? 'Wait..' : filterTargetWords.length})`} 
+                label={tr.all[ln] + ` (${typeof filterTargetWords === "undefined" ? 'Wait..' : filterTargetWords.length})`} 
                 onClick={() => handleAllTag()}
                 color={allTag ? 'primary' : 'default'}
               />
