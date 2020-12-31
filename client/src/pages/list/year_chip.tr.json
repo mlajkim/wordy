@@ -29,6 +29,11 @@
     "en": "#Yesterday",
     "ja": "#昨日"
   },
+  "fourDays": {
+    "ko": "#４일전",
+    "en": "#4 days ago",
+    "ja": "#4日前"
+  },
   "weekAgo": {
     "ko": "#1주일전",
     "en": "#1 week ago",

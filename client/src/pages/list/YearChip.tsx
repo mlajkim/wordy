@@ -19,7 +19,7 @@ import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
-type SpecialTag = '' | 'favorite' | 'today' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
+type SpecialTag = '' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
 // @ MAIN
 const YearChip = () => {
   // Redux states
@@ -109,6 +109,7 @@ const YearChip = () => {
       .filter(word => selectedSpecialTag === 'favorite' ? word.isFavorite : true)
       .filter(word => selectedSpecialTag === 'today' ? checkIfToday(word.dateAdded) : true)
       .filter(word => selectedSpecialTag === 'yesterday' ? checkIfThisDay(word.dateAdded, 1) : true)
+      .filter(word => selectedSpecialTag === 'fourDays' ? checkIfThisDay(word.dateAdded, 4) : true)
       .filter(word => selectedSpecialTag === 'weekAgo' ? checkIfThisDay(word.dateAdded, 7) : true)
       .filter(word => selectedSpecialTag === 'twoWeeksAgo' ? checkIfThisDay(word.dateAdded, 14) : true)
       .filter(word => selectedSpecialTag === 'monthAgo' ? checkIfThisDay(word.dateAdded, 30) : true)
@@ -139,7 +140,7 @@ const YearChip = () => {
     })
   }
   // Special Tag Rendering
-  const specialTagsList: SpecialTag[] = ['favorite' , 'today', 'yesterday', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
+  const specialTagsList: SpecialTag[] = ['favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
   const renderSpecialTags = specialTagsList.map(specialTag => {
     return (
       <Chip
