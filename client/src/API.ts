@@ -4,7 +4,7 @@ import { FetchyResponse, UsersDB, NewWordAddingType, GoogleRes, ProfileObj, User
 // Redux
 import store from './redux/store';
 import { setPage, setLanguage, 
-  setYears, offDialog, setAddedWordsCount, setDeletedWordsCount, setNewWordAddingType, setDialog
+  setYears, offDialog, setNewWordAddingType, setDialog
 } from './redux/actions';
 import { updateUser } from './redux/actions/userAction';
 import { getSupport } from './redux/actions/supportAction';
@@ -30,8 +30,6 @@ export const fetchy = (
     length: 0
   }
 }
-
-
 
 
 //################### V3 Above
@@ -141,8 +139,6 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   }
   // ..Set up the front
   store.dispatch(getSupport());
-  store.dispatch(setAddedWordsCount(languagesRes.payload.addedWordsCount));
-  store.dispatch(setDeletedWordsCount(languagesRes.payload.deletedWordsCount));
   store.dispatch(setNewWordAddingType(languagesRes.payload.newWordAddingType))
 }
 

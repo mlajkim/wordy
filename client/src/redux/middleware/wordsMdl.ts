@@ -2,7 +2,7 @@
 import { WordsChunk, Word, State } from '../../types';
 // actions
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS} from '../actions/wordsAction';
-import {modifySupport, addSemNoDup, deleteSem} from '../actions/supportAction';
+import {modifySupport, addSemNoDup, deleteSem, getSupport} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
 import { getWords, setWords, savingHelper } from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
@@ -55,6 +55,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
     if (isDataValid === false) return;
     const {user, support}: State = getState(); // interesting (learn something)
     const sem = (payload as WordsChunk)[0].sem;
+    dispatch(getSupport()); // Update the support just in case
 
     // #2 Put some more necessary data
     let newWordCnt: number = support.newWordCnt;
@@ -161,6 +162,8 @@ export const syncWordsMdl = ({dispatch, getState} : any) => (next: any) => (acti
     // Payload and States
     const { syncTargetSem } = action.payload;
     const { words }: State = getState();
+    // Sync others
+    dispatch(getSupport());
     // Delete the sem
     const newWordsList = words.filter(wordChunk => wordChunk[0].sem !== syncTargetSem);
     dispatch(updateWords(newWordsList));

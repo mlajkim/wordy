@@ -20,7 +20,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Actions
-import { modifySupport } from '../../redux/actions/supportAction';
+import { modifySupport, getSupport } from '../../redux/actions/supportAction';
 import { syncWords } from '../../redux/actions/wordsAction';
 // @@ Supportive
 const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
@@ -72,6 +72,7 @@ const ListSetting: React.FC<Props> = (props) => {
   const handleRefresh = () => {
     setRefreshStep(0);
     store.dispatch(syncWords(selectedSem));
+    store.dispatch(getSupport());
     setTimer(moment().valueOf() + CLOUD_ICON_LASTING_TIMER);
     setRefreshStep(1);
   }
