@@ -46,6 +46,7 @@ export type SnackbarState = {
 
 export type Support = {
   version: string;
+  versionDate: string;
   addWordLangPref: AddableLang;
   newWordCnt: number;
   deletedWordCnt: number;
