@@ -16,6 +16,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ReviewIcon from '@material-ui/icons/ImportContacts';
 import ListIcon from '@material-ui/icons/FormatListBulleted';
 import LoginButton from '@material-ui/icons/ExitToApp';
+import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 // Redux
 import store from '../redux/store';
 import { setDialog, setPage } from '../redux/actions';
@@ -45,7 +46,8 @@ const DrawerComponent = (props: any) => {
   const items = [
     {type:'dashboard', name: tr.dashboard[ln], icon: <DashboardIcon />},
     {type:'review', name: menuTr.reviewTitle[ln], icon: <ReviewIcon />},
-    {type:'list', name: menuTr.listTitle[ln], icon: <ListIcon />}
+    {type:'list', name: menuTr.listTitle[ln], icon: <ListIcon />},
+    {type:'scrabbly', name: menuTr.scrabblyTitle[ln], icon: <VideogameAssetIcon />},
   ];
 
   const list = items.map(item => (
