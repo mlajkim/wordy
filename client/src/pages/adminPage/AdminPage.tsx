@@ -2,19 +2,19 @@ import React, {Fragment} from 'react';
 import { State } from '../../types';
 // Material UI Core
 import Button from '@material-ui/core/Button';
-// redux actions
-import { fetchy3, consoler } from '../../redux/actions/apiAction';
+// Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
+// redux actions
+import { fetchy3, consoler } from '../../redux/actions/apiAction';
+import { authenticate, askForCode, createPlayer, gameStart, refreshScrabbly } from '../../redux/actions/scrabblyAction';
 
 export default function AdminPage() {
   const { user } = useSelector((state: State) => state);
 
   const handleGenerateKey = () => {
-    const payload = [{
-      playerID: user.ID
-    }]
-    store.dispatch(fetchy3('post','/permissions', payload, consoler));
+    store.dispatch(refreshScrabbly());
+    store.dispatch(authenticate(user.ID));
   }
   
   return (

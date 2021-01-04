@@ -7,7 +7,12 @@ export type State = {
   user: UserState,
   years: Years[];
   words: WordsChunk[],
-  snackbar: SnackbarState
+  snackbar: SnackbarState,
+  scrabbly: Scrabbly,
+}
+
+export type Scrabbly = {
+  step: 'initialize' | 'playerNotFound' | 'gameStart'
 }
 
 export type Fetchy3Response = {
@@ -143,3 +148,8 @@ export type FederalProvider = 'google';
 
 // @ SNACKBAR
 export type SnackbarType = 'error' | 'warning' | 'info' | 'success'
+
+export type NewPlayer = {
+  nickName: string,
+  
+}

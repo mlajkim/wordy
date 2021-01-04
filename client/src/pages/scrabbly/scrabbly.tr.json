@@ -3,5 +3,15 @@
     "ko": "플레이 권한 체크중",
     "en": "Checking permission for the game",
     "ja": "プレイ権限チェック中"
+  },
+  "noPermission": {
+    "ko": "플레이 권한이 없습니다",
+    "en": "You have no permission for the gameplay",
+    "ja": "プレイ権限がありません"
+  },
+  "noPermissionSuggest": {
+    "ko": "권한 획득 코드를 입력해주세요",
+    "en": "Please insert your code from admin",
+    "ja": "権限獲得のコードを記入してください"
   }
 }

@@ -26,4 +26,17 @@ permissions.post("", async (req: Request, res: Response) => {
   }
 });
 
+permissions.get("/:userID", async (req: Request, res: Response) => {
+  const playerID = req.params.userID;
+  const data = await permissionsSchema.find({ playerID });
+  console.log(data);
+  res.send({
+    empty: data.length === 0 ? true : false,
+    payload: {
+      found: data.length === 0 ? false : true,
+      data: data[0] // only sending one
+    }
+  })
+})
+
 export default permissions;
