@@ -78,6 +78,14 @@ const DrawerComponent = (props: any) => {
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary={appbarTr.setting[ln]} />
           </ListItem>
+          {
+            support.status === 'admin' &&
+            (
+              <ListItem button >
+                <ListItemText style={{fontSize: 4}} primary={`Admin (Not visible)`} onClick={() => handleChangePage('admin')} />
+              </ListItem>
+            )
+          }
           <ListItem disabled >
             <ListItemText style={{fontSize: 4}} primary={`Beta ${support.version} (${support.versionDate})`} />
           </ListItem>

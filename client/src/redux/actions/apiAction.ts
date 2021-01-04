@@ -1,6 +1,6 @@
 export const FETCHY = '[API] Fetchy';
-export const FETCHY3 = '[API] Fetchy3'
-
+export const FETCHY3 = '[API] Fetchy3';
+export const CONSOLER = '[API] Consoler';
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete', url: string, payload?: object[] | null,
   onSuccess?: any, additionalUrl?: string | null //4, 5
@@ -21,5 +21,12 @@ export const fetchy3 = (method: Method, url: Url, payload: Payload, onSuccess: O
   return {
     type: FETCHY3,
     payload: { method, url, payload, onSuccess }
+  }
+}
+
+export const consoler = (content: string) => {
+  return {
+    type: CONSOLER,
+    payload: content
   }
 }

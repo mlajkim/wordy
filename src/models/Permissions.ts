@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const permissionSchema = new Schema({
   permissionCode: String,
-  userID: String,
+  playerID: String,
   nickName: String,
 });
 

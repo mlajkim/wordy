@@ -4,7 +4,8 @@ import Home from '../pages/home/Home';
 import Dashboard from '../pages/dashboard/Dashboard';
 import Review from '../pages/review/Review';
 import List from '../pages/list/List';
-import Scrabbly from '../pages/scrabbly/Scrabbly'
+import Scrabbly from '../pages/scrabbly/Scrabbly';
+import AdminPage from '../pages/adminPage/AdminPage';
 // Redux
 import store from '../redux/store';
 import {setPage, setDialog} from '../redux/actions';
@@ -22,7 +23,10 @@ const Page = () => {
       return <Dashboard />;
 
     case 'scrabbly':
-      return <Scrabbly />
+      return <Scrabbly />;
+
+    case 'admin':
+      return <AdminPage />;
     
     case user.isSignedIn && 'review':
       return <Review />;
