@@ -5,12 +5,13 @@ import { userMdl } from './middleware/userMdl';
 import { wordsMdl } from './middleware/wordsMdl';
 import { apiMdl } from './middleware/apiMdl';
 import { supportMdl } from './middleware/supportMdl';
+import { scrabblyMdl } from './middleware/scrabblyMdl';
 // dev tool
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default createStore(
   rootReducer, 
   composeEnhancers(
-    applyMiddleware(...userMdl, ...wordsMdl, ...apiMdl, ...supportMdl)
+    applyMiddleware(...userMdl, ...wordsMdl, ...apiMdl, ...supportMdl, ...scrabblyMdl)
   )
 );
