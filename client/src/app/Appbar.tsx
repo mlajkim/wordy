@@ -19,6 +19,7 @@ import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
 import {setDialog, setLanguage, setPage, offDialog, setSnackbar} from '../redux/actions';
+import { getSupport } from '../redux/actions/supportAction';
 import {updateUser} from '../redux/actions/userAction';
 import {useSelector} from 'react-redux';
 // Icons
@@ -39,6 +40,13 @@ const Appbar = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     openMenu(event.currentTarget);
   };
+
+  const handleAddWordClick = () => {
+    store.dispatch(getSupport())
+    if (support.newWordAddingType === 'one') store.dispatch(setDialog('AddWordsDialog'));
+    else store.dispatch(setDialog('MassWordsDialog'));
+    
+  }
 
   const handleLanguageChange = (ln: Language) => {
     store.dispatch(setSnackbar(tr.languageChanged[ln]))
@@ -84,13 +92,11 @@ const Appbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
-            Wordy
+            {`Wordy ${support.version}`} 
           </Typography>
           {user.isSignedIn &&
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 
-              onClick={() => support.newWordAddingType === 'one' 
-                ? store.dispatch(setDialog('AddWordsDialog'))
-                : store.dispatch(setDialog('MassWordsDialog')) }>
+              onClick={() => handleAddWordClick()}>
               <AddIcon fontSize="small" />
             </IconButton>
           }

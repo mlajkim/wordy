@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const supportSchema = new Schema({
   ownerID: String,
   sems: Array,
+  status: String,
   newWordCnt: Number,
   deletedWordCnt: Number,
   lastTags: Array,

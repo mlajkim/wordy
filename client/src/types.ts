@@ -46,7 +46,9 @@ export type SnackbarState = {
 
 export type Support = {
   version: string;
+  versionDate: string;
   addWordLangPref: AddableLang;
+  status: 'admin' | null;
   newWordCnt: number;
   deletedWordCnt: number;
   sems: number[];

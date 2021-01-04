@@ -6,6 +6,7 @@ import { IS_DEV_MODE } from '../../../server';
 // Routers
 import words from './mongo/wordsRouter';
 import supports from './mongo/supportsRouter';
+import permissions from './mongo/permissionsRouter';
 
 // @ MIDDLEWARE: AUTHENTICATION
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -53,5 +54,6 @@ mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
 mongo.use("/words", words);
 mongo.use("/supports", supports);
+mongo.use('/permissions', permissions);
 
 export default mongo;

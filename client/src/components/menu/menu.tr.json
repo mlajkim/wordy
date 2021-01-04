@@ -14,6 +14,11 @@
     "ko": "내 단어장 보기",
     "ja": "私の単語リスト"
   },
+  "scrabblyTitle": {
+    "en": "Scrabble",
+    "ko": "스크래블",
+    "ja": "スクレベル"
+  },
   "listDesc": {
     "en": "You can check out your own words in a list form",
     "ko": "지금까지 모아온 단어들을 볼 수 있습니다",
