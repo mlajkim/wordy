@@ -1,12 +1,14 @@
 // Main & Types
 import React, {Fragment, useEffect, useState} from 'react';
+import * as API from '../../API';
 import { State } from '../../types';
 import axios from 'axios';
 // redux actions
 import { useSelector } from 'react-redux';
 import store from '../../redux/store';
+import { setSnackbar } from '../../redux/actions';
 // Redux Actins
-import { authenticate, refreshScrabbly } from '../../redux/actions/scrabblyAction';
+import { updateScrabbly, authenticate, refreshScrabbly } from '../../redux/actions/scrabblyAction';
 // Material UI Core
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -16,6 +18,7 @@ import Button from '@material-ui/core/Button';
 // Translation
 import tr from './scrabbly.tr.json';
 import { fetchy3 } from '../../redux/actions/apiAction';
+import { StoreReader } from 'apollo-boost';
 
 export default function Scrabbly() {
   const { user, scrabbly, language } = useSelector((state: State) => state);
@@ -29,8 +32,14 @@ export default function Scrabbly() {
   const Renderer = () => {
     if (scrabbly.step === 'initialize') return (
       <Backdrop open={true}>
-        <CircularProgress color="inherit" />
+        <CircularProgress color="inherit" /> <br />
         <h3>{tr.permissionChecking[ln]}</h3>
+      </Backdrop>
+    )
+    else if (scrabbly.step === 'waiting') return (
+      <Backdrop open={true}>
+        <CircularProgress color="inherit" /> <br />
+        <h3>{tr.pleaseWait[ln]}</h3>
       </Backdrop>
     )
     else return <NoPermission />
@@ -50,8 +59,17 @@ const NoPermission:React.FC = () => {
   const ln = language;
 
   const [input, setInput] = useState('');
-  const handleClick = () => {
-
+  const handleClick = async () => {
+    if (input.length === 0) {
+      store.dispatch(setSnackbar(tr.pleaseInputCode[ln], 'info'));
+      return;
+    }
+    const isSuccessful = (await axios.get(`/api/v3/mongo/permissions/${user.ID}/${input}`, API.getAuthorization())).data.payload.isSuccessful;
+    if (isSuccessful) {
+      store.dispatch(updateScrabbly({step: 'waiting'}))
+    } else {
+      store.dispatch(setSnackbar(tr.wrongCode[ln], 'warning'));
+    }
   }
 
   return (
@@ -65,7 +83,7 @@ const NoPermission:React.FC = () => {
           inputProps={{ style: {textAlign: 'center'} }}
         />
         <br></br>
-        <Button onClick={() => handleClick()}>기입</Button>
+        <Button onClick={() => handleClick()}>{tr.insert[ln]}</Button>
       </div>
     </Fragment>
   )

@@ -12,7 +12,7 @@ export type State = {
 }
 
 export type Scrabbly = {
-  step: 'initialize' | 'playerNotFound' | 'gameStart'
+  step: 'initialize' | 'playerNotFound' | 'gameStart' | 'waiting';
 }
 
 export type Fetchy3Response = {

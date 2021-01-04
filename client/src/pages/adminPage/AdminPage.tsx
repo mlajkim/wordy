@@ -10,11 +10,8 @@ import { fetchy3, consoler } from '../../redux/actions/apiAction';
 import { authenticate, askForCode, createPlayer, gameStart, refreshScrabbly } from '../../redux/actions/scrabblyAction';
 
 export default function AdminPage() {
-  const { user } = useSelector((state: State) => state);
-
   const handleGenerateKey = () => {
-    store.dispatch(refreshScrabbly());
-    store.dispatch(authenticate(user.ID));
+    store.dispatch(fetchy3('post', '/permissions', null, consoler));
   }
   
   return (

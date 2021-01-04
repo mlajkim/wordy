@@ -13,5 +13,25 @@
     "ko": "권한 획득 코드를 입력해주세요",
     "en": "Please insert your code from admin",
     "ja": "権限獲得のコードを記入してください"
+  },
+  "pleaseWait": {
+    "ko": "잠시만 기달려주세요",
+    "en": "Please wait",
+    "ja": "少々お待ちください"
+  },
+  "pleaseInputCode": {
+    "ko": "코드를 입력해주세요",
+    "en": "Please insert code",
+    "ja": "コードを記入してください"
+  },
+  "wrongCode": {
+    "ko": "만료된 코드거나, 잘못된 코드입니다.",
+    "en": "Given code is expired or invalid",
+    "ja": "満了されたコードか、間違いのあるコードです"
+  },
+  "insert": {
+    "ko": "기입",
+    "en": "Enter",
+    "ja": "記入"
   }
 }
