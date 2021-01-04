@@ -14,7 +14,7 @@ export const authenticateMdl = ({dispatch, getState} : any) => (next: any) => (a
   next(action);
 
   if (action.type === AUTHENTICATION) {
-    const { found, data } = action.payload
+    const { found } = action.payload;
 
     if(found) dispatch(updateScrabbly({ step: 'gameStart' }));
     else dispatch(updateScrabbly({ step: 'playerNotFound' }));
