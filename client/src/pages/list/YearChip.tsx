@@ -55,14 +55,14 @@ const YearChip = () => {
     setSelectedNormalTags([]);
   }
   // ..Method
-  const handleAllTag = () => {
+  const handleAllTagClick = () => {
     if (allTag === true) {
-      setAllTag(false)
+      setAllTag(false);
       setSelectedNormalTags([]);
     }
     else {
+      setAllTag(true);
       setSelectedSpecialTag('');
-      setAllTag(true)
     }
   };
   // ..Method
@@ -204,7 +204,7 @@ const YearChip = () => {
               <Chip 
                 clickable
                 label={tr.all[ln] + ` (${typeof filterTargetWords === "undefined" ? 'Wait..' : filterTargetWords.length})`} 
-                onClick={() => handleAllTag()}
+                onClick={() => handleAllTagClick()}
                 color={allTag ? 'primary' : 'default'}
               />
               { renderSpecialTags }
