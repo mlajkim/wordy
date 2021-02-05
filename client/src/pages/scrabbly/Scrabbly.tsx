@@ -18,7 +18,6 @@ import Button from '@material-ui/core/Button';
 // Translation
 import tr from './scrabbly.tr.json';
 import { fetchy3 } from '../../redux/actions/apiAction';
-import { StoreReader } from 'apollo-boost';
 
 export default function Scrabbly() {
   const { user, scrabbly, language } = useSelector((state: State) => state);
@@ -27,7 +26,7 @@ export default function Scrabbly() {
   useEffect(() => {
     store.dispatch(refreshScrabbly());
     store.dispatch(fetchy3('get', `/permissions/${user.ID}`, null, authenticate));
-  }, []);
+  }, [user.ID]);
 
   const Renderer = () => {
     if (scrabbly.step === 'initialize') return (
@@ -55,7 +54,7 @@ export default function Scrabbly() {
 }
 
 const NoPermission:React.FC = () => {
-  const { user, scrabbly, language } = useSelector((state: State) => state);
+  const { user, language } = useSelector((state: State) => state);
   const ln = language;
 
   const [input, setInput] = useState('');
