@@ -121,12 +121,14 @@ const YearChip = () => {
   }
   // Special Tag Rendering
   const specialTagsList: SpecialTag[] = ['all', 'favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
+  const totalWordsCount = ` (${hasFound?.length})`;
   const renderSpecialTags = specialTagsList.map(specialTag => {
+    // if special tag is all, then I would like to add a number of words
     return (
       <Chip
         key={specialTag} 
         clickable
-        label={tr[specialTag][ln]} 
+        label={specialTag === 'all' ? `${tr[specialTag][ln]}${totalWordsCount}` : tr[specialTag][ln]} 
         onClick={() => handleSpecialTags(specialTag)}
         color={selectedSpecialTag === specialTag ? 'primary' : 'default'}
       />
