@@ -6,7 +6,6 @@ import { State } from '../../types';
 import ParsingAPI from './ParsingAPI';
 // Components
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
-import {VALID_YEAR} from '../add_word/AddWordsDialog';
 // Translation
 import tr from './mass_words.tr.json';
 import trAddWord from '../add_word/add_words_dialog.tr.json';
@@ -30,6 +29,8 @@ import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
 // Declarations
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
+const VALID_YEAR_FROM = 2000;
+const VALID_YEAR_TO = 2999;
 
 const MassWords = () => {
   // Redux states
@@ -57,8 +58,8 @@ const MassWords = () => {
 
   // ...Method
   const handleAddingMassData = () => {
-    if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR.from, VALID_YEAR.to)) {
-      store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR.from}~${VALID_YEAR.to}) OR SEM (1~4)`, 'warning', 5))
+    if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
+      store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
       return;
     }
     store.dispatch(offDialog())
