@@ -121,7 +121,7 @@ const YearChip = () => {
   }
   // Special Tag Rendering
   const specialTagsList: SpecialTag[] = ['all', 'favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
-  const totalWordsCount = ` (${hasFound?.length})`;
+  const totalWordsCount = typeof hasFound === 'undefined' ? '' : ` (${hasFound?.length})`; // Shows nothing when loading, else show the number of counts.
   const renderSpecialTags = specialTagsList.map(specialTag => {
     // if special tag is all, then I would like to add a number of words
     return (
