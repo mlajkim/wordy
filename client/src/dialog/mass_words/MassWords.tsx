@@ -95,7 +95,7 @@ const MassWords = () => {
           />
           <TextField margin="dense" label={trAddWord.sem[ln]}  
             fullWidth value={sem}
-            onChange={(e) => setSem(e.target.value)}
+            onChange={(e) => setSem(e.target.value)} // small change
           />
           <TagsList tags={tags} setTags={setTags} />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
