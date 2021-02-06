@@ -1,5 +1,3 @@
-import {Moment} from 'moment';
-
 export type State = {
   dialog: Dialog;
   language: Language;
@@ -18,7 +16,7 @@ export type Scrabbly = {
 export type Fetchy3Response = {
   empty: boolean,
   payload: any
-}
+};
 
 export type FetchyResponse = {
   empty: boolean,
