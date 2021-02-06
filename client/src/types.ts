@@ -113,7 +113,7 @@ export type ProfileObj = {
   givenName: string;
   email: string;
   imageUrl: string;
-}
+};
 
 export type UsersDB = {
   _id: string;
@@ -125,9 +125,7 @@ export type UsersDB = {
   email: string;
   imageUrl: string;
   languagePreference: string;
-  }
-
-
+};
 
 export type UserState = {
   isSignedIn: boolean;
@@ -147,9 +145,9 @@ export type AddingLangAvailable =
 export type FederalProvider = 'google';
 
 // @ SNACKBAR
-export type SnackbarType = 'error' | 'warning' | 'info' | 'success'
+export type SnackbarType = 'error' | 'warning' | 'info' | 'success';
 
 export type NewPlayer = {
   nickName: string,
   
-}
+};
