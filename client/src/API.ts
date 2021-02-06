@@ -99,7 +99,7 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   } as UserState))
   store.dispatch(setLanguage(user.languagePreference))
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)
-  store.dispatch(setPage('scrabbly'));
+  store.dispatch(setPage('list'));
   // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
   
   // Handles 'years' collection
@@ -175,8 +175,11 @@ export const handleNewWordAddingType = (userID: string, type: NewWordAddingType)
 // handle incapable numbers given
 export const checkValidDataOfExtraYear = (year: string, sem: string, from: number, to: number): boolean => {
   if(!parseInt(year) || ! parseInt(sem)) return false;
-  if (from > parseInt(year) || parseInt(sem) > to ) return false;
-  if (parseInt(year) < 1 || parseInt(sem) > 4) return false;
+  // handles year & sem
+  const yearInt = parseInt (year);
+  const semInt = parseInt (sem);
+  if (yearInt < from || yearInt > to) return false; // if NOT between from ~ to
+  if (semInt < 1 || semInt > 4) return false;
 
   return true;
 }

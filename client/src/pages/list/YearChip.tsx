@@ -21,7 +21,7 @@ import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
-type SpecialTag = '' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
+type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
 const ADDING_MORE_WORDS_AMOUNT = 100;
 const DEFAULT_MORE_WORDS_AMOUNT = 100;
 // @ MAIN
@@ -30,40 +30,21 @@ const YearChip = () => {
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
   // Component state
-  const [allTag, setAllTag] = useState(true);
   const [selectedSem, setSelectedSem] = useState<number>(0);
   const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([]);
   const [normalTags, setNormalTags] = useState<string[]>([]);
   const [downloadedSems, setDownloadedSems] = useState<number[]>([]);
-  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>('');
+  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>();
   const [wordCardsMax, setWordCardsMax] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
   // Effect
   useEffect(() => {
     if (support.sems.findIndex(sem => sem === selectedSem) === -1)
       setSelectedSem(0);
   }, [support.sems, selectedSem]);
-  // Effect (Auto Selecting All, if slsectedNorma lTag is empty and special is not clikced
-  useEffect(() => {
-    if (selectedNormalTags.length === 0 && selectedSpecialTag === '') {
-      setAllTag(true);
-    }
-  }, [selectedNormalTags, selectedSpecialTag])
   // Method
   const reset = () => {
-    setSelectedSpecialTag('');
-    setAllTag(true)
+    setSelectedSpecialTag('all'); // all by default.
     setSelectedNormalTags([]);
-  }
-  // ..Method
-  const handleAllTag = () => {
-    if (allTag === true) {
-      setAllTag(false)
-      setSelectedNormalTags([]);
-    }
-    else {
-      setSelectedSpecialTag('');
-      setAllTag(true)
-    }
   };
   // ..Method
   const handleSemChipClick = (sem: number) => {
@@ -85,29 +66,20 @@ const YearChip = () => {
       setDownloadedSems([...downloadedSems, sem]);
     }
   };
-  // ..method
-  const specialNormalShared = (tagsSelected: string[]) => {
-    if (allTag) {
-      setAllTag(false);
-      return [];
-    }
-    return tagsSelected;
-  }
+  
   // ..method
   const handleSpecialTags = (tag: SpecialTag) => {
-    specialNormalShared(selectedNormalTags);
     setSelectedSpecialTag(tag);
   }
 
   // ..method
   const handleNormalTags = (tag: string) => {
-    let prevSelectedTags = specialNormalShared(selectedNormalTags);
-    const hasFound = prevSelectedTags.find((selectedTag => selectedTag === tag));
+    const hasFound = selectedNormalTags.find((selectedTag => selectedTag === tag));
     if (typeof hasFound === "undefined") {
-      setSelectedNormalTags([...prevSelectedTags, tag]);
+      setSelectedNormalTags([...selectedNormalTags, tag]);
     }
     else {
-      setSelectedNormalTags(prevSelectedTags.filter(elem => elem !== hasFound));
+      setSelectedNormalTags(selectedNormalTags.filter(elem => elem !== hasFound));
     }
   };
 
@@ -148,33 +120,35 @@ const YearChip = () => {
     })
   }
   // Special Tag Rendering
-  const specialTagsList: SpecialTag[] = ['favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
+  const specialTagsList: SpecialTag[] = ['all', 'favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
+  const totalWordsCount = ` (${hasFound?.length})`;
   const renderSpecialTags = specialTagsList.map(specialTag => {
+    // if special tag is all, then I would like to add a number of words
     return (
       <Chip
         key={specialTag} 
         clickable
-        label={tr[specialTag][ln]} 
+        label={specialTag === 'all' ? `${tr[specialTag][ln]}${totalWordsCount}` : tr[specialTag][ln]} 
         onClick={() => handleSpecialTags(specialTag)}
         color={selectedSpecialTag === specialTag ? 'primary' : 'default'}
       />
     )
-  })
+  });
 
   const handleMoreClick = () => {
-    console.log("more butotn clicked!");
     setWordCardsMax(wordCardsMax + ADDING_MORE_WORDS_AMOUNT);
-  }
+  };
 
   const renderMoreButton = (
     <IconButton className={"ShowMoreButton"} color="inherit" aria-label="more" onClick={() => handleMoreClick()}>
       <ExpandMoreIcon fontSize="small" />
     </IconButton>
-  )
+  );
 
   // Return
   return (
     <Fragment>
+      
       <ListSetting selectedSem={selectedSem} />
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
         {support.sems.length === 0 
@@ -201,12 +175,6 @@ const YearChip = () => {
         {selectedSem === 0 
           ? null
           : <Fragment>
-              <Chip 
-                clickable
-                label={tr.all[ln] + ` (${typeof filterTargetWords === "undefined" ? 'Wait..' : filterTargetWords.length})`} 
-                onClick={() => handleAllTag()}
-                color={allTag ? 'primary' : 'default'}
-              />
               { renderSpecialTags }
               {
                 normalTags.map((tag: string) => (

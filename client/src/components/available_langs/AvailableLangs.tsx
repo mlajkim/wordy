@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import * as API from '../../API';
 import { countryCodeIntoLanguage } from '../../utils'
@@ -53,20 +53,21 @@ const AvailableLangs: React.FC = () => {
   ));
 
   return (
-    <Fragment>
-      <InputLabel id="demo-controlled-open-select-label">{tr.selectLang[ln]}</InputLabel>
+    <div style={{ display: 'inline-flex' }}>
+      <InputLabel id="demo-controlled-open-select-label" style= {{ paddingTop: 7 }}>{tr.selectLang[ln]}</InputLabel>
       <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={open}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          value={support.addWordLangPref}
-          onChange={(e) => handleChange(e)}
-        >
-          {menuItems}
-        </Select>
-    </Fragment>
+        style={{ marginLeft: 5 }}
+        labelId="demo-controlled-open-select-label"
+        id="demo-controlled-open-select"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        value={support.addWordLangPref}
+        onChange={(e) => handleChange(e)}
+      >
+        {menuItems}
+      </Select>
+    </div>
   )
 }
 

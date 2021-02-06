@@ -1,6 +1,6 @@
-import React, {useState, Fragment} from 'react';
+import React, { useState } from 'react';
 import * as API from '../../API';
-import { format_into_sem, get_sem } from '../../utils';
+import { get_sem } from '../../utils';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Material UI
 import Button from '@material-ui/core/Button';
@@ -11,7 +11,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // Icons
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 // Translation
 import tr from './add_words_dialog.tr.json';
@@ -22,10 +21,6 @@ import { offDialog, setSnackbar } from '../../redux/actions';
 import { useSelector } from 'react-redux';
 import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
-
-// @ ABSOLUTE
-export const VALID_YEAR = { from: 2000, to: 2020 };
-
 
 
 const AddWordsDialog: React.FC = () => {
@@ -38,22 +33,17 @@ const AddWordsDialog: React.FC = () => {
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
   const [tags, setTags] = useState<string[]>(support.lastTags);
-  // Extra Component states
-  const [isShowingExtra, setShowingExtra] = useState(false);
-  const [extraYear, setExtraYear] = useState('');
-  const [extraSem, setExtraSem] = useState('');
 
   // Methods
   const handleSavingWords = () => {
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.successAddWord[ln]));
-    const sem = isShowingExtra ? format_into_sem(parseInt(extraYear), parseInt(extraSem)) : get_sem();
+    const sem = get_sem();
     store.dispatch(postWords([{ word, pronun, meaning, example, isPublic: false, sem, tag: tags }]));
   } 
 
   return (
     <div>
-      {extraYear}
       <Dialog open={true}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
@@ -69,27 +59,6 @@ const AddWordsDialog: React.FC = () => {
           <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}/>
           <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}/>
           <TagsList tags={tags} setTags={setTags} />
-          {isShowingExtra
-            ? (
-              <Fragment>
-                <TextField margin="dense" label={tr.year[ln]} 
-                  fullWidth value={extraYear} 
-                  onChange={(e) => setExtraYear(e.target.value)}
-                />
-                <TextField margin="dense" label={tr.sem[ln]}  
-                  fullWidth value={extraSem}
-                  onChange={(e) => setExtraSem(e.target.value)}
-                />
-              </Fragment>
-              )
-            : (
-              <Fragment>
-                <IconButton onClick={() => setShowingExtra(true)}>
-                  <ArrowDropDownIcon />
-                </IconButton>
-              </Fragment>
-            )
-          }
         </DialogContent>
         <DialogActions>
           <Button onClick={() => store.dispatch(offDialog())} color="secondary">

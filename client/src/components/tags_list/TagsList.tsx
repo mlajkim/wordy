@@ -67,8 +67,13 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
         onDelete={(_tag, index) => handleDeleteTag(index)}
         fullWidth 
       />
-      {support.recommandedTags.length > 0  && <InputLabel id="recTagLabel" style={{marginTop: 10, marginBottom: 10}}>{tr.recTag[ln]}</InputLabel>}
-      { recommandedChips }
+      <div style={{ display: 'inline-flex', marginTop: 8 }}>
+        {support.recommandedTags.length > 0  && <InputLabel id="recTagLabel" style={{marginTop: 10, marginBottom: 10}}>{tr.recTag[ln]}</InputLabel>}
+        <div style={{ marginLeft: 5 }}>
+          
+        </div>
+        { recommandedChips }
+      </div>
     </div>
   );
 }

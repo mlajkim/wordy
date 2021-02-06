@@ -55,7 +55,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
     if (isDataValid === false) return;
     const {user, support}: State = getState(); // interesting (learn something)
     const sem = (payload as WordsChunk)[0].sem;
-    dispatch(getSupport()); // Update the support just in case
+    // dispatch(getSupport()); // Update the support just in case // This line of code created a very light non-chagning bug
 
     // #2 Put some more necessary data
     let newWordCnt: number = support.newWordCnt;

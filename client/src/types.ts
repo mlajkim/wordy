@@ -1,5 +1,3 @@
-import {Moment} from 'moment';
-
 export type State = {
   dialog: Dialog;
   language: Language;
@@ -12,13 +10,13 @@ export type State = {
 }
 
 export type Scrabbly = {
-  step: 'initialize' | 'playerNotFound' | 'gameStart'
+  step: 'initialize' | 'playerNotFound' | 'gameStart' | 'waiting';
 }
 
 export type Fetchy3Response = {
   empty: boolean,
   payload: any
-}
+};
 
 export type FetchyResponse = {
   empty: boolean,
@@ -113,7 +111,7 @@ export type ProfileObj = {
   givenName: string;
   email: string;
   imageUrl: string;
-}
+};
 
 export type UsersDB = {
   _id: string;
@@ -125,9 +123,7 @@ export type UsersDB = {
   email: string;
   imageUrl: string;
   languagePreference: string;
-  }
-
-
+};
 
 export type UserState = {
   isSignedIn: boolean;
@@ -147,9 +143,9 @@ export type AddingLangAvailable =
 export type FederalProvider = 'google';
 
 // @ SNACKBAR
-export type SnackbarType = 'error' | 'warning' | 'info' | 'success'
+export type SnackbarType = 'error' | 'warning' | 'info' | 'success';
 
 export type NewPlayer = {
   nickName: string,
   
-}
+};

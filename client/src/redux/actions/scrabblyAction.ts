@@ -1,5 +1,5 @@
 //
-import { UserState, NewPlayer } from '../../types';
+import { NewPlayer } from '../../types';
 
 export const UPDATE_SCRABBLY = '[SCRABBLY] Update';
 export const AUTHENTICATION = '[SCRABBLY] Authenticate';
