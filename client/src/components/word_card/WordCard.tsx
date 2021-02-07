@@ -1,5 +1,6 @@
 import React from 'react';
-import { Word } from '../../types';
+// Type
+import { State, Word } from '../../types';
 import { convertSem, countryCodeIntoLanguage } from '../../utils';
 // Material UI
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -19,9 +20,11 @@ import StatIcon from '@material-ui/icons/Equalizer';
 import StarReviewIocn from '@material-ui/icons/PlayArrow';
 // Redux
 import store from '../../redux/store';
+import { useSelector } from 'react-redux';
 // Redux Actions
 import {setDialog} from '../../redux/actions';
 import { modifyWords } from '../../redux/actions/wordsAction';
+import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -42,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = { word: Word };
 // @ MAIN
 const WordCard: React.FC<Props> = ({word}) => {
+  const { support} = useSelector((state: State) => state);
   const classes = useStyles();
   // Component states
   const [open, setOpen] = React.useState(false);
@@ -84,7 +88,10 @@ const WordCard: React.FC<Props> = ({word}) => {
     ));
   // Return
   return (
-    <Card style={{width: '100%', marginBottom: 10}}>
+    <Card style={{width: '100%', marginBottom: 10, 
+      background: support.isDarkMode ? wordCardDark : wordCardLight, 
+      font: support.isDarkMode ? fontDark : fontLight 
+    }}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}

@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import { setLanguage } from '../redux/actions';
 import { switchDarkLightMode } from '../redux/actions/supportAction';
 // Theme
-import { backgroundDark, backgroundLight} from '../theme';
+import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
 
@@ -42,7 +42,10 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ background: support.isDarkMode ? backgroundDark : backgroundLight}}>
+    <div style={{ 
+      background: support.isDarkMode ? backgroundDark : backgroundLight,
+      color: support.isDarkMode ? fontDark : fontLight
+    }}>
       <Appbar />
       <Snackbar />
       <Dialog />

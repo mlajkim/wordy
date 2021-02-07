@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 // Translation
 import tr from './list.tr.json';
 import {useSelector} from 'react-redux';
+// Theme
+import { listDark, listLight } from '../../theme';
 
 const List = () => {
   // Redux states
@@ -19,7 +21,7 @@ const List = () => {
   return (
     <Fragment>
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
-      <Typography component="div" style={{ backgroundColor: '#F2F2F2', height: '30vh' }}>
+      <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, height: '30vh' }}>
         {support.sems.length === 0
           ? <div style={{paddingTop: 40}}>
               <h4>{tr.empty[ln]}</h4>

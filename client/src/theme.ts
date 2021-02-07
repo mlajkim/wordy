@@ -4,13 +4,21 @@
  */
 
 // Background page
-export const backgroundLight = '#ffeecc';
-export const backgroundDark = '#664400';
+export const backgroundLight = '#ffffff';
+export const backgroundDark = '#1a0000';
 
 // Font Color
-export const fontLight = '#ffffff';
+export const fontLight = '#000000';
 export const fontDark = '#ffffff';
 
 // Appbar
 export const appbarLight = '#ccff99';
-export const appbarDark = '#1c7d1c';
+export const appbarDark = '#59b300';
+
+// Word List Backgroud Color
+export const listLight = "#F2F2F2";
+export const listDark = "#333333";
+
+// Word Card Color
+export const wordCardLight = "#ffffff";
+export const wordCardDark = "#404040";
