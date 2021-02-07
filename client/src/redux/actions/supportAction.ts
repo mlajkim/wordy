@@ -7,7 +7,7 @@ export const SYNC_SUPPORT = '[SYNC_SUPPORT] Sync Support'
 export const ADD_SEM_NO_DUPLICATE = '[SUPPORT] Add Sem (No Duplicate)';
 export const DELETE_SEM = '[SUPPORT] Delete sem';
 export const MODIFY_RECOMMANDED_TAGS = '[SUPPORT] Modify Recommanded Tags';
-
+export const SWITCH_DARK_LIGHT_MODE = '[SUPPORT] Switch Dark Light Mode';
 // Ultimately
 export const updateSupport = (data: object) => {
   return {
@@ -63,4 +63,17 @@ export const modifyRecommandedTags = (newRecommandedTags: string[]) => {
     type: MODIFY_RECOMMANDED_TAGS,
     payload: newRecommandedTags
   }
-}
+};
+
+/**
+ * To switch between Dark Mode and Light Mode 
+ * It has the complicated logic using both cookie, database and login status to clarfy
+ */
+ export const switchDarkLightMode = (
+   mode: 'light' | 'dark'
+ ) => {
+   return {
+     type: SWITCH_DARK_LIGHT_MODE,
+     payload: mode
+   }
+ };

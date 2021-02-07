@@ -18,5 +18,15 @@
     "ko": "변경되었습니다",
     "en": "Language Changed",
     "ja": "変更しました"
+  },
+  "toDarkMode": {
+    "ko": "다크모드로 변경",
+    "en": "Change to Darkmode",
+    "ja": "ダークモードに変更"
+  },
+  "toLightMode": {
+    "ko": "라이트 모드로 변경",
+    "en": "Change to Lightmode",
+    "ja": "ライトモードに変更"
   }
 }

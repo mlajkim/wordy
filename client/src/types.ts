@@ -61,6 +61,7 @@ export type Support = {
   wordOrderPref: AscDescType;
   yearOrderPref: AscDescType,
   wordDisplayPref: 'wordcard' | 'list';
+  isDarkMode: boolean;
   // Reviews
   maxStep: number,
   steps: number[],

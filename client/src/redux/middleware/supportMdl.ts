@@ -1,4 +1,6 @@
-import {updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE, MODIFY_RECOMMANDED_TAGS} from '../actions/supportAction';
+import {
+  updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE, MODIFY_RECOMMANDED_TAGS, SWITCH_DARK_LIGHT_MODE
+} from '../actions/supportAction';
 import { setSupport , modifySupport } from '../actions/supportAction';
 import {State, FetchyResponse} from '../../types';
 import { fetchy } from '../actions/apiAction';
@@ -90,6 +92,20 @@ export const modifyRecommandedTagsMdl = ({dispatch, getState} : any) => (next: a
         dispatch(modifySupport({ recommandedTags: [newTag, ...recommandedTags]})); // don't need to check the maxCount cuz it will delete
       }
     }
+    
+  };
+};
+
+
+/**
+ * Switch light dark mode
+ */
+
+export const switchDarkLightMode = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === SWITCH_DARK_LIGHT_MODE) {
+
     
   };
 };

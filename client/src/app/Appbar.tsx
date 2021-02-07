@@ -13,7 +13,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from './Drawer';
 import Avatar from '@material-ui/core/Avatar';
-import * as API from '../API'; 
+import * as API from '../API';
+import Tooltip from '@material-ui/core/Tooltip';
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
@@ -26,6 +27,8 @@ import {useSelector} from 'react-redux';
 import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
 import AddIcon from '@material-ui/icons/Add';
+import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
+import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
 // Credetnial
 import {GOOGLE_CLIENT_ID} from '../credential';
 
@@ -37,16 +40,20 @@ const Appbar = () => {
 
   // @languge menu
   const [menu, openMenu] = useState<null | HTMLElement>(null);
+  // Methods
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     openMenu(event.currentTarget);
   };
-
+  // Method
+  const handleChangeDarkLightModeClick = () => {
+    // do something.
+  };
+  // Method
   const handleAddWordClick = () => {
     store.dispatch(getSupport())
     if (support.newWordAddingType === 'one') store.dispatch(setDialog('AddWordsDialog'));
     else store.dispatch(setDialog('MassWordsDialog'));
-    
-  }
+  };
 
   const handleLanguageChange = (ln: Language) => {
     store.dispatch(setSnackbar(tr.languageChanged[ln]))
@@ -100,6 +107,16 @@ const Appbar = () => {
               <AddIcon fontSize="small" />
             </IconButton>
           }
+          <IconButton className={"ChangeDarkLightMode"} color="inherit" aria-label="darkmode" onClick={() => handleChangeDarkLightModeClick()}>
+            {support.isDarkMode 
+              ? <Tooltip title={tr.toLightMode[ln]} placement="bottom">
+                  <LightModeIcon fontSize="small" />
+                </Tooltip> 
+              : <Tooltip title={tr.toDarkMode[ln]} placement="bottom">
+                  <DarkModeIcon fontSize="small" /> 
+                </Tooltip>
+            }
+          </IconButton>
           <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
             <TranslateIcon fontSize="small" />
           </IconButton>

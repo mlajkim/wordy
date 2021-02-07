@@ -4,8 +4,8 @@ import {UPDATE_SUPPORT} from '../actions/supportAction';
 
 
 const initialState: Support = {
-  version: 'v0.2.6',
-  versionDate: 'Feb 6, 2021',
+  version: 'v0.3.0',
+  versionDate: 'Feb ???, 2021',
   status: null,
   addWordLangPref: 'en', // user's prefrenece of adding language
   newWordAddingType: 'one',
@@ -17,6 +17,7 @@ newWordCnt: 0,
   wordDisplayPref: 'wordcard',
   lastTags: [],
   recommandedTags: [],
+  isDarkMode: false, // dark mode off by default.
   // reviews
   maxStep: 8,
   steps: [1, 8, 24, 72, 168, 336, 720, 720],
