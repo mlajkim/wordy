@@ -20,7 +20,7 @@ import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
 import {setDialog, setLanguage, setPage, offDialog, setSnackbar} from '../redux/actions';
-import { getSupport } from '../redux/actions/supportAction';
+import { getSupport,switchDarkLightMode } from '../redux/actions/supportAction';
 import {updateUser} from '../redux/actions/userAction';
 import {useSelector} from 'react-redux';
 // Icons
@@ -43,10 +43,6 @@ const Appbar = () => {
   // Methods
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     openMenu(event.currentTarget);
-  };
-  // Method
-  const handleChangeDarkLightModeClick = () => {
-    // do something.
   };
   // Method
   const handleAddWordClick = () => {
@@ -107,7 +103,7 @@ const Appbar = () => {
               <AddIcon fontSize="small" />
             </IconButton>
           }
-          <IconButton className={"ChangeDarkLightMode"} color="inherit" aria-label="darkmode" onClick={() => handleChangeDarkLightModeClick()}>
+          <IconButton className={"ChangeDarkLightMode"} color="inherit" aria-label="darkmode" onClick={() => store.dispatch(switchDarkLightMode())}>
             {support.isDarkMode 
               ? <Tooltip title={tr.toLightMode[ln]} placement="bottom">
                   <LightModeIcon fontSize="small" />
