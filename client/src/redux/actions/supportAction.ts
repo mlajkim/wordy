@@ -70,8 +70,11 @@ export const modifyRecommandedTags = (newRecommandedTags: string[]) => {
  * No payload at all.
  * It has the complicated logic using both cookie, database and login status to clarfy
  */
-export const switchDarkLightMode = () => {
+export type ToWhichScreenMode = 'dark' | 'light' | null;
+export const switchDarkLightMode = (toWhichMode?: ToWhichScreenMode) => {
+  
    return {
-     type: SWITCH_DARK_LIGHT_MODE
+     type: SWITCH_DARK_LIGHT_MODE,
+     payload: typeof toWhichMode === 'undefined' ? null : toWhichMode
    }
  };

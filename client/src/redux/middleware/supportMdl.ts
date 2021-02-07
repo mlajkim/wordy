@@ -4,6 +4,8 @@ import {
 import { setSupport , modifySupport } from '../actions/supportAction';
 import { State, FetchyResponse } from '../../types';
 import { fetchy } from '../actions/apiAction';
+// Types
+import { ToWhichScreenMode } from '../actions/supportAction';
 
 export const getSupportMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
@@ -100,12 +102,17 @@ export const modifyRecommandedTagsMdl = ({dispatch, getState} : any) => (next: a
 /**
  * Switch light dark mode
  */
-export const switchDarkLightMode = ({ dispatch, getState } : any) => (next: any) => (action: any) => {
+export const switchDarkLightMode = ({ dispatch, getState }: any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === SWITCH_DARK_LIGHT_MODE) {
-    const { support }:State = getState();
+    // Data
+    const toWhichScreenMode: ToWhichScreenMode = action.payload;
+    const { support }: State = getState();
     const currentMode = support.isDarkMode;
+
+    // if mode is specified
+
     // For now I will just swtich back and forth
     dispatch(updateSupport({ isDarkMode: !currentMode }));
   };
