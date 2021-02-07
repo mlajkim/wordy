@@ -17,8 +17,9 @@ const App = () => {
   useEffect(() => {
     // Check the dark API token
     const darkLightModeCookieData = API.readCookie('darkLightModeCookie');
-    if(typeof darkLightModeCookieData === "undefined") {
-      store.dispatch(switchDarkLightMode(darkLightModeCookieData));
+    if(typeof darkLightModeCookieData !== "undefined") {
+      console.log(darkLightModeCookieData)
+      store.dispatch(switchDarkLightMode(darkLightModeCookieData === 'dark' ? 'dark' : 'light'));
     };
 
     // get IP Address and print first.
