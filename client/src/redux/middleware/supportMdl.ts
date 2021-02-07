@@ -1,10 +1,12 @@
+import * as API from '../../API';
+// ACtions
 import {
   updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE, MODIFY_RECOMMANDED_TAGS, SWITCH_DARK_LIGHT_MODE
 } from '../actions/supportAction';
-import { setSupport , modifySupport } from '../actions/supportAction';
-import { State, FetchyResponse } from '../../types';
+import { setSupport , modifySupport, switchDarkLightMode } from '../actions/supportAction';
 import { fetchy } from '../actions/apiAction';
 // Types
+import { State, FetchyResponse } from '../../types';
 import { ToWhichScreenMode } from '../actions/supportAction';
 
 export const getSupportMdl = ({dispatch} : any) => (next: any) => (action: any) => {
@@ -27,9 +29,12 @@ export const setSupportMdl = ({dispatch} : any) => (next: any) => (action: any) 
       ownerID: null,
       __v: null,
       _id: null
-    }))
-  }
-}
+    }));
+    console.log(data);
+    // For Leaving the Token
+    dispatch(switchDarkLightMode(data.isDarkMode ? 'dark' : 'light'));
+  };
+};
 
 export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
@@ -102,20 +107,27 @@ export const modifyRecommandedTagsMdl = ({dispatch, getState} : any) => (next: a
 /**
  * Switch light dark mode
  */
-export const switchDarkLightMode = ({ dispatch, getState }: any) => (next: any) => (action: any) => {
+export const switchDarkLightModeMdl = ({ dispatch, getState }: any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === SWITCH_DARK_LIGHT_MODE) {
     // Data
     const toWhichScreenMode: ToWhichScreenMode = action.payload;
     const { support }: State = getState();
-    const currentMode = support.isDarkMode;
+
+    // Extract
+    // if null, it means they just want to switch, else, switch to the specified one.
+    const newScreenMode = toWhichScreenMode === null 
+      ? !support.isDarkMode ? 'dark' : 'light'
+      : toWhichScreenMode;
 
     // if mode is specified
+    API.updateCookie('darkLightModeCookie', newScreenMode); // Update still creats a new cookie, if not exist
 
-    // For now I will just swtich back and forth
-    dispatch(updateSupport({ isDarkMode: !currentMode }));
+    // Aply for both back and front 
+    dispatch(updateSupport({ isDarkMode: newScreenMode === 'dark' }));
+    dispatch(fetchy('put', '/supports', [{ isDarkMode: newScreenMode === 'dark' }]));
   };
 };
 
-export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl, deleteSemMdl, modifyRecommandedTagsMdl, switchDarkLightMode]; 
+export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl, deleteSemMdl, modifyRecommandedTagsMdl, switchDarkLightModeMdl]; 

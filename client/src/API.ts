@@ -8,6 +8,8 @@ import { setPage, setLanguage,
 } from './redux/actions';
 import { updateUser } from './redux/actions/userAction';
 import { getSupport } from './redux/actions/supportAction';
+// Types
+import { CookiesAvailable } from './types';
 
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean
@@ -150,6 +152,24 @@ export const getAuthorization = () => {
   }
 }
 
+// Cookies API
+export const readCookie = (cookieName: CookiesAvailable) => {
+  return cookies.get(cookieName) as string;
+};
+
+export const addCookie = (cookieName: CookiesAvailable, data: any, expires?: number) => {
+  cookies.set(cookieName, data, { expires });
+};
+
+export const updateCookie = (cookieName: CookiesAvailable, newData: any) => {
+  cookies.set(cookieName, newData);
+};
+
+// @ KillCookie
+export const killCookie = (cookieName: CookiesAvailable) =>  {
+  cookies.remove(cookieName);
+};
+
 export const getAccessToken = () => {
   return cookies.get('login') as string
 }
@@ -158,10 +178,7 @@ export const addToken = (name: string, data: any, expires: number) => {
   cookies.set(name, data, {expires});
 }
 
-// @ SIGN OUT / FORCE EXPIRING
-export const killCookie = (what: string) =>  {
-  cookies.remove('login');
-}
+
 
 // @ Preferences (Old Languages)
 export const handleNewWordAddingType = (userID: string, type: NewWordAddingType) => {
