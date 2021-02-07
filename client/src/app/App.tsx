@@ -10,10 +10,18 @@ import Page from './Page';
 import Snackbar from './Snackbar';
 // Redux
 import store from '../redux/store';
+import { useSelector } from 'react-redux';
+// Action
 import { setLanguage } from '../redux/actions';
 import { switchDarkLightMode } from '../redux/actions/supportAction';
+// Theme
+import { backgroundDark, backgroundLight} from '../theme';
+// Types
+import { State } from '../types';
 
 const App = () => {
+  const { support} = useSelector((state: State) => state);
+
   useEffect(() => {
     // Check the dark API token
     const darkLightModeCookieData = API.readCookie('darkLightModeCookie');
@@ -34,7 +42,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ background: support.isDarkMode ? backgroundDark : backgroundLight}}>
       <Appbar />
       <Snackbar />
       <Dialog />
