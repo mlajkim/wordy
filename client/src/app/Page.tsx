@@ -22,7 +22,7 @@ const Page = () => {
     case 'dashboard':
       return <Dashboard />;
 
-    case 'scrabbly':
+    case user.isSignedIn && 'scrabbly':
       return <Scrabbly />;
 
     case 'admin':
@@ -35,6 +35,7 @@ const Page = () => {
       return <List />;
 
     default:
+      // When you are not signed it, or any fail.
       store.dispatch(setPage('home'));
       store.dispatch(setDialog('Warning401'))
       return <Home />;
