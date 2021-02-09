@@ -1,30 +1,30 @@
 {
   "200":{
     "status": 200,
-    "message": "Success"
+    "message": "success"
   },
   "401":{
     "status": 401,
-    "message": "Access Token Not Provided"
+    "message": "ACCESS TOKEN NOT PROVIDED"
   },
   "402":{
     "status": 402,
-    "message": "Not sufficient credits to fullfill the request of the user"
+    "message": "NOT SUFFICIENT CREDITS TO FULLFIL THE REQUEST OF THE USER"
   },
   "403":{
     "status": 403,
-    "message": "Access Token Invalid or Expired"
+    "message": "TOKEN INVALID OR EXPIRED"
   },
   "404":{
     "status": 404,
-    "message": "Request item does not exist"
+    "message": "REQUESTED ITEM DOES NOT EXIST"
   },
   "406":{
     "status": 406,
-    "message": "Received Data has not satisfied the server standards"
+    "message": "RECEIVED DATA HAS NOT SATISFIED THE SERVER STANDARDS"
   },
   "413":{
     "status": 413,
-    "message": "Received Data has exceeded the maximum limit of length per request"
+    "message": "RECEIVED DATA HAS EXCEEDED THE MAXIMUM LIMIT OF LENGTH PER REQUEST"
   }
 }
