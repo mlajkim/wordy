@@ -1,0 +1,30 @@
+{
+  "200":{
+    "code": 200,
+    "message": "Successful"
+  },
+  "401":{
+    "code": 401,
+    "message": "Access Token Not Provided"
+  },
+  "402":{
+    "code": 402,
+    "message": "Not sufficient credits to fullfill the request of the user"
+  },
+  "403":{
+    "code": 403,
+    "message": "Access Token Invalid or Expired"
+  },
+  "404":{
+    "code": 404,
+    "message": "The user does not exist"
+  },
+  "406":{
+    "code": 406,
+    "message": "Received Data has not satisfied the server standards"
+  },
+  "413":{
+    "code": 413,
+    "message": "Received Data has exceeded the maximum limit of length per request"
+  }
+}
