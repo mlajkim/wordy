@@ -2,9 +2,17 @@
 import {Request, Response, NextFunction} from 'express';
 import { IS_DEV_MODE } from './server';
 import mongoose from 'mongoose';
+// Secrets
+import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
 // Etc
 import moment from 'moment';
+// Types
+import { TokenType } from './typesBackEnd';
+// Json
+import standards from './standards.json';
 
+// V4
 export const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => {
   if (IS_DEV_MODE) {
     const url = process.env.LOCAL_MONGO_SERVER_URL as string;
@@ -18,9 +26,24 @@ export const connectToMongoDB = (_req: Request, _res: Response, next: NextFuncti
     mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
     process.stdout.write('[LIVE]\n')
   }
-  
   next();
 };
+
+// V4
+export const generateToken = (
+  data: any,
+  tokenType: TokenType
+) => {
+  dotenv.config();
+  
+  return jwt.sign(
+    data, 
+    process.env[tokenType]!, 
+    { expiresIn: standards[tokenType].expiresIn }
+  );
+};
+
+
 export const getDate = () => {
   const now = moment();
   const year = parseInt(now.format('YYYY'));
