@@ -11,4 +11,6 @@ export type User = {
   email: string;
 };
 
+
+
 export type FederalProvider = 'google';
