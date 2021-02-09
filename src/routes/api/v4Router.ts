@@ -10,6 +10,7 @@ v4Router.use((_req: Request, _res: Response, next: NextFunction) => {
 
 // Routers Apply
 v4Router.use('/auth', v4Auth);
+// Private Routers '/private/mongo'
 
 
 export default v4Router;
