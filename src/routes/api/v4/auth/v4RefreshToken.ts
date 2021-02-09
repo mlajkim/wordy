@@ -32,6 +32,12 @@ v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Res
   const refreshToken = generateToken(user, 'V4_REFRESH_TOKEN_SECRET');
 
   // Replace the old refresh token (if it fials, send a repsonse 500 or something else)
+  await userSchema.findOneAndUpdate({
+    federalProvider: user.federalProvider,
+    federalID: user.federalID
+  }, {
+    refreshToken
+  }, {useFindAndModify: false});
 
   // When everything is set up reply the refresh token
   const status = 200;
