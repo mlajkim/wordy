@@ -10,7 +10,8 @@ import moment from 'moment';
 // Types
 import { TokenType } from './typesBackEnd';
 // Json
-import standards from './standards.json';
+import standard from './businessStandard.json';
+import response from './responseStandard.json';
 
 // V4
 export const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => {
@@ -30,6 +31,52 @@ export const connectToMongoDB = (_req: Request, _res: Response, next: NextFuncti
 };
 
 // V4
+// @ MIDDLEWARE: AUTHENTICATION
+export const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+  const accessToken = req.header('Authorization');
+  const authType = req.header('AuthType');
+
+  // Secret handler
+  const secretKey = authType === "REFRESH_TOKEN" ? process.env.V4_REFRESH_TOKEN_SECRET! : process.env.V4_ACCESS_TOKEN_SECRET!;
+
+  // Handle when token not given.
+  if(accessToken == null) {
+    const status = 401;
+    return res.status(status).send({
+      status: response[status].status,
+      message: response[status].message
+    });
+  };
+
+  // Verify
+  jwt.verify(accessToken!, secretKey, (err: any, user: any) => {
+    if (err) {
+      const status = 403;
+      return res.status(403).send({
+        status: response[status].status,
+        message: response[status].message,
+        details: "If you are attempting to get refresh token, make sure to provide AuthType header with REFRESH_TOKEN."
+      });
+    };
+      
+    req.body.user = user;
+    process.stdout.write(`[V4] [${user.firstName} ${user.lastName}] [${user.email}]`);
+    next();
+  });
+};
+
+export const minimizeUserData = (user: any) => {
+  return {
+    ID: user._id,
+    federalID: user.federalID,
+    federalProvider: user.federalProvider,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName
+  }
+}
+
+// V4
 export const generateToken = (
   data: any,
   tokenType: TokenType
@@ -39,10 +86,9 @@ export const generateToken = (
   return jwt.sign(
     data, 
     process.env[tokenType]!, 
-    { expiresIn: standards[tokenType].expiresIn }
+    { expiresIn: standard[tokenType].expiresIn }
   );
 };
-
 
 export const getDate = () => {
   const now = moment();

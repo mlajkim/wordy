@@ -17,7 +17,7 @@
   },
   "404":{
     "status": 404,
-    "message": "The user does not exist"
+    "message": "Request item does not exist"
   },
   "406":{
     "status": 406,

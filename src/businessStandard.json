@@ -3,6 +3,6 @@
     "expiresIn" : "7d"
   },
   "V4_ACCESS_TOKEN_SECRET":{
-    "expiresIn" : "1d"
+    "expiresIn" : "1h"
   }
 }
