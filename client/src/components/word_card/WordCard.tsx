@@ -27,7 +27,7 @@ import { modifyWords } from '../../redux/actions/wordsAction';
 import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
 
 const useStyles = makeStyles((theme: Theme) => 
-  createStyles({
+  createStyles({  
     bullet: {
       display: 'inline-block',
       margin: '0 2px',
@@ -90,16 +90,16 @@ const WordCard: React.FC<Props> = ({word}) => {
   return (
     <Card style={{width: '100%', marginBottom: 10, 
       background: support.isDarkMode ? wordCardDark : wordCardLight, 
-      font: support.isDarkMode ? fontDark : fontLight 
+      color: support.isDarkMode ? fontDark : fontLight 
     }}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography gutterBottom>
           {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}
         </Typography>
         <Typography variant="h5" component="h2">
           {word.word}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
+        <Typography >
           {word.pronun}
         </Typography>
         <Typography variant="body2" component="p">
@@ -112,10 +112,10 @@ const WordCard: React.FC<Props> = ({word}) => {
       <Chip label={`#${countryCodeIntoLanguage(word.language)}`} variant="outlined" size="small" />
       { tags }
       <CardActions>
-        <IconButton size="small" color="inherit" onClick={() => handleToolClick('like')} >
+        <IconButton size="small" onClick={() => handleToolClick('like')} >
           {word.isFavorite
             ? <FavoriteTwoToneIcon style={{color: 'red'}}/>
-            : <FavoriteBorderIcon />
+            : <FavoriteBorderIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>
           }
         </IconButton>
         {!open && (

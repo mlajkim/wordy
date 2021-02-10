@@ -5,7 +5,7 @@
 
 // Background page
 export const backgroundLight = '#ffffff';
-export const backgroundDark = '#1a0000';
+export const backgroundDark = '#2b3035';
 
 // Font Color
 export const fontLight = '#000000';
