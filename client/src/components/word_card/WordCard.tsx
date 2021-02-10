@@ -3,7 +3,6 @@ import React from 'react';
 import { State, Word } from '../../types';
 import { convertSem, countryCodeIntoLanguage } from '../../utils';
 // Material UI
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -26,27 +25,10 @@ import {setDialog} from '../../redux/actions';
 import { modifyWords } from '../../redux/actions/wordsAction';
 import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
 
-const useStyles = makeStyles((theme: Theme) => 
-  createStyles({  
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    }
-  })
-);
-
 type Props = { word: Word };
 // @ MAIN
 const WordCard: React.FC<Props> = ({word}) => {
   const { support} = useSelector((state: State) => state);
-  const classes = useStyles();
   // Component states
   const [open, setOpen] = React.useState(false);
 
