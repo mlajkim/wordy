@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 const wordsPost = express.Router();
 import moment from 'moment';
 // utils
@@ -13,12 +13,9 @@ import wordSchema from '../../../../models/Words';
 import response from '../../../../responseStandard.json';
 import standard from '../../../../businessStandard.json';
 
-// @ POST
-wordsPost.post("", async (req: Request, res: Response) => {
+// Fatal Error. The user has to exist. but somehow the DB no longer has it. (HANDLE ERROR)
+wordsPost.use("", async (req: Request, res: Response, next: NextFunction) => {
   const { federalProvider, federalID }: User = req.body.user;
-  const payloads: Payload[] = req.body.payloads;
-  
-  // Fatal Error. The user has to exist. but somehow the DB no longer has it. (HANDLE ERROR)
   const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
   if (!user) {
     const status = 404;
@@ -27,19 +24,34 @@ wordsPost.post("", async (req: Request, res: Response) => {
       message: response[status].message,
       details: "[FATAL ERROR] The user does not exist"
     });
-  };
-  console.log(payloads.length);
-  // if payload is not an array (or object) but also not an array, then sends an error (HANDLE ERROR)
-  if (typeof payloads !== 'object') {
+  }
+  else {
+    next();
+  }
+});
+
+// if payload is not an array (or object) but also not an array, then sends an error (HANDLE ERROR)\
+wordsPost.use("", (req: Request, res: Response, next: NextFunction) => {
+  const payloads: Payload[] = req.body.payloads;
+
+  if (typeof payloads !== 'object' || typeof payloads.length === 'undefined') {
     const status = 406;
     res.status(status).send({
       status: response[status].status,
       message: response[status].message,
       details: "Unable to find a proper data in your body. Make sure to send in an array even when adding one word"
     });
+  }
+  else {
+    next();
   };
-  
-  // if given body has 0 data, sends an error (HANDLE ERROR)
+});
+
+
+// if given body has 0 data, sends an error (HANDLE ERROR) 
+wordsPost.use("", (req: Request, res: Response, next: NextFunction) => {
+  const payloads: Payload[] = req.body.payloads;
+
   const convertedPayloads = [...payloads];
   if (convertedPayloads.length === 0) {
     const status = 406;
@@ -48,34 +60,63 @@ wordsPost.post("", async (req: Request, res: Response) => {
       message: response[status].message,
       details: "Send at least one item in the array."
     });
+  }
+  else {
+    next();
   };
+});
 
-  // Credit Limit Error Handle (HANDLE ERROR) (CHECKED)
+
+// Credit Limit Error Handle (HANDLE ERROR) (CHECKED) 
+wordsPost.use("", async (req: Request, res: Response, next: NextFunction) => {
+  const { federalProvider, federalID }: User = req.body.user;
+  const convertedPayloads = [...req.body.payloads];
+  const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+
   const userAttemptAddingLength = convertedPayloads.length;
   const userCreditLimit = typeof user.creditLimit === 'undefined' ? standard.CREDIT_LIMIT_STANDARD : user.creditLimit;
-  const support: Support = (await supportSchema.findOne({ ownerID: user._id }))?.toObject().catch();
-  if(support.newWordCnt + userAttemptAddingLength > userCreditLimit) {
+  const support: Support = (await supportSchema.findOne({ ownerID: user._id }))?.toObject();
+  if (support.newWordCnt + userAttemptAddingLength > userCreditLimit) {
     const status = 402;
     res.status(status).send({
       status: response[status].status,
       message: response[status].message,
       details: `Left over amount: ${userCreditLimit - support.newWordCnt < 0 ? 0 : userCreditLimit - support.newWordCnt} words | Your attempt: ${userAttemptAddingLength} words`
     });
+  } else {
+    next();
   };
+});
 
-  // Language choice error (HANDLE ERROR) 
+
+// Language choice error (HANDLE ERROR)  
+wordsPost.use("", (req: Request, res: Response, next: NextFunction) => {
+  const convertedPayloads = [...req.body.payloads];
   const availableLanguages = ['en', 'ko', 'ja', 'zh'];
-  convertedPayloads.forEach(async (word: Payload) => {
+  let errorRaised = false;
+
+  convertedPayloads.forEach((word: Payload) => {
     const languageIndex = availableLanguages.findIndex(lang => word.language === lang);
-    if (languageIndex === -1) {
-      const status = 406;
+    if (languageIndex === -1) errorRaised = true;
+  });
+  if (errorRaised) {
+    const status = 406;
       res.status(status).send({
         status: response[status].status,
         message: response[status].message,
         details: "Only certain languages can be added (List in the documents)"
       });
-    };
-  });
+  } else {
+    next();
+  };
+});
+
+// @ POST
+wordsPost.post("", async (req: Request, res: Response) => {
+  const { federalProvider, federalID }: User = req.body.user;
+  const convertedPayloads = [...req.body.payloads];
+  const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+  const support: Support = (await supportSchema.findOne({ ownerID: user._id }))?.toObject();
 
   // Finally execute the code
   let newOrderCnt = support.newWordCnt;
