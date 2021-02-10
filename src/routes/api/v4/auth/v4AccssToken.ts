@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 const v4AccessToken = express.Router();
 // Type
 import { User } from 'src/typesBackEnd';
@@ -7,17 +7,35 @@ import { connectToMongoDB, authenticateUser, generateToken, minimizeUserData } f
 // JSON
 import response from '../../../../responseStandard.json'
 import business from '../../../../businessStandard.json'
+//
+import userSchema from '../../../../models/Users'
 
 v4AccessToken.use(authenticateUser); // Connect to DB
 v4AccessToken.use(connectToMongoDB); // Connect to DB
 
+v4AccessToken.get("", async (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.body);
+  const attemptRefreshToken = req.headers.authorization;
+  const user = req.body.user;
+  const { refreshToken} = (await userSchema.findOne({ _id: user.ID }))?.toObject();
+
+  if (attemptRefreshToken !== refreshToken) {
+    const status = 403;
+    return res.status(status).send({
+      status: response[status].status,
+      message: response[status].message,
+      details: "Refresh Token has been destroyed."
+    });
+  }
+  next();
+});
 
 v4AccessToken.get("", async (req: Request, res: Response) => {
   const user: User = req.body.user;
   const accessToken = generateToken(minimizeUserData(user), 'V4_ACCESS_TOKEN_SECRET');
 
   const status = 200;
-  res.status(status).send({
+  return res.status(status).send({
     status: response[status].status,
     message: response[status].message,
     payload: {
