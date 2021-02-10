@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 const v4RefreshToken = express.Router();
 import { connectToMongoDB } from '../../../../utils';
 // utils
@@ -13,11 +13,11 @@ import standard from '../../../../businessStandard.json';
 
 v4RefreshToken.use(connectToMongoDB); // Connect to DB
 
-v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Response) => {
-  const { federalProvider, federalID } = req.params;
-  
+// Checker if the user exists
+v4RefreshToken.use("/:federalProvider/:federalID", async (req: Request, res: Response, next: NextFunction) => {
   // Check if it exists
-  const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+  const { federalProvider, federalID } = req.params;
+  const user: User = req.body.userMongo = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
 
   // Handle when user does not exist
   if (!user) {
@@ -27,7 +27,11 @@ v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Res
       message: response[status].message,
       details: "The user does not exist"
     });
-  };
+  } else next();
+});
+
+v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Response) => {
+  const user: User = req.body.userMongo;
 
   // Generaate new refresh token
   const refreshToken = generateToken(minimizeUserData(user), 'V4_REFRESH_TOKEN_SECRET');
