@@ -9,8 +9,14 @@ export type User = {
   lastName: string;
   firstName: string;
   email: string;
+  creditLimit: number;
 };
 
-
+export type Support = {
+  _id: string;
+  ownerID: string;
+  newWordCnt: number;
+  deletedWordCnt: 7;
+};
 
 export type FederalProvider = 'google';

@@ -103,3 +103,12 @@ export const getDate = () => {
   return {now, year, sem}
   
 }
+
+export const getSem = () => {
+  const now = moment();
+  let sem = 1;
+  if(parseInt(now.format('MM')) >= 10) sem = 4;
+  else if (parseInt(now.format('MM')) >= 7) sem = 3;
+  else if (parseInt(now.format('MM')) >= 4) sem = 2;
+  return (parseInt(now.format('YYYY')) % 100) * 10 + sem
+};

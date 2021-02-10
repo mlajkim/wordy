@@ -4,5 +4,6 @@
   },
   "V4_ACCESS_TOKEN_SECRET":{
     "expiresIn" : "1h"
-  }
+  },
+  "CREDIT_LIMIT_STANDARD" : 10000
 }

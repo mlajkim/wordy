@@ -10,6 +10,7 @@ const userSchema = new Schema({
   email: String,
   imageUrl: String,
   languagePreference: String,
+  creditLimit: Number,
   refreshToken: String
 });
 
