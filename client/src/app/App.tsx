@@ -44,7 +44,8 @@ const App = () => {
   return (
     <div style={{ 
       background: support.isDarkMode ? backgroundDark : backgroundLight,
-      color: support.isDarkMode ? fontDark : fontLight
+      color: support.isDarkMode ? fontDark : fontLight,
+      height: 2000
     }}>
       <Appbar />
       <Snackbar />
