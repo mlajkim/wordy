@@ -16,7 +16,7 @@ import standard from '../../../../businessStandard.json';
 // Fatal Error. The user has to exist. but somehow the DB no longer has it. (HANDLE ERROR)
 wordsPost.use("", async (req: Request, res: Response, next: NextFunction) => {
   const { federalProvider, federalID }: User = req.body.user;
-  const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+  const user: User = req.body.userMongo = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
   if (!user) {
     const status = 404;
     res.status(status).send({
@@ -69,13 +69,12 @@ wordsPost.use("", (req: Request, res: Response, next: NextFunction) => {
 
 // Credit Limit Error Handle (HANDLE ERROR) (CHECKED) 
 wordsPost.use("", async (req: Request, res: Response, next: NextFunction) => {
-  const { federalProvider, federalID }: User = req.body.user;
   const convertedPayloads = [...req.body.payloads];
-  const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+  const user: User = req.body.userMongo;
 
   const userAttemptAddingLength = convertedPayloads.length;
   const userCreditLimit = typeof user.creditLimit === 'undefined' ? standard.CREDIT_LIMIT_STANDARD : user.creditLimit;
-  const support: Support = (await supportSchema.findOne({ ownerID: user._id }))?.toObject();
+  const support: Support = req.body.supportMongo = (await supportSchema.findOne({ ownerID: user._id }))?.toObject();
   if (support.newWordCnt + userAttemptAddingLength > userCreditLimit) {
     const status = 402;
     res.status(status).send({
@@ -113,10 +112,9 @@ wordsPost.use("", (req: Request, res: Response, next: NextFunction) => {
 
 // @ POST
 wordsPost.post("", async (req: Request, res: Response) => {
-  const { federalProvider, federalID }: User = req.body.user;
   const convertedPayloads = [...req.body.payloads];
-  const user: User = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
-  const support: Support = (await supportSchema.findOne({ ownerID: user._id }))?.toObject();
+  const user: User = req.body.userMongo;
+  const support: Support = req.body.supportMongo;
 
   // Finally execute the code
   let newOrderCnt = support.newWordCnt;
