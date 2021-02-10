@@ -55,10 +55,18 @@ wordsPost.use("", (req: Request, res: Response, next: NextFunction) => {
   const convertedPayloads = [...payloads];
   if (convertedPayloads.length === 0) {
     const status = 406;
-    res.status(status).send({
+    return res.status(status).send({
       status: response[status].status,
       message: response[status].message,
       details: "Send at least one item in the array."
+    });
+  }
+  else if (convertedPayloads.length > standard.ADD_WORD_MAXIMUM_STANDARD) {
+    const status = 413;
+    return res.status(status).send({
+      status: response[status].status,
+      message: response[status].message,
+      details: `Exceeded limit per request. Your attempt: ${convertedPayloads.length} | Current Maximum: ${standard.ADD_WORD_MAXIMUM_STANDARD}`
     });
   }
   else {
