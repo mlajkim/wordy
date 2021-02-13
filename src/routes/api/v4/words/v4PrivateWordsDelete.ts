@@ -6,15 +6,13 @@ import { User } from 'src/typesBackEnd';
 // Models
 import userSchema from '../../../../models/Users';
 // import supportSchema from '../../../../models/Supports';
-// import wordSchema from '../../../../models/Words';
+import wordSchema from '../../../../models/Words';
 // JSON
 import response from '../../../../responseStandard.json';
 // Payload Type
-// type Payload = {
-//   deleteTarget: {
-//     federalID: string, ederalProvider: string, sem: number
-//   }
-// };
+type DeleteTarget = {
+  federalID: string, federalProvider: string, sem: number
+};
 
 // Special TOKEN check
 wordsPrivateDelete.use("", async (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +47,7 @@ wordsPrivateDelete.use("", async (req: Request, res: Response, next: NextFunctio
 
 // User checker. if user does not existm then it returns fial
 wordsPrivateDelete.use("", async (req: Request, res: Response, next: NextFunction) => {
-  const { federalProvider, federalID }: User = req.body.payload.deleteTarget;
+  const { federalProvider, federalID }: DeleteTarget = req.body.payload.deleteTarget;
   const user: User = req.body.userMongo = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
   if (!user) {
     const status = 404;
@@ -63,25 +61,41 @@ wordsPrivateDelete.use("", async (req: Request, res: Response, next: NextFunctio
   next();
 });
 
-// Fatal Error. The user has to exist. but somehow the DB no longer has it. (HANDLE ERROR)
-wordsPrivateDelete.delete("", async (_req: Request, res: Response) => {
+wordsPrivateDelete.use("", async (req: Request, res: Response, next: NextFunction) => {
+  const { sem }: DeleteTarget = req.body.payload.deleteTarget;
 
-  res.send("Success");
+  const foundLength = req.body.foundLength = (await wordSchema.find({ ownerID: req.body.userMongo._id , sem })).length;
+
+  const status = 404
+  if (foundLength === 0) 
+    return res.status(status).send({
+      status: response[status].status,
+      message: response[status].message,
+      details: "Unable to find a single word with given federalProvider, federalID and sem"
+    });
+
+  next();
 });
 
+// Fatal Error. The user has to exist. but somehow the DB no longer has it. (HANDLE ERROR)
+wordsPrivateDelete.delete("", async (req: Request, res: Response) => {
+  const { sem }: DeleteTarget = req.body.payload.deleteTarget;
+  const ownerID = req.body.userMongo._id;
+
+  // Delete Sem value from support + Add deletedWordCnt
+  // 다음에 여기서부터 하세요. 서포트 데이타 벨류
+  // 끝난 후에는 아래에 있는 단어삭제 까지 해서 해보십시오.
+
+  // Deletes the actual words data.
+  await wordSchema.deleteMany({ ownerID, sem });
+
+  const status = 200;
+  return res.status(status).send({
+    status: response[status].status,
+    message: response[status].message,
+    details: req.body.foundLength === 1 ? "Sucessfully deleted 1 word" : `Sucessfully deleted ${req.body.foundLength} words`
+  });
+}); // end
+
+
 export default wordsPrivateDelete;
-
-// Valid Payload Type
-/**
- * 
-{
-    "payload": {
-        "deleteTarget": {
-            "federalProvider": "google", (string)
-            "federalID": "1234567890....", (number or string)
-            "sen": 202 (number)
-        }
-    }
-}
-
-*/
