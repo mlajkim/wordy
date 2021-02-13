@@ -14,7 +14,6 @@ v4AccessToken.use(authenticateUser); // Connect to DB
 v4AccessToken.use(connectToMongoDB); // Connect to DB
 
 v4AccessToken.get("", async (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.body);
   const attemptRefreshToken = req.headers.authorization;
   const user = req.body.user;
   const { refreshToken} = (await userSchema.findOne({ _id: user.ID }))?.toObject();

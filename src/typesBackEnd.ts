@@ -17,6 +17,7 @@ export type Support = {
   ownerID: string;
   newWordCnt: number;
   deletedWordCnt: 7;
+  sems: number[];
 };
 
 export type FederalProvider = 'google';
