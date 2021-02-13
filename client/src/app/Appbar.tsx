@@ -77,7 +77,7 @@ const Appbar = () => {
   const handleLogout = () => {
     API.killCookie('login');
     setProfileMenu(null);
-    store.dispatch(updateUser({isSignedIn: false}));
+    store.dispatch(updateUser({ isSignedIn: false }));
     store.dispatch(offDialog());
     store.dispatch(setPage('home'));
     signOut();

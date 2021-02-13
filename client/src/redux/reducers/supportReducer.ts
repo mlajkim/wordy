@@ -30,7 +30,7 @@ newWordCnt: 0,
 const supports = (state = initialState, action: any) => {
   switch(action.type) {
     
-    case UPDATE_SUPPORT:
+    case UPDATE_SUPPORT: // Front end only
       return {...state, ...action.payload}
     //
     case actions.SET_ADD_WORD_LANG_PREF:

@@ -30,7 +30,6 @@ export const setSupportMdl = ({dispatch} : any) => (next: any) => (action: any) 
       __v: null,
       _id: null
     }));
-    console.log(data);
     // For Leaving the Token
     dispatch(switchDarkLightMode(data.isDarkMode ? 'dark' : 'light'));
   };

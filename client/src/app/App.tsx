@@ -13,7 +13,7 @@ import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Action
 import { setLanguage } from '../redux/actions';
-import { switchDarkLightMode } from '../redux/actions/supportAction';
+import { updateSupport } from '../redux/actions/supportAction';
 // Theme
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
@@ -26,14 +26,12 @@ const App = () => {
     // Check the dark API token
     const darkLightModeCookieData = API.readCookie('darkLightModeCookie');
     if(typeof darkLightModeCookieData !== "undefined") {
-      console.log(darkLightModeCookieData)
-      store.dispatch(switchDarkLightMode(darkLightModeCookieData === 'dark' ? 'dark' : 'light'));
+      store.dispatch(updateSupport({ isDarkMode: darkLightModeCookieData === 'dark' }));
     };
 
     // get IP Address and print first.
     axios.get(`/api/v2/ip/location`)
       .then(res => store.dispatch(setLanguage(handleCountryCode(res.data.payload))));
-      console.log(API.readCookie('darkLightModeCookie'));
 
     // Check the google signin cookie
     if(typeof API.getAccessToken() !== "undefined") {
