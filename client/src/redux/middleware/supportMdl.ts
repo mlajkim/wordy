@@ -31,7 +31,7 @@ export const setSupportMdl = ({dispatch} : any) => (next: any) => (action: any) 
       _id: null
     }));
     // For Leaving the Token
-    dispatch(switchDarkLightMode(data.isDarkMode ? 'dark' : 'light'));
+    // dispatch(switchDarkLightMode(data.isDarkMode ? 'dark' : 'light'));
   };
 };
 
