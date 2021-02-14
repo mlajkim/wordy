@@ -2,7 +2,7 @@ import express, {Request, Response} from 'express';
 import supportSchema from '../../../../models/Supports';
 const supports = express.Router();
 
-const DefaultValue = {sems: [], newWordCnt: 0, deletedWordCnt: 0};
+const DefaultValue = { sems: [], newWordCnt: 0, deletedWordCnt: 0, isDarkMode: false };
 
 // @ CREATE
 supports.post("/:ownerID", async (req: Request, res: Response) => {
