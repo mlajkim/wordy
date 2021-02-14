@@ -2,10 +2,10 @@ import express, { NextFunction, Request, Response } from 'express';
 const wordsPrivateDelete = express.Router();
 import dotenv from "dotenv";
 // Types
-import { User } from 'src/typesBackEnd';
+import { Support, User } from 'src/typesBackEnd';
 // Models
 import userSchema from '../../../../models/Users';
-// import supportSchema from '../../../../models/Supports';
+import supportSchema from '../../../../models/Supports';
 import wordSchema from '../../../../models/Words';
 // JSON
 import response from '../../../../responseStandard.json';
@@ -79,16 +79,24 @@ wordsPrivateDelete.use("", async (req: Request, res: Response, next: NextFunctio
 
 // Fatal Error. The user has to exist. but somehow the DB no longer has it. (HANDLE ERROR)
 wordsPrivateDelete.delete("", async (req: Request, res: Response) => {
-  const { sem }: DeleteTarget = req.body.payload.deleteTarget;
   const ownerID = req.body.userMongo._id;
+  const { sem }: DeleteTarget = req.body.payload.deleteTarget;
+  const { deletedWordCnt, sems }: Support = (await supportSchema.findOne({ ownerID }))?.toObject();
 
-  // Delete Sem value from support + Add deletedWordCnt
-  // 다음에 여기서부터 하세요. 서포트 데이타 벨류
-  // 끝난 후에는 아래에 있는 단어삭제 까지 해서 해보십시오.
+  // Remove the sem from sems
+  const idxOfSem = sems.indexOf(sem);
+  sems.splice(idxOfSem, 1);
+  
+  // Apply new deleted word count
+  const newDeletedWordCnt = deletedWordCnt + req.body.foundLength;
+  await supportSchema.findOneAndUpdate({ ownerID }, { 
+    deletedWordCnt: newDeletedWordCnt, sems  
+  }, {useFindAndModify: false});
 
   // Deletes the actual words data.
   await wordSchema.deleteMany({ ownerID, sem });
 
+  // Finally, return.
   const status = 200;
   return res.status(status).send({
     status: response[status].status,
