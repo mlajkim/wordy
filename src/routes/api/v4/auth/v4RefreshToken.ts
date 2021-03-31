@@ -9,7 +9,6 @@ import userSchema from '../../../../models/Users';
 import { User } from 'src/typesBackEnd';
 // json
 import response from '../../../../responseStandard.json';
-import standard from '../../../../businessStandard.json';
 
 v4RefreshToken.use(connectToMongoDB); // Connect to DB
 
@@ -50,8 +49,7 @@ v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Res
     status: response[status].status,
     message: response[status].message,
     payload: {
-      refreshToken,
-      expiresIn: standard.V4_REFRESH_TOKEN_SECRET.expiresIn
+      refreshToken
     }
   });
 });

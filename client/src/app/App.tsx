@@ -19,17 +19,18 @@ import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
 
+
 const App = () => {
   const { support} = useSelector((state: State) => state);
 
   useEffect(() => {
-    // Check the dark API token
+    // Check the dark API token exists, if yes, apply.
     const darkLightModeCookieData = API.readCookie('darkLightModeCookie');
     if(typeof darkLightModeCookieData !== "undefined") {
       store.dispatch(updateSupport({ isDarkMode: darkLightModeCookieData === 'dark' }));
     };
 
-    // get IP Address and print first.
+    // get IP Address and read country code. And change the language accorindgly. 
     axios.get(`/api/v2/ip/location`)
       .then(res => store.dispatch(setLanguage(handleCountryCode(res.data.payload))));
 

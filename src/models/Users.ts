@@ -11,7 +11,7 @@ const userSchema = new Schema({
   imageUrl: String,
   languagePreference: String,
   creditLimit: Number,
-  refreshToken: String
+  validRefreshToken: String
 });
 
 export default mongoose.model('users', userSchema); 

@@ -70,7 +70,7 @@ export type Support = {
   deletedWordsCount: number;
 }
 
-export type CookiesAvailable = 'login' | 'darkLightModeCookie';
+export type CookiesAvailable = 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie';
 export type AscDescType = 'asc' | 'desc';
 
 export type NewWordAddingType = 'one' | 'mass';

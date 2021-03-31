@@ -1,6 +1,6 @@
 {
   "V4_REFRESH_TOKEN_SECRET":{
-    "expiresIn" : "7d"
+    "expiresIn" : ""
   },
   "V4_ACCESS_TOKEN_SECRET":{
     "expiresIn" : "1h"

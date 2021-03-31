@@ -10,6 +10,7 @@ export type User = {
   firstName: string;
   email: string;
   creditLimit: number;
+  validRefreshToken: string;
 };
 
 export type Support = {

@@ -11,6 +11,17 @@ import { getSupport } from './redux/actions/supportAction';
 // Types
 import { CookiesAvailable } from './types';
 
+export const signIn = (version: number) => {
+  // Check if refresh token exists
+  const ReadWordyRefreshToken = readCookie("wordyRefreshToken");
+  
+  // if nothing found, it is considered signed out. 
+  // Also making sure that Google Signin API has 'signout' turned off too. (For now, i will skip this process)
+  if (ReadWordyRefreshToken.length === 0) return;
+
+  
+};
+
 export const fetchy = (
   method: 'post' | 'get' | 'put' | 'delete', url: string, ownerID: string, payload?: object[] | null, isDefault?: boolean
   ): FetchyResponse => {
@@ -31,7 +42,7 @@ export const fetchy = (
     empty: true,
     length: 0
   }
-}
+};
 
 
 //################### V3 Above
