@@ -13,10 +13,10 @@ import response from '../../../../responseStandard.json';
 v4RefreshToken.use(connectToMongoDB); // Connect to DB
 
 // Checker if the user exists
-v4RefreshToken.use("/:federalProvider/:federalID", async (req: Request, res: Response, next: NextFunction) => {
+v4RefreshToken.use("", async (req: Request, res: Response, next: NextFunction) => {
   // Check if it exists
-  const { federalProvider, federalID } = req.params;
-  const user: User = req.body.extractedUser = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+  const { federealprovider, federalid } = req.headers;
+  const user: User = req.body.extractedUser = (await userSchema.findOne({ federalProvide: federealprovider, federalID: federalid }))?.toObject();
 
   // Handle when user does not exist
   if (!user) {
@@ -30,7 +30,7 @@ v4RefreshToken.use("/:federalProvider/:federalID", async (req: Request, res: Res
 });
 
 // Getting a new refresh token defines that the old refresh token will be expired remotely.
-v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Response) => {
+v4RefreshToken.get("", async (req: Request, res: Response) => {
   const user: User = req.body.extractedUser;
 
   // Generaate new refresh token
