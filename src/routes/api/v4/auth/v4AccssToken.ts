@@ -3,7 +3,7 @@ const v4AccessToken = express.Router();
 // Type
 import { User } from 'src/typesBackEnd';
 // Utils
-import { connectToMongoDB, authenticateUser, generateToken, minimizeUserData } from '../../../../utils';
+import { connectToMongoDB, authenticateUser, generateAccessToken } from '../../../../utils';
 // JSON
 import response from '../../../../responseStandard.json'
 import business from '../../../../businessStandard.json'
@@ -31,7 +31,7 @@ v4AccessToken.get("", async (req: Request, res: Response, next: NextFunction) =>
 
 v4AccessToken.get("", async (req: Request, res: Response) => {
   const user: User = req.body.user;
-  const accessToken = generateToken(minimizeUserData(user), 'V4_ACCESS_TOKEN_SECRET');
+  const accessToken = generateAccessToken(user);
 
   const status = 200;
   return res.status(status).send({

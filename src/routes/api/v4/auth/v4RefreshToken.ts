@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 const v4RefreshToken = express.Router();
 import { connectToMongoDB } from '../../../../utils';
 // utils
-import { generateToken, minimizeUserData } from '../../../../utils';
+import { generateRefreshToken, generateAccessToken } from '../../../../utils';
 // Models
 import userSchema from '../../../../models/Users';
 // Type
@@ -33,7 +33,7 @@ v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Res
   const user: User = req.body.userMongo;
 
   // Generaate new refresh token
-  const refreshToken = generateToken(minimizeUserData(user), 'V4_REFRESH_TOKEN_SECRET');
+  const refreshToken = generateRefreshToken(user);
 
   // Replace the old refresh token (if it fials, send a repsonse 500 or something else)
   await userSchema.findOneAndUpdate({
@@ -49,7 +49,8 @@ v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Res
     status: response[status].status,
     message: response[status].message,
     payload: {
-      refreshToken
+      refreshToken,
+      accessToken: generateAccessToken(user)
     }
   });
 });

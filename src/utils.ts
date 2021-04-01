@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 // Etc
 import moment from 'moment';
 // Types
-import { TokenType } from './typesBackEnd';
+import { TokenType, User } from './typesBackEnd';
 // Json
 import standard from './businessStandard.json';
 import response from './responseStandard.json';
@@ -65,7 +65,7 @@ export const authenticateUser = (req: Request, res: Response, next: NextFunction
   });
 };
 
-export const minimizeUserData = (user: any) => {
+export const minimizeUserData = (user: User) => {
   return {
     ID: user._id,
     federalID: user.federalID,
@@ -89,6 +89,16 @@ export const generateToken = (
     { expiresIn: standard[tokenType].expiresIn }
   );
 };
+
+export const generateRefreshToken = (user: User) => {
+  return generateToken(minimizeUserData(user), 'V4_REFRESH_TOKEN_SECRET');
+};
+
+export const generateAccessToken = (user: User) => {
+  return generateToken(minimizeUserData(user), 'V4_ACCESS_TOKEN_SECRET');
+};
+
+/** Below is all none V4- related */
 
 export const getDate = () => {
   const now = moment();
