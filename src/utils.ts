@@ -79,19 +79,21 @@ export const minimizeUserData = (user: User) => {
 // V4
 export const generateToken = (
   data: any,
-  tokenType: TokenType
+  tokenType: TokenType,
+  noExpiringDate?: boolean
 ) => {
   dotenv.config();
-  
-  return jwt.sign(
-    data, 
-    process.env[tokenType]!, 
-    { expiresIn: standard[tokenType].expiresIn }
-  );
+
+  // Expiring configuration
+  if (typeof noExpiringDate === 'boolean' && noExpiringDate) 
+    return jwt.sign(data, process.env[tokenType]!);
+
+  // Defaut returning with epxiration date.
+  return jwt.sign(data, process.env[tokenType]!,  { expiresIn: standard[tokenType].expiresIn });
 };
 
 export const generateRefreshToken = (user: User) => {
-  return generateToken(minimizeUserData(user), 'V4_REFRESH_TOKEN_SECRET');
+  return generateToken(minimizeUserData(user), 'V4_REFRESH_TOKEN_SECRET', true);
 };
 
 export const generateAccessToken = (user: User) => {
