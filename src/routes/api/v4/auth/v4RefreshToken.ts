@@ -16,7 +16,7 @@ v4RefreshToken.use(connectToMongoDB); // Connect to DB
 v4RefreshToken.use("/:federalProvider/:federalID", async (req: Request, res: Response, next: NextFunction) => {
   // Check if it exists
   const { federalProvider, federalID } = req.params;
-  const user: User = req.body.userMongo = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
+  const user: User = req.body.extractedUser = (await userSchema.findOne({ federalProvider, federalID }))?.toObject();
 
   // Handle when user does not exist
   if (!user) {
@@ -29,8 +29,9 @@ v4RefreshToken.use("/:federalProvider/:federalID", async (req: Request, res: Res
   } else next();
 });
 
+// Getting a new refresh token defines that the old refresh token will be expired remotely.
 v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Response) => {
-  const user: User = req.body.userMongo;
+  const user: User = req.body.extractedUser;
 
   // Generaate new refresh token
   const refreshToken = generateRefreshToken(user);
@@ -40,7 +41,7 @@ v4RefreshToken.get("/:federalProvider/:federalID", async (req: Request, res: Res
     federalProvider: user.federalProvider,
     federalID: user.federalID
   }, {
-    refreshToken
+    validRefreshToken: refreshToken
   }, {useFindAndModify: false});
 
   // When everything is set up reply the refresh token
