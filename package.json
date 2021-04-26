@@ -7,6 +7,7 @@
     "live": "node dist/server.js",
     "start": "nodemon dist/server.js dev",
     "watch": "tsc -w",
+    "watchType": "copy-and-watch --watch src/typesBackEnd.ts client/typesBackEnd.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -49,6 +50,7 @@
     "@types/mongoose": "^5.7.36",
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.11.2",
+    "copy-and-watch": "^0.1.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "ts-dotenv": "^0.8.1",
