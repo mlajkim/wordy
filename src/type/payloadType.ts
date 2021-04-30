@@ -13,8 +13,8 @@ export type WordPayload = {
 };
 
 export type UserPayload = {
-  ownerWrn: string;
-  wrn: string;
+  wrn: string; // this is extremely private
+  accountId: string; // this is public 
   nickname: string;
   federalProvider: FederalProvider;
   federalId: string;

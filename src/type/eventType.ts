@@ -6,17 +6,41 @@
 
 import { Payload } from './payloadType';
 
+export type AvailableEvent = {
+  
+};
+
+export type FilteredEvent = {
+
+};
+
+export type EventHeader = {
+  eventName: EventName
+  eventCriticality: 'low' | 'medium' | 'high' | 'very high'
+  eventVersion: string
+  eventAvailability: 'Available' | 'Deprecated' | 'AdminOnly'
+  unavailableDate: string
+};
+
+export type UserIdentity = {
+  wrn: string
+};
+
+
+
 export type EventType = {
-  eventName: EventName,
-  eventVersion: number, // "1.0"
-  eventId: string, 
-  eventTimeUdt: number, // "12482304230922Z" (UTD)
-  sourceIpAddress: string, // "142.33.225.13"
-  requesterWrn: Wrn, // "wrn::user:anonymus:<hiddenusercode>x8asdsfmo8Sfdis8FS_dasdj7@@!d:" or "wrn:user:root::"
-  destination: string, // "https://www.wordy-cloud.com/apigateway/word"
-  apiVersion: number,
-  apiAccessKey: string, // used for restricted APIs,
-  payload: Payload 
+  // Event Header
+  eventName: EventName
+  eventVersion: number // "1.0"
+  eventId: string // randomly created.
+  eventTime: number // "12482304230922Z" (UTD)
+  sourceIpAddress: string // "142.33.225.13"
+  sourceIpCountry: string
+
+  // 
+  requesterWrn: string // "wrn::user:anonymus:<hiddenusercode>x8asdsfmo8Sfdis8FS_dasdj7@@!d:" or "wrn:user:root::"
+  eventAccessKey: string // used for restricted APIs,
+  payload: any 
 };  
 
 // @Wrn (Wordy Resource Name) (Inspired for ARN, Amazon Resource Name)
