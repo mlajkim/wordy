@@ -1,4 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
+import { cloudTrail } from './response';
 
 const event = express.Router();
 
@@ -12,15 +13,19 @@ const availableEvents = [
 ];
 
 // handles Unavailable Event
-event.use(async (req: Request, res: Response, next: NextFunction) => {
+event.use((req: Request, res: Response, next: NextFunction) => {
   const filteredAvailableEvents = availableEvents.filter(availableEvent => availableEvent.eventName === req.body.eventName);
 
   // If not found, send a response
-  if (filteredAvailableEvents.length === 0) 
-    return res.send({
+  if (filteredAvailableEvents.length === 0) {
+    const eventResponse = {
       message: "Sorry but has not found your request"
-    });
-  
+    };
+    cloudTrail(eventResponse);
+
+    return res.send( eventResponse );
+  }
+    
   next();
 });
 
@@ -31,8 +36,14 @@ event.use(async (req: Request, _res: Response, next: NextFunction) => {
 });
 
 event.use(async (_req: Request, res: Response) => {
-  return res.send('Hello World!');
+  const eventResponse = {
+    message: "Hello World!"
+  };
 
+  cloudTrail(eventResponse);
+
+  // Finally
+  return res.send(eventResponse);
 });
 
 export default event;
