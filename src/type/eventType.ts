@@ -8,9 +8,7 @@ export type AvailableEvent = {
   
 };
 
-export type FilteredEvent = {
 
-};
 
 export type EventHeader = {
   eventName: EventName
@@ -24,7 +22,14 @@ export type UserIdentity = {
   wrn: string
 };
 
-
+export type FilteredEvent = {
+  eventName: EventName
+  eventVersion: number // "1.0"
+  eventId: string // randomly created.
+  eventTime: number // "12482304230922Z" (UTD)
+  sourceIpAddress: string // "142.33.225.13"
+  sourceIpCountry: string
+};
 
 export type EventType = {
   // Event Header

@@ -1,19 +1,20 @@
 import express, {Request, Response} from 'express';
-import geoip from 'geoip-lite';
+import * as utils from '../../../type/utils';
 
 const ip = express.Router();
 
 ip.get('/location', (req: Request, res: Response) => {
-  const ip = req.connection.remoteAddress;
-  const area = geoip.lookup(ip as string);
-  process.stdout.write(`[Area: ${area? area : '?'}]\n`);
-  if(area) {
-    console.log(`IPv6: [${ip}] | ISO Country Code: [${area.country}] Connected`)
+  const ipData = utils.getLocationFromIp(req);
+  const ip = ipData.ip
+  const countryName = ipData.countryName
+  process.stdout.write(`[Area: ${countryName? countryName : '?'}]\n`);
+  if(countryName) {
+    console.log(`IPv6: [${ip}] | ISO Country Code: [${countryName}] Connected`)
     res.status(200).send({
       status: 200,
       message: "[OK]",
       payloadType: "country code 2 letters KR, US.. such as.",
-      payload: area.country
+      payload: countryName
     })
   } else {
     res.status(204).send({
