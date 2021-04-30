@@ -2,7 +2,6 @@ import express, {NextFunction, Request, Response} from 'express';
 import moment from 'moment';
 import { EventType } from '../../type/eventType';
 import { cloudTrail } from './response';
-import geoip from 'geoip-lite';
 
 const event = express.Router();
 

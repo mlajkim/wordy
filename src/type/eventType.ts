@@ -4,8 +4,6 @@
  * Its always to have more data than less.
  */
 
-import { Payload } from './payloadType';
-
 export type AvailableEvent = {
   
 };
