@@ -10,6 +10,7 @@ import { graphqlHTTP } from 'express-graphql';
 import schema from './routes/graphql';
 // Routers
 import api from './routes/api';
+import apigateway from './routes/apigateway';
 
 const app = express();
 const PORT = process.env.PORT || 80;
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use('/api', api); //REST API
+app.use('/apigateway', apigateway); //REST API
 app.use('/graphql', graphqlHTTP({schema, graphiql: true}));  //GraphQL
 
 // https certificates import
