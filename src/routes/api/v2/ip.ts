@@ -1,10 +1,10 @@
 import express, {Request, Response} from 'express';
-import * as utils from '../../../type/utils';
+import * as wambda from '../../../type/wambda';
 
 const ip = express.Router();
 
 ip.get('/location', (req: Request, res: Response) => {
-  const ipData = utils.getLocationFromIp(req);
+  const ipData = wambda.getLocationFromIp(req);
   const ip = ipData.ip
   const countryName = ipData.countryName
   process.stdout.write(`[Area: ${countryName? countryName : '?'}]\n`);

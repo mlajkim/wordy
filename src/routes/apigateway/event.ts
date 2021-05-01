@@ -3,7 +3,7 @@ import express, {NextFunction, Request, Response} from 'express';
 
 const event = express.Router();
 
-event.use(async (req: Request, res: Response, _next: NextFunction) => {
+event.use(async (_req: Request, res: Response, _next: NextFunction) => {
 
   res.send("wut");
 });
