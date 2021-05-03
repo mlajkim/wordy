@@ -1,14 +1,14 @@
 # Project Goal
-This project structure is inspired by AWS infrasture. Exteremely secured feature with security for every layer.
-Databases inclduing EC2, MongoDB, DyanmoDB, S3 and Amazon RDS are located in each prviate or public subset of AWS for even greater security.
-This project is now moving from Functional Architecture to Event Driven Architecture.
-Planning to move on encryption at rest technology using master key and Wordy CMK.
-Some of the functions name are inspired by AWS services as well, such as following.
-Though this project is only for myself, developer, anyone can use it.
-Some of the features such as logging, uploding picures will be denied but you can request it by emailing to me (jkim67cloud@gmail.com)
-Even if you somehow hack the client side of the Wordy-cloud.com, you still can't hack inside because back-end double checks your identity.
-Our server is protected against DDoS attacks thanks to Amazon Shield.
-Our server is checked with Amazon Inspector and Amazon Config.
+- This project structure is inspired by AWS infrasture. Exteremely secured feature with security for every layer.
+- Databases inclduing EC2, MongoDB, DyanmoDB, S3 and Amazon RDS are located in each prviate or public subset of AWS for even greater security.
+- This project is now moving from Functional Architecture to Event Driven Architecture.
+- Planning to move on encryption at rest technology using master key and Wordy CMK.
+- Some of the functions name are inspired by AWS services as well, such as following.
+- Though this project is only for myself, developer, anyone can use it.
+- Some of the features such as logging, uploding picures will be denied but you can request it by emailing to me (jkim67cloud@gmail.com)
+- Even if you somehow hack the client side of the Wordy-cloud.com, you still can't hack inside because back-end double checks your identity.
+- Our server is protected against DDoS attacks thanks to Amazon Shield.
+- Our server is checked with Amazon Inspector and Amazon Config.
 
 1. Wambda = Wordy Lambda Functions (AWS Lambda) 
 2. wrn = Wordy Resource Name (AWS ARN, amazon resource name)
