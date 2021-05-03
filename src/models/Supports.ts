@@ -6,6 +6,7 @@ const supportSchema = new Schema({
   sems: Array,
   status: String,
   newWordCnt: Number,
+  newWordAddingType: String,
   deletedWordCnt: Number,
   lastTags: Array,
   recommandedTags: Array,

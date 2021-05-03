@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-import * as API from '../../API';
 import './List.css';
 import {State} from '../../types';
 import YearChip from './YearChip';
@@ -12,10 +11,13 @@ import tr from './list.tr.json';
 import {useSelector} from 'react-redux';
 // Theme
 import { listDark, listLight } from '../../theme';
+// Redux
+import store from '../../redux/store';
+import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 
 const List = () => {
   // Redux states
-  const {language, support, user} = useSelector((state: State) => state);
+  const { language, support } = useSelector((state: State) => state);
   const ln = language;
 
   return (
@@ -26,11 +28,11 @@ const List = () => {
           ? <div style={{paddingTop: 40}}>
               <h4>{tr.empty[ln]}</h4>
               <Button variant="outlined" color="primary" 
-                onClick={() => API.handleNewWordAddingType(user.ID!, 'one')}>
+                onClick={() => store.dispatch(modifyNewWordAddingType('one'))}>
                 {tr.emptyBtn[ln]}
               </Button>
               <Button variant="outlined" color="secondary" 
-                onClick={() => API.handleNewWordAddingType(user.ID!, 'mass')}>
+                onClick={() => store.dispatch(modifyNewWordAddingType('mass'))}>
                 {tr.emptyProBtn[ln]}
               </Button>
             </div>

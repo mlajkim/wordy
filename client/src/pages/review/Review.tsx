@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react';
 import { State } from '../../types';
-import * as API from '../../API';
 // Translation
 import tr from './review.tr.json';
 import listTr from '../list/list.tr.json';
@@ -18,15 +17,14 @@ const REQUIRED_WORDS_COUNT = 100;
 
 const Review = () => {
   // Redux states
-  const {language, support, user} = useSelector((state: State) => state);
+  const { language, support } = useSelector((state: State) => state);
   const ln = language;
   // Requirements
   const notEnoughWords = support.newWordCnt - support.deletedWordCnt < REQUIRED_WORDS_COUNT;
 
   // Methods
   const handleAddWordClick = () => {
-    store.dispatch(setPage('list'))
-    API.handleNewWordAddingType(user.ID!, 'one');
+    store.dispatch(setPage('list'));
   }
   
   return (

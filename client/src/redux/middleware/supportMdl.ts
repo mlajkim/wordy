@@ -1,12 +1,13 @@
 import * as API from '../../API';
 // ACtions
 import {
-  updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE, MODIFY_RECOMMANDED_TAGS, SWITCH_DARK_LIGHT_MODE
+  updateSupport, GET_SUPPORT, SET_SUPPORT, MODIFY_SUPPORT, DELETE_SEM, ADD_SEM_NO_DUPLICATE, MODIFY_RECOMMANDED_TAGS, SWITCH_DARK_LIGHT_MODE, MODIFY_NEW_WORD_ADDING_TYPE
 } from '../actions/supportAction';
 import { setSupport , modifySupport, switchDarkLightMode } from '../actions/supportAction';
 import { fetchy } from '../actions/apiAction';
+import { setDialog } from '../actions';
 // Types
-import { State, FetchyResponse } from '../../types';
+import { State, FetchyResponse, Support } from '../../types';
 import { ToWhichScreenMode } from '../actions/supportAction';
 
 export const getSupportMdl = ({dispatch} : any) => (next: any) => (action: any) => {
@@ -41,7 +42,18 @@ export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
     dispatch(fetchy('put', '/supports', [payload]))
     dispatch(updateSupport(payload));
   }
-}
+};
+
+export const modifyNewWordAddingTypeMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === MODIFY_NEW_WORD_ADDING_TYPE) {
+    const { newWordAddingType }: Support = action.payload;
+    dispatch(fetchy('put', '/supports', [{ newWordAddingType }]))
+    dispatch(updateSupport({ newWordAddingType }));
+    dispatch(setDialog(newWordAddingType === 'one' ? 'AddWordsDialog' : 'MassWordsDialog'));
+  }
+};
 
 export const addSemNoDupMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
@@ -127,4 +139,4 @@ export const switchDarkLightModeMdl = ({ dispatch, getState }: any) => (next: an
   };
 };
 
-export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, addSemNoDupMdl, deleteSemMdl, modifyRecommandedTagsMdl, switchDarkLightModeMdl]; 
+export const supportMdl = [getSupportMdl, setSupportMdl, modifyMdl, modifyNewWordAddingTypeMdl, addSemNoDupMdl, deleteSemMdl, modifyRecommandedTagsMdl, switchDarkLightModeMdl]; 

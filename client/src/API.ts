@@ -1,11 +1,9 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
-import { FetchyResponse, UsersDB, NewWordAddingType, GoogleRes, ProfileObj, UserState } from './types';
+import { FetchyResponse, UsersDB, GoogleRes, ProfileObj, UserState } from './types';
 // Redux
 import store from './redux/store';
-import { setPage, setLanguage, 
-  setYears, offDialog, setNewWordAddingType, setDialog
-} from './redux/actions';
+import { setPage, setLanguage, setYears, offDialog } from './redux/actions';
 import { updateUser } from './redux/actions/userAction';
 import { getSupport } from './redux/actions/supportAction';
 // Types
@@ -121,38 +119,8 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   })).data
   if(!error) store.dispatch(setYears(payload));
 
-  // Handles users  languages collection
-  let languagesRes = (await axios.get(`/api/v2/mongo/languages/${user._id}`, getAuthorization())).data;
-  if(languagesRes.error) { // does not exist
-    languagesRes = (await axios.post(`/api/v2/mongo/languages`, {
-      // default english, stil adding data null
-      payload: { 
-        ownerID: user._id, firstName: user.firstName, addWordLangPref: 'en', data: [], 
-        addedWordsCount: 0, deletedWordsCount: 0, newWordAddingType: 'one'
-      }
-    }, getAuthorization())).data;
-  } else { // if exists
-    // Check to make sure it exists (New feature, modification required)
-    // ***Data Checking***
-    if(typeof languagesRes.payload.addedWordsCount === "undefined") {
-      languagesRes.payload.addedWordsCount = 0;
-      axios.put(`/api/v2/mongo/languages/${user._id}`, {payload: {
-        addedWordsCount: 0
-      }}, getAuthorization())
-    }
-    if(typeof languagesRes.payload.addedWordsCount === "undefined") {
-      languagesRes.payload.deletedWordsCount = 0;
-      axios.put(`/api/v2/mongo/languages/${user._id}`, 
-      {payload: { deletedWordsCount: 0 }}, 
-      getAuthorization())
-    }
-    if(typeof languagesRes.payload.addedWordsCount === "undefined") {
-      languagesRes.payload.newWordAddingType = 'one'
-    }
-  }
   // ..Set up the front
   store.dispatch(getSupport());
-  store.dispatch(setNewWordAddingType(languagesRes.payload.newWordAddingType))
 }
 
 export const getAuthorization = () => {
@@ -187,17 +155,6 @@ export const getAccessToken = () => {
 
 export const addToken = (name: string, data: any, expires: number) => {
   cookies.set(name, data, {expires});
-}
-
-
-
-// @ Preferences (Old Languages)
-export const handleNewWordAddingType = (userID: string, type: NewWordAddingType) => {
-  axios.put(`/api/v2/mongo/languages/${userID}`, {payload: {
-    newWordAddingType: type
-  }}, getAuthorization())
-  store.dispatch(setDialog(type === 'one' ? 'AddWordsDialog' : 'MassWordsDialog'));
-  store.dispatch(setNewWordAddingType(type));
 }
 
 // handle incapable numbers given

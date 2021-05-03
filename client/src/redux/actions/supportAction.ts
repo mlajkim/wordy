@@ -1,3 +1,5 @@
+//Types 
+import { NewWordAddingType } from '../../types';
 //
 export const GET_SUPPORT = '[SUPPORT] Get'
 export const UPDATE_SUPPORT = '[SUPPORT] Update';
@@ -8,6 +10,9 @@ export const ADD_SEM_NO_DUPLICATE = '[SUPPORT] Add Sem (No Duplicate)';
 export const DELETE_SEM = '[SUPPORT] Delete sem';
 export const MODIFY_RECOMMANDED_TAGS = '[SUPPORT] Modify Recommanded Tags';
 export const SWITCH_DARK_LIGHT_MODE = '[SUPPORT] Switch Dark Light Mode';
+export const MODIFY_NEW_WORD_ADDING_TYPE = '[SUPPORT] Modify new word adding type value'; 
+
+
 // Ultimately (Try to avoid direct use)
 export const updateSupport = (data: object) => {
   return {
@@ -33,6 +38,13 @@ export const modifySupport = (data: object) => {
   return {
     type: MODIFY_SUPPORT,
     payload: data
+  };
+};
+
+export const modifyNewWordAddingType = (newWordAddingType: NewWordAddingType) => {
+  return {
+    type: MODIFY_NEW_WORD_ADDING_TYPE,
+    payload: { newWordAddingType }
   };
 }
 

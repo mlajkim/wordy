@@ -24,6 +24,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 // Redux
 import store from '../../redux/store';
 import {useSelector} from 'react-redux';
+import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 // Redux Actions
 import { offDialog, setSnackbar } from '../../redux/actions';
 import { postWords } from '../../redux/actions/wordsAction';
@@ -35,7 +36,7 @@ const VALID_YEAR_TO = 2999;
 
 const MassWords = () => {
   // Redux states
-  const {user, language, support} = useSelector((state: State) => state);
+  const { language, support } = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [count, setCount] = useState(0);
@@ -89,7 +90,7 @@ const MassWords = () => {
             <HelpOutlineIcon />
           </Tooltip>
           <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
-            onClick={() => API.handleNewWordAddingType(user.ID!, 'one')}>
+            onClick={() => store.dispatch(modifyNewWordAddingType('one'))}>
             <SwitchBackToOneMode />
           </IconButton>
         </DialogTitle>

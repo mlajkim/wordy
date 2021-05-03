@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import * as API from '../../API';
 import { get_sem } from '../../utils';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Material UI
@@ -18,6 +17,7 @@ import { State } from '../../types';
 // Redux
 import store from '../../redux/store';
 import { offDialog, setSnackbar } from '../../redux/actions';
+import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 import { useSelector } from 'react-redux';
 import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
@@ -25,7 +25,7 @@ import TagsList from '../../components/tags_list/TagsList';
 
 const AddWordsDialog: React.FC = () => {
   // Redux states
-  const {language, user, support} = useSelector((state: State) => state);
+  const { language, support } = useSelector((state: State) => state);
   const ln = language;
   // Component states
   const [word, setWord] = useState('');
@@ -48,7 +48,7 @@ const AddWordsDialog: React.FC = () => {
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
           <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
-            onClick={() => API.handleNewWordAddingType(user.ID!, 'mass')}>
+            onClick={() => store.dispatch(modifyNewWordAddingType('mass'))}>
             <AddToPhotosIcon />
           </IconButton>
         </DialogTitle>

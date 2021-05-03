@@ -8,7 +8,7 @@ const initialState: Support = {
   versionDate: 'Apr ?, 2021',
   status: null,
   addWordLangPref: 'en', // user's prefrenece of adding language
-  newWordAddingType: 'one',
+  newWordAddingType: 'mass', // old support
   newWordCnt: 0,
   deletedWordCnt: 0,
   sems: [],
@@ -18,7 +18,7 @@ const initialState: Support = {
   lastTags: [],
   recommandedTags: [],
   isDarkMode: false, // dark mode off by default.
-  // reviews
+// reviewss
   maxStep: 8,
   steps: [1, 8, 24, 72, 168, 336, 720, 720],
   // old
