@@ -4,10 +4,11 @@
  * Its always to have more data than less.
  */
 
-export type AvailableEvent = {
-  
-};
 
+
+export const availableEvents = [
+  
+];
 
 
 export type EventHeader = {

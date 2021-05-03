@@ -1,24 +1,60 @@
-export type Payload = [...WordPayload[]]
+// More like resource type right?
 
-export type WordPayload = {
-  wrn: string;
-  kms: string;
-  ownerWrn: string;
-  language: Language;
-  word: string;
-  pronun: string;
-  meaning: string;
-  example: string;
-  tags: string[];
+
+export type Resource = {
+  wrn: string // Plaintext
+  ownerWrn: string // Plaintext
+  cmkWrn: string // Plaintext
+  encryptedDek: string // Encrypted data encrpytion key.
+  CiphertextBlob: WordResource | UserResource | KeyResource // Encrypted Data OR plain text data if cmkWrn is blank
 };
 
-export type UserPayload = {
-  wrn: string; // this is extremely private
-  accountId: string; // this is public 
-  nickname: string;
-  federalProvider: FederalProvider;
-  federalId: string;
+
+/**
+ * 
+CMK resource
+ = {
+  wrn: wrn::kms:cmk:awsddb:+a!_sfs9sd2id0fd9asdd9adxx9823_ds0fasd9Fsd!
+  ownerWrn: wrn::user::mdb:+d9asdd9adxx9823_ds9sd2id0fs0fasd9Fsd!
+  cmkWrn: "wrn::kms:masterkey:awsddb:+a!_sfs9sd2id0fd9asdd9adxx9823_ds0fasd9Fsd!" // blank (wordy managed key)
+  CiphertextBlob: 78a8sdyahdahdygaudshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudoq3rhehfshbfnsshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudhdjshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudansxjahkbxiadnabkhjdbhasbdiushroq3rhehfshbfnsoidsuiydbsuydsahdjaiud
+};
+
+Resource = {
+  wrn: wrn::word:mdb:s9sd2id0fs0f+d9asdd9adxx9823_dasd9Fsd!
+  ownerWrn: wrn::user:mdb:+d9asdd9adxx9823_ds9sd2id0fs0fasd9Fsd!
+  cmkWrn: wrn::cmk:awsddb:+a!_sfs9sd2id0fd9asdd9adxx9823_ds0fasd9Fsd!
+  CiphertextBlob: 78a8sdyahdahdygaudshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudoq3rhehfshbfnsshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudhdjshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudansxjahkbxiadnabkhjdbhasbdiushroq3rhehfshbfnsoidsuiydbsuydsahdjaiud
+};
+
+ */
+
+export type WordResource = {
+  language: 'ko' | 'en' | 'ja' | 'zh'
+  word: string
+  pronun: string
+  meaning: string
+  example: string
+  tags: string[]
+};
+
+export type KeyResource = {
+  isEnabled: boolean // if disabled, you cannot use this key
+  keyValue: string // hash
 }
 
-export type FederalProvider = 'google';
-export type Language = 'ko' | 'en' | 'ja' | 'zh';
+export type UserResource = {
+  // Identifier for Login
+  federalProvider: 'google'
+  federalId: string
+  validRefreshToken: string[]
+  // MFA
+  secondPassword: number
+  mfa: any
+  // General Infromation 
+  firstName: string
+  lastName: string
+  nickname: string
+  profileImageUrl: string
+  email: string
+};
