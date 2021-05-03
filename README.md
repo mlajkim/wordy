@@ -1,6 +1,26 @@
+# Project Goal
+This project structure is inspired by AWS infrasture. Exteremely secured feature with security for every layer.
+Databases inclduing EC2, MongoDB, DyanmoDB, S3 and Amazon RDS are located in each prviate or public subset of AWS for even greater security.
+This project is now moving from Functional Architecture to Event Driven Architecture.
+Planning to move on encryption at rest technology using master key and Wordy CMK.
+Some of the functions name are inspired by AWS services as well, such as following.
+Though this project is only for myself, developer, anyone can use it.
+Some of the features such as logging, uploding picures will be denied but you can request it by emailing to me (jkim67cloud@gmail.com)
+Even if you somehow hack the client side of the Wordy-cloud.com, you still can't hack inside because back-end double checks your identity.
+Our server is protected against DDoS attacks thanks to Amazon Shield.
+Our server is checked with Amazon Inspector and Amazon Config.
+
+1. Wambda = Wordy Lambda Functions (AWS Lambda) 
+2. wrn = Wordy Resource Name (AWS ARN, amazon resource name)
+3. kms = Key Management Service (AWS KMS)
+4. cmk = Custom Master Key (AWS KMS's CMK)
+5. dek = data encryption key (AWS KMS's DEK)
+6. CiphertextBlob and more (Exactly the same name when you encrypyt data using CMK via AWS CLI)
+
 # Wordy (Your Multilingual Partner)
 Join here:
-https://wordy-cloud.com/
+https://www.wordy-cloud.com/
+Anonymous trial will be available in the future.
 
 # Introduction
 Wordy-cloud service provides you the best way to become multilingual.
@@ -27,16 +47,16 @@ Join here now at: https://wordy-cloud.com/
 ![](https://github.com/PeacefulHaru/wordy/blob/master/img/intro2_multitask.jpeg)
 
 # Programming Tools
-1. Front-End: TypeScript, React, Redux, Apollo, GraphQL
-2. Back-End: TypeScript, Express, NodeJS, GraphQL
-3. Database: Mongoose, MongoDB
-4. Security: HTTPS, SSL, JWT
+1. Front-End: TypeScript, React, Redux
+2. Back-End: TypeScript, Express, NodeJS
+3. Database: Mongoose, MongoDB, Amazon RDS, Amazon DyanmoDB
+4. Security: HTTPS, SSL, JWT, AWS infrastucture
 5. Server: AWS EC2 Ubuntu
-6. External APIs: Google Sign-In API, PayPal API
+6. External APIs: Google Sign-In API
 7. Others: Google Material UI
 
 # Page Language Support
-1. English
-2. Korean
+1. Korean
+2. English
 3. Japanese
-4. Chinese (Future)
+4. Chinese (Future, by June 2021)
