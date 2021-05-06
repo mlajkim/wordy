@@ -1,4 +1,4 @@
-import { SnackbarType, DialogType, NewWordAddingType } from '../types';
+import { SnackbarType, DialogType } from '../types';
 import * as actions from './actionTypes';
 
 // @ DIALOG
@@ -35,36 +35,6 @@ export const setLanguages = (toWhat: string[]) => {
       toWhat
     }
   };
-}
-
-// @ LANGUAGES
-export const setAddWordLangPref = (toWhat: string) => {
-  return {
-    type: actions.SET_ADD_WORD_LANG_PREF, payload: { toWhat }
-  };
-}
-
-export const setAddedWordsCount = (count: number) => {
-  return {
-    type: actions.SET_ADDED_WORDS_COUNT, payload: { count }
-  }
-}
-
-export const setDeletedWordsCount = (count: number) => {
-  return {
-    type: actions.SET_DELETED_WORDS_COUNT, payload: { count }
-  }
-}
-
-export const incrementAddedWordsCount = () => {return { type: actions.INCREMENT_ADDED_WORDS_COUNT }};
-
-export const incrementDeletedWordsCount = () => {return { type: actions.INCREMENT_DELETED_WORDS_COUNT }};
-
-export const setNewWordAddingType = (type: NewWordAddingType) => {
-  return {
-    type: actions.SET_NEW_WORD_ADDING_TYPE,
-    payload: { type }
-  }
 }
 
 // @ YEARS
