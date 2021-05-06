@@ -6,7 +6,7 @@ import trAvailableLangs from '../../components/available_langs/available_langs.t
 import trAddWordsDialog from '../add_word/add_words_dialog.tr.json';
 // Types
 import { State, Word } from '../../types';
-import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
+import { AddableLanguage, ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
 // Material UI
 import Button from '@material-ui/core/Button';
@@ -77,7 +77,7 @@ export default function EditDialog() {
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
               value={editLanguage}
-              onChange={(e) => setEditLanguage(e.target.value as string)}
+              onChange={(e) => setEditLanguage(e.target.value as AddableLanguage)}
             >
               {menuItems}
             </Select>

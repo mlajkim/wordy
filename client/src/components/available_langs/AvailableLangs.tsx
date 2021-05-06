@@ -1,6 +1,7 @@
 import React from 'react';
-import { countryCodeIntoLanguage } from '../../utils'
-import { State, AddableLang } from '../../types';
+import { State } from '../../types';
+import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
 // Translation
 import tr from './available_langs.tr.json';
 // Material UI
@@ -13,8 +14,6 @@ import store from '../../redux/store';
 // Redux Actions
 import { modifySupport } from '../../redux/actions/supportAction';
 
-const LANGUAGES_AVAILABLE_LIST: AddableLang[] = ['ko', 'en', 'ja', 'zh'];
-
 const AvailableLangs: React.FC = () => {
   const { support, language } = useSelector((state: State) => state);
   const [open, setOpen] = React.useState(false);
@@ -23,8 +22,8 @@ const AvailableLangs: React.FC = () => {
     store.dispatch(modifySupport({ addWordLangPref: event.target.value as string }));
   };
 
-  const menuItems = LANGUAGES_AVAILABLE_LIST.map(lang => (
-    <MenuItem key={lang} value={lang}>{countryCodeIntoLanguage(lang)}</MenuItem>
+  const menuItems = ADDABLE_LANGUAGES_LIST.map(lang => (
+    <MenuItem key={lang} value={lang}>{languageCodeIntoUserFriendlyFormat(lang)}</MenuItem>
   ));
 
   return (

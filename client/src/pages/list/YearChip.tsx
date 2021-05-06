@@ -1,6 +1,7 @@
 // Main & Types
 import React, {Fragment, useState, useEffect} from 'react';
-import {convertSem, countryCodeIntoLanguage, checkIfToday, checkIfThisDay} from '../../utils';
+import {convertSem, checkIfToday, checkIfThisDay} from '../../utils';
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
 import { State, WordsChunk } from '../../types';
 // Components
 import WordCard from '../../components/word_card/WordCard';
@@ -103,7 +104,7 @@ const YearChip = () => {
         if (selectedNormalTags.length !== 0) { // languages & tags filter
           let flag = false;
           selectedNormalTags.forEach(tag => {
-            if(!flag) flag = countryCodeIntoLanguage(word.language) === tag.substring(1)
+            if(!flag) flag = languageCodeIntoUserFriendlyFormat(word.language) === tag.substring(1)
             if(!flag) flag = word.tag.find(wordTag => wordTag === tag.substring(1)) !== undefined
           })
           return flag;
@@ -117,7 +118,7 @@ const YearChip = () => {
   if(typeof hasFound !== "undefined") {
     hasFound.forEach(word => {
       const {language, tag} = word;
-      const convertedLanguage = "#" + countryCodeIntoLanguage(language);
+      const convertedLanguage = "#" + languageCodeIntoUserFriendlyFormat(language);
       if (normalTags.findIndex(elem => elem === convertedLanguage) === -1) setNormalTags([...normalTags, convertedLanguage])
       tag.forEach(tag => {
         if (typeof normalTags.find(elem => elem === `#${tag}`) === "undefined")  // 여기서 elem은 이미 # 태그가 붙어있음.

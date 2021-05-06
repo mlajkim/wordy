@@ -1,3 +1,5 @@
+import { AddableLanguage } from './type/generalType';
+
 export type State = {
   dialog: Dialog;
   language: Language;
@@ -94,7 +96,7 @@ export type Word = {
   packageID: string, 
   isFavorite: boolean,
   sem: number,
-  language: string,
+  language: AddableLanguage,
   tag: string[],
   word: string,
   pronun: string,

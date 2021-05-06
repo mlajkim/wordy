@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {useGoogleLogout} from 'react-google-login'
 import Cookie from 'js-cookie';
-import {countryCodeIntoLanguage} from '../utils';
+import { languageCodeIntoUserFriendlyFormat } from '../type/sharedWambda';
 // Theme
 import { appbarLight, appbarDark } from '../theme';
 // Material UI
@@ -125,10 +125,10 @@ const Appbar = () => {
             open={Boolean(menu)}
             onClose={() => openMenu(null)}
           >
-            <MenuItem onClick={() => handleLanguageChange('ko')}>{countryCodeIntoLanguage('ko')}</MenuItem>
-            <MenuItem onClick={() => handleLanguageChange('en')}>{countryCodeIntoLanguage('en')}</MenuItem>
-            <MenuItem onClick={() => handleLanguageChange('ja')}>{countryCodeIntoLanguage('ja')}</MenuItem>
-            <MenuItem disabled onClick={() => handleLanguageChange('en')}>{countryCodeIntoLanguage('zh')}</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('ko')}>{languageCodeIntoUserFriendlyFormat('ko')}</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('en')}>{languageCodeIntoUserFriendlyFormat('en')}</MenuItem>
+            <MenuItem onClick={() => handleLanguageChange('ja')}>{languageCodeIntoUserFriendlyFormat('ja')}</MenuItem>
+            <MenuItem disabled onClick={() => handleLanguageChange('en')}>{languageCodeIntoUserFriendlyFormat('zh')}</MenuItem>
           </Menu>
           <IconButton size="small" color="inherit" onClick={(e) => handleProfileMenu(e)}>
             <Avatar alt={user.firstName} src={user.imageUrl} />

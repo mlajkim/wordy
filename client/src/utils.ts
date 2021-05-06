@@ -35,21 +35,6 @@ export const handleCountryCode = (countryCode: string) => {
   }
 };
 
-export const countryCodeIntoLanguage = (countryCode: string) => {
-  switch(countryCode) {
-    case 'ko':
-      return '한국어🇰🇷'
-    case 'en':
-      return 'English🇺🇸'
-    case 'ja':
-      return '日本語🇯🇵' // chinese not yet
-    case 'zh':
-      return '中文 (简体)🇨🇳'
-    default:
-      return '?'
-  }
-};
-
 export const checkIfToday = (time: number): boolean => {
   // addedDate
   const givenTime = moment(time).valueOf(); //moment = time

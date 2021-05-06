@@ -1,7 +1,8 @@
 import React from 'react';
 // Type
 import { State, Word } from '../../types';
-import { convertSem, countryCodeIntoLanguage } from '../../utils';
+import { convertSem } from '../../utils';
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
 // Material UI
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -91,7 +92,7 @@ const WordCard: React.FC<Props> = ({word}) => {
           {word.example && `"${word.example}"`}
         </Typography>
       </CardContent>
-      <Chip label={`#${countryCodeIntoLanguage(word.language)}`} variant="outlined" size="small" />
+      <Chip label={`#${languageCodeIntoUserFriendlyFormat(word.language)}`} variant="outlined" size="small" />
       { tags }
       <CardActions>
         <IconButton size="small" onClick={() => handleToolClick('like')} >
