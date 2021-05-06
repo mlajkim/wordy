@@ -7,7 +7,7 @@
     "live": "node dist/server.js",
     "start": "nodemon dist/server.js dev",
     "watch": "tsc -w",
-    "watchType": "copy-and-watch --watch src/typesBackEnd.ts client/typesBackEnd.ts",
+    "watchType": "copy-and-watch --watch src/type/* client/src/type",
     "build": "tsc"
   },
   "keywords": [],
