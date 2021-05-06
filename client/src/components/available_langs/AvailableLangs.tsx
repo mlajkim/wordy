@@ -16,7 +16,7 @@ import { modifySupport } from '../../redux/actions/supportAction';
 const LANGUAGES_AVAILABLE_LIST: AddableLang[] = ['ko', 'en', 'ja', 'zh'];
 
 const AvailableLangs: React.FC = () => {
-  const { user, support, language } = useSelector((state: State) => state);
+  const { support, language } = useSelector((state: State) => state);
   const [open, setOpen] = React.useState(false);
 
   const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {

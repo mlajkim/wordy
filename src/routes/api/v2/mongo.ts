@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import { IS_DEV_MODE } from '../../../server';
 // Routers
 import users from './mongo/users';
-import languages from './mongo/languages'
 import words from './mongo/words';
 import years from './mongo/years';
 
@@ -54,7 +53,6 @@ dotenv.config(); // bring dotenv callable
 mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
 mongo.use("/users", users);
-mongo.use("/languages", languages);
 mongo.use("/words", words);
 mongo.use("/years", years);
 
