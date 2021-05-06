@@ -40,6 +40,7 @@ export type WordResource = {
 
 export type KeyResource = {
   isEnabled: boolean // if disabled, you cannot use this key
+  encryptionType: string
   keyValue: string // hash
 }
 

@@ -46,12 +46,12 @@ export const getEventName = (givenOriginalUrl: string) => {
  *  Returns an object with 
  */
 export const readWrn = (wrn: string) => {  
-  const regex = /wrn:(?<extraForFutureUsage>.*):(?<serviceName>.*):(?<resourceType>.*):(?<databaseCode>.*):(?<publicId>.*):(?<privateId>.*)/g;
+  const regex = /wrn:(?<reservedForFutureUse>.*):(?<serviceName>.*):(?<resourceType>.*):(?<databaseCode>.*):(?<publicId>.*):(?<privateId>.*)/g;
   const { groups } = regex.exec(wrn)!;
 
   if (!groups)
     return {
-      extraForFutureUsage: "", // by default at this point
+      reservedForFutureUse: "", // by default at this point
       serviceName: groups!.serviceName, 
       resourceType: groups!.resourceType, 
       databaseCode: groups!.databaseCode, 
