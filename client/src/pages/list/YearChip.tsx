@@ -31,10 +31,10 @@ const YearChip = () => {
   const ln = language;
   // Component state
   const [selectedSem, setSelectedSem] = useState<number>(0);
+  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>();
   const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([]);
   const [normalTags, setNormalTags] = useState<string[]>([]);
   const [downloadedSems, setDownloadedSems] = useState<number[]>([]);
-  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>();
   const [wordCardsMax, setWordCardsMax] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
   // Effect
   useEffect(() => {
@@ -69,6 +69,12 @@ const YearChip = () => {
   
   // ..method
   const handleSpecialTags = (tag: SpecialTag) => {
+    // if 'All' tag is selected and 'All' tag is again called, it deselects every selected normal tags
+    if (selectedSpecialTag === 'all' && tag === 'all') {
+      setSelectedNormalTags([]);
+    };
+
+    // Finally change the special tag to given tag
     setSelectedSpecialTag(tag);
   }
 
