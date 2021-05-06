@@ -1,5 +1,8 @@
 import { Request } from 'express';
 import geoip from 'geoip-lite';
+// Types
+import { AddableLanguage } from './generalType';
+
 
 export const getLocationFromIp = (req: Request) => {
   const ip = req.connection.remoteAddress;
@@ -59,3 +62,24 @@ export const readWrn = (wrn: string) => {
       privateId: groups!.privateId
     };
 }
+
+
+/**
+ * 
+ * 
+ */
+
+ export const languageCodeIntoUserFriendlyFormat = (languageCode: AddableLanguage) => {
+  switch(languageCode) {
+    case 'ko':
+      return '한국어🇰🇷'
+    case 'en':
+      return 'English🇺🇸'
+    case 'ja':
+      return '日本語🇯🇵' // chinese not yet
+    case 'zh':
+      return '中文 (简体)🇨🇳'
+    default:
+      return '?'
+  }
+};
