@@ -128,11 +128,12 @@ export type UsersDB = {
 };
 
 export type UserState = {
-  isSignedIn: boolean;
-  ID?: string;
-  lastName?: string;
-  firstName?: string;
-  imageUrl?: string;
+  isSignedIn: boolean
+  languagePreference?: Language 
+  ID?: string
+  lastName?: string
+  firstName?: string
+  imageUrl?: string
 };
 
 export type AddingLangAvailable = 

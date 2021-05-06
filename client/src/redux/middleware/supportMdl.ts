@@ -34,12 +34,13 @@ export const setSupportMdl = ({dispatch} : any) => (next: any) => (action: any) 
   };
 };
 
+// Modify Support helps both modifying front and back.
 export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === MODIFY_SUPPORT) {
     const payload: object = action.payload;
-    dispatch(fetchy('put', '/supports', [payload]))
+    dispatch(fetchy('put', '/supports', [payload]));
     dispatch(updateSupport(payload));
   }
 };
@@ -49,7 +50,7 @@ export const modifyNewWordAddingTypeMdl = ({dispatch} : any) => (next: any) => (
 
   if (action.type === MODIFY_NEW_WORD_ADDING_TYPE) {
     const { newWordAddingType }: Support = action.payload;
-    dispatch(fetchy('put', '/supports', [{ newWordAddingType }]))
+    dispatch(fetchy('put', '/supports', [{ newWordAddingType }]));
     dispatch(updateSupport({ newWordAddingType }));
     dispatch(setDialog(newWordAddingType === 'one' ? 'AddWordsDialog' : 'MassWordsDialog'));
   }

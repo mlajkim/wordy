@@ -5,6 +5,7 @@ const supportSchema = new Schema({
   ownerID: String,
   sems: Array,
   status: String,
+  addWordLangPref: String,
   newWordCnt: Number,
   newWordAddingType: String,
   deletedWordCnt: Number,

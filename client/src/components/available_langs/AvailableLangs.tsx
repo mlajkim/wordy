@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
-import * as API from '../../API';
+import React from 'react';
 import { countryCodeIntoLanguage } from '../../utils'
 import { State, AddableLang } from '../../types';
 // Translation
@@ -12,41 +10,18 @@ import Select from '@material-ui/core/Select';
 // Redux
 import {useSelector} from 'react-redux';
 import store from '../../redux/store';
-import {setAddWordLangPref} from '../../redux/actions';
+// Redux Actions
+import { modifySupport } from '../../redux/actions/supportAction';
 
 const LANGUAGES_AVAILABLE_LIST: AddableLang[] = ['ko', 'en', 'ja', 'zh'];
 
 const AvailableLangs: React.FC = () => {
-  const {language, user, support} = useSelector((state: State) => state);
-  const ln = language;
+  const { user, support, language } = useSelector((state: State) => state);
   const [open, setOpen] = React.useState(false);
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    store.dispatch(setAddWordLangPref(event.target.value as string))
-    axios.put(`api/v2/mongo/languages/${user.ID}`, 
-    {payload: {addWordLangPref: event.target.value}}, 
-    API.getAuthorization());
+  const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    store.dispatch(modifySupport({ addWordLangPref: event.target.value as string }));
   };
-
-  useEffect(() => {
-    const newUser = user;
-    if(newUser.ID) axios.get(`/api/v2/mongo/languages/${newUser.ID}`, API.getAuthorization())
-      .then(res => {
-        // if empty
-        if(res.status === 204) {
-          axios.post(`/api/v2/mongo/languages`, {
-            // default english, stil adding data null
-            payload: { 
-              ownerID: newUser.ID, firstName: newUser.firstName, addWordLangPref: 'en', data: [],
-              addedWordsCount: 0, deletedWordsCount: 0
-            }
-          }, API.getAuthorization())
-            .then(newRes => store.dispatch(setAddWordLangPref(newRes.data.payload.addWordLangPref)))
-          return;
-        }
-        store.dispatch(setAddWordLangPref(res.data.payload.addWordLangPref))
-      })
-  }, [user]);
 
   const menuItems = LANGUAGES_AVAILABLE_LIST.map(lang => (
     <MenuItem key={lang} value={lang}>{countryCodeIntoLanguage(lang)}</MenuItem>
@@ -54,7 +29,7 @@ const AvailableLangs: React.FC = () => {
 
   return (
     <div style={{ display: 'inline-flex' }}>
-      <InputLabel id="demo-controlled-open-select-label" style= {{ paddingTop: 7 }}>{tr.selectLang[ln]}</InputLabel>
+      <InputLabel id="demo-controlled-open-select-label" style= {{ paddingTop: 7 }}>{tr.selectLang[language]}</InputLabel>
       <Select
         style={{ marginLeft: 5 }}
         labelId="demo-controlled-open-select-label"
@@ -63,7 +38,7 @@ const AvailableLangs: React.FC = () => {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         value={support.addWordLangPref}
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleLanguageSelectionChange(e)}
       >
         {menuItems}
       </Select>
