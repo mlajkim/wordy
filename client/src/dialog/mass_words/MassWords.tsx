@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -45,9 +46,10 @@ const MassWords = () => {
   const [massData, setMassData] = useState('');
   const [maxError, setMaxError] = useState(false);
   const [tags, setTags] = useState<string[]>(support.lastTags);
+  const [confirmCancel, setConfrimCancel] = useState<boolean>(false);
 
   // Hook
-  // When input is not blank then...
+  // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
     if (massData !== '') 
       event.preventDefault();
@@ -66,8 +68,9 @@ const MassWords = () => {
   }
 
   // ..Mehthod
-  const handleCancelMassAddingWordsClick = () => {
-    store.dispatch(offDialog());
+  const cancelAddingMassWords = () => {
+    if (massData !== '') setConfrimCancel(true);
+    else store.dispatch(offDialog());
   };
 
   // ...Method
@@ -91,6 +94,7 @@ const MassWords = () => {
   // Return
   return (
     <div>
+      
       <Dialog
         open={true}
         aria-labelledby="alert-dialog-title"
@@ -119,11 +123,32 @@ const MassWords = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleCancelMassAddingWordsClick()} color="secondary">
+          <Button onClick={() => cancelAddingMassWords()} color="secondary">
             {trAddWord.btnCancel[ln]}
           </Button>
           <Button onClick={() => handleAddingMassData()} color="primary" variant="contained">
             {trAddWord.btnOkay[ln]}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={confirmCancel}
+        onClose={() => setConfrimCancel(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{tr.confirmCancelTitle[ln]}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          {tr.confirmCancelExplain[ln]}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfrimCancel(false)} color="primary" autoFocus>
+            {tr.confirmCancelDisagree[ln]}
+          </Button>
+          <Button onClick={() => store.dispatch(offDialog())} color="secondary">
+            {tr.confirmCancelAgree[ln]}
           </Button>
         </DialogActions>
       </Dialog>
