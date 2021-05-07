@@ -1,5 +1,7 @@
-// Mains & Types
+// Mains import
 import React, {useState} from 'react';
+import { useBeforeunload } from 'react-beforeunload';
+// helpers import
 import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
@@ -43,6 +45,13 @@ const MassWords = () => {
   const [massData, setMassData] = useState('');
   const [maxError, setMaxError] = useState(false);
   const [tags, setTags] = useState<string[]>(support.lastTags);
+
+  // Hook
+  // When input is not blank then...
+  useBeforeunload((event: any) => {
+    if (massData !== '') 
+      event.preventDefault();
+  });
   
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,6 +64,11 @@ const MassWords = () => {
       setMaxError(false);
     }
   }
+
+  // ..Mehthod
+  const handleCancelMassAddingWordsClick = () => {
+    store.dispatch(offDialog());
+  };
 
   // ...Method
   const handleAddingMassData = () => {
@@ -105,7 +119,7 @@ const MassWords = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => store.dispatch(offDialog())} color="secondary">
+          <Button onClick={() => handleCancelMassAddingWordsClick()} color="secondary">
             {trAddWord.btnCancel[ln]}
           </Button>
           <Button onClick={() => handleAddingMassData()} color="primary" variant="contained">
