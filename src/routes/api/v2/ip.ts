@@ -1,5 +1,5 @@
 import express, {Request, Response} from 'express';
-import * as backendWambda from '../../../backendWambda';
+import * as backendWambda from '../../../internal/backendWambda';
 
 const ip = express.Router();
 

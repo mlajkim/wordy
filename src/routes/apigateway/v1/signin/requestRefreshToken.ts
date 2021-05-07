@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { connectToMongoDB } from '../../v1Shared';
+import { connectToMongoDB } from '../../../../internal/mongo';
 
 const generateRefreshToken = express.Router();
 
