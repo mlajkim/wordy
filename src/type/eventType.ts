@@ -12,6 +12,7 @@ export type EventHeader = {
   eventVersion: string
   payload: object[]
 }
+
 //   eventCriticality: 'low' | 'medium' | 'high' | 'very high'
 // eventAvailability: 'Available' | 'Deprecated' | 'AdminOnly'
 //   unavailableDate: string

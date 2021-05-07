@@ -1,4 +1,5 @@
 import { GoogleResponse } from '../type/generalType';
+import { RequestRefreshtokenResponse } from '../type/eventResponseType';
 import axios from 'axios';
 
 const appSigninLogic = async (googleResponse: GoogleResponse) => {
@@ -7,7 +8,7 @@ const appSigninLogic = async (googleResponse: GoogleResponse) => {
     federalId: googleResponse.googleId
   }];
 
-  const eventResponse = await axios.post("/apigateway/v1/signin/blank/signin/1.0", payload);
+  const eventResponse: RequestRefreshtokenResponse = await axios.post("/apigateway/v1/signin/request/refreshtoken/1.0", { payload });
   console.log(eventResponse);
 };
 
