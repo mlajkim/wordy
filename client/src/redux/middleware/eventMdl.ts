@@ -1,12 +1,12 @@
-import { POST_EVENT } from '../actions/eventAction';
+import { THROW_EVENT } from '../actions/eventAction';
 
-export const postEventMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const throwEventMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
-  if (action.type === POST_EVENT) {
+  if (action.type === THROW_EVENT) {
     // Do something
   }
 };
 
 
-export const eventMdl = [postEventMdl]; 
+export const eventMdl = [throwEventMdl]; 

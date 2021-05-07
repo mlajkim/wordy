@@ -1,5 +1,4 @@
-import { AddableLanguage } from './type/generalType';
-
+import { AddableLanguage, AvailableCookies } from './type/generalType';
 export type State = {
   dialog: Dialog;
   language: Language;
@@ -72,7 +71,7 @@ export type Support = {
   deletedWordsCount: number;
 }
 
-export type CookiesAvailable = 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie';
+export type CookiesAvailable = AvailableCookies;
 export type AscDescType = 'asc' | 'desc';
 
 export type NewWordAddingType = 'one' | 'mass';

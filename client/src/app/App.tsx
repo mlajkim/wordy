@@ -8,6 +8,7 @@ import {handleCountryCode} from '../utils';
 import Dialog from './Dialog';
 import Page from './Page';
 import Snackbar from './Snackbar';
+import appRunOnceLogic from './AppRunOnceLogic';
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
@@ -38,6 +39,8 @@ const App = () => {
     if(typeof API.getAccessToken() !== "undefined") {
       API.handleEverySignIn(API.getAccessToken());
     };
+
+    appRunOnceLogic();
   }, []);
 
   return (

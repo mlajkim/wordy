@@ -4,20 +4,17 @@
  * Its always to have more data than less.
  */
 
-
-
-export const availableEvents = [
-  
-];
-
+// This is the api version
+export type EventType = EventHeader
 
 export type EventHeader = {
-  eventName: EventName
-  eventCriticality: 'low' | 'medium' | 'high' | 'very high'
+  eventName: string
   eventVersion: string
-  eventAvailability: 'Available' | 'Deprecated' | 'AdminOnly'
-  unavailableDate: string
-};
+  payload: object[]
+}
+//   eventCriticality: 'low' | 'medium' | 'high' | 'very high'
+// eventAvailability: 'Available' | 'Deprecated' | 'AdminOnly'
+//   unavailableDate: string
 
 export type UserIdentity = {
   wrn: string
@@ -32,6 +29,7 @@ export type FilteredEvent = {
   sourceIpCountry: string
 };
 
+/*
 export type EventType = {
   // Event Header
   eventName: EventName
@@ -46,6 +44,7 @@ export type EventType = {
   eventAccessKey: string // used for restricted APIs,
   payload: any 
 };  
+*/ 
 
 // @Wrn (Wordy Resource Name) (Inspired for ARN, Amazon Resource Name)
 // wrn (fixed?) (More like can be versioned)
