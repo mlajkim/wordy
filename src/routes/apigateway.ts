@@ -1,9 +1,9 @@
 import express from 'express';
 // Routeres
-import event from './apigateway/event';
+import v1 from './apigateway/v1';
 
 const apigateway = express.Router();
 
-apigateway.use("/event", event);
+apigateway.use("/v1", v1);
 
 export default apigateway;
