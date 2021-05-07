@@ -3,6 +3,7 @@ import React, {Fragment} from 'react';
 import * as API from '../../API';
 import { GoogleRes } from '../../types';
 import {GoogleLogin} from 'react-google-login';
+import appSigninLogic from '../../app/AppSigninLogic';
 // Translation
 import tr from './google_sign_in.tr.json'
 import { Language } from '../../types';
@@ -35,7 +36,10 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
       <GoogleLogin
         clientId={GOOGLE_CLIENT_ID}
         buttonText={type === 'login' ? tr.btnTextLogin[ln] : tr.btnTextSignUp[ln]}
-        onSuccess={(res: any) => {generateAccessToken(res)}}
+        onSuccess={(res: any) => {
+          appSigninLogic(res)
+          generateAccessToken(res)
+        }}
         onFailure={(res: any) => console.log(res)}
         cookiePolicy={ 'single_host_origin' }
         responseType='code,token'

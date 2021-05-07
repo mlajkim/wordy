@@ -5,7 +5,8 @@ import { AvailableCookies } from './type/generalType';
 
 // Cookies API
 export const readCookie = (cookieName: AvailableCookies) => {
-  return cookies.get(cookieName) as string;
+  const readCookie = cookies.get(cookieName);
+  return readCookie ? readCookie : ""
 };
 
 export const addOrUpdateCookie = (cookieName: AvailableCookies, data: any, expires?: number) => {
