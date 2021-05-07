@@ -6,6 +6,4 @@ const v1 = express.Router();
 
 v1.use("/signin", signin);
 
-
-
 export default v1;
