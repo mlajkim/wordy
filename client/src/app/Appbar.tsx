@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useGoogleLogout} from 'react-google-login'
 import Cookie from 'js-cookie';
+// shared import
 import { languageCodeIntoUserFriendlyFormat } from '../type/sharedWambda';
 // Theme
 import { appbarLight, appbarDark } from '../theme';
@@ -21,10 +22,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
+import { useSelector } from 'react-redux';
+// Redux Actions
 import {setDialog, setLanguage, setPage, offDialog, setSnackbar} from '../redux/actions';
 import { getSupport,switchDarkLightMode } from '../redux/actions/supportAction';
-import {updateUser} from '../redux/actions/userAction';
-import {useSelector} from 'react-redux';
+import { updateUser } from '../redux/actions/userAction';
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
 import TranslateIcon from '@material-ui/icons/Translate';
@@ -32,7 +34,7 @@ import AddIcon from '@material-ui/icons/Add';
 import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
 import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
 // Credetnial
-import {GOOGLE_CLIENT_ID} from '../credential';
+import { GOOGLE_CLIENT_ID } from '../credential';
 
 const Appbar = () => {
   const classes = MUIStyle();
@@ -84,7 +86,7 @@ const Appbar = () => {
   };
 
   const { signOut } = useGoogleLogout({
-    onLogoutSuccess: () => handleLogout(),
+    onLogoutSuccess: () => { /*Blank*/ },
     onFailure: () => {store.dispatch(setSnackbar('[ERROR] Logout failure', 'warning'))},
     clientId: GOOGLE_CLIENT_ID
   });
