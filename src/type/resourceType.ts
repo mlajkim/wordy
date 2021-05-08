@@ -6,28 +6,18 @@ export type Resource = {
   ownerWrn: string // Plaintext
   keyWrn: string // Plaintext
   encryptedDek: string // Encrypted data encrpytion key.
-  ciphertextBlob: string // Encrypted Data OR plain text data if cmkWrn is blank
+  ciphertextBlob: any // Encrypted Data OR plain text data if cmkWrn is blank
 };
 
-
-/**
- * 
-CMK resource
- = {
-  wrn: wrn::kms:cmk:awsddb:+a!_sfs9sd2id0fd9asdd9adxx9823_ds0fasd9Fsd!
-  ownerWrn: wrn::user::mdb:+d9asdd9adxx9823_ds9sd2id0fs0fasd9Fsd!
-  cmkWrn: "wrn::kms:masterkey:awsddb:+a!_sfs9sd2id0fd9asdd9adxx9823_ds0fasd9Fsd!" // blank (wordy managed key)
-  CiphertextBlob: 78a8sdyahdahdygaudshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudoq3rhehfshbfnsshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudhdjshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudansxjahkbxiadnabkhjdbhasbdiushroq3rhehfshbfnsoidsuiydbsuydsahdjaiud
+export type IdentifierResource = {
+  validRefreshtokens: Refreshtoken[]
 };
 
-Resource = {
-  wrn: wrn::word:mdb:s9sd2id0fs0f+d9asdd9adxx9823_dasd9Fsd!
-  ownerWrn: wrn::user:mdb:+d9asdd9adxx9823_ds9sd2id0fs0fasd9Fsd!
-  cmkWrn: wrn::cmk:awsddb:+a!_sfs9sd2id0fd9asdd9adxx9823_ds0fasd9Fsd!
-  CiphertextBlob: 78a8sdyahdahdygaudshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudoq3rhehfshbfnsshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudhdjshroq3rhehfshbfnsoidsuiydbsuydsahdjaiudansxjahkbxiadnabkhjdbhasbdiushroq3rhehfshbfnsoidsuiydbsuydsahdjaiud
-};
-
- */
+export type Refreshtoken = {
+  macAddress: string;
+  region: string; // Japan or Korea, United States
+  refrehstoken: string;
+}
 
 export type WordResource = {
   language: 'ko' | 'en' | 'ja' | 'zh'
