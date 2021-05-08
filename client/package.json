@@ -65,6 +65,7 @@
     "@types/react-beforeunload": "^2.1.0",
     "@typescript-eslint/parser": "^4.22.1",
     "apollo-boost": "^0.4.9",
+    "eslint-config-airbnb": "^18.2.1",
     "react-apollo": "^3.1.5",
     "redux-devtools": "^3.7.0"
   }
