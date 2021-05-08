@@ -29,11 +29,11 @@ supports.get("/:ownerID", async (req: Request, res: Response) => {
 supports.put("/:ownerID", async (req: Request, res: Response) => {
   const {ownerID, payload} = req.body;
   supportSchema.findOneAndUpdate({ownerID}, payload[0], {useFindAndModify: false})
-  .then(_resp => res.send({
+  .then((_resp: any)  => res.send({
     status:200,
     message: `[OK]`
   }))
-  .catch(err => res.status(404).send({
+  .catch((err: any) => res.status(404).send({
     status: 404,
     message: `[FAIL] ${err}`
   }))

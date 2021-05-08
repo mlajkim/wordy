@@ -140,13 +140,13 @@ wordsPost.post("", async (req: Request, res: Response) => {
       isFavorite: false,
       sem: getSem(),
       order: ++newOrderCnt
-     }).save().catch(err => console.log(err));
+     }).save().catch((err: any)  => console.log(err));
   });
   
   // Setup the Supports Data Too.
   await supportSchema.findOneAndUpdate({ ownerID: user._id }, {
     newWordCnt: newOrderCnt
-  }, {useFindAndModify: false}).catch(err => console.log(err));
+  }, {useFindAndModify: false}).catch((err: any) => console.log(err));
 
   const status = 200;
   res.status(status).send({
