@@ -1,4 +1,5 @@
-import { AddableLanguage, AvailableCookies } from './type/generalType';
+import { AddableLanguage } from './type/generalType';
+import { AvailableCookies } from './type/availableType';
 export type State = {
   dialog: Dialog;
   language: Language;

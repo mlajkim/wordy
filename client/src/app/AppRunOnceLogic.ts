@@ -9,7 +9,7 @@ const appRunOnceLogic = () => {
 
 const checkRefreshToken = () => {
   // Check if validate refresh token exists
-  const readRefreshToken = readCookie('WordyRefreshToken');
+  const readRefreshToken = readCookie('WordyRefreshtoken');
   console.log(readRefreshToken); // testing
 
   // if there is no refersh token

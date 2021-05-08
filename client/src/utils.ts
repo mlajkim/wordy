@@ -3,9 +3,9 @@ import moment from 'moment';
 export const convertSem = (sem: number) => {
   return {
     year: (Math.floor(sem / 10)) + 2000,
-    sem: sem % 10
-  } 
-}
+    sem: sem % 10,
+  };
+};
 
 export const format_into_sem = (year: number, semester: number) => {
   return (year % 100) * 10 + semester;
