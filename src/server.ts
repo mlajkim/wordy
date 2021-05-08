@@ -3,7 +3,6 @@ import fs from 'fs';
 import https from 'https';
 import path from 'path';
 import morgan from 'morgan';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import { graphqlHTTP } from 'express-graphql';
@@ -22,7 +21,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use(cookieParser());
 app.use(morgan('dev'));
-app.use(bodyParser.json());
+app.use(express.json());
 app.use('/api', api); //REST API
 app.use('/apigateway', apigateway); //REST API
 app.use('/graphql', graphqlHTTP({schema, graphiql: true}));  //GraphQL
