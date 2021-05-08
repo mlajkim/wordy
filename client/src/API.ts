@@ -112,12 +112,6 @@ export const setupFront = async (user: UsersDB, accessToken: string) => {
   // ONLY FOR THE TESTING QUICKER REASON (BELOW)
   store.dispatch(setPage('list'));
   // ONLY FOR THE TESTING QUICKER REASON (ABOVE)
-  
-  // Handles 'years' collection
-  const { error, payload } = (await axios.get(`/api/v2/mongo/years/all/${user._id}`, {
-    headers: {Authorization: `Bearer ${accessToken}`}
-  })).data
-  if(!error) store.dispatch(setYears(payload));
 
   // ..Set up the front
   store.dispatch(getSupport());
