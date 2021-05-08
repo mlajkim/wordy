@@ -9,7 +9,7 @@ export const googleSigninLogic = async (googleResponse: GoogleResponse) => {
   const payload: RequestRefreshTokenPayload_V1 = {
     federalProvider: 'google',
     federalId: googleResponse.googleId,
-    federalAuthorizationToken: googleResponse.tokenObj.access_token
+    federalAuthorizationToken: googleResponse.tokenObj.id_token
   };
 
   // Request for refresh token to Backend
@@ -20,7 +20,6 @@ export const googleSigninLogic = async (googleResponse: GoogleResponse) => {
     addOrUpdateCookie('WordyRefreshtoken', eventResponse.refreshToken);
     addOrUpdateCookie('WordyAccesstoken', eventResponse.accessToken); // WordyAnonymousToken
   };
-  console.log(eventResponse);
 };
 
 export const anonymousSigninLogic = async () => {
@@ -36,6 +35,5 @@ export const anonymousSigninLogic = async () => {
   if (eventResponse.responseType === 'OK') {
     addOrUpdateCookie('WordyAnonymousAccesstoken', eventResponse.accessToken); // WordyAnonymousToken
   };
-  console.log(eventResponse);
 };
 

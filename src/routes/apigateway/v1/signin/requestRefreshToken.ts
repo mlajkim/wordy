@@ -11,7 +11,6 @@ generateRefreshToken.use(connectToMongoDB);
 
 generateRefreshToken.post("/1.0", async (req: Request, res: Response, next: NextFunction) => {
   const payload: RequestRefreshTokenPayload_V1 = req.body.payload;
-  console.log(payload); // testing
 
   // This is abosolute origin for allowed
   switch (payload.federalProvider) {
@@ -33,9 +32,7 @@ generateRefreshToken.post("/1.0", async (req: Request, res: Response, next: Next
   return res.send("error");
 });
 
-generateRefreshToken.post("/1.0", async (req: Request, res: Response) => {
-  const payload = req.body.payload;
-  console.log(payload);
+generateRefreshToken.post("/1.0", async (_req: Request, res: Response) => {
   res.send("Hello Event Driven Arch. World!")
 });
 
