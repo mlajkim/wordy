@@ -6,7 +6,6 @@ import { IS_DEV_MODE } from '../../../server';
 // Routers
 import users from './mongo/users';
 import words from './mongo/words';
-import years from './mongo/years';
 
 // @ MIDDLEWARE: AUTHENTICATION
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -54,6 +53,5 @@ mongo.use(authenticateUser); // Authenticate
 mongo.use(connectToMongoDB); // Connect to DB
 mongo.use("/users", users);
 mongo.use("/words", words);
-mongo.use("/years", years);
 
 export default mongo;

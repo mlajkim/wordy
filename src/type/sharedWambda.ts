@@ -30,18 +30,19 @@ export const getEventName = (givenOriginalUrl: string) => {
     wrn::kms:cmk:awsddb::7c97d9830cf92a8b70706cb674171f71
     wrn::kms:masterkey:env::9e768a4efeb30ede9d80c7ddec14bda7
     wrn::word::awsddb::7c97d9830cf92a8b70706cb674171fdf
+    IDENTIFIER wrn::identifier:google:mdb:7312903141209319023823:
  * 
  * @returns 
  *  Returns an object with 
  */
 export const readWrn = (wrn: string) => {  
-  const regex = /wrn:(?<reservedForFutureUse>.*):(?<serviceName>.*):(?<resourceType>.*):(?<databaseCode>.*):(?<publicId>.*):(?<privateId>.*)/g;
+  const regex = /wrn:(?<reservedForFutureUse>.*):(?<resourceGroup>.*):(?<resourceType>.*):(?<databaseCode>.*):(?<publicId>.*):(?<privateId>.*)/g;
   const { groups } = regex.exec(wrn)!;
 
   if (!groups)
     return {
       reservedForFutureUse: "", // by default at this point
-      serviceName: groups!.serviceName, 
+      resourceGroup: groups!.resourceGroup, 
       resourceType: groups!.resourceType, 
       databaseCode: groups!.databaseCode, 
       publicId: groups!.publicId, 
