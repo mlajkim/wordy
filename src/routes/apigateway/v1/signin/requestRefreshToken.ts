@@ -16,7 +16,7 @@ generateRefreshToken.post("/1.0", async (req: Request, res: Response, next: Next
   switch (payload.federalProvider) {
     case 'google':
       if (validateGoogleSigninToken(payload.federalAuthorizationToken))
-        next();
+        return next();
       break;
     
     case 'anonymous':

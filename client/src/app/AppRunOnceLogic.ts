@@ -26,7 +26,7 @@ const validateExistingRefreshToken = async (refreshToken: string) => {
     refreshToken
   }];
 
-  const eventResponse = await axios.post("/apigateway/v1/signin/refreshtoken/validate/1.0", payload);
+  const eventResponse = await axios.post("/apigateway/v1/signin/validate/refreshtoken/1.0", payload);
   console.log(eventResponse);
   // store.dispatch(throwEvent(newEvent));
 };

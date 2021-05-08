@@ -10,7 +10,6 @@ export const validateGoogleSigninToken = (token: string): boolean => {
 
   const verify = async () => {
     const GOOGLE_CLIENT_ID = process.env["GOOGLE_CLIENT_ID"];
-    console.log(GOOGLE_CLIENT_ID); // testing
     const client = new OAuth2Client(GOOGLE_CLIENT_ID);
     
     // If you want to see the details of response, use it.
