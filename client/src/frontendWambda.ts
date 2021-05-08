@@ -1,7 +1,7 @@
 // import
 import cookies from 'js-cookie';
 // types
-import { AvailableCookies } from './type/generalType';
+import { AvailableCookies } from './type/availableType';
 
 // Cookies API
 export const readCookie = (cookieName: AvailableCookies) => {

@@ -1,4 +1,4 @@
 
-export type RequestRefreshtokenResponse = {
-  
+export type RequestRefreshtokenResponse_V1 = {
+  responseType: 'OK' | 'deny'
 };
