@@ -6,7 +6,7 @@ export type Resource = {
   ownerWrn: string // Plaintext
   keyWrn: string // Plaintext
   encryptedDek: string // Encrypted data encrpytion key.
-  ciphertextBlob: WordResource | UserResource | KeyResource // Encrypted Data OR plain text data if cmkWrn is blank
+  ciphertextBlob: string // Encrypted Data OR plain text data if cmkWrn is blank
 };
 
 

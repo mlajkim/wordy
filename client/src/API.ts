@@ -3,7 +3,7 @@ import cookies from 'js-cookie';
 import { FetchyResponse, UsersDB, GoogleRes, ProfileObj, UserState } from './types';
 // Redux
 import store from './redux/store';
-import { setPage, setLanguage, setYears, offDialog } from './redux/actions';
+import { setPage, setLanguage, offDialog } from './redux/actions';
 import { updateUser } from './redux/actions/userAction';
 import { getSupport } from './redux/actions/supportAction';
 // Types

@@ -31,6 +31,7 @@ export const getEventName = (givenOriginalUrl: string) => {
     wrn::kms:masterkey:env::9e768a4efeb30ede9d80c7ddec14bda7
     wrn::word::awsddb::7c97d9830cf92a8b70706cb674171fdf
     IDENTIFIER wrn::identifier:google:mdb:7312903141209319023823:
+
  * 
  * @returns 
  *  Returns an object with 
@@ -49,6 +50,16 @@ export const readWrn = (wrn: string) => {
       privateId: groups!.privateId
     };
 }
+
+
+export const generateWrn = (
+  reservedForFutureUse: string,
+  resourceGroup: string,
+  resourceType: string,
+  databaseCode: string,
+  publicId: string,
+  privateId: string
+) => `wrn:${reservedForFutureUse}:${resourceGroup}:${resourceType}:${databaseCode}:${publicId}:${privateId}`;
 
 
 /**
