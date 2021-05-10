@@ -53,13 +53,13 @@ export const readWrn = (wrn: string) => {
 
 
 export const generateWrn = (
-  reservedForFutureUse: string,
+  reservedForFutureUsage: string,
   resourceGroup: string,
   resourceType: string,
   databaseCode: string,
   publicId: string,
   privateId: string
-) => `wrn:${reservedForFutureUse}:${resourceGroup}:${resourceType}:${databaseCode}:${publicId}:${privateId}`;
+) => `wrn:${reservedForFutureUsage}:${resourceGroup}:${resourceType}:${databaseCode}:${publicId}:${privateId}`;
 
 
 /**

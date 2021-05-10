@@ -11,12 +11,22 @@
 
 # Following is purely inspired naming convention from AWS
 1. Wambda = Wordy Lambda Functions (AWS Lambda) 
-2. wrn = Wordy Resource Name (AWS ARN, amazon resource name)
-3. kms = Key Management Service (AWS KMS)
-4. cmk = Custom Master Key (AWS KMS's CMK)
-5. dek = data encryption key (AWS KMS's DEK)
+2. WRN = Wordy Resource Name (AWS ARN, amazon resource name)
+3. KMS = Key Management Service (AWS KMS)
+4. CMK = Custom Master Key (AWS KMS's CMK)
+5. DEK = data encryption key (AWS KMS's DEK)
 6. CiphertextBlob (Exactly the same name when you encrypyt data using CMK via AWS CLI)
 7. And more
+
+# Naming Convention Created by the developer of Wordy
+1. WCS = Wordy Credit Service (Tracks your credit, write logs and more) (Possibly attempting to use AWS QLDB service for addtional payment security)
+
+# Key types
+- wrn::kms:wordy/masterkey
+- wrn::kms:cloudTrail/masterkey
+- wrn::kms:wcs/masterkey
+- wrn::kms:event/masterkey
+- wrn::kms:cmk
 
 # Version 1.0 Goal
 - Credits available
