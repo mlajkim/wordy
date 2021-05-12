@@ -77,7 +77,7 @@ generateRefreshToken.post("", async (req: Request, res: Response, _next: NextFun
   const payload: RequestRefreshtokenThroughGooglePayload = req.body.payload;
   // const newIndentifier: IdentifierResource = createNewIdentifier();
   // const appropriateRefreshtoken = payload.macAddress;
-  const newResource: Resource = {
+  const newIdentifierResource: Resource = {
     wrn: generateWrn("", RESOURCE_GROUP, RESOURCE_TYPE, DATABASE_CODE, payload.federalId, ""),
     ownerWrn: "", // none by default
     keyWrn: "",
@@ -85,7 +85,7 @@ generateRefreshToken.post("", async (req: Request, res: Response, _next: NextFun
     ciphertextBlob: ""
   };
 
-  await new encryptedIdentifierSchema(newResource).save();
+  await new encryptedIdentifierSchema(newIdentifierResource).save();
 
   // Sends back the refershtoken and accesstoken
   const response: RequestRefreshtokenThroughGoogleResponse_V1 = {

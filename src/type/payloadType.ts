@@ -8,4 +8,5 @@ export type RequestRefreshtokenThroughGooglePayload = SharedPayload & {
   federalProvider: AvailableFederalProvider;
   federalId: string;
   federalAuthorizationToken: string;
+  macAddress: string;
 }
