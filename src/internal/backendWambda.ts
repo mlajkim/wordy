@@ -6,9 +6,8 @@ import dotenv from "dotenv";
 // This function below is tested and verified on May 8, 2021
 // By Jeongwoo Kim
 export const validateGoogleSigninToken = (token: string): boolean => {
-  dotenv.config(); // for reading .env file
-
   const verify = async () => {
+    dotenv.config(); // for reading .env file
     const GOOGLE_CLIENT_ID = process.env["GOOGLE_CLIENT_ID"];
     const client = new OAuth2Client(GOOGLE_CLIENT_ID);
     

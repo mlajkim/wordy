@@ -32,7 +32,7 @@ generateRefreshToken.use(async (req: Request, res: Response, next: NextFunction)
 });
 
 
-// Validates Google given token
+// Validates given Google token through Formal Google signin API token validator
 generateRefreshToken.use(async (req: Request, res: Response, next: NextFunction) => {
   const payload: RequestRefreshtokenThroughGooglePayload = req.body.payload;
 
@@ -72,10 +72,11 @@ generateRefreshToken.use(async (req: Request, res: Response, next: NextFunction)
   return res.status(200).send(response);
 });
 
-// Should create a new account
+// Request is here when the identifier did not exist.
 generateRefreshToken.post("", async (req: Request, res: Response, _next: NextFunction) => {
   const payload: RequestRefreshtokenThroughGooglePayload = req.body.payload;
-  
+  // const newIndentifier: IdentifierResource = createNewIdentifier();
+  // const appropriateRefreshtoken = payload.macAddress;
   const newResource: Resource = {
     wrn: generateWrn("", RESOURCE_GROUP, RESOURCE_TYPE, DATABASE_CODE, payload.federalId, ""),
     ownerWrn: "", // none by default
@@ -89,7 +90,7 @@ generateRefreshToken.post("", async (req: Request, res: Response, _next: NextFun
   // Sends back the refershtoken and accesstoken
   const response: RequestRefreshtokenThroughGoogleResponse_V1 = {
     responseType: "new",
-    message: "Created a new account",
+    message: "Created a new user",
     refreshtoken: "RANDOM_VALUE_NOT DEVELOPED_YET",
     accesstoken: "RANDOM_VALUE_NOT DEVELOPED_YET"
   };

@@ -1,3 +1,4 @@
+import { AvailableRevokeFrontendAction } from './availableType';
 /**
  * 
  * No 's' Even when it supports multiple actions in one action
@@ -8,9 +9,20 @@
 export type EventType = EventHeader
 
 export type EventHeader = {
-  eventName: string
-  eventVersion: string
-  payload: object[]
+  eventName: string;
+  eventVersion: string;
+  /**
+   * 'eventReceivingUserPublicId' is the target for receving this event
+   * if it is null, then it means it is doing its work to itself (self call)
+   * If it is other public id, then it can be called as well.
+   */
+  eventReceivingUserPublicId: null | string;
+  /**
+   * 'revokeFrontendActionType' is a list of actions (or null) that is revoked for front-end to 
+   * do after the request is sent back.
+   */
+  revokeFrontendActionType: null | AvailableRevokeFrontendAction[]; // if any revokation is required // 
+  payload: any;
 }
 
 //   eventCriticality: 'low' | 'medium' | 'high' | 'very high'
