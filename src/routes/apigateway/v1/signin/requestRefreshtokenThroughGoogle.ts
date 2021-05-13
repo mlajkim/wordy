@@ -1,11 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { connectToMongoDB } from '../../../../internal/mongo';
+import { connectToMongoDB } from '../../../../internal/database/mongo';
 // Mongo Schema
 import encryptedIdentifierSchema from '../../../../models/encryptedIdentifier';
 // Shared
 import { generateWrn } from '../../../../type/sharedWambda';
 import { RequestRefreshtokenThroughGooglePayload } from '../../../../type/payloadType';
-import { validateGoogleSigninToken } from '../../../../internal/backendWambda';
+import { validateGoogleSigninToken } from '../../../../internal/compute/backendWambda';
 import { RequestRefreshtokenThroughGoogleResponse_V1 } from '../../../../type/eventResponseType';
 import { Resource } from 'src/type/resourceType';
 

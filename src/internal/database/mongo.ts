@@ -1,7 +1,7 @@
 import {Request, Response, NextFunction} from 'express';
 import mongoose from 'mongoose';
 // Value
-import { IS_DEV_MODE } from '../server';
+import { IS_DEV_MODE } from '../../server';
  
 
 export const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => {
