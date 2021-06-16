@@ -69,7 +69,7 @@ const MassWords = () => {
 
   // ..Mehthod
   const cancelAddingMassWords = () => {
-    if (massData !== '') setConfrimCancel(true);
+    if (massData !== '' /* if not empty in the box*/) setConfrimCancel(true);
     else store.dispatch(offDialog());
   };
 
