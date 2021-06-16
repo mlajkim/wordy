@@ -72,9 +72,9 @@ const DrawerComponent = (props: any) => {
           }
           
           <Divider />
-          {list}
+            {list}
           <Divider />
-          <ListItem disabled button className={classes.list}>
+          <ListItem button className={classes.list} onClick={() => handleChangePage('setting')}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary={appbarTr.setting[ln]} />
           </ListItem>
