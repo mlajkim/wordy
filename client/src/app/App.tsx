@@ -40,6 +40,7 @@ const App = () => {
       API.handleEverySignIn(API.getAccessToken());
     };
 
+    // Latest apigateway structure
     appRunOnceLogic();
   }, []);
 

@@ -1,10 +1,15 @@
-import { EventType } from '../../type/eventType';
-export const THROW_EVENT = '[Event] THROW_EVENT';
+import AvailableActions from '../../type/AvailableActions';
+export const CREATE_EVENT = '[Event] CREATE_EVENT';
 export const UPDATE_EVENT = '[Event] UPDATE_EVENT';
 
-export const throwEvent =  (event: EventType) => {
+export type CreateEventPayload = {
+  eventAction: AvailableActions;
+  payload: object[]
+}
+
+export const createEvent =  (action: AvailableActions, payload: object[]) => {
   return {
-    type: THROW_EVENT,
-    payload: event
+    type: CREATE_EVENT,
+    payload: { eventAction: action, payload } as CreateEventPayload
   };
 };
