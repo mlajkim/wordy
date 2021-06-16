@@ -82,7 +82,7 @@ const Appbar = () => {
     store.dispatch(updateUser({ isSignedIn: false }));
     store.dispatch(offDialog());
     store.dispatch(setPage('home'));
-    // signOut(); // Testing
+    signOut(); // Testing
   };
 
   const { signOut } = useGoogleLogout({
