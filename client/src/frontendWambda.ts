@@ -1,12 +1,11 @@
 import cookies from 'js-cookie';
 // Redux
 import store from './redux/store';
-import {useSelector} from 'react-redux';
 // Redux-actions
 import { createEvent } from './redux/actions/eventAction';
 // types
 import { AvailableCookies } from './type/availableType';
-import AvailableActions from './type/AvailableActions';
+import { AvailableActions } from './type/AvailableActions';
 
 
 // 2021 June Latest version of requesting to API calls of apigateway of Wordy-cloud!!

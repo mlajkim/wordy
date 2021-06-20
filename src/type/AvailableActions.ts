@@ -1,11 +1,5 @@
 // Absolute truth 의 엑션 리스트입니다.
 
-const signinActions = [
-  "signin:ValidateRefreshtoken"
-];
+export type signinActions = "signin:ValidateRefreshtoken";
 
-const AvailableActions = [
-  ...signinActions
-];
-
-export default AvailableActions;
+export type AvailableActions = signinActions;
