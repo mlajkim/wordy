@@ -3,6 +3,8 @@ import React, {Fragment, useState, useEffect} from 'react';
 import {convertSem, checkIfToday, checkIfThisDay} from '../../utils';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
 import { State, WordsChunk } from '../../types';
+// Theme
+import { buttonLight, buttonDark } from '../../theme';
 // Components
 import WordCard from '../../components/word_card/WordCard';
 import ListSetting from './ListSetting';
@@ -148,7 +150,7 @@ const YearChip = () => {
 
   const renderMoreButton = (
     <IconButton className={"ShowMoreButton"} color="inherit" aria-label="more" onClick={() => handleMoreClick()}>
-      <ExpandMoreIcon fontSize="small" />
+      <ExpandMoreIcon fontSize="small" style={{ color: support.isDarkMode ? buttonLight : buttonDark }} />
     </IconButton>
   );
 

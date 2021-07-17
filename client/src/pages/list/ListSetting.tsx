@@ -4,6 +4,8 @@ import { State } from '../../types';
 import moment from 'moment';
 // Translation
 import tr from './list_setting.tr.json';
+// Theme 
+import { buttonLight, buttonDark } from '../../theme';
 // Material UI
 import IconButton from '@material-ui/core/IconButton';
 import Select from '@material-ui/core/Select';
@@ -53,7 +55,7 @@ const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
         <MenuItem value='wordcard'>{tr.wordcard[ln]}</MenuItem>
         <MenuItem value='list'>{tr.list[ln]}</MenuItem>
       </Select>
-      <IconButton onClick={() => setShowing(false)}>
+      <IconButton onClick={() => setShowing(false)} style={{ color: support.isDarkMode ? buttonLight : buttonDark }}>
         <ChevronRightIcon />
       </IconButton>
     </Grid>
@@ -65,6 +67,8 @@ const CLOUD_ICON_LASTING_TIMER = 2000; // how long it will show the cloud image
 type Props = { selectedSem: number };
 const ListSetting: React.FC<Props> = (props) => {
   const { selectedSem } = props;
+  const { support } = useSelector((state: State) => state);
+  // States
   const [isShowing, setShowing] = useState<boolean>(false);
   const [refreshStep, setRefreshStep] = useState<0 | 1 | 2>(2); // 0: loading 1: done 2: back to clickable
   const [timer, setTimer] = useState<number>(0);
@@ -90,19 +94,19 @@ const ListSetting: React.FC<Props> = (props) => {
     switch (refreshStep) {
       case 0:
         return (
-          <IconButton disabled style={{ float:'right',textAlign:'right'}}>
+          <IconButton disabled style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }}>
             <CheckIcon />
           </IconButton>
         );
       case 1:
         return (
-          <IconButton disabled style={{ float:'right',textAlign:'right'}}>
+          <IconButton disabled style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }}>
             <CloudDoneIcon />
           </IconButton>
         );
       case 2:
         return (
-          <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => handleRefresh()}>
+          <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => handleRefresh()}>
             <RefreshIcon />
           </IconButton>
         );
@@ -119,7 +123,7 @@ const ListSetting: React.FC<Props> = (props) => {
         )
         : (
           <Fragment>
-            <IconButton style={{ float:'right',textAlign:'right'}} onClick={() => setShowing(true)}>
+            <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => setShowing(true)}>
               <TuneOutlinedIcon />
             </IconButton>
             { selectedSem !== 0 && refreshIcon() }
