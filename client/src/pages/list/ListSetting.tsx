@@ -12,12 +12,15 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Grid from '@material-ui/core/Grid'
+import Tooltip from '@material-ui/core/Tooltip';
 // Icons
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import CloudDoneIcon from '@material-ui/icons/CloudDoneOutlined';
 import CheckIcon from '@material-ui/icons/Check';
+import CasinoIcon from '@material-ui/icons/Casino';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -62,6 +65,9 @@ const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
   )
 }
 
+// Random Mixer Button!
+
+
 // @@ MAIN
 const CLOUD_ICON_LASTING_TIMER = 2000; // how long it will show the cloud image
 type Props = { selectedSem: number };
@@ -72,6 +78,7 @@ const ListSetting: React.FC<Props> = (props) => {
   const [isShowing, setShowing] = useState<boolean>(false);
   const [refreshStep, setRefreshStep] = useState<0 | 1 | 2>(2); // 0: loading 1: done 2: back to clickable
   const [timer, setTimer] = useState<number>(0);
+  const [isMixed, setMixed] = useState<boolean>(false);
   // Method
   const handleRefresh = () => {
     setRefreshStep(0);
@@ -79,7 +86,12 @@ const ListSetting: React.FC<Props> = (props) => {
     store.dispatch(getSupport());
     setTimer(moment().valueOf() + CLOUD_ICON_LASTING_TIMER);
     setRefreshStep(1);
-  }
+  };
+
+  const hdlMixingWords = () => {
+    setMixed(!isMixed);
+  };
+
   // Effect
   useEffect(() => {
     if (timer > moment().valueOf()) {
@@ -107,7 +119,9 @@ const ListSetting: React.FC<Props> = (props) => {
       case 2:
         return (
           <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => handleRefresh()}>
-            <RefreshIcon />
+            <Tooltip title={"Refresh"} placement="bottom">
+              <RefreshIcon />
+            </Tooltip>
           </IconButton>
         );
       default:
@@ -124,8 +138,25 @@ const ListSetting: React.FC<Props> = (props) => {
         : (
           <Fragment>
             <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => setShowing(true)}>
-              <TuneOutlinedIcon />
+              <Tooltip title={"Setting"} placement="bottom">
+                <TuneOutlinedIcon />
+              </Tooltip>
             </IconButton>
+            { selectedSem !== 0 && 
+              <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => hdlMixingWords()}>
+                {
+                  isMixed
+                    ?
+                      <Tooltip title={"Mix it"} placement="bottom">
+                        <CasinoIcon />
+                      </Tooltip>
+                    : 
+                      <Tooltip title={"Back to normal"} placement="bottom">
+                        <ClearAllIcon />
+                      </Tooltip>
+                }
+              </IconButton>
+            }            
             { selectedSem !== 0 && refreshIcon() }
           </Fragment>
         )
