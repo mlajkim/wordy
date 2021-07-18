@@ -1,11 +1,11 @@
-import { UPDATE_KEEP_STYLE_BTN } from '../actions/keepStyleAction'
+import { UPDATE_KSB } from '../actions/keepStyleBtnAction'
 
 // this is more of userPreference (I will change the naming later)
-const keepStyleBtn = (state = {}, action: any) => {
+const keepStyleBtn = (state = [], action: any) => {
   switch(action.type) {
     
-    case UPDATE_KEEP_STYLE_BTN: // Front end only
-      return { ...state, ...action.payload }
+    case UPDATE_KSB: // Front end only
+      return action.payload 
       
     default:
       return state;

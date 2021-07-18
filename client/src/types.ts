@@ -1,5 +1,7 @@
 import { AddableLanguage } from './type/generalType';
 import { AvailableCookies } from './type/availableType';
+import { KeepStyleBtnProperty } from'./frontendTypes';
+
 export type State = {
   dialog: Dialog;
   language: Language;
@@ -8,8 +10,9 @@ export type State = {
   years: Years[];
   words: WordsChunk[],
   snackbar: SnackbarState,
-  scrabbly: Scrabbly,
-}
+  scrabbly: Scrabbly;
+  keepStyleBtn: KeepStyleBtnProperty[];
+};
 
 export type Scrabbly = {
   step: 'initialize' | 'playerNotFound' | 'gameStart' | 'waiting';
