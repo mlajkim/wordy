@@ -8,6 +8,7 @@ import support from './supportReducer';
 import words from './wordsReducer';
 import snackbar from './snackbar';
 import scrabbly from './scrabblyReducers';
+import keepStyleBtn from './keepStyleBtnReducer';
 
 export default combineReducers({
   dialog, 
@@ -21,5 +22,6 @@ export default combineReducers({
   // handles all those downloaded words (usually used for the data preservance and speed)
   words,
   snackbar,
-  scrabbly
+  scrabbly,
+  keepStyleBtn
 });

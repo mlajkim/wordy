@@ -1,0 +1,1 @@
+export const UPDATE_KEEP_STYLE_BTN = '[BTN] Update';
