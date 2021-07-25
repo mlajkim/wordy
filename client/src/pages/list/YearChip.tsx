@@ -73,8 +73,8 @@ const YearChip = () => {
   
   // ..method
   const handleSpecialTags = (tag: SpecialTag) => {
-    // if 'All' tag is selected and 'All' tag is again called, it deselects every selected normal tags
-    if (selectedSpecialTag === 'all' && tag === 'all') {
+    // If the same sepcial tag (All, favoirte, Today and so on) is clicked, it resets the normal tag
+    if (selectedSpecialTag === tag) {
       setSelectedNormalTags([]);
     };
 
