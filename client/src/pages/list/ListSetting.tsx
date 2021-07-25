@@ -83,6 +83,8 @@ const ListSetting: React.FC<Props> = (props) => {
     setRefreshStep(0);
     store.dispatch(syncWords(selectedSem));
     store.dispatch(getSupport());
+    store.dispatch(modifySupport({ mixedSem: 0 })); // Resets the mix button to 0
+    // This is to show the end user that is has been synced
     setTimer(moment().valueOf() + CLOUD_ICON_LASTING_TIMER);
     setRefreshStep(1);
   };
