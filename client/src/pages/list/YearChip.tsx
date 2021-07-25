@@ -2,6 +2,8 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {convertSem, checkIfToday, checkIfThisDay} from '../../utils';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+import { knuthShuffle} from 'knuth-shuffle';
+// Type
 import { State, WordsChunk } from '../../types';
 // Theme
 import { buttonLight, buttonDark } from '../../theme';
@@ -94,7 +96,7 @@ const YearChip = () => {
 
   // Filtering Algorithm
   const filterTargetWords = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
-  const filteredWordsList = typeof filterTargetWords !== "undefined" && filterTargetWords
+  let filteredWordsList = typeof filterTargetWords !== "undefined" && filterTargetWords
       .filter(word => selectedSpecialTag === 'favorite' ? word.isFavorite : true)
       .filter(word => selectedSpecialTag === 'today' ? checkIfToday(word.dateAdded) : true)
       .filter(word => selectedSpecialTag === 'yesterday' ? checkIfThisDay(word.dateAdded, 1) : true)
@@ -114,6 +116,14 @@ const YearChip = () => {
         return true;
       })
       .sort((a, b) => support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order)
+
+  // Sorts the array if it has been chosen
+  if (filteredWordsList && selectedSem === support.mixedSem) {
+    filteredWordsList = knuthShuffle(filteredWordsList.slice(0));
+    // setWordCardsMax(DEFAULT_MORE_WORDS_AMOUNT); // By resetting the more button 
+    // Wait I do not understand why the code above calls so much...?
+    // console.log("called")
+  }
 
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
