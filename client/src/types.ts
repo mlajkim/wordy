@@ -68,6 +68,7 @@ export type Support = {
   wordDisplayPref: 'wordcard' | 'list';
   isDarkMode: boolean;
   // Reviews
+  mixedSem: number;
   maxStep: number,
   steps: number[],
   // old

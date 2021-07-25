@@ -19,6 +19,7 @@ const initialState: Support = {
   recommandedTags: [],
   isDarkMode: false, // dark mode off by default.
 // reviewss
+  mixedSem: 0,
   maxStep: 8,
   steps: [1, 8, 24, 72, 168, 336, 720, 720],
   // old

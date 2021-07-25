@@ -25,7 +25,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Actions
-import { modifySupport, getSupport } from '../../redux/actions/supportAction';
+import { modifySupport, getSupport, setSupport } from '../../redux/actions/supportAction';
 import { syncWords } from '../../redux/actions/wordsAction';
 // @@ Supportive
 const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
@@ -78,7 +78,6 @@ const ListSetting: React.FC<Props> = (props) => {
   const [isShowing, setShowing] = useState<boolean>(false);
   const [refreshStep, setRefreshStep] = useState<0 | 1 | 2>(2); // 0: loading 1: done 2: back to clickable
   const [timer, setTimer] = useState<number>(0);
-  const [isMixed, setMixed] = useState<boolean>(false);
   // Method
   const handleRefresh = () => {
     setRefreshStep(0);
@@ -88,8 +87,13 @@ const ListSetting: React.FC<Props> = (props) => {
     setRefreshStep(1);
   };
 
+  /**
+   * Written on Jul 25, 2021
+   */
   const hdlMixingWords = () => {
-    setMixed(!isMixed);
+    const lastMixedSum = support.mixedSem;
+    if (lastMixedSum !== selectedSem) store.dispatch(modifySupport({ mixedSem: selectedSem }))
+    else store.dispatch(modifySupport({ mixedSem: 0 }))
   };
 
   // Effect
@@ -145,15 +149,15 @@ const ListSetting: React.FC<Props> = (props) => {
             { selectedSem !== 0 && 
               <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => hdlMixingWords()}>
                 {
-                  isMixed
+                  selectedSem === support.mixedSem
                     ?
-                      <Tooltip title={"Mix it"} placement="bottom">
-                        <CasinoIcon />
-                      </Tooltip>
-                    : 
                       <Tooltip title={"Back to normal"} placement="bottom">
                         <ClearAllIcon />
                       </Tooltip>
+                    : 
+                      <Tooltip title={"Mix it"} placement="bottom">
+                        <CasinoIcon />
+                      </Tooltip> 
                 }
               </IconButton>
             }            
