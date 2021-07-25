@@ -27,7 +27,7 @@ import { useSelector } from 'react-redux';
 // Actions
 import { modifySupport, getSupport } from '../../redux/actions/supportAction';
 import { setSnackbar } from '../../redux/actions';
-import { syncWords } from '../../redux/actions/wordsAction';
+import { syncWords, mixWords } from '../../redux/actions/wordsAction';
 // @@ Supportive
 const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
   const {language, support} = useSelector((state: State) => state);
@@ -98,10 +98,11 @@ const ListSetting: React.FC<Props> = (props) => {
     const lastMixedSum = support.mixedSem;
     if (lastMixedSum !== selectedSem) {
       store.dispatch(modifySupport({ mixedSem: selectedSem }));
+      store.dispatch(mixWords(selectedSem));
       store.dispatch(setSnackbar(`${tr.mixed[ln]}`));
     }
     else {
-      store.dispatch(modifySupport({ mixedSem: 0, mixedSemData: [] }));
+      store.dispatch(modifySupport({ mixedSem: 0 }));
     }
   };
 

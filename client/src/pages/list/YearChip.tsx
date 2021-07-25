@@ -2,7 +2,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {convertSem, checkIfToday, checkIfThisDay} from '../../utils';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
-import { knuthShuffle} from 'knuth-shuffle';
 // Type
 import { State, WordsChunk } from '../../types';
 // Theme
@@ -25,7 +24,6 @@ import tr from './year_chip.tr.json';
 import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
-import { modifySupport } from '../../redux/actions/supportAction';
 
 type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
 const ADDING_MORE_WORDS_AMOUNT = 100;
@@ -116,16 +114,20 @@ const YearChip = () => {
         } 
         return true;
       })
-      .sort((a, b) => support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order)
+      .sort((a, b) => {
+        if (support.mixedSem !== selectedSem) 
+          return support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order;
+        else return 0;
+      })
 
   // Sorts the array if it has been chosen
-  if (filteredWordsList && support.mixedSemData.length === 0 && selectedSem === support.mixedSem) {
-    store.dispatch(modifySupport({ mixedSemData: knuthShuffle(filteredWordsList.slice(0)) }));
+  // if (filteredWordsList && support.mixedSemData.length === 0 && selectedSem === support.mixedSem) {
+    // store.dispatch(modifySupport({ mixedSemData: knuthShuffle(filteredWordsList.slice(0)) }));
     // console.log("mixed")
     // setWordCardsMax(DEFAULT_MORE_WORDS_AMOUNT); // By resetting the more button 
     // Wait I do not understand why the code above calls so much...?
     // console.log("called")
-  }
+  // }
 
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)
@@ -169,7 +171,6 @@ const YearChip = () => {
   // Return
   return (
     <Fragment>
-      
       <ListSetting selectedSem={selectedSem} />
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
         {support.sems.length === 0 
@@ -216,13 +217,7 @@ const YearChip = () => {
         ? <h3>{tr.chooseSem[ln]}</h3>
         : !filteredWordsList 
           ? <CircularProgress />
-          :  selectedSem === support.mixedSem
-            ? support.mixedSemData.slice(0, wordCardsMax).map((datus, idx) => {
-              if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
-              else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
-              else return null;
-            })
-            : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
+          : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
                 if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
                 else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
                 else return null;

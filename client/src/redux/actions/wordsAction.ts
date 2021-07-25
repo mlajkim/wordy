@@ -9,6 +9,7 @@ export const SAVING_HELPER = '[WORDS] Saving Helper'
 export const MODIFY_WORDS = "[WORDS] Modify";
 export const DELETE_WORDS = "[WORDS] Delete";
 export const SYNC_WORDS = "[WORDS] Sync";
+export const MIX_ARRAY = "[WORDS] Mixed one sem array"
 
 // Ultimate
 export const updateWords = (data: any) => {
@@ -64,6 +65,13 @@ export const syncWords = (syncTargetSem: number) => {
   return {
     type: SYNC_WORDS,
     payload: { syncTargetSem }
+  }
+}
+
+export const mixWords = (sem: number) => {
+  return {
+    type: MIX_ARRAY,
+    payload: sem
   }
 }
 

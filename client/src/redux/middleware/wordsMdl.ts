@@ -1,7 +1,7 @@
 // types
 import { WordsChunk, Word, State } from '../../types';
 // actions
-import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS} from '../actions/wordsAction';
+import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS, MIX_ARRAY} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem, getSupport} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
 import { getWords, setWords, savingHelper } from '../actions/wordsAction';
@@ -169,6 +169,14 @@ export const syncWordsMdl = ({dispatch, getState} : any) => (next: any) => (acti
     dispatch(updateWords(newWordsList));
     // Get the fresh words from database
     dispatch(getWords(syncTargetSem));
+  };
+};
+
+export const mixWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === MIX_ARRAY) {
+
   };
 };
 
