@@ -25,7 +25,8 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Actions
-import { modifySupport, getSupport, setSupport } from '../../redux/actions/supportAction';
+import { modifySupport, getSupport } from '../../redux/actions/supportAction';
+import { setSnackbar } from '../../redux/actions';
 import { syncWords } from '../../redux/actions/wordsAction';
 // @@ Supportive
 const Lists: React.FC<{setShowing: any}> = ({ setShowing }) => {
@@ -73,7 +74,8 @@ const CLOUD_ICON_LASTING_TIMER = 2000; // how long it will show the cloud image
 type Props = { selectedSem: number };
 const ListSetting: React.FC<Props> = (props) => {
   const { selectedSem } = props;
-  const { support } = useSelector((state: State) => state);
+  const { language, support } = useSelector((state: State) => state);
+  const ln = language;
   // States
   const [isShowing, setShowing] = useState<boolean>(false);
   const [refreshStep, setRefreshStep] = useState<0 | 1 | 2>(2); // 0: loading 1: done 2: back to clickable
@@ -94,8 +96,13 @@ const ListSetting: React.FC<Props> = (props) => {
    */
   const hdlMixingWords = () => {
     const lastMixedSum = support.mixedSem;
-    if (lastMixedSum !== selectedSem) store.dispatch(modifySupport({ mixedSem: selectedSem }))
-    else store.dispatch(modifySupport({ mixedSem: 0 }))
+    if (lastMixedSum !== selectedSem) {
+      store.dispatch(modifySupport({ mixedSem: selectedSem }));
+      store.dispatch(setSnackbar(`${tr.mixed[ln]}`));
+    }
+    else {
+      store.dispatch(modifySupport({ mixedSem: 0, mixedSemData: [] }));
+    }
   };
 
   // Effect

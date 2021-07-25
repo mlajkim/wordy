@@ -25,6 +25,7 @@ import tr from './year_chip.tr.json';
 import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
+import { modifySupport } from '../../redux/actions/supportAction';
 
 type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
 const ADDING_MORE_WORDS_AMOUNT = 100;
@@ -96,7 +97,7 @@ const YearChip = () => {
 
   // Filtering Algorithm
   const filterTargetWords = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
-  let filteredWordsList = typeof filterTargetWords !== "undefined" && filterTargetWords
+  const filteredWordsList = typeof filterTargetWords !== "undefined" && filterTargetWords
       .filter(word => selectedSpecialTag === 'favorite' ? word.isFavorite : true)
       .filter(word => selectedSpecialTag === 'today' ? checkIfToday(word.dateAdded) : true)
       .filter(word => selectedSpecialTag === 'yesterday' ? checkIfThisDay(word.dateAdded, 1) : true)
@@ -118,8 +119,9 @@ const YearChip = () => {
       .sort((a, b) => support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order)
 
   // Sorts the array if it has been chosen
-  if (filteredWordsList && selectedSem === support.mixedSem) {
-    filteredWordsList = knuthShuffle(filteredWordsList.slice(0));
+  if (filteredWordsList && support.mixedSemData.length === 0 && selectedSem === support.mixedSem) {
+    store.dispatch(modifySupport({ mixedSemData: knuthShuffle(filteredWordsList.slice(0)) }));
+    // console.log("mixed")
     // setWordCardsMax(DEFAULT_MORE_WORDS_AMOUNT); // By resetting the more button 
     // Wait I do not understand why the code above calls so much...?
     // console.log("called")
@@ -214,11 +216,17 @@ const YearChip = () => {
         ? <h3>{tr.chooseSem[ln]}</h3>
         : !filteredWordsList 
           ? <CircularProgress />
-          : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
-            if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
-            else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
-            else return null;
-          })
+          :  selectedSem === support.mixedSem
+            ? support.mixedSemData.slice(0, wordCardsMax).map((datus, idx) => {
+              if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
+              else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
+              else return null;
+            })
+            : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
+                if (support.wordDisplayPref === 'wordcard') return <WordCard key={datus._id} word={datus} />
+                else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
+                else return null;
+            })
         }
       </Grid>
       { selectedSem !== 0 && typeof filteredWordsList !== "boolean" && wordCardsMax < filteredWordsList.length! && renderMoreButton }

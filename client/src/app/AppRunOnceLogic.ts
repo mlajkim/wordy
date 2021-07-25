@@ -1,6 +1,6 @@
 import axios from 'axios';
 // Types
-import { request, readCookie } from '../frontendWambda';
+import { readCookie } from '../frontendWambda';
 
 const appRunOnceLogic = () => {
   checkRefreshtoken();
@@ -24,7 +24,7 @@ const checkRefreshtoken = () => {
 };
 
 const validateExistingRefreshToken = async (refreshToken: string) => {
-  const response = request("signin:ValidateRefreshtoken", { refreshToken });
+  // const response = request("signin:ValidateRefreshtoken", { refreshToken });
 
   const payload = [{
     refreshToken

@@ -69,6 +69,7 @@ export type Support = {
   isDarkMode: boolean;
   // Reviews
   mixedSem: number;
+  mixedSemData: WordsChunk;
   maxStep: number,
   steps: number[],
   // old

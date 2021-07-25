@@ -20,6 +20,7 @@ const initialState: Support = {
   isDarkMode: false, // dark mode off by default.
 // reviewss
   mixedSem: 0,
+  mixedSemData: [],
   maxStep: 8,
   steps: [1, 8, 24, 72, 168, 336, 720, 720],
   // old
