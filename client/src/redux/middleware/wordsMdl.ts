@@ -1,5 +1,7 @@
 // types
 import { WordsChunk, Word, State } from '../../types';
+// libraries
+import { knuthShuffle } from 'knuth-shuffle';
 // actions
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS, MIX_ARRAY} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem, getSupport} from '../actions/supportAction';
@@ -172,12 +174,34 @@ export const syncWordsMdl = ({dispatch, getState} : any) => (next: any) => (acti
   };
 };
 
-export const mixWords = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+/**
+ * Written on Jul 26, 2021
+ * Takes a number (sem) value and mixs the array.
+ * Never goes back to the normal, but since all the words have the sem value
+ * and therefore does not have to go back
+ * @param param0 takes semester value (number)
+ * @returns the new array with one mixed
+ */
+export const mixWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === MIX_ARRAY) {
+    const mixingSem = action.payload;
+    const { words }: State = getState();
+
+    const idx = words.findIndex(wordChunk => wordChunk[0].sem === mixingSem);
+    // Valdiation
+    if (idx === -1) return;
+
+    const mixedArray = knuthShuffle(words[idx].slice(0));
+    words.splice(idx, 1);
+    const newWordsArray = [...words, mixedArray];
+    dispatch(updateWords(newWordsArray));
+    
+    // filteredWordsList = knuthShuffle(filteredWordsList.slice(0));
+
 
   };
 };
 
-export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, deleteWordsMdl, savingHelperMdl, syncWordsMdl]; 
+export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, deleteWordsMdl, savingHelperMdl, syncWordsMdl, mixWordsMdl]; 
