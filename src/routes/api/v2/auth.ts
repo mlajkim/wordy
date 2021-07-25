@@ -1,5 +1,7 @@
 const IS_ACCESS_TOKEN_EXPIRABLE = false;
 const LOGIN_TOKEN_EXPIRES_IN_DAYS = 6; 
+const NEVER_EXPIRE_IN_DAYS = 99999; 
+
 
 import express, {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
@@ -50,7 +52,8 @@ const generateUserAccessToken = (user: any, isExpriable: boolean) => {
   // Create not expirable token
   return jwt.sign(
     user, 
-    process.env.LOGIN_ACCESS_TOKEN_SECRET!
+    process.env.LOGIN_ACCESS_TOKEN_SECRET!,
+    { expiresIn: `${NEVER_EXPIRE_IN_DAYS}d`}
   ); 
 }
 
