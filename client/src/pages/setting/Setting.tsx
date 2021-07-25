@@ -6,27 +6,35 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 // Redux
 import { useSelector } from 'react-redux';
+import store from '../../redux/store';
 // Theme
 import { listDark, listLight } from '../../theme';
 // Type
 import { State } from '../../types';
+// Redux Actions
+import { modifySupport } from '../../redux/actions/supportAction';
 
 
 const Setting = () => {
   const { support } = useSelector((state: State) => state);
 
+  const hdlYearQuadrantEnabledClicked = () => {
+    console.log("Hi")
+    store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }));
+  }
+
   return (
     <Fragment>
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "left"}}>
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, height: '30vh' }}>
-          { drawButton("Enable Year & Quadrant for MassWords") }
+          { drawButton("Enable Year & Quadrant for MassWords", support.isYearQuadrantEnabled, hdlYearQuadrantEnabledClicked) }
         </Typography> 
       </Container>
     </Fragment>
   )
 };
 
-const drawButton = (labelName: string) => {
+const drawButton = (labelName: string, value: boolean, hdlChangeAction: any) => {
   const DEFAULT_LABEL = 'start'; // Place label left to the button (starting position)
   return (
     <FormControlLabel
@@ -35,7 +43,9 @@ const drawButton = (labelName: string) => {
         <Switch color="primary" />
       }
       label={ labelName }
+      onChange={() => hdlChangeAction()}
       labelPlacement={ DEFAULT_LABEL }
+      checked={ value } 
     />
   )
 }

@@ -67,6 +67,8 @@ export type Support = {
   yearOrderPref: AscDescType,
   wordDisplayPref: 'wordcard' | 'list';
   isDarkMode: boolean;
+  // Personal Setting
+  isYearQuadrantEnabled: boolean;
   // Reviews
   mixedSem: number;
   maxStep: number,

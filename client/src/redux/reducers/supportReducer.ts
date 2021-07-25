@@ -18,6 +18,8 @@ const initialState: Support = {
   lastTags: [],
   recommandedTags: [],
   isDarkMode: false, // dark mode off by default.
+  // personal setting
+  isYearQuadrantEnabled: false,
 // reviewss
   mixedSem: 0,
   maxStep: 8,
