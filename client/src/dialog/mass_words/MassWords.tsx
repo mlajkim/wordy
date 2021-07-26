@@ -1,5 +1,5 @@
 // Mains import
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import { useBeforeunload } from 'react-beforeunload';
 // helpers import
 import * as API from '../../API';
@@ -47,6 +47,8 @@ const MassWords = () => {
   const [maxError, setMaxError] = useState(false);
   const [tags, setTags] = useState<string[]>(support.lastTags);
   const [confirmCancel, setConfrimCancel] = useState<boolean>(false);
+  const [year, setYear] = useState<string>('');
+  const [sem, setSem] = useState<string>('');
 
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
@@ -75,18 +77,25 @@ const MassWords = () => {
 
   // ...Method
   const handleAddingMassData = () => {
-    // Year and Sem by the date today.
-    const year = today().year.toString();
-    const sem = today().sem.toString();
+    let chosenYear, chosenSem = '';
+    
+    if(year !== '' || sem !== '') {
+      // Data validation check.
+      if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
+        store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
+        return;
+      };
 
-    // Data validation check.
-    if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
-      store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
-      return;
-    };
+      chosenYear = year;
+      chosenSem = sem;
+    }
+    else {
+      chosenYear = today().year.toString();
+      chosenSem = today().sem.toString();
+    }
 
     store.dispatch(offDialog());
-    const data = ParsingAPI(massData, format_into_sem(parseInt(year), parseInt(sem)), tags)
+    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
     store.dispatch(postWords(data))
     store.dispatch(setSnackbar(trAddWord.successAddWord[ln]));
   };
@@ -114,7 +123,22 @@ const MassWords = () => {
         </DialogTitle>
         <DialogContent>
           <AvailableLangs />
-          
+          {
+            support.isYearQuadrantEnabled
+              ? (
+                <Fragment>
+                  <TextField margin="dense" label={trAddWord.year[ln]} 
+                    fullWidth value={year} 
+                    onChange={(e) => setYear(e.target.value)}
+                  />
+                  <TextField margin="dense" label={trAddWord.sem[ln]}  
+                    fullWidth value={sem}
+                    onChange={(e) => setSem(e.target.value)}
+                  />
+                </Fragment>
+              )
+              : null
+          }
           <TagsList tags={tags} setTags={setTags} />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
             style={{width: '100%', textAlign:'center'}} multiline rows={5} rowsMax={20}
@@ -157,15 +181,3 @@ const MassWords = () => {
 }
 
 export default MassWords;
-
-
-/*
-  <TextField margin="dense" label={trAddWord.year[ln]} 
-            fullWidth value={year} 
-            onChange={(e) => setYear(e.target.value)}
-          />
-          <TextField margin="dense" label={trAddWord.sem[ln]}  
-            fullWidth value={sem}
-            onChange={(e) => setSem(e.target.value)}
-          />
-*/

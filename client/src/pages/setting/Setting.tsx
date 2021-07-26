@@ -19,7 +19,6 @@ const Setting = () => {
   const { support } = useSelector((state: State) => state);
 
   const hdlYearQuadrantEnabledClicked = () => {
-    console.log("Hi")
     store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }, true));
   }
 
