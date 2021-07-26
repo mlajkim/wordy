@@ -118,16 +118,7 @@ const YearChip = () => {
         if (support.mixedSem !== selectedSem) 
           return support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order;
         else return 0;
-      })
-
-  // Sorts the array if it has been chosen
-  // if (filteredWordsList && support.mixedSemData.length === 0 && selectedSem === support.mixedSem) {
-    // store.dispatch(modifySupport({ mixedSemData: knuthShuffle(filteredWordsList.slice(0)) }));
-    // console.log("mixed")
-    // setWordCardsMax(DEFAULT_MORE_WORDS_AMOUNT); // By resetting the more button 
-    // Wait I do not understand why the code above calls so much...?
-    // console.log("called")
-  // }
+      });
 
   // # Language & Tags Creating
   const hasFound = words.find((datum: WordsChunk) => datum[0].sem === selectedSem)

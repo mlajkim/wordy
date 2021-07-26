@@ -39,8 +39,10 @@ export const modifyMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === MODIFY_SUPPORT) {
-    const payload: object = action.payload;
-    dispatch(fetchy('put', '/supports', [payload]));
+    const { payload, doNotSyncBackend }: any = action.payload;
+    // Commented on Jul 26, 2021 
+    // No longer syns backend if doNotSyncBackend is true
+    if (!doNotSyncBackend) dispatch(fetchy('put', '/supports', [payload]));
     dispatch(updateSupport(payload));
   }
 };

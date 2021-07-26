@@ -97,12 +97,12 @@ const ListSetting: React.FC<Props> = (props) => {
   const hdlMixingWords = () => {
     const lastMixedSum = support.mixedSem;
     if (lastMixedSum !== selectedSem) {
-      store.dispatch(modifySupport({ mixedSem: selectedSem }));
+      store.dispatch(modifySupport({ mixedSem: selectedSem }, true));
       store.dispatch(mixWords(selectedSem));
       store.dispatch(setSnackbar(`${tr.mixed[ln]}`));
     }
     else {
-      store.dispatch(modifySupport({ mixedSem: 0 }));
+      store.dispatch(modifySupport({ mixedSem: 0 }, true));
     }
   };
 

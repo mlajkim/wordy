@@ -34,10 +34,11 @@ export const setSupport = (data: any) => {
   };
 };
 
-export const modifySupport = (data: object) => {
+export const modifySupport = (payload: object, doNotSyncBackend?: boolean) => {
+  if (typeof doNotSyncBackend === 'undefined') doNotSyncBackend = false
   return {
     type: MODIFY_SUPPORT,
-    payload: data
+    payload: { payload, doNotSyncBackend}
   };
 };
 

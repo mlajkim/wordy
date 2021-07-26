@@ -20,7 +20,7 @@ const Setting = () => {
 
   const hdlYearQuadrantEnabledClicked = () => {
     console.log("Hi")
-    store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }));
+    store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }, true));
   }
 
   return (
