@@ -99,7 +99,8 @@ const Appbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
-            {`Wordy ${support.version}`} 
+            {`Wordy ${support.version}`}
+            <i>{support.isBeta ? " Beta" : ""}</i> 
           </Typography>
           {user.isSignedIn &&
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 

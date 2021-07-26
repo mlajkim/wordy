@@ -54,6 +54,7 @@ export type SnackbarState = {
 
 export type Support = {
   version: string;
+  isBeta: boolean;
   versionDate: string;
   addWordLangPref: AddableLang;
   status: 'admin' | null;
