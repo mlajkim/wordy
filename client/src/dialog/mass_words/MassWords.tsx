@@ -156,6 +156,7 @@ const MassWords = () => {
             autoFocus
             onKeyDown={(event) => {
               if (event.metaKey && event.key=== 'Enter') handleAddingMassData();
+              else if (event.key === 'Escape') cancelAddingMassWords();
             }}
           />
         </DialogContent>
