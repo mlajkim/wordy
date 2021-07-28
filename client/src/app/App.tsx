@@ -4,6 +4,8 @@ import Appbar from './Appbar';
 import * as API from '../API';
 import axios from 'axios';
 import {handleCountryCode} from '../utils';
+// Hotkeys
+import { HotKeys } from "react-hotkeys";
 // Mains
 import Dialog from './Dialog';
 import Page from './Page';
@@ -19,6 +21,12 @@ import { updateSupport } from '../redux/actions/supportAction';
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
+
+
+const keyMap = {  
+  CONFIRM: ["command+enter"],
+  // DELETE_NODE: ["del", "backspace"]
+};
 
 
 const App = () => {
@@ -45,16 +53,18 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ 
-      background: support.isDarkMode ? backgroundDark : backgroundLight,
-      color: support.isDarkMode ? fontDark : fontLight,
-      height: 2000
-    }}>
-      <Appbar />
-      <Snackbar />
-      <Dialog />
-      <Page />
-    </div>
+    <HotKeys keyMap={keyMap}>
+      <div style={{ 
+        background: support.isDarkMode ? backgroundDark : backgroundLight,
+        color: support.isDarkMode ? fontDark : fontLight,
+        height: 2000
+      }}>
+        <Appbar />
+        <Snackbar />
+        <Dialog />
+        <Page />
+      </div>
+    </ HotKeys>
   )
 };
 

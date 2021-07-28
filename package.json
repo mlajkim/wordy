@@ -36,6 +36,7 @@
     "node-fetch": "^2.6.1",
     "path": "^0.12.7",
     "react-google-login": "^5.2.2",
+    "react-hotkeys": "^2.0.0",
     "request": "^2.88.2",
     "secure-env": "^1.2.0",
     "tls": "0.0.1"

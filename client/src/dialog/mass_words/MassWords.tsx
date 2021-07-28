@@ -6,6 +6,8 @@ import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
 import ParsingAPI from './ParsingAPI';
+// hotkey
+import { HotKeys } from "react-hotkeys";
 // Components
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Translation
@@ -50,6 +52,11 @@ const MassWords = () => {
   const [year, setYear] = useState<string>('');
   const [sem, setSem] = useState<string>('');
 
+  // Htokey
+  const hdlHotkey = {
+    CONFIRM: () => handleAddingMassData()
+  }
+
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
@@ -77,6 +84,9 @@ const MassWords = () => {
 
   // ...Method
   const handleAddingMassData = () => {
+    // Data validation
+    if (massData.length === 0) 
+      return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'));
     let chosenYear, chosenSem = '';
     
     if(year !== '' || sem !== '') {
@@ -102,8 +112,7 @@ const MassWords = () => {
 
   // Return
   return (
-    <div>
-      
+    <HotKeys handlers={hdlHotkey}>
       <Dialog
         open={true}
         aria-labelledby="alert-dialog-title"
@@ -144,6 +153,9 @@ const MassWords = () => {
             style={{width: '100%', textAlign:'center'}} multiline rows={5} rowsMax={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}
             error={maxError}
+            onKeyDown={(event) => {
+              if (event.metaKey && event.key=== 'Enter') handleAddingMassData();
+            }}
           />
         </DialogContent>
         <DialogActions>
@@ -176,7 +188,7 @@ const MassWords = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </HotKeys>
   );
 }
 

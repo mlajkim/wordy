@@ -9,6 +9,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+// hotkey
+import { HotKeys } from "react-hotkeys";
 // Icons
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 // Translation
@@ -23,6 +25,8 @@ import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
 
 
+
+
 const AddWordsDialog: React.FC = () => {
   // Redux states
   const { language, support } = useSelector((state: State) => state);
@@ -34,6 +38,11 @@ const AddWordsDialog: React.FC = () => {
   const [example, setExample] = useState(''); 
   const [tags, setTags] = useState<string[]>(support.lastTags);
 
+  // Htokey
+  const hdlHotkey = {
+    CONFIRM: () => handleSavingWords()
+  }
+
   // Methods
   const handleSavingWords = () => {
     store.dispatch(offDialog());
@@ -43,7 +52,7 @@ const AddWordsDialog: React.FC = () => {
   } 
 
   return (
-    <div>
+    <HotKeys handlers={hdlHotkey}>
       <Dialog open={true}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
@@ -54,10 +63,26 @@ const AddWordsDialog: React.FC = () => {
         </DialogTitle>
         <DialogContent>
           <AvailableLangs />
-          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)}/>
-          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)}/>
-          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}/>
-          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}/>
+          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
+            }}
+          />
+          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
+            }}
+          />
+          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
+            }}
+          />
+          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
+            }}
+          />
           <TagsList tags={tags} setTags={setTags} />
         </DialogContent>
         <DialogActions>
@@ -69,7 +94,7 @@ const AddWordsDialog: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </HotKeys>
   );
 }
 

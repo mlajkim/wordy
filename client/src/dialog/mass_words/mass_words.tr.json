@@ -10,8 +10,8 @@
     "ja": "簡単な文法を知った上、一回に最大1,000個の語彙を追加できます"
   },
   "confirmCancelTitle": {
-    "ko": "정말로 취소합니까?",
-    "en": "Are you sure you would like to cancel?",
+    "ko": "정말로 종료합니까?",
+    "en": "Are you sure you would like to exit?",
     "ja": "閉めますか？"
   },
   "confirmCancelExplain": {
@@ -25,8 +25,13 @@
     "ja": "戻る"
   },
   "confirmCancelAgree": {
-    "ko": "취소",
-    "en": "Cancel",
-    "ja": "閉める"
+    "ko": "내용을 삭제 및 종료",
+    "en": "Delete and exit",
+    "ja": "内容を削除及び閉める"
+  },
+  "cannotBeEmpty": {
+    "ko": "데이터를 입력해 주세요",
+    "en": "Data cannot be empty",
+    "ja": "データを入力してください"
   }
 }
