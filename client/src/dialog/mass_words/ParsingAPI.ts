@@ -14,6 +14,7 @@ export default function ParsingAPI (massiveLine: string, sem: number, basicTags:
 
 const parsingMechanism = (line: string, basicTags: string[]): ReturningType => {
   let ultimateReturn: ReturningType = { word: ''}; // tag will be empty by defeault
+  line = line.trim();
   
   const tagIndex = line.search(/#/g); // -1 if not found. 
   if(tagIndex === -1) ultimateReturn = {...partA(line), tag: basicTags};
@@ -31,21 +32,21 @@ const partA = (partA: string): ReturningType => {
   // example (sentence)
   const exampleIndex = partA.search(/=/g);
   if(exampleIndex !== -1) {
-    partATemporary.example = partA.slice(exampleIndex + 1)
+    partATemporary.example = partA.slice(exampleIndex + 1).trim()
     partA = partA.slice(0, exampleIndex);
   }
 
   // meaning
   const meaningIndex = partA.search(/[\]:]/g);
   if(meaningIndex !== -1) {
-    partATemporary.meaning = partA.slice(meaningIndex + 1)
+    partATemporary.meaning = partA.slice(meaningIndex + 1).trim()
     partA = partA.slice(0, meaningIndex);
   }
 
   // pronun
   const pronunIndex = partA.search(/\[/g);
   if(pronunIndex !== -1) {
-    partATemporary.pronun = partA.slice(pronunIndex + 1)
+    partATemporary.pronun = partA.slice(pronunIndex + 1).trim()
     partA = partA.slice(0, pronunIndex);
   }
   
