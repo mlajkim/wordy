@@ -25,10 +25,7 @@ import { State } from '../types';
 const macWindows = (shortcut: string) => [`command+${shortcut}`, `ctrl+${shortcut}`];
 
 const keyMap = {  
-  CONFIRM: macWindows("enter"),
-  OPEN_ADDER: "c",
-  BACK: ["esc"]
-  // DELETE_NODE: ["del", "backspace"]
+  OPEN_ADDER: "c"
 };
 
 const App = () => {

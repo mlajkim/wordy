@@ -52,11 +52,6 @@ const MassWords = () => {
   const [year, setYear] = useState<string>('');
   const [sem, setSem] = useState<string>('');
 
-  // Htokey
-  const hdlHotkey = {
-    CONFIRM: () => handleAddingMassData()
-  }
-
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
@@ -112,7 +107,7 @@ const MassWords = () => {
 
   // Return
   return (
-    <HotKeys handlers={hdlHotkey}>
+    <Fragment>
       <Dialog
         open={true}
         aria-labelledby="alert-dialog-title"
@@ -156,6 +151,7 @@ const MassWords = () => {
             autoFocus
             onKeyDown={(event) => {
               if (event.metaKey && event.key=== 'Enter') handleAddingMassData();
+              else if (event.ctrlKey && event.key === 'Enter') handleAddingMassData(); // if you mix with the mac key, it somehow receives two enters
               else if (event.key === 'Escape') cancelAddingMassWords();
             }}
           />
@@ -190,7 +186,7 @@ const MassWords = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </HotKeys>
+    </Fragment>
   );
 }
 

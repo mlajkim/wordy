@@ -63,26 +63,10 @@ const AddWordsDialog: React.FC = () => {
         </DialogTitle>
         <DialogContent>
           <AvailableLangs />
-          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
-            }}
-          />
-          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
-            }}
-          />
-          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
-            }}
-          />
-          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSavingWords();
-            }}
-          />
+          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)} />
+          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)} />
+          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)} />
+          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)} />
           <TagsList tags={tags} setTags={setTags} />
         </DialogContent>
         <DialogActions>
