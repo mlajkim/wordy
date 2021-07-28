@@ -15,22 +15,24 @@ import appRunOnceLogic from './AppRunOnceLogic';
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Action
-import { setLanguage } from '../redux/actions';
+import { setLanguage, setDialog } from '../redux/actions';
 import { updateSupport } from '../redux/actions/supportAction';
 // Theme
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
 
+const macWindows = (shortcut: string) => [`command+${shortcut}`, `ctrl+${shortcut}`];
 
 const keyMap = {  
-  CONFIRM: ["command+enter"],
+  CONFIRM: macWindows("enter"),
+  OPEN_ADDER: "c",
+  BACK: ["esc"]
   // DELETE_NODE: ["del", "backspace"]
 };
 
-
 const App = () => {
-  const { support} = useSelector((state: State) => state);
+  const { support, dialog, page } = useSelector((state: State) => state);
 
   useEffect(() => {
     // Check the dark API token exists, if yes, apply.
@@ -52,8 +54,18 @@ const App = () => {
     appRunOnceLogic();
   }, []);
 
+    // Hotkey
+    const hdlHotkey = {
+      OPEN_ADDER: () => {
+        if (!dialog.isOpen) {
+          if (support.newWordAddingType === 'one') store.dispatch(setDialog('AddWordsDialog'));
+          else store.dispatch(setDialog('MassWordsDialog'));
+        }
+      }
+    };
+
   return (
-    <HotKeys keyMap={keyMap}>
+    <HotKeys keyMap={keyMap} handlers={hdlHotkey}>
       <div style={{ 
         background: support.isDarkMode ? backgroundDark : backgroundLight,
         color: support.isDarkMode ? fontDark : fontLight,

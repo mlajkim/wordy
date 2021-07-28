@@ -12,6 +12,7 @@ export type State = {
   snackbar: SnackbarState,
   scrabbly: Scrabbly;
   keepStyleBtn: KeepStyleBtnProperty[];
+  page: string;
 };
 
 export type Scrabbly = {

@@ -153,6 +153,7 @@ const MassWords = () => {
             style={{width: '100%', textAlign:'center'}} multiline rows={5} rowsMax={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}
             error={maxError}
+            autoFocus
             onKeyDown={(event) => {
               if (event.metaKey && event.key=== 'Enter') handleAddingMassData();
             }}

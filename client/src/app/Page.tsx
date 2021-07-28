@@ -11,10 +11,12 @@ import Setting from '../pages/setting/Setting';
 import store from '../redux/store';
 import {setPage, setDialog} from '../redux/actions';
 import {useSelector} from 'react-redux';
+// Types
+import { State } from '../types';
 
 const Page = () => {
   // states
-  const {page, user} = useSelector((state: any) => state);
+  const {page, user} = useSelector((state: State) => state);
   
   switch(page) {
     case '' || 'home': 
