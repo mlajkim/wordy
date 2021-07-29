@@ -145,7 +145,7 @@ const MassWords = () => {
           }
           <TagsList tags={tags} setTags={setTags} />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
-            style={{width: '100%', textAlign:'center'}} multiline rows={5} rowsMax={20}
+            style={{width: '100%', textAlign:'center'}} multiline minRows={5} maxRows={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}
             error={maxError}
             autoFocus
