@@ -25,7 +25,7 @@ import store from '../../redux/store';
 import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
-type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'monthAgo';
+type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'threeWeeksAgo' | 'monthAgo';
 const ADDING_MORE_WORDS_AMOUNT = 100;
 const DEFAULT_MORE_WORDS_AMOUNT = 100;
 // @ MAIN
@@ -102,6 +102,7 @@ const YearChip = () => {
       .filter(word => selectedSpecialTag === 'fourDays' ? checkIfThisDay(word.dateAdded, 4) : true)
       .filter(word => selectedSpecialTag === 'weekAgo' ? checkIfThisDay(word.dateAdded, 7) : true)
       .filter(word => selectedSpecialTag === 'twoWeeksAgo' ? checkIfThisDay(word.dateAdded, 14) : true)
+      .filter(word => selectedSpecialTag === 'threeWeeksAgo' ? checkIfThisDay(word.dateAdded, 21) : true)
       .filter(word => selectedSpecialTag === 'monthAgo' ? checkIfThisDay(word.dateAdded, 30) : true)
       .filter(word => {
         if (selectedNormalTags.length !== 0) { // languages & tags filter
@@ -134,7 +135,7 @@ const YearChip = () => {
     })
   }
   // Special Tag Rendering
-  const specialTagsList: SpecialTag[] = ['all', 'favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'monthAgo' ];
+  const specialTagsList: SpecialTag[] = ['all', 'favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'threeWeeksAgo', 'monthAgo' ];
   const totalWordsCount = typeof hasFound === 'undefined' ? '' : ` (${hasFound?.length})`; // Shows nothing when loading, else show the number of counts.
   const renderSpecialTags = specialTagsList.map(specialTag => {
     // if special tag is all, then I would like to add a number of words

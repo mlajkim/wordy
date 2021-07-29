@@ -44,6 +44,11 @@
     "en": "#2 weeks ago",
     "ja": "#2週間前"
   },
+  "threeWeeksAgo":{
+    "ko": "#3주일전",
+    "en": "#3 weeks ago",
+    "ja": "#3週間前"
+  },
   "monthAgo": {
     "ko": "#1달전",
     "en": "#1 month ago",
