@@ -22,14 +22,12 @@ import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
 
-const macWindows = (shortcut: string) => [`command+${shortcut}`, `ctrl+${shortcut}`];
-
 const keyMap = {  
-  OPEN_ADDER: ["shift+enter", "command+enter"]
+  OPEN_ADDER: ["ctrl+enter", "command+enter"]
 };
 
-const App = () => {
-  const { support, dialog, page } = useSelector((state: State) => state);
+const App: React.FC = () => {
+  const { support, dialog } = useSelector((state: State) => state);
 
   useEffect(() => {
     // Check the dark API token exists, if yes, apply.

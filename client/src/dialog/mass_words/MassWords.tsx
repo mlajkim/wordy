@@ -6,8 +6,6 @@ import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
 import ParsingAPI from './ParsingAPI';
-// hotkey
-import { HotKeys } from "react-hotkeys";
 // Components
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Translation
