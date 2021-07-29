@@ -64,6 +64,12 @@ const Appbar = () => {
     openMenu(null);
   }
 
+  // hdlSettingClick
+  const hdlSettingClick = () => {
+    setProfileMenu(null);
+    store.dispatch(setPage("setting"));
+  }
+
   // @profile image menu
   const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
   const handleProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -143,7 +149,7 @@ const Appbar = () => {
             open={Boolean(profileMenu)}
             onClose={() => setProfileMenu(null)}
           >
-            {user.isSignedIn && <MenuItem disabled onClick={() => setProfileMenu(null)}>{tr.setting[ln]}</MenuItem>}
+            {user.isSignedIn && <MenuItem onClick={() => hdlSettingClick()}>{tr.setting[ln]}</MenuItem>}
             <MenuItem onClick={() => store.dispatch(setDialog("ShortcutDialog"))}>{tr.shortcut[ln]}</MenuItem>
             {!user.isSignedIn && <MenuItem onClick={() => handleLogin()}>{tr.login[ln]}</MenuItem>}
             {user.isSignedIn && <MenuItem onClick={() => handleLogout()}>{tr.logout[ln]}</MenuItem>}
