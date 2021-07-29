@@ -6,6 +6,8 @@ import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
 import ParsingAPI from './ParsingAPI';
+// Shorcut
+import shortcut from '../../shortcut';
 // Components
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Translation
@@ -148,9 +150,9 @@ const MassWords = () => {
             error={maxError}
             autoFocus
             onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleAddingMassData();
-              else if (event.ctrlKey && event.key === 'Enter') handleAddingMassData(); // if you mix with the mac key, it somehow receives two enters
-              else if (event.key === 'Escape') cancelAddingMassWords();
+              if (shortcut.CMD_ENTER.mac.textField(event)) handleAddingMassData();
+              else if (shortcut.CMD_ENTER.windows.textField(event)) handleAddingMassData(); // if you mix with the mac key, it somehow receives two enters
+              else if (shortcut.ESC.general.textField(event)) cancelAddingMassWords();
             }}
           />
         </DialogContent>

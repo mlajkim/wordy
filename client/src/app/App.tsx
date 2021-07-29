@@ -6,6 +6,7 @@ import axios from 'axios';
 import {handleCountryCode} from '../utils';
 // Hotkeys
 import { HotKeys } from "react-hotkeys";
+import shortcut from '../shortcut';
 // Mains
 import Dialog from './Dialog';
 import Page from './Page';
@@ -23,7 +24,7 @@ import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 import { State } from '../types';
 
 const keyMap = {  
-  OPEN_ADDER: ["ctrl+enter", "command+enter"]
+  OPEN_ADDER: [shortcut.CMD_ENTER.mac.hotKey, shortcut.CMD_ENTER.windows.hotKey]
 };
 
 const App: React.FC = () => {
