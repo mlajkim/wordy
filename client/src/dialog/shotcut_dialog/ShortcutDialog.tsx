@@ -7,11 +7,9 @@ import ShortcutContents from './ShortcutContents';
 // tr
 import trAppbar from '../../app/appbar.tr.json'
 // Material UI Cores
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 // Material UI icons
@@ -61,13 +59,6 @@ const DialogContent = withStyles((theme: Theme) => ({
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
-
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
 
 const ShortcutDialog: React.FC = () => {
   // Redux states
