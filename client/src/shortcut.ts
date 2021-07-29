@@ -1,16 +1,16 @@
 import { KeyboardEvent } from 'react';
 
-const shorcut = {
+const shortcut = {
   CMD_ENTER: {
     mac: {
       textField: (event: KeyboardEvent) =>  event.metaKey && event.key   === 'Enter',
       hotKey: "command+enter",
-      userFreindly: "⌘ + Enter",
+      userFriendly: "⌘ + Enter"
     },
     windows: {
       textField: (event: KeyboardEvent) =>  event.ctrlKey && event.key   === 'Enter',
       hotKey: "ctrl+enter",
-      userFreindly: "Ctrl + Enter",
+      userFriendly: "Ctrl + Enter",
     }
   },
   ESC: {
@@ -22,4 +22,4 @@ const shorcut = {
   } 
 };
 
-export default shorcut;
+export default shortcut;

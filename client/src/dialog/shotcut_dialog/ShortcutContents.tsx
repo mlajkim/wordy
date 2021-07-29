@@ -7,6 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+// Hotkey
+import shortcut from '../../shortcut';
 // translation
 import tr from './shortcut_contents.tr.json';
 import trAppbar from '../../app/appbar.tr.json'
@@ -16,27 +18,12 @@ import { State } from '../../types';
 import { useSelector } from 'react-redux';
 
 interface Column {
-  id: 'name' | 'hotkey';
+  id: 'explain' | 'hotkey';
   label: string;
   minWidth?: number;
   align?: 'right';
   format?: (value: number) => string;
 }
-
-
-
-interface Data {
-  name: string;
-  hotkey: string;
-}
-
-function createData(name: string, hotkey: string): Data {
-  return { name, hotkey };
-}
-
-const rows = [
-  createData("add", "hotkey")
-];
 
 const useStyles = makeStyles({
   root: {
@@ -55,8 +42,15 @@ const ShortcutContents: React.FC = () => {
   const ln = language;
 
   const columns: Column[] = [
-    { id: 'name', label: tr.name[ln], minWidth: 170 },
+    { id: 'explain', label: tr.name[ln], minWidth: 170 },
     { id: 'hotkey', label: trAppbar.shortcut[ln], minWidth: 100 },
+  ];
+
+
+  const rows = [
+    { explain: tr.addWords[ln] , hotkey: shortcut.CMD_ENTER.mac.userFriendly },
+    { explain: tr.openDialog[ln] , hotkey: shortcut.CMD_ENTER.mac.userFriendly },
+    { explain: tr.closeDialog[ln] , hotkey: shortcut.ESC.general.userFriendly }
   ];
 
   return (
@@ -79,7 +73,7 @@ const ShortcutContents: React.FC = () => {
           <TableBody>
             {rows.map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.explain}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
