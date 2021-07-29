@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { get_sem } from '../../utils';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Material UI
@@ -10,7 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // hotkey
-import { HotKeys } from "react-hotkeys";
+import shortcut from '../../shortcut';
 // Icons
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 // Translation
@@ -38,11 +38,6 @@ const AddWordsDialog: React.FC = () => {
   const [example, setExample] = useState(''); 
   const [tags, setTags] = useState<string[]>(support.lastTags);
 
-  // Htokey
-  const hdlHotkey = {
-    CONFIRM: () => handleSavingWords()
-  }
-
   // Methods
   const handleSavingWords = () => {
     store.dispatch(offDialog());
@@ -52,7 +47,7 @@ const AddWordsDialog: React.FC = () => {
   } 
 
   return (
-    <HotKeys handlers={hdlHotkey}>
+    <Fragment>
       <Dialog open={true}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
@@ -63,10 +58,18 @@ const AddWordsDialog: React.FC = () => {
         </DialogTitle>
         <DialogContent>
           <AvailableLangs />
-          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)} />
-          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)} />
-          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)} />
-          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)} />
+          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)} 
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
+          />
+          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)} 
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
+          />
+          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)} 
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
+          />
+          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)} 
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
+          />
           <TagsList tags={tags} setTags={setTags} />
         </DialogContent>
         <DialogActions>
@@ -78,7 +81,7 @@ const AddWordsDialog: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </HotKeys>
+    </Fragment>
   );
 }
 

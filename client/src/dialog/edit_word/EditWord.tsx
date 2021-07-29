@@ -8,6 +8,8 @@ import trAddWordsDialog from '../add_word/add_words_dialog.tr.json';
 import { State, Word } from '../../types';
 import { AddableLanguage, ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+// shortcut
+import shortcut from '../../shortcut';
 // Material UI
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -83,25 +85,17 @@ export default function EditDialog() {
             </Select>
           </div>
           <TextField margin="dense" id='word' value={word} label={trAddWordsDialog.word[ln]} fullWidth onChange={(e) => setWord(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSave();
-            }}
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
           />
           <TextField margin="dense" id='pronun' value={pronun} label={trAddWordsDialog.pronun[ln]} fullWidth onChange={(e) => setPronun(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSave();
-            }}
-          />
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
+            />
           <TextField margin="dense" id='meaning' value={meaning} label={trAddWordsDialog.meaning[ln]} fullWidth onChange={(e) => setMeaning(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSave();
-            }}
-          />
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
+            />
           <TextField margin="dense" id='example' value={example} label={trAddWordsDialog.example[ln]} fullWidth onChange={(e) => setExample(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.metaKey && event.key=== 'Enter') handleSave();
-            }}
-          />
+            onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
+            />
           <TagsList tags={tags} setTags={setTags} />
         </DialogContent>
         <DialogActions>
