@@ -28,5 +28,10 @@
     "ko": "라이트 모드로 변경",
     "en": "Change to Lightmode",
     "ja": "ライトモードに変更"
+  },
+  "shortcut": {
+    "ko": "단축키",
+    "en": "Keyboard shortcut",
+    "ja": "ショートカットキー"
   }
 }

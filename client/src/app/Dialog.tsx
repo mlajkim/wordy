@@ -8,6 +8,7 @@ import AddWordsDialog from '../dialog/add_word/AddWordsDialog';
 import ConfirmDelete from '../dialog/confirm_delete/ConfirmDelete';
 import MassWordsDialog from '../dialog/mass_words/MassWords';
 import EditWordDialog from '../dialog/edit_word/EditWord';
+import ShortcutDialog from '../dialog/shotcut_dialog/ShortcutDialog';
 
 const Dialog = () => {
   // states
@@ -28,6 +29,9 @@ const Dialog = () => {
 
     case 'EditWord':
       return <EditWordDialog />;
+
+    case 'ShortcutDialog':
+      return <ShortcutDialog />
 
     case 'ConfirmDelete':
       return <ConfirmDelete />

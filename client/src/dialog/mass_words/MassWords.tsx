@@ -26,7 +26,7 @@ import SwitchBackToOneMode from '@material-ui/icons/AddBox';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 // Redux
 import store from '../../redux/store';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 // Redux Actions
 import { offDialog, setSnackbar } from '../../redux/actions';
