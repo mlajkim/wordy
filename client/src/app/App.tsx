@@ -25,7 +25,7 @@ import { State } from '../types';
 const macWindows = (shortcut: string) => [`command+${shortcut}`, `ctrl+${shortcut}`];
 
 const keyMap = {  
-  OPEN_ADDER: "c"
+  OPEN_ADDER: ["shift+enter", "command+enter"]
 };
 
 const App = () => {
