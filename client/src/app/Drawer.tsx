@@ -19,8 +19,9 @@ import LoginButton from '@material-ui/icons/ExitToApp';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 // Redux
 import store from '../redux/store';
-import { setDialog, setPage } from '../redux/actions';
 import { useSelector } from 'react-redux';
+// Redux action
+import { setDialog, setPage } from '../redux/actions';
 
 const useStyles = makeStyles({
   list: {

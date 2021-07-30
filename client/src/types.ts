@@ -44,7 +44,7 @@ export type Dialog = {
 }
 
 export type DialogType = 'LoginDialog' | 'SignUpDialog' | 'AddWordsDialog' | 'EditWord' |
-  'MassWordsDialog' | 'ConfirmDelete' | 'Warning401' | 'Warning403' | 'ShortcutDialog';
+  'MassWordsDialog' | 'ConfirmDelete' | 'Warning401' | 'Warning403' | 'ShortcutDialog' | 'SettingDialog';
 
 export type SnackbarState = {
   isOpen: boolean,

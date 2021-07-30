@@ -9,6 +9,8 @@ import ConfirmDelete from '../dialog/confirm_delete/ConfirmDelete';
 import MassWordsDialog from '../dialog/mass_words/MassWords';
 import EditWordDialog from '../dialog/edit_word/EditWord';
 import ShortcutDialog from '../dialog/shotcut_dialog/ShortcutDialog';
+import SettingDialog from '../dialog/setting_dialog/SettingDialog';
+
 
 const Dialog = () => {
   // states
@@ -29,6 +31,9 @@ const Dialog = () => {
 
     case 'EditWord':
       return <EditWordDialog />;
+
+    case 'SettingDialog':
+      return <SettingDialog />
 
     case 'ShortcutDialog':
       return <ShortcutDialog />
