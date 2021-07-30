@@ -114,6 +114,7 @@ const MassWords = () => {
         aria-describedby="alert-dialog-description"
         fullWidth
         maxWidth='lg'
+        onClose={() => cancelAddingMassWords()}
       >
         <DialogTitle id="alert-dialog-title">
           {tr.title[ln]}
