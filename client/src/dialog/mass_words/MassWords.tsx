@@ -56,6 +56,7 @@ const MassWords = () => {
   const [year, setYear] = useState<string>('');
   const [sem, setSem] = useState<string>('');
   // detectLanguage Timer
+  const [detectedLanguage, setDetectedLanguage] = useState<string>('');
   const [detectLanguage, disableDetectingLanguage] = useState<boolean>(false); // if true, detect no longer works
   const [detectTimer, setDetectTimer] = useState<number>(0);
   const [enableDetect, setEnableDetect] = useState<boolean>(false);
@@ -161,7 +162,7 @@ const MassWords = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage}/>
+          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage} enableDetect={enableDetect}/>
           {
             support.isYearQuadrantEnabled
               ? (

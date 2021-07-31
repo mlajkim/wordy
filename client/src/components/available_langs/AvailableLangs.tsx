@@ -2,6 +2,8 @@ import React from 'react';
 import { State } from '../../types';
 import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+// Component 
+import LoadingFbStyle from '../../components/loading_fbstyle/LoadingFbStyle';
 // Translation
 import tr from './available_langs.tr.json';
 // Material UI
@@ -15,10 +17,11 @@ import store from '../../redux/store';
 import { modifySupport } from '../../redux/actions/supportAction';
 
 type Props = {
-  disableDetectingLanguage?: React.Dispatch<React.SetStateAction<boolean>>
+  disableDetectingLanguage?: React.Dispatch<React.SetStateAction<boolean>>;
+  enableDetect?: boolean;
 };
 
-const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage }) => {
+const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect }) => {
   const { support, language } = useSelector((state: State) => state);
   const [open, setOpen] = React.useState(false);
 
@@ -46,6 +49,7 @@ const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage }) => {
       >
         {menuItems}
       </Select>
+      { enableDetect && <LoadingFbStyle />}
     </div>
   )
 }
