@@ -8,5 +8,10 @@
     "en": "Customize Semester",
     "ko": "연도 맞춤화하기",
     "ja": "年度変更可能にする"
+  },
+  "enableDarkmode": {
+    "en": "Enable dark theme",
+    "ko": "어두운 테마 사용",
+    "ja": "ダークモードを有効にする"
   }
 }

@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -68,29 +69,38 @@ const SettingDialog: React.FC = () => {
 
   return (
     <div>
-      <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open>
+      <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
         <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
           {trAppbar.setting[ln]}
         </DialogTitle>
-        <DialogContent dividers>
-        <Typography gutterBottom>
+        <DialogContent dividers >
+          <Typography gutterBottom color="textSecondary">
             {tr.tip[ln]}
           </Typography>
-          <FormControlLabel
-            value="isYearQuadrantEnabled"
-            control={
-              <Checkbox 
-                color="default" size="small" checked={support.isYearQuadrantEnabled} 
-                onChange={() => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }, true))}
-              />}
-            label={tr.customizeSemester[ln]}
-            labelPlacement="start"
-          />
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-            auctor fringilla.
-          </Typography>
+          <FormGroup>
+            <FormControlLabel
+              value="isYearQuadrantEnabled"
+              control={
+                <Checkbox 
+                  color="default" size="small" checked={support.isYearQuadrantEnabled} 
+                  onChange={() => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }, true))}
+                />}
+              label={tr.customizeSemester[ln]}
+              style={{ display: 'inline-block' }}
+              labelPlacement="start"
+            />
+            <FormControlLabel
+              value="isDarkmode"
+              control={
+                <Checkbox 
+                  color="default" size="small" checked={support.isDarkMode} 
+                  onChange={() => store.dispatch(modifySupport({ isDarkMode: !support.isDarkMode }))}
+                />}
+              label={tr.enableDarkmode[ln]}
+              style={{ display: 'inline-block' }}
+              labelPlacement="start"
+            />
+          </FormGroup>
         </DialogContent>
       </Dialog>
     </div>
