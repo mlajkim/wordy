@@ -132,7 +132,7 @@ const SettingDialog: React.FC = () => {
             </Typography>
             { DrawCheckbox.slice(0, 2) }
           </FormGroup>
-          <FormGroup>
+          <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
                 {tr.listSetting[ln]}
             </Typography>
