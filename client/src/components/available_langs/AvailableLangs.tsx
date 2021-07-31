@@ -14,11 +14,16 @@ import store from '../../redux/store';
 // Redux Actions
 import { modifySupport } from '../../redux/actions/supportAction';
 
-const AvailableLangs: React.FC = () => {
+type Props = {
+  disableDetectingLanguage?: React.Dispatch<React.SetStateAction<boolean>>
+};
+
+const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage }) => {
   const { support, language } = useSelector((state: State) => state);
   const [open, setOpen] = React.useState(false);
 
   const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    if (typeof disableDetectingLanguage !== 'undefined') disableDetectingLanguage(true); // no longer 
     store.dispatch(modifySupport({ addWordLangPref: event.target.value as string }));
   };
 

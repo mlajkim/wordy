@@ -1,6 +1,8 @@
 
 // Types
 import { AddableLanguage } from './generalType';
+//
+import moment from 'moment';
 
 export const getEventName = (givenOriginalUrl: string) => {
   console.log(givenOriginalUrl);
@@ -91,3 +93,8 @@ export const intoArray = (inputData: any): any[] => {
   
   return [inputData]; // by default
 }
+
+// moment.now() gets the time in millisecond such as 123452582575
+export const runAfter = (second: number) => moment.now() + (second * 1000);
+
+export const now = () => moment.now();

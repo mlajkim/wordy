@@ -1,12 +1,14 @@
 // Mains import
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import { useBeforeunload } from 'react-beforeunload';
+import ParsingAPI from './ParsingAPI';
 // helpers import
+import { runAfter, now } from '../../type/sharedWambda';
 import { throwEvent } from '../../frontendWambda';
 import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
+// Type
 import { State } from '../../types';
-import ParsingAPI from './ParsingAPI';
 // Shorcut
 import shortcut from '../../shortcut';
 // Components
@@ -39,6 +41,7 @@ import TagsList from '../../components/tags_list/TagsList';
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
 const VALID_YEAR_FROM = 2000;
 const VALID_YEAR_TO = 2999;
+const DETECT_LANGUAGE_TIMER = 0.4; // seconds
 
 const MassWords = () => {
   // Redux states
@@ -52,23 +55,45 @@ const MassWords = () => {
   const [confirmCancel, setConfrimCancel] = useState<boolean>(false);
   const [year, setYear] = useState<string>('');
   const [sem, setSem] = useState<string>('');
-
+  // detectLanguage Timer
+  const [detectLanguage, disableDetectingLanguage] = useState<boolean>(false); // if true, detect no longer works
+  const [detectTimer, setDetectTimer] = useState<number>(0);
+  const [enableDetect, setEnableDetect] = useState<boolean>(false);
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
     if (massData !== '') 
       event.preventDefault();
   });
+
+  
+
+  // Effect (Detector Timer)
+  useEffect(() => {
+    // Detect language API call
+    const runDetectLanguage = () => {
+      throwEvent("word:detectLanguage", massData.split("\n")[0])
+        .then(res => console.log(res));
+    }
+
+    if (!detectLanguage && enableDetect && detectTimer > now()) {
+      const interval = setInterval(() => {
+        runDetectLanguage();
+        setEnableDetect(false);
+      }, DETECT_LANGUAGE_TIMER * 1000);
+      return () => clearInterval(interval);
+    }
+  }, [detectLanguage, detectTimer, massData, enableDetect]);
+
+  
   
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const userInput = e.target.value;
 
     // detect language algorithm
-    const oneLine = userInput.split("\n")[0]
-    if (typeof userInput === 'string')
-      throwEvent("word:detectLanguage", oneLine)
-        .then(res => console.log(res));
+    setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
+    setEnableDetect(true);
 
     setMassData(userInput);
     setCount(userInput.length);
@@ -136,7 +161,7 @@ const MassWords = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs />
+          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage}/>
           {
             support.isYearQuadrantEnabled
               ? (

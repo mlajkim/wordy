@@ -23,7 +23,7 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
   };
 
   // loads the requester data if it exists
-  const response = await axios({
+  const returningEvent = await axios({
     method: "post",
     headers: { Authorization: `Bearer dump authorization code`},
     url: '/apigateway' + pathFinder(eventType),
@@ -43,7 +43,7 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
     return newEvent;
   });
 
-  return response;
+  return returningEvent;
 }; // end of throwEvent
 
 // 2021 June Latest version of requesting to API calls of apigateway of Wordy-cloud!!
