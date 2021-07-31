@@ -10,7 +10,7 @@ const word = express.Router();
 
 word.post(pathFinder("word:detectLanguage"), async (req: Request, res: Response) => {
   const policy: Policy = {
-    version: "1.0.210707",
+    version: "1.0.210729",
     comment: "Allow only kim",
     statement: {
       effect: "Allow",
@@ -20,6 +20,8 @@ word.post(pathFinder("word:detectLanguage"), async (req: Request, res: Response)
   };
 
   const requestedEvent = req.body; // receives the event
+  // test
+  console.log(req.body)
   const iamValidatedEvent = iamGateway(requestedEvent, policy); // validate with iamGateway
 
   res.send(iamValidatedEvent);

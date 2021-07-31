@@ -62,14 +62,17 @@ const MassWords = () => {
   
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    // detect
-    console.log(throwEvent("word:detectLanguage")); // testing reason 
+    const userInput = e.target.value;
 
-    setMassData(e.target.value);
-    setCount(e.target.value.length);
-    if(LETTERS_LIMITATION < e.target.value.length) {
+    // detect language algorithm
+    if (typeof userInput === 'string')
+      console.log(throwEvent("word:detectLanguage")); // testing reason 
+
+    setMassData(userInput);
+    setCount(userInput.length);
+    if(LETTERS_LIMITATION < userInput.length) {
       setMaxError(true);
-      setMassData(e.target.value.slice(0, LETTERS_LIMITATION))
+      setMassData(userInput.slice(0, LETTERS_LIMITATION))
     }else{
       setMaxError(false);
     }

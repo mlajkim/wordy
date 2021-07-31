@@ -19,7 +19,7 @@ export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEve
   requestedEvent.serverResponse = "Denied" // by default
   requestedEvent.serverMessage = `Implicitly denied by ${GATEWAY_NAME} due to insufficient pemission`; // by default
 
-  if (policy.version === "1.0.210707") {
+  if (policy.version === "1.0.210729") {
       const definedStatements = intoArray(policy.statement) as StatementType[]; 
 
       for (const [_, definedStatement] of definedStatements.entries()) {

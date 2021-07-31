@@ -8,7 +8,7 @@ export const AUTHORIZED_MESSAGE = "Authorized";
 
 // Policy
 export type Policy = {
-  version: "1.0.210707";
+  version: "1.0.210729";
   comment?: string;
   statement: StatementType[] | StatementType | [];
 };

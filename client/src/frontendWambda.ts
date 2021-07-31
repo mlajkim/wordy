@@ -13,11 +13,29 @@ import { EventType } from './type/wordyEventType';
 import { setSnackbar } from './redux/actions';
 
 // event Thrower
-export const throwEvent = async (eventType: EventType) => {
-  const response = await axios.post('/apigateway' + pathFinder(eventType));
-  if (!response) store.dispatch(setSnackbar("Backend not responding..", "error"));
-  else return response.data as WordyEvent
-}
+export const throwEvent = async (eventType: EventType, requesterInputData?: any) => {
+  // Prepare for a new event
+  const newEvent: WordyEvent = {
+    eventVersion: "1.0.210731",
+    eventType,
+    requesterInputData
+  };
+
+  // loads the requester data if it exists
+  axios({
+    method: "post",
+    headers: { Authorization: `Bearer dump authorization code`},
+    url: '/apigateway' + pathFinder(eventType),
+    data: newEvent
+  })
+  .then((res) => {
+    const returnedEvent: WordyEvent = res.data;
+
+    if (returnedEvent.serverResponse === 'Denied' && typeof returnedEvent.serverMessage !== 'undefined') 
+      store.dispatch(setSnackbar(returnedEvent.serverMessage, 'warning'));
+  })
+  .catch(() => store.dispatch(setSnackbar('Server is rejecting or unresponsible of your request', 'error')))
+}; // end of throwEvent
 
 // 2021 June Latest version of requesting to API calls of apigateway of Wordy-cloud!!
 export const request = (action: AvailableActions, payload: object | object[]) => {
