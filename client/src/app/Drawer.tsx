@@ -75,7 +75,7 @@ const DrawerComponent = (props: any) => {
           <Divider />
             {list}
           <Divider />
-          <ListItem button className={classes.list} onClick={() => handleChangePage('setting')}>
+          <ListItem button className={classes.list} onClick={() => store.dispatch(setDialog('SettingDialog'))}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary={appbarTr.setting[ln]} />
           </ListItem>

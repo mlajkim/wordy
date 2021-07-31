@@ -4,6 +4,11 @@
     "ko": "자동 저장됩니다",
     "ja": "自動セイブされます"
   },
+  "basicSetting": {
+    "en": "Basic setting",
+    "ko": "기본 설정",
+    "ja": "基本設定"
+  },
   "customizeSemester": {
     "en": "Customize Semester",
     "ko": "연도 맞춤화하기",
@@ -13,5 +18,25 @@
     "en": "Enable dark theme",
     "ko": "어두운 테마 사용",
     "ja": "ダークモードを有効にする"
+  },
+  "listSetting": {
+    "en": "List setting",
+    "ko": "리스트 설정",
+    "ja": "リスト設定"
+  },
+  "setDisplayTypeWordCard": {
+    "en": "Enable wordcard style",
+    "ko": "워드카드 사용",
+    "ja": "単語カードを有効にする"
+  },
+  "setYearDesc": {
+    "en": "Years in a descending order",
+    "ko": "연도를 최근순으로 정렬",
+    "ja": "年度を最新順で並べる"
+  },
+  "setWordDesc": {
+    "en": "Words in a descending order",
+    "ko": "단어를 최근순으로 정렬",
+    "ja": "単語を最新順で並べる"
   }
 }

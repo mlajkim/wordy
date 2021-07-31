@@ -67,39 +67,76 @@ const SettingDialog: React.FC = () => {
   const { language, support } = useSelector((state: State) => state);
   const ln = language;
 
+  // Draw Checkbox
+  const checkBoxSetting = [{
+      value: 'isYearQuadrantEnabled',
+      checked: support.isYearQuadrantEnabled,
+      label: tr.customizeSemester[ln],
+      onChange: () => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }))
+    },
+    {
+      value: 'isDarkmode',
+      checked: support.isDarkMode,
+      label: tr.enableDarkmode[ln],
+      onChange: () => store.dispatch(modifySupport({ isDarkMode: !support.isDarkMode }))
+    },
+    // From the word list setting
+    {
+      value: 'setDisplayTypeWordCard',
+      checked: support.wordDisplayPref === 'wordcard',
+      label: tr.setDisplayTypeWordCard[ln],
+      onChange: () => store.dispatch(modifySupport({ wordDisplayPref: support.wordDisplayPref === 'wordcard' ? 'list' : 'wordcard' }))
+    },
+    {
+      value: 'yearOrderPref',
+      checked: support.yearOrderPref === 'desc',
+      label: tr.setYearDesc[ln],
+      onChange: () => store.dispatch(modifySupport({ yearOrderPref: support.yearOrderPref === 'desc' ? 'asc' : 'desc' }))
+    },
+    {
+      value: 'wordOrderPref',
+      checked: support.wordOrderPref === 'desc',
+      label: tr.setWordDesc[ln],
+      onChange: () => store.dispatch(modifySupport({ wordOrderPref: support.wordOrderPref === 'desc' ? 'asc' : 'desc' }))
+    },
+  ];
+
+  const DrawCheckbox = checkBoxSetting.map(block => (
+    <FormControlLabel
+      value={block.value}
+      key={block.value}
+      control={
+        <Checkbox 
+          color="default" size="small" checked={block.checked} 
+          onChange={() => block.onChange()}
+        />}
+      label={block.label}
+      style={{ display: 'inline-block' }}
+      labelPlacement="start"
+    />
+  ))
+
   return (
     <div>
       <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
         <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
           {trAppbar.setting[ln]}
-        </DialogTitle>
-        <DialogContent dividers >
-          <Typography gutterBottom color="textSecondary">
+          <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>
             {tr.tip[ln]}
           </Typography>
+        </DialogTitle>
+        <DialogContent dividers >
           <FormGroup>
-            <FormControlLabel
-              value="isYearQuadrantEnabled"
-              control={
-                <Checkbox 
-                  color="default" size="small" checked={support.isYearQuadrantEnabled} 
-                  onChange={() => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }, true))}
-                />}
-              label={tr.customizeSemester[ln]}
-              style={{ display: 'inline-block' }}
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="isDarkmode"
-              control={
-                <Checkbox 
-                  color="default" size="small" checked={support.isDarkMode} 
-                  onChange={() => store.dispatch(modifySupport({ isDarkMode: !support.isDarkMode }))}
-                />}
-              label={tr.enableDarkmode[ln]}
-              style={{ display: 'inline-block' }}
-              labelPlacement="start"
-            />
+            <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
+              {tr.basicSetting[ln]}
+            </Typography>
+            { DrawCheckbox.slice(0, 2) }
+          </FormGroup>
+          <FormGroup>
+            <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
+                {tr.listSetting[ln]}
+            </Typography>
+            { DrawCheckbox.slice(2) }
           </FormGroup>
         </DialogContent>
       </Dialog>
