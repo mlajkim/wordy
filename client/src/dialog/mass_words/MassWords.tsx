@@ -65,8 +65,10 @@ const MassWords = () => {
     const userInput = e.target.value;
 
     // detect language algorithm
+    const oneLine = userInput.split("\n")[0]
     if (typeof userInput === 'string')
-      console.log(throwEvent("word:detectLanguage")); // testing reason 
+      throwEvent("word:detectLanguage", oneLine)
+        .then(res => console.log(res));
 
     setMassData(userInput);
     setCount(userInput.length);

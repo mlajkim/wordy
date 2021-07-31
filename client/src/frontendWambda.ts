@@ -18,11 +18,12 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
   const newEvent: WordyEvent = {
     eventVersion: "1.0.210731",
     eventType,
-    requesterInputData
+    requesterInputData,
+    requesterWrn: "wrn::user:admin:mdb:00001111" // this is testing and shoudl not haapen for future use.
   };
 
   // loads the requester data if it exists
-  axios({
+  const response = await axios({
     method: "post",
     headers: { Authorization: `Bearer dump authorization code`},
     url: '/apigateway' + pathFinder(eventType),
@@ -31,10 +32,18 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
   .then((res) => {
     const returnedEvent: WordyEvent = res.data;
 
-    if (returnedEvent.serverResponse === 'Denied' && typeof returnedEvent.serverMessage !== 'undefined') 
-      store.dispatch(setSnackbar(returnedEvent.serverMessage, 'warning'));
+    if (returnedEvent.serverResponse === 'Denied') 
+      store.dispatch(setSnackbar(typeof returnedEvent.serverMessage !== 'undefined' ? returnedEvent.serverMessage: "Denied for unknown reason by server", 'warning'))
+    
+    return returnedEvent;
   })
-  .catch(() => store.dispatch(setSnackbar('Server is rejecting or unresponsible of your request', 'error')))
+  .catch(() => {
+    store.dispatch(setSnackbar('Server is rejecting or unresponsible of your request', 'error'))
+    newEvent.serverResponse = "Denied";
+    return newEvent;
+  });
+
+  return response;
 }; // end of throwEvent
 
 // 2021 June Latest version of requesting to API calls of apigateway of Wordy-cloud!!
