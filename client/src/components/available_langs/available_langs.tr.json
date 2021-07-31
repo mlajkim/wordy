@@ -3,5 +3,10 @@
     "en": "Language",
     "ko": "언어",
     "ja": "言語"
+  },
+  "help": {
+    "en": "Language detection is now disabled",
+    "ko": "언어를 선택하셨으므로 언어 디텍팅이 종료되었습니다",
+    "ja": "言語を選択した上、言語分析が終了されました"
   }
 }

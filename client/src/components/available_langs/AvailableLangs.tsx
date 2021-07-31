@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { State } from '../../types';
 import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
@@ -10,6 +10,9 @@ import tr from './available_langs.tr.json';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Tooltip from '@material-ui/core/Tooltip';
+// Material UI icon
+import CheckIcon from '@material-ui/icons/Check';
 // Redux
 import {useSelector} from 'react-redux';
 import store from '../../redux/store';
@@ -22,11 +25,14 @@ type Props = {
   isApiDisabled?: boolean;
 };
 
-const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect, isApiDisabled }) => {
+const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect }) => {
   const { support, language } = useSelector((state: State) => state);
+  const ln = language;
   const [open, setOpen] = React.useState(false);
+  const [endUserChosen, setEndUserChosen] = useState(false);
 
   const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setEndUserChosen(true);
     if (typeof disableDetectingLanguage !== 'undefined') disableDetectingLanguage(true); // no longer 
     store.dispatch(modifySupport({ addWordLangPref: event.target.value as string }));
   };
@@ -50,8 +56,11 @@ const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetec
       >
         {menuItems}
       </Select>
-      { isApiDisabled && "sory no more detect"}
-      { enableDetect && <LoadingFbStyle />}
+      { endUserChosen && 
+        <Tooltip title={tr.help[ln]} placement="right" style={{ marginLeft: 5 }}>
+          <CheckIcon />
+        </Tooltip>}
+      { !endUserChosen && enableDetect && <LoadingFbStyle />}
     </div>
   )
 }

@@ -79,6 +79,8 @@ const MassWords = () => {
           if (res.serverResponse === 'Denied') {
             setApiDisabled(true);
             setEnableDetect(false);
+          } else {
+            // now detection happens!
           }
         });
     }
