@@ -9,13 +9,8 @@ import trAppbar from '../../app/appbar.tr.json'
 import { buttonLight, buttonDark } from '../../theme';
 // Material UI
 import IconButton from '@material-ui/core/IconButton';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import Grid from '@material-ui/core/Grid'
 import Tooltip from '@material-ui/core/Tooltip';
 // Icons
- import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import CloudDoneIcon from '@material-ui/icons/CloudDoneOutlined';
 import CheckIcon from '@material-ui/icons/Check';
