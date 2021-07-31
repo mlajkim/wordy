@@ -2,6 +2,7 @@
 import React, {Fragment, useState} from 'react';
 import { useBeforeunload } from 'react-beforeunload';
 // helpers import
+import { throwEvent } from '../../frontendWambda';
 import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 import { State } from '../../types';
@@ -61,6 +62,9 @@ const MassWords = () => {
   
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // detect
+    console.log(throwEvent("word:detectLanguage")); // testing reason 
+
     setMassData(e.target.value);
     setCount(e.target.value.length);
     if(LETTERS_LIMITATION < e.target.value.length) {
