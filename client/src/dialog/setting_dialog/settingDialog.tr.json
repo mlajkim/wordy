@@ -1,4 +1,9 @@
 {
+  "tip": {
+    "en": "Any change will be automatically saved",
+    "ko": "자동 저장됩니다",
+    "ja": "自動セイブされます"
+  },
   "customizeSemester": {
     "en": "Customize Semester",
     "ko": "연도 맞춤화하기",

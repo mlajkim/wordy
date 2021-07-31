@@ -6,19 +6,20 @@ import tr from './settingDialog.tr.json'
 import trAppbar from '../../app/appbar.tr.json'
 // Material UI core
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redyx Action
-import { setDialog, setPage, offDialog } from '../../redux/actions';
+import { offDialog } from '../../redux/actions';
+import { modifySupport } from '../../redux/actions/supportAction';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -60,16 +61,9 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
-
 const SettingDialog: React.FC = () => {
   // Redux states
-  const { language } = useSelector((state: State) => state);
+  const { language, support } = useSelector((state: State) => state);
   const ln = language;
 
   return (
@@ -79,14 +73,19 @@ const SettingDialog: React.FC = () => {
           {trAppbar.setting[ln]}
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+        <Typography gutterBottom>
+            {tr.tip[ln]}
           </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
+          <FormControlLabel
+            value="isYearQuadrantEnabled"
+            control={
+              <Checkbox 
+                color="default" size="small" checked={support.isYearQuadrantEnabled} 
+                onChange={() => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }, true))}
+              />}
+            label={tr.customizeSemester[ln]}
+            labelPlacement="start"
+          />
           <Typography gutterBottom>
             Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
             scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
