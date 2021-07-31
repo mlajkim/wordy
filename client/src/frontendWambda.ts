@@ -14,7 +14,7 @@ import { setSnackbar } from './redux/actions';
 
 // event Thrower
 export const throwEvent = async (eventType: EventType) => {
-  const response = await axios.post(pathFinder(eventType));
+  const response = await axios.post('/apigateway' + pathFinder(eventType));
   if (!response) store.dispatch(setSnackbar("Backend not responding..", "error"));
   else return response.data as WordyEvent
 }

@@ -81,3 +81,13 @@ export const generateWrn = (
       return '?'
   }
 };
+
+
+export const intoArray = (inputData: any): any[] => {
+  if (typeof inputData === "object")
+      return Array.isArray(inputData) ? inputData : [inputData];
+  else if (typeof inputData === "undefined")
+      return []; // return blank array for undefined
+  
+  return [inputData]; // by default
+}

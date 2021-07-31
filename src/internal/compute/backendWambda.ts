@@ -35,3 +35,9 @@ export const getLocationFromIp = (req: Request) => {
 
   return result;
 };
+
+// Censors wrn 
+export const censorUserWrn = (wrn: string | undefined) => {
+  if (typeof wrn === 'undefined') return '';
+  return wrn.substring(0, wrn.lastIndexOf(":") + 1);
+}

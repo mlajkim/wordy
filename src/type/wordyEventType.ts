@@ -1,14 +1,15 @@
 export type WordyEvent = {
-  // header
+  // header (data from end user)
   eventVersion: "2021-07",
   eventType: EventType,
   accessToken?: string,
   requesterData?: any,
-  // body
+  // body (what end user wants)
   serverResponse?: "Denied" | "Accepted";
   serverMessage?: string;
   payload?: any
-  // tail 
+  // tail (data put by server)
+  requesterWrn?: string;
   validatedBy?: Validator[]
 }
 
@@ -21,5 +22,5 @@ type WordSerivce = "detectLanguage"
 
 export const pathFinder = (eventType: EventType): string => {
   const arr = eventType.split(":");
-  return `/apigateway/${arr[0]}/${arr[1]}`
+  return `/${arr[0]}/${arr[1]}`
 };
