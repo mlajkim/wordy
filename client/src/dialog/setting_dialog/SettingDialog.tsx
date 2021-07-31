@@ -68,17 +68,18 @@ const SettingDialog: React.FC = () => {
   const ln = language;
 
   // Draw Checkbox
-  const checkBoxSetting = [{
-      value: 'isYearQuadrantEnabled',
-      checked: support.isYearQuadrantEnabled,
-      label: tr.customizeSemester[ln],
-      onChange: () => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }))
-    },
+  const checkBoxSetting = [
     {
       value: 'isDarkmode',
       checked: support.isDarkMode,
       label: tr.enableDarkmode[ln],
       onChange: () => store.dispatch(modifySupport({ isDarkMode: !support.isDarkMode }))
+    },
+    {
+      value: 'isYearQuadrantEnabled',
+      checked: support.isYearQuadrantEnabled,
+      label: tr.customizeSemester[ln],
+      onChange: () => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }))
     },
     // From the word list setting
     {
