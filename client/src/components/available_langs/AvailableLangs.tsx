@@ -19,9 +19,10 @@ import { modifySupport } from '../../redux/actions/supportAction';
 type Props = {
   disableDetectingLanguage?: React.Dispatch<React.SetStateAction<boolean>>;
   enableDetect?: boolean;
+  isApiDisabled?: boolean;
 };
 
-const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect }) => {
+const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect, isApiDisabled }) => {
   const { support, language } = useSelector((state: State) => state);
   const [open, setOpen] = React.useState(false);
 
@@ -49,6 +50,7 @@ const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetec
       >
         {menuItems}
       </Select>
+      { isApiDisabled && "sory no more detect"}
       { enableDetect && <LoadingFbStyle />}
     </div>
   )

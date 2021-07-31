@@ -57,6 +57,7 @@ const MassWords = () => {
   const [sem, setSem] = useState<string>('');
   // detectLanguage Timer
   const [detectedLanguage, setDetectedLanguage] = useState<string>('');
+  const [isApiDisabled, setApiDisabled] = useState<boolean>(false); // if true, detect no longer works
   const [detectLanguage, disableDetectingLanguage] = useState<boolean>(false); // if true, detect no longer works
   const [detectTimer, setDetectTimer] = useState<number>(0);
   const [enableDetect, setEnableDetect] = useState<boolean>(false);
@@ -74,17 +75,22 @@ const MassWords = () => {
     // Detect language API call
     const runDetectLanguage = () => {
       throwEvent("word:detectLanguage", massData.split("\n")[0])
-        .then(res => console.log(res));
+        .then(res => {
+          if (res.serverResponse === 'Denied') {
+            setApiDisabled(true);
+            setEnableDetect(false);
+          }
+        });
     }
 
-    if (!detectLanguage && enableDetect && detectTimer > now()) {
+    if (!isApiDisabled && !detectLanguage && enableDetect && detectTimer > now()) {
       const interval = setInterval(() => {
         runDetectLanguage();
         setEnableDetect(false);
       }, DETECT_LANGUAGE_TIMER * 1000);
       return () => clearInterval(interval);
     }
-  }, [detectLanguage, detectTimer, massData, enableDetect]);
+  }, [detectLanguage, detectTimer, massData, enableDetect, isApiDisabled]);
 
   
   
@@ -93,8 +99,8 @@ const MassWords = () => {
     const userInput = e.target.value;
 
     // detect language algorithm
-    setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
-    setEnableDetect(true);
+    if (!isApiDisabled) setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
+    if (!isApiDisabled) setEnableDetect(true);
 
     setMassData(userInput);
     setCount(userInput.length);
@@ -162,7 +168,7 @@ const MassWords = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage} enableDetect={enableDetect}/>
+          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage} enableDetect={enableDetect} isApiDisabled={isApiDisabled}/>
           {
             support.isYearQuadrantEnabled
               ? (
