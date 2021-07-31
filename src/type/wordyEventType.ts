@@ -1,9 +1,9 @@
 export type WordyEvent = {
   // header (data from end user)
-  eventVersion: "2021-07",
+  eventVersion: "1.0.210731",
   eventType: EventType,
   accessToken?: string,
-  requesterData?: any,
+  requesterInputData?: any,
   // body (what end user wants)
   serverResponse?: "Denied" | "Accepted";
   serverMessage?: string;

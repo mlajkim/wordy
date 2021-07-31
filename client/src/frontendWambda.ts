@@ -19,7 +19,7 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
     eventVersion: "1.0.210731",
     eventType,
     requesterInputData,
-    requesterWrn: "wrn::user:admin:mdb:00001112" // this is testing and shoudl not haapen for future use.
+    requesterWrn: "wrn::user:admin:mdb:00001111" // this is testing and shoudl not haapen for future use.
   };
 
   // loads the requester data if it exists
