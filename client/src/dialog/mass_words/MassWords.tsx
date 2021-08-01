@@ -175,6 +175,7 @@ const MassWords = () => {
         </DialogTitle>
         <DialogContent>
           <AvailableLangs 
+          enableDetect={enableDetect}
             setDetectApi={setDetectApi} 
             detectedLanguage={detectedLanguage} 
             detectApi={detectApi}

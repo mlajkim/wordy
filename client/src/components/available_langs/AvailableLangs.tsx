@@ -23,9 +23,10 @@ type Props = {
   setDetectApi?: React.Dispatch<React.SetStateAction<"enabled" | "disabled">>;
   detectApi?: "enabled" | "disabled";
   detectedLanguage?: string;
+  enableDetect?: boolean;
 };
 
-const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLanguage }) => {
+const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLanguage, enableDetect }) => {
   const { support, language } = useSelector((state: State) => state);
   const ln = language;
   const [open, setOpen] = React.useState(false);
@@ -34,8 +35,12 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
   // Detected language automatically change the data
   useEffect(() => {
     if (detectApi === 'enabled') {
+      console.log(`Detected language: ${detectedLanguage}`)
       const idx = ADDABLE_LANGUAGES_LIST.findIndex(lang => lang === detectedLanguage);
-      if (idx !== -1) store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }));
+      if (idx !== -1) {
+        console.log("okay almost there :)")
+        store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }))
+      };
     }
       
 
@@ -70,7 +75,7 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
         <Tooltip title={tr.help[ln]} placement="right" style={{ marginLeft: 5 }}>
           <CheckIcon />
         </Tooltip>}
-      { !endUserChosen && detectApi === 'enabled' && <LoadingFbStyle />}
+      { !endUserChosen && enableDetect && detectApi === 'enabled' && <LoadingFbStyle />}
     </div>
   )
 }
