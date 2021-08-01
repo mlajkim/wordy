@@ -38,7 +38,6 @@ import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 import { offDialog, setSnackbar } from '../../redux/actions';
 import { postWords } from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
-import { response } from 'express';
 // Declarations
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
 const VALID_YEAR_FROM = 2000;
