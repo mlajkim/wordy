@@ -43,7 +43,7 @@ import TagsList from '../../components/tags_list/TagsList';
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
 const VALID_YEAR_FROM = 2000;
 const VALID_YEAR_TO = 2999;
-const DETECT_LANGUAGE_TIMER = 0.6; // seconds
+export const DETECT_LANGUAGE_TIMER = 0.6; // seconds
 
 const MassWords = () => {
   // Redux states
@@ -82,7 +82,7 @@ const MassWords = () => {
           } else {
             // now detection happens!
             const payload = res.payload as wordDetectLanguagePayload;
-            setDetectedLanguage(payload[0].language);
+            if(payload.length > 0) setDetectedLanguage(payload[0].language);
           }
         });
     };
@@ -90,7 +90,7 @@ const MassWords = () => {
     if (detectApi === 'enabled' && enableDetect && detectTimer > now()) {
       const interval = setInterval(() => {
         const currentInput = parsingMechanism(massData, 0, [])[0].word;
-        if (currentInput !== detectingTarget){
+        if (currentInput !== detectingTarget && massData.length > 0){
           runDetectLanguage(currentInput);
         }
         setDetectingTarget(currentInput);
@@ -106,8 +106,10 @@ const MassWords = () => {
     const userInput = e.target.value;
 
     // detect language algorithm
-    if (detectApi === 'enabled') setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
-    if (detectApi === 'enabled') setEnableDetect(true);
+    if (detectApi === 'enabled' && userInput !== '') {
+      setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
+      setEnableDetect(true)
+    }
 
     setMassData(userInput);
     setCount(userInput.length);

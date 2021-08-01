@@ -1,6 +1,12 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { get_sem } from '../../utils';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
+// type
+import { wordDetectLanguagePayload } from '../../type/payloadType';
+import { throwEvent } from '../../frontendWambda';
+import { runAfter, now } from '../../type/sharedWambda';
+// imported constant data
+import { DETECT_LANGUAGE_TIMER } from '../mass_words/MassWords';
 // Material UI
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';  
@@ -24,9 +30,6 @@ import { useSelector } from 'react-redux';
 import {postWords} from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
 
-
-
-
 const AddWordsDialog: React.FC = () => {
   // Redux states
   const { language, support } = useSelector((state: State) => state);
@@ -37,6 +40,52 @@ const AddWordsDialog: React.FC = () => {
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
   const [tags, setTags] = useState<string[]>(support.lastTags);
+  // detectLanguage Timer
+  const [detectedLanguage, setDetectedLanguage] = useState<string>(''); // the language type 'en' | 'ja'
+  const [detectApi, setDetectApi] = useState<"enabled" | "disabled">("enabled"); // if true, detect no longer works
+  const [detectTimer, setDetectTimer] = useState<number>(0);
+  const [enableDetect, setEnableDetect] = useState<boolean>(false);
+  const [detectingTarget, setDetectingTarget] = useState<string>('');
+  // Hook
+
+  // Effect (Detector Timer)
+  useEffect(() => {
+    // Detect language API call
+    const runDetectLanguage = (targetInput: string) => {
+      throwEvent("word:detectLanguage", targetInput)
+        .then(res => {
+          if (res.serverResponse === 'Denied') {
+            setDetectApi("disabled");
+            setEnableDetect(false);
+          } else {
+            // now detection happens!
+            const payload = res.payload as wordDetectLanguagePayload;
+            if(payload.length > 0) setDetectedLanguage(payload[0].language);
+          }
+        });
+    };
+
+    if (detectApi === 'enabled' && enableDetect && detectTimer > now()) {
+      const interval = setInterval(() => {
+        if (word !== detectingTarget && word.length > 0){
+          runDetectLanguage(word);
+        }
+        setDetectingTarget(word);
+        setEnableDetect(false); // turns off the loading after the time.
+        
+      }, DETECT_LANGUAGE_TIMER * 1000);
+      return () => clearInterval(interval);
+    }
+  }, [detectApi, detectTimer, word, enableDetect, detectingTarget]);
+  const hdlWordChange = (userInput: string) => {
+    // detect language algorithm
+    if (detectApi === 'enabled' && userInput !== '') {
+      setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
+      setEnableDetect(true)
+    };
+
+    setWord(userInput);
+  };
 
   // Methods
   const handleSavingWords = () => {
@@ -57,8 +106,13 @@ const AddWordsDialog: React.FC = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs />
-          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => setWord(e.target.value)} 
+          <AvailableLangs 
+            enableDetect={enableDetect}
+            setDetectApi={setDetectApi} 
+            detectedLanguage={detectedLanguage} 
+            detectApi={detectApi}
+          />
+          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => hdlWordChange(e.target.value)} 
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
           />
           <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)} 
