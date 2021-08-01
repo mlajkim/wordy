@@ -1,0 +1,22 @@
+{
+  "warning": {
+    "en": "Wordy won't be able and is not responsible to recover the password because Wordy does not store your password key.",
+    "ko": "사용자님의 패스워드를 저장하지 않음으로, 비밀번호 분실시 복구가 불가능함을 알려드립니다.",
+    "ja": ""
+  },
+  "doYouAgree": {
+    "en": "If you agree, type the following",
+    "ko": "동의하시면 이하의 내용을 기입해주시길 바랍니다",
+    "ja": "同意の上、以下の内容を記入してください"
+  },
+  "whySoMuchTime": {
+    "en": "We can only check if your input is correct or not because wordy does not store your password data.",
+    "ko": "",
+    "ja": ""
+  },
+  "howItWorks": {
+    "en": "If you change your password, any data that you encrypted with your password will be decrpyted first, then encrpyted with the new password internally",
+    "ko": "",
+    "ja": ""
+  }
+}

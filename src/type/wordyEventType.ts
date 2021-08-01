@@ -15,9 +15,16 @@ export type WordyEvent = {
 
 export type Validator = "iamGateway" | "wcsGateway" | "kmsGateway" | "mongoGateway" | "cloudTrailGateway";
 
-export type EventType =  `word:${WordSerivce}`
+export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}`
 
 type WordSerivce = "detectLanguage"
+
+type OkrService =
+  "inviteMember" | // will be used to invite any member using his or her public account number
+  "acceptInvitation" | // accepts the invitation
+  "rejectInvitation" | // rejects the invitaton
+  "blockInvitation" | // block the invitation. the user can no longer 
+  "createNewOkr" 
 
 
 export const pathFinder = (eventType: EventType): string => {
