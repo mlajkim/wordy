@@ -6,6 +6,7 @@ import ParsingAPI from './ParsingAPI';
 import { runAfter, now } from '../../type/sharedWambda';
 import { throwEvent } from '../../frontendWambda';
 import * as API from '../../API';
+import parsingMechanism from './ParsingAPI';
 import { format_into_sem, today } from '../../utils'
 // Type
 import { State } from '../../types';
@@ -42,7 +43,7 @@ import TagsList from '../../components/tags_list/TagsList';
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
 const VALID_YEAR_FROM = 2000;
 const VALID_YEAR_TO = 2999;
-const DETECT_LANGUAGE_TIMER = 2; // seconds
+const DETECT_LANGUAGE_TIMER = 0.6; // seconds
 
 const MassWords = () => {
   // Redux states
@@ -61,6 +62,7 @@ const MassWords = () => {
   const [detectApi, setDetectApi] = useState<"enabled" | "disabled">("enabled"); // if true, detect no longer works
   const [detectTimer, setDetectTimer] = useState<number>(0);
   const [enableDetect, setEnableDetect] = useState<boolean>(false);
+  const [detectingTarget, setDetectingTarget] = useState<string>('');
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
@@ -68,13 +70,11 @@ const MassWords = () => {
       event.preventDefault();
   });
 
-  
-
   // Effect (Detector Timer)
   useEffect(() => {
     // Detect language API call
-    const runDetectLanguage = () => {
-      throwEvent("word:detectLanguage", massData.split("\n")[0])
+    const runDetectLanguage = (targetInput: string) => {
+      throwEvent("word:detectLanguage", targetInput)
         .then(res => {
           if (res.serverResponse === 'Denied') {
             setDetectApi("disabled");
@@ -82,7 +82,6 @@ const MassWords = () => {
           } else {
             // now detection happens!
             const payload = res.payload as wordDetectLanguagePayload;
-            console.log(payload[0]);
             setDetectedLanguage(payload[0].language);
           }
         });
@@ -90,15 +89,18 @@ const MassWords = () => {
 
     if (detectApi === 'enabled' && enableDetect && detectTimer > now()) {
       const interval = setInterval(() => {
-        runDetectLanguage();
-        setEnableDetect(false);
+        const currentInput = parsingMechanism(massData, 0, [])[0].word;
+        if (currentInput !== detectingTarget){
+          runDetectLanguage(currentInput);
+        }
+        setDetectingTarget(currentInput);
+        setEnableDetect(false); // turns off the loading after the time.
+        
       }, DETECT_LANGUAGE_TIMER * 1000);
       return () => clearInterval(interval);
     }
-  }, [detectApi, detectTimer, massData, enableDetect]);
+  }, [detectApi, detectTimer, massData, enableDetect, detectingTarget]);
 
-  
-  
   // Methods
   const handleMassDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const userInput = e.target.value;
@@ -154,6 +156,7 @@ const MassWords = () => {
   // Return
   return (
     <Fragment>
+      { detectingTarget }
       <Dialog
         open={true}
         aria-labelledby="alert-dialog-title"
