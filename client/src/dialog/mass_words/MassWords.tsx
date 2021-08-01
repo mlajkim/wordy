@@ -156,7 +156,6 @@ const MassWords = () => {
   // Return
   return (
     <Fragment>
-      { detectingTarget }
       <Dialog
         open={true}
         aria-labelledby="alert-dialog-title"
