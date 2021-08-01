@@ -20,13 +20,12 @@ import store from '../../redux/store';
 import { modifySupport } from '../../redux/actions/supportAction';
 
 type Props = {
-  disableDetectingLanguage?: React.Dispatch<React.SetStateAction<boolean>>;
-  enableDetect?: boolean;
-  isApiDisabled?: boolean;
+  setDetectApi?: React.Dispatch<React.SetStateAction<"enabled" | "disabled">>;
+  detectApi?: "enabled" | "disabled";
   detectedLanguage?: string;
 };
 
-const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect, detectedLanguage }) => {
+const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLanguage }) => {
   const { support, language } = useSelector((state: State) => state);
   const ln = language;
   const [open, setOpen] = React.useState(false);
@@ -34,17 +33,17 @@ const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetec
 
   // Detected language automatically change the data
   useEffect(() => {
-    if (enableDetect) {
+    if (detectApi === 'enabled') {
       const idx = ADDABLE_LANGUAGES_LIST.findIndex(lang => lang === detectedLanguage);
       if (idx !== -1) store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }));
     }
       
 
-  }, [enableDetect, detectedLanguage])
+  }, [detectApi, detectedLanguage])
 
   const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setEndUserChosen(true);
-    if (typeof disableDetectingLanguage !== 'undefined') disableDetectingLanguage(true); // no longer 
+    if (typeof setDetectApi === 'function') setDetectApi("disabled"); // no longer 
     store.dispatch(modifySupport({ addWordLangPref: event.target.value as string }));
   };
 
@@ -71,7 +70,7 @@ const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetec
         <Tooltip title={tr.help[ln]} placement="right" style={{ marginLeft: 5 }}>
           <CheckIcon />
         </Tooltip>}
-      { !endUserChosen && enableDetect && <LoadingFbStyle />}
+      { !endUserChosen && detectApi === 'enabled' && <LoadingFbStyle />}
     </div>
   )
 }

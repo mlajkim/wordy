@@ -58,9 +58,8 @@ const MassWords = () => {
   const [year, setYear] = useState<string>('');
   const [sem, setSem] = useState<string>('');
   // detectLanguage Timer
-  const [detectedLanguage, setDetectedLanguage] = useState<string>('');
-  const [isApiDisabled, setApiDisabled] = useState<boolean>(false); // if true, detect no longer works
-  const [detectLanguage, disableDetectingLanguage] = useState<boolean>(false); // if true, detect no longer works
+  const [detectedLanguage, setDetectedLanguage] = useState<string>(''); // the language type 'en' | 'ja'
+  const [detectApi, setDetectApi] = useState<"enabled" | "disabled">("enabled"); // if true, detect no longer works
   const [detectTimer, setDetectTimer] = useState<number>(0);
   const [enableDetect, setEnableDetect] = useState<boolean>(false);
   // Hook
@@ -79,7 +78,7 @@ const MassWords = () => {
       throwEvent("word:detectLanguage", massData.split("\n")[0])
         .then(res => {
           if (res.serverResponse === 'Denied') {
-            setApiDisabled(true);
+            setDetectApi("disabled");
             setEnableDetect(false);
           } else {
             // now detection happens!
@@ -90,14 +89,14 @@ const MassWords = () => {
         });
     };
 
-    if (!isApiDisabled && !detectLanguage && enableDetect && detectTimer > now()) {
+    if (detectApi === 'enabled' && enableDetect && detectTimer > now()) {
       const interval = setInterval(() => {
         runDetectLanguage();
         setEnableDetect(false);
       }, DETECT_LANGUAGE_TIMER * 1000);
       return () => clearInterval(interval);
     }
-  }, [detectLanguage, detectTimer, massData, enableDetect, isApiDisabled]);
+  }, [detectApi, detectTimer, massData, enableDetect]);
 
   
   
@@ -106,8 +105,8 @@ const MassWords = () => {
     const userInput = e.target.value;
 
     // detect language algorithm
-    if (!isApiDisabled) setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
-    if (!isApiDisabled) setEnableDetect(true);
+    if (detectApi === 'enabled') setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
+    if (detectApi === 'enabled') setEnableDetect(true);
 
     setMassData(userInput);
     setCount(userInput.length);
@@ -175,8 +174,10 @@ const MassWords = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage} enableDetect={enableDetect} isApiDisabled={isApiDisabled}
-            detectedLanguage={detectedLanguage}
+          <AvailableLangs 
+            setDetectApi={setDetectApi} 
+            detectedLanguage={detectedLanguage} 
+            detectApi={detectApi}
           />
           {
             support.isYearQuadrantEnabled
