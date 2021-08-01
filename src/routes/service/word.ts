@@ -5,6 +5,7 @@ import DetectLanguage from 'detectlanguage';
 // type
 import { pathFinder } from '../../type/wordyEventType';
 import { Policy } from '../../typesBackEnd';
+import { wordDetectLanguagePayload } from '../../type/payloadType';
 // Gateway
 import { iamGateway } from '../../internal/security/iam';
 // Router
@@ -23,10 +24,10 @@ const POLICY: Policy = {
   }
 };
 
-word.use(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
+word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Validation
   const requestedEvent = req.body; // receives the event
-  if (requestedEvent.serverResponse === "Denied") res.send(requestedEvent);
+  if (requestedEvent.serverResponse === "Denied") return res.send(requestedEvent);
   
   // Record
   requestedEvent.validatedBy 
@@ -45,21 +46,22 @@ word.use(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return res.send(iamValidatedEvent);
   };
 
+  // Initialize detecter
   const detectlanguage = new DetectLanguage(process.env.DETECT_LANGUAGE_API_KEY!);
 
+  // Detecting begins
   detectlanguage.detect(iamValidatedEvent.requesterInputData)
-    .then((res: any) => {
+    .then((response: any) => {
       iamValidatedEvent.serverResponse === 'Accepted';
-      const payload = JSON.stringify(res);
-      console.log(payload);
-      iamValidatedEvent.payload = payload;
-      return res.send(iamValidatedEvent);
+      iamValidatedEvent.payload = response as wordDetectLanguagePayload;
+      return res.send(iamValidatedEvent);  
     })
     .catch(() => {
       iamValidatedEvent.serverResponse = 'Denied';
       iamValidatedEvent.serverMessage = 'Detect Language API has denied your request';
       return res.send(iamValidatedEvent);
     })
+
 
 });
 

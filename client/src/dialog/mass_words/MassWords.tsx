@@ -9,6 +9,7 @@ import * as API from '../../API';
 import { format_into_sem, today } from '../../utils'
 // Type
 import { State } from '../../types';
+import { wordDetectLanguagePayload } from '../../type/payloadType';
 // Shorcut
 import shortcut from '../../shortcut';
 // Components
@@ -37,11 +38,12 @@ import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 import { offDialog, setSnackbar } from '../../redux/actions';
 import { postWords } from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
+import { response } from 'express';
 // Declarations
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
 const VALID_YEAR_FROM = 2000;
 const VALID_YEAR_TO = 2999;
-const DETECT_LANGUAGE_TIMER = 0.4; // seconds
+const DETECT_LANGUAGE_TIMER = 2; // seconds
 
 const MassWords = () => {
   // Redux states
@@ -81,9 +83,12 @@ const MassWords = () => {
             setEnableDetect(false);
           } else {
             // now detection happens!
+            const payload = res.payload as wordDetectLanguagePayload;
+            console.log(payload[0]);
+            setDetectedLanguage(payload[0].language);
           }
         });
-    }
+    };
 
     if (!isApiDisabled && !detectLanguage && enableDetect && detectTimer > now()) {
       const interval = setInterval(() => {
@@ -170,7 +175,9 @@ const MassWords = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage} enableDetect={enableDetect} isApiDisabled={isApiDisabled}/>
+          <AvailableLangs disableDetectingLanguage={disableDetectingLanguage} enableDetect={enableDetect} isApiDisabled={isApiDisabled}
+            detectedLanguage={detectedLanguage}
+          />
           {
             support.isYearQuadrantEnabled
               ? (

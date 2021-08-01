@@ -1,7 +1,8 @@
 // Mains & Types
 import React, { Fragment, useEffect, useState } from 'react';
-import { State } from '../../types';
 import moment from 'moment';
+// Type
+import { State } from '../../types';
 // Translation
 import tr from './list_setting.tr.json';
 import trAppbar from '../../app/appbar.tr.json'

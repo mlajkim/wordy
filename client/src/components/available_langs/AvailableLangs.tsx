@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { State } from '../../types';
 import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
@@ -23,13 +23,24 @@ type Props = {
   disableDetectingLanguage?: React.Dispatch<React.SetStateAction<boolean>>;
   enableDetect?: boolean;
   isApiDisabled?: boolean;
+  detectedLanguage?: string;
 };
 
-const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect }) => {
+const AvailableLangs: React.FC<Props> = ({ disableDetectingLanguage, enableDetect, detectedLanguage }) => {
   const { support, language } = useSelector((state: State) => state);
   const ln = language;
   const [open, setOpen] = React.useState(false);
   const [endUserChosen, setEndUserChosen] = useState(false);
+
+  // Detected language automatically change the data
+  useEffect(() => {
+    if (enableDetect) {
+      const idx = ADDABLE_LANGUAGES_LIST.findIndex(lang => lang === detectedLanguage);
+      if (idx !== -1) store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }));
+    }
+      
+
+  }, [enableDetect, detectedLanguage])
 
   const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setEndUserChosen(true);
