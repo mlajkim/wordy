@@ -35,10 +35,8 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
   // Detected language automatically change the data
   useEffect(() => {
     if (detectApi === 'enabled') {
-      console.log(`Detected language: ${detectedLanguage}`)
       const idx = ADDABLE_LANGUAGES_LIST.findIndex(lang => lang === detectedLanguage);
       if (idx !== -1) {
-        console.log("okay almost there :)")
         store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }))
       };
     };
