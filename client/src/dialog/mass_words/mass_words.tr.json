@@ -33,5 +33,10 @@
     "ko": "데이터를 입력해 주세요",
     "en": "Data cannot be empty",
     "ja": "データを入力してください"
+  },
+  "cannotExceedLimit": {
+    "ko": "데이터가 한계치를 초과했습니다",
+    "en": "The length of input data has exceeded the limit",
+    "ja": "データ量が限界を超えました"
   }
 }

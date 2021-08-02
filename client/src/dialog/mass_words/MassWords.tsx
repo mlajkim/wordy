@@ -109,17 +109,15 @@ const MassWords = () => {
     if (detectApi === 'enabled' && userInput !== '') {
       setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
       setEnableDetect(true)
-    }
+    };
 
     setMassData(userInput);
-    setCount(userInput.length);
-    if(LETTERS_LIMITATION < userInput.length) {
-      setMaxError(true);
-      setMassData(userInput.slice(0, LETTERS_LIMITATION))
-    }else{
-      setMaxError(false);
-    }
-  }
+    setCount(userInput.length); // visibile to end-user
+
+    // I see, this change makes the length cannot exceed the limitatin
+    if(LETTERS_LIMITATION < userInput.length) setMaxError(true);
+    else setMaxError(false);
+  };
 
   // ..Mehthod
   const cancelAddingMassWords = () => {
@@ -128,30 +126,35 @@ const MassWords = () => {
   };
 
   // ...Method
-  const handleAddingMassData = () => {
-    // Data validation
+  const hldAddingMassWords = () => {
+    // Data validation (cannot be empty)
     if (massData.length === 0) 
       return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'));
     let chosenYear, chosenSem = '';
     
+    // if year and semester has given
     if(year !== '' || sem !== '') {
       // Data validation check.
       if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
         store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
         return;
       };
-
       chosenYear = year;
       chosenSem = sem;
-    }
-    else {
+    } else {
       chosenYear = today().year.toString();
       chosenSem = today().sem.toString();
-    }
+    };
+
+    // length validator
+    if (massData.length > LETTERS_LIMITATION) {
+      store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5));
+      return;
+    };
 
     store.dispatch(offDialog());
-    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
-    store.dispatch(postWords(data))
+    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags);
+    store.dispatch(postWords(data));
     store.dispatch(setSnackbar(trAddWord.successAddWord[ln]));
   };
 
@@ -206,8 +209,8 @@ const MassWords = () => {
             error={maxError}
             autoFocus
             onKeyDown={(event) => {
-              if (shortcut.CMD_ENTER.mac.textField(event)) handleAddingMassData();
-              else if (shortcut.CMD_ENTER.windows.textField(event)) handleAddingMassData(); // if you mix with the mac key, it somehow receives two enters
+              if (shortcut.CMD_ENTER.mac.textField(event)) hldAddingMassWords();
+              else if (shortcut.CMD_ENTER.windows.textField(event)) hldAddingMassWords(); // if you mix with the mac key, it somehow receives two enters
               else if (shortcut.ESC.general.textField(event)) cancelAddingMassWords();
             }}
           />
@@ -216,7 +219,7 @@ const MassWords = () => {
           <Button onClick={() => cancelAddingMassWords()} color="secondary">
             {trAddWord.btnCancel[ln]}
           </Button>
-          <Button onClick={() => handleAddingMassData()} color="primary" variant="contained">
+          <Button onClick={() => hldAddingMassWords()} color="primary" variant="contained">
             {trAddWord.btnOkay[ln]}
           </Button>
         </DialogActions>
