@@ -22,4 +22,4 @@ const encryptedResource: Record<keyof Resource, any> =   {
 const encryptedResourceSchema = new Schema(encryptedResource);
 
 // Path
-export const UserModel = mongoose.model('user', encryptedResourceSchema);
+export const UserModel = mongoose.model('encrpyted_user', encryptedResourceSchema);
