@@ -15,6 +15,9 @@ export type Resource = {
   notEncrpytedData?: any;
 };
 
+// Commented on Aug 4, 2021
+// All resource data will be the ABSOLUTE VALUE HERE.
+
 /**
  * 
  * Identifier Resource

@@ -10,10 +10,10 @@ export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEve
 	// Validation
 	if (requestedEvent.serverResponse === "Denied") return requestedEvent;
     
-    // Record
+  // Record
 	const GATEWAY_NAME: Gateway = "iamGateway"
 	requestedEvent.validatedBy 
-    ? requestedEvent.validatedBy.push(GATEWAY_NAME) 
+    ? requestedEvent.validatedBy.push(GATEWAY_NAME)   
     : requestedEvent.validatedBy = [GATEWAY_NAME]; 
 
 	requestedEvent.serverResponse = "Denied" // by default

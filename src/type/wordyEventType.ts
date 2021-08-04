@@ -1,3 +1,5 @@
+import { Resource } from '../type/resourceType';
+
 export type WordyEvent = {
   // header (data from end user)
   eventVersion: "1.0.210731",
@@ -7,15 +9,20 @@ export type WordyEvent = {
   // body (what end user wants)
   serverResponse?: "Denied" | "Accepted";
   serverMessage?: string;
-  payload?: any
+  payload?: any // data that is sent to end-user (front end)
   // tail (data put by server)
   requesterWrn?: string;
-  validatedBy?: Validator[]
+  validatedBy?: Validator[];
+  internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
 }
 
 export type Validator = "iamGateway" | "wcsGateway" | "kmsGateway" | "mongoGateway" | "cloudTrailGateway";
 
-export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}`
+export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}`;
+
+type KmsService = 
+  "*" |
+  "decryptDek";
 
 type WordSerivce = 
   "*" | //all

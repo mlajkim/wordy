@@ -1,40 +1,53 @@
-import Cryptr from 'cryptr';
-import { AvailableEncryptionAlgorithm } from '../../type/availableType';
+// Main
+import dotenv from 'dotenv';
+// type
+import { WordyEvent } from '../../type/wordyEventType';
+import { Policy, Gateway } from '../../typesBackEnd';
 
-export const kmsGateway = () => {
-
+const KEY_POLICY: Policy = {
+  version: "1.0.210729",
+  comment: "Allow everyone to use the key",
+  statement: {
+    effect: "Allow",
+    principal: "*",
+    action: "kms:decryptDek"
+  }
 };
-
 
 /**
- * 
- * This function by default sends back with 
+ * kmsGateway returns key data. 
+ * KEY data never leaves kmsGateway. only takes the 
  */
-export const encryptData = (encryptingData: any, encrpytionKey: string, encryptionType: AvailableEncryptionAlgorithm) => {
-  const encryptAes256Gcm = new Cryptr(encrpytionKey).encrypt;
 
-  switch (encryptionType) {
-    case 'AES-256-GCM':
-      return encryptAes256Gcm(encryptingData);
 
-    default:
-      return encryptAes256Gcm(encryptingData);
-  };
+export const kmsGateway = (requestedEvent: WordyEvent): WordyEvent => {
+  // Validation
+	if (requestedEvent.serverResponse === "Denied") return requestedEvent;
+
+  // Record
+	const GATEWAY_NAME: Gateway = "kmsGateway"
+	requestedEvent.validatedBy 
+    ? requestedEvent.validatedBy.push(GATEWAY_NAME)   
+    : requestedEvent.validatedBy = [GATEWAY_NAME]; 
+
+  // By default
+  requestedEvent.serverResponse = "Denied" // by default
+	requestedEvent.serverMessage = `${GATEWAY_NAME} denied the request by default`; // by default
+
+  dotenv.config(); // bring dotenv callable
+
+  
+
+
+  return requestedEvent;
+};
+
+const hiddenDecrpyt = () => {
+
 };
 
 
-/**
- * 
- * This function by default sends back with 
- */
- export const decryptData = (decryptingData: any, decrpytionKey: string, decrpytionType: AvailableEncryptionAlgorithm) => {
-  const decryptAes256Gcm = new Cryptr(decrpytionKey).decrypt;
+const encryptedDek = "quwer9hsifusuifnsf";
+kmsGateway(encryptedDek, "wrn::kms:master:env:1:210804")
 
-  switch (decrpytionType) {
-    case 'AES-256-GCM':
-      return decryptAes256Gcm(decryptingData);
-      
-    default:
-      return decryptAes256Gcm(decryptingData);
-  };
-};
+ 
