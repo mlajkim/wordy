@@ -31,10 +31,10 @@ export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEve
         const actions = intoArray(definedStatement.action);
         for (const action of actions) {
           if (validateWrn(requestedEvent.eventType!, action) === 'Passed') {
-              requestedEvent.serverResponse = "Denied";
-              requestedEvent.serverMessage = 
+            requestedEvent.serverResponse = "Denied";
+            requestedEvent.serverMessage = 
               `User: ${censorUserWrn(requestedEvent.requesterWrn)} is not authorized to perform: ${requestedEvent.eventType}`
-              return requestedEvent; // returned denied event
+            return requestedEvent; // returned denied event
           }
         };
       }
@@ -45,9 +45,9 @@ export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEve
             const actions = intoArray(definedStatement.action);
             for (const action of actions) {
               if (validateWrn(requestedEvent.eventType!, action) === 'Passed') {
-                  requestedEvent.serverResponse = "Accepted";
-                  requestedEvent.serverMessage = AUTHORIZED_MESSAGE
-                  break; // for performance
+                requestedEvent.serverResponse = "Accepted";
+                requestedEvent.serverMessage = AUTHORIZED_MESSAGE
+                break; // for performance
               }
             };
           }

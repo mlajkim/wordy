@@ -99,7 +99,11 @@ export const runAfter = (second: number) => moment.now() + (second * 1000);
 
 export const now = () => moment.now();
 
-export const validateWrn = (target:string, validator: string): "Passed" | "NotPassed" => {
+// Commented on Aug 4, 2021
+// takes wrn valuesa and compare with it.
+// it also can handle following
+// word:* // word:postWords (allowed)
+export const validateWrn = (target: string, validator: string): "Passed" | "NotPassed" => {
   const targetArr = target.split(":");
   const validatorArr = validator.split(":");
 

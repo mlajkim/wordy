@@ -36,7 +36,7 @@ const AddWordsDialog: React.FC = () => {
   const ln = language;
   // Component states
   const [word, setWord] = useState('');
-  const [pronun, setPronun] = useState('' ); 
+  const [pronun, setPronun] = useState(''); 
   const [meaning, setMeaning] = useState(''); 
   const [example, setExample] = useState(''); 
   const [tags, setTags] = useState<string[]>(support.lastTags);
