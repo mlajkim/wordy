@@ -17,9 +17,13 @@ export type Validator = "iamGateway" | "wcsGateway" | "kmsGateway" | "mongoGatew
 
 export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}`
 
-type WordSerivce = "detectLanguage"
+type WordSerivce = 
+  "*" | //all
+  "detectLanguage" |
+  "postWord"
 
 type OkrService =
+  "*" | //all
   "inviteMember" | // will be used to invite any member using his or her public account number
   "acceptInvitation" | // accepts the invitation
   "rejectInvitation" | // rejects the invitaton

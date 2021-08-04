@@ -16,12 +16,14 @@ dotenv.config();
 
 const POLICY: Policy = {
   version: "1.0.210729",
-  comment: "Allow only kim for any action",
-  statement: {
-    effect: "Allow",
-    principal: "wrn::user:admin:mdb:00001111",
-    action: "*", 
-  }
+  comment: "Allow only admin account",
+  statement: [
+    {
+      effect: "Allow",
+      principal: "wrn::user:admin:*",
+      action: "*", 
+    }
+  ]
 };
 
 word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {

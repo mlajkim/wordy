@@ -16,9 +16,12 @@ export type Policy = {
 // Policy Statement
 export type StatementType = {
   effect: "Allow" | "Deny";
-  principal: string[] | string | [];
+  principal: Principal[] | Principal | [];
   action: "*" | EventType[] | EventType;
-}
+};
+
+export type Principal = Wrn;
+export type Wrn = string;
 
 export type TokenType = 'V4_REFRESH_TOKEN_SECRET' | 'V4_ACCESS_TOKEN_SECRET';
 
