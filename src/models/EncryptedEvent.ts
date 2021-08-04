@@ -3,14 +3,23 @@ const Schema = mongoose.Schema;
 // Types
 import { Resource } from '../type/resourceType';
 
-const encryptedEventRecord: Record<keyof Resource, any> =   {
+const encryptedResource: Record<keyof Resource, any> =   {
+  resourceVersion: String,
   wrn: String,
-  ownerWrn: "",
-  keyWrn: String,
+  ownerWrn: String, // resource owner.
+  // Encrpytion
+  isEncrypted: Boolean,
+  encryptionMethod: String,
+  isClientEncrpyted: Boolean, // client key encrypts the encryptedDek after 
+  cmkWrn: String, // cmk data does not change.
   encryptedDek: String,
-  ciphertextBlob: Object
-}
+  // Actual data
+  ciphertextBlob: String,
+  notEncrpytedData: Object
+};
 
 // Finally export as a schema
-const encryptedEventSchema = new Schema(encryptedEventRecord);
-export default mongoose.model('encryptedEvent', encryptedEventSchema); 
+const encryptedResourceSchema = new Schema(encryptedResource);
+
+// Path
+export const UserModel = mongoose.model('user', encryptedResourceSchema);

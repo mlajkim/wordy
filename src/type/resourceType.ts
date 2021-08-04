@@ -1,12 +1,20 @@
 import { AvailableEncryptionAlgorithm } from './availableType';
 
 export type Resource = {
-  wrn: string // Plaintext
-  ownerWrn: string // Plaintext
-  keyWrn: string // Plaintext
-  encryptedDek: string // Encrypted data encrpytion key.
-  ciphertextBlob: any // Encrypted Data OR plain text data if cmkWrn is blank
+  resourceVersion: "1.0.210804";
+  wrn: string;
+  ownerWrn?: string; // resource owner.
+  // Encrpytion
+  isEncrypted: boolean;
+  encryptionMethod?: "AES-256-GCM";
+  isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
+  cmkWrn?: string; // cmk data does not change.
+  encryptedDek?: string;
+  // Actual data
+  ciphertextBlob?: string;
+  notEncrpytedData?: any;
 };
+
 /**
  * 
  * Identifier Resource
@@ -61,15 +69,6 @@ export type KeyResource = {
   isEnabled: boolean // if disabled, you cannot use this key
   encryptionType: AvailableEncryptionAlgorithm
   keyValue: string // 256 bit
-};
-
-
-export type KeyPolicyResource = {
-  keyPolicyVesion: "2021-05-10"
-  effect: "allow" | "deny"
-  principalUserWrns: string[] // user wrn
-  action: "kms:*"
-  resource: "*"
 };
 
 
