@@ -98,3 +98,20 @@ export const intoArray = (inputData: any): any[] => {
 export const runAfter = (second: number) => moment.now() + (second * 1000);
 
 export const now = () => moment.now();
+
+export const validateWrn = (target:string, validator: string): "Passed" | "NotPassed" => {
+  const targetArr = target.split(":");
+  const validatorArr = validator.split(":");
+
+  for (const [idx, validator] of validatorArr.entries()) {
+    if (validator === "*") { // allows all before
+      return "Passed"; // done.
+    } else if (validator !== targetArr[idx]) {
+      return "NotPassed"; // done
+    } else {
+      if (targetArr.length === idx + 1) return "Passed";
+    }
+  }; // end of for loop;
+
+  return 'NotPassed'; // by default
+};
