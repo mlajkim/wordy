@@ -1,6 +1,10 @@
 // eslint-disable-next-line
 import React, {Fragment} from 'react';
 import * as API from '../../API';
+// types 
+import { throwEvent } from '../../frontendWambda';
+import { UserCreateuser } from '../../type/requesterInputType';
+// old type
 import { GoogleRes } from '../../types';
 import {GoogleLogin} from 'react-google-login';
 // Translation
@@ -23,7 +27,16 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
   
   const generateAccessToken = async (googleRes: GoogleRes) => {
     const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
+
+    // error handling
     if (error) return;
+
+    // newUserApi called
+    const userInput: UserCreateuser = {
+      federalProvider: "google", validatingToken: googleRes.tokenId
+    }
+    throwEvent("user:createUser", userInput);
+
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);
     if (type === 'login') store.dispatch(setSnackbar(tr.successfulSignIn[ln]));

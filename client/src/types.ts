@@ -116,6 +116,7 @@ export type Word = {
 export type GoogleRes = {
   googleId: string;
   profileObj: ProfileObj;
+  tokenId: string;
 };
 
 export type ProfileObj = {
