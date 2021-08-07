@@ -14,7 +14,7 @@ const supportSchema = new Schema({
   wordOrderPref: String, // asc or desc
   yearOrderPref: String, // asc or desc
   wordDisplayPref: String, // wordcard or list (or others even)
-  isDarkMode: Boolean
+  isDarkMode: Boolean,
 });
 
 export default mongoose.model('supports', supportSchema); 

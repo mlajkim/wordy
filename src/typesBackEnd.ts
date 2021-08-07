@@ -1,8 +1,6 @@
 import { EventType } from "./type/wordyEventType";
 
 
-export type Gateway = "iamGateway" | "wcsGateway" | "kmsGateway" | "mongoGateway" | "cloudTrailGateway";
-
 // Policy
 export const AUTHORIZED_MESSAGE = "Authorized";
 

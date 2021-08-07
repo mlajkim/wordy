@@ -2,7 +2,8 @@
 import { intoArray, validateWrn } from '../../type/sharedWambda';
 import { censorUserWrn } from '../../internal/compute/backendWambda';
 // Type
-import { StatementType, Gateway, AUTHORIZED_MESSAGE, Policy } from '../../typesBackEnd';
+import { StatementType, AUTHORIZED_MESSAGE, Policy } from '../../typesBackEnd';
+import { Gateway } from '../../type/availableType';
 import { WordyEvent } from '../../type/wordyEventType';
 
 

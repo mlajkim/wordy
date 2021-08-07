@@ -1,17 +1,18 @@
-import { AvailableEncryptionAlgorithm } from './availableType';
+import { AvailableEncryptionAlgorithm, AvailableCmkWrn } from './availableType';
 
 export type Resource = {
   resourceVersion: "1.0.210804";
   wrn: string;
   ownerWrn?: string; // resource owner.
   // Encrpytion
-  isEncrypted: boolean;
+  failedEncrpytion?: "failedEncryption";
+  isEncrypted: boolean; // if this is true, then it takes ciphertextBlob, else, takes notEncrpytedData
   encryptionMethod?: "AES-256-GCM";
   isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
-  cmkWrn?: string; // cmk data does not change.
+  cmkWrn?: AvailableCmkWrn; // cmk data does not change.
   encryptedDek?: string;
   // Actual data
-  ciphertextBlob?: string;
+  ciphertextBlob?: any;
   notEncrpytedData?: any;
 };
 

@@ -8,6 +8,7 @@ const encryptedResource: Record<keyof Resource, any> =   {
   wrn: String,
   ownerWrn: String, // resource owner.
   // Encrpytion
+  failedEncrpytion: String,
   isEncrypted: Boolean,
   encryptionMethod: String,
   isClientEncrpyted: Boolean, // client key encrypts the encryptedDek after 
