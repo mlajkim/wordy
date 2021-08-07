@@ -65,7 +65,7 @@ const App: React.FC = () => {
       <div style={{ 
         background: support.isDarkMode ? backgroundDark : backgroundLight,
         color: support.isDarkMode ? fontDark : fontLight,
-        height: 2000
+        height: "100vh"
       }}>
         <Appbar />
         <Snackbar />
