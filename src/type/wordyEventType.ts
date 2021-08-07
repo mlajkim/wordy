@@ -13,7 +13,7 @@ export type WordyEvent = {
   payload?: any // data that is sent to end-user (front end)
   // tail (data put by server)
   requesterWrn?: string;
-  validatedBy?: Gateway[];
+  validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
 };
 

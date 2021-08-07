@@ -1,17 +1,15 @@
 // Main
 import express, {  Request, Response } from 'express';
 import dotenv from 'dotenv';
-import DetectLanguage from 'detectlanguage';
 // type
-import { pathFinder } from '../../../type/wordyEventType';
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { Policy } from '../../../typesBackEnd';
-import { wordDetectLanguagePayload } from '../../../type/payloadType';
 // Gateway
 import { iamGateway } from '../../../internal/security/iam';
 // Router
 const router = express.Router();
 const EVENT_TYPE = "user:createUser";
-const SERVICE_NAME = `${EVENT_TYPE} service`
+const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
 const POLICY: Policy = {
@@ -28,7 +26,7 @@ const POLICY: Policy = {
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Validation
-  const requestedEvent = req.body; // receives the event
+  const requestedEvent = req.body as WordyEvent; // receives the event
   if (requestedEvent.serverResponse === "Denied") return res.send(requestedEvent);
   
   // Record
@@ -42,27 +40,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return res.send(iamValidatedEvent);
 
   // Data validation
-  if (typeof iamValidatedEvent.requesterInputData !== 'string') {
-    iamValidatedEvent.serverResponse = 'Denied';
-    iamValidatedEvent.serverMessage = 'Type of iamValidatedEvent.requesterData is wrong; requires string';
-    return res.send(iamValidatedEvent);
-  };
-
-  // Initialize detecter
-  const detectlanguage = new DetectLanguage(process.env.DETECT_LANGUAGE_API_KEY!);
-
-  // Detecting begins
-  detectlanguage.detect(iamValidatedEvent.requesterInputData)
-    .then((response: any) => {
-      iamValidatedEvent.serverResponse === 'Accepted';
-      iamValidatedEvent.payload = response as wordDetectLanguagePayload;
-      return res.send(iamValidatedEvent);  
-    })
-    .catch(() => {
-      iamValidatedEvent.serverResponse = 'Denied';
-      iamValidatedEvent.serverMessage = 'Detect Language API has denied your request';
-      return res.send(iamValidatedEvent);
-    })
+  const inputData = requestedEvent.requesterInputData
 
 
 });
