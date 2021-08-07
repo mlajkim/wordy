@@ -1,21 +1,23 @@
-import { AvailableEncryptionAlgorithm, AvailableCmkWrn } from './availableType';
+import { AvailableEncryptionAlgorithm, AvailableCmkWrn, EncrpytionMethod } from './availableType';
 
 export type Resource = {
   resourceVersion: "1.0.210804";
   wrn: string;
   ownerWrn?: string; // resource owner.
   // Encrpytion
-  failedEncrpytion?: "failedEncryption";
-  isEncrypted: boolean; // if this is true, then it takes ciphertextBlob, else, takes notEncrpytedData
-  encryptionMethod?: "AES-256-GCM";
-  isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
+  encryptionMethod: EncrpytionMethod; //if this undefined? not encrpted
   cmkWrn?: AvailableCmkWrn; // cmk data does not change.
   encryptedDek?: string;
   // Actual data
   ciphertextBlob?: any;
   notEncrpytedData?: any;
+  // future feature
+  isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
 };
-
+export type ResourceId = {
+  wrn: string;
+  ownerWrn: string;
+}
 // Commented on Aug 4, 2021
 // All resource data will be the ABSOLUTE VALUE HERE.
 
@@ -24,7 +26,8 @@ export type Resource = {
  * Identifier Resource
  */
 
-export type IdentifierResource = {
+export type IdentifierResource = ResourceId & {
+  // content
   validRefreshtokens: Refreshtoken[];
   // General Infos that can be blank
   // Wordy Cloud Secured does not collect real names or emaail address, profile image or email.
