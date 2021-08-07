@@ -4,16 +4,25 @@ import dotenv from 'dotenv';
 import Cryptr from 'cryptr';
 import cryptoRandomString from 'crypto-random-string';
 // type
-// import { Resource } from '../../type/resourceType';
-// import { AvailableCmkWrn, EncrpytionMethod } from '../../type/availableType';
+import { AvailableCmkWrn, EncrpytionMethod } from '../../type/availableType';
 
 // kms decides which cmkWrn uses. not others.
-export const kmsService = (type: "Encrpyt" | "Decrypt", encryptedDek?: string) => {
+export const kmsService = (type: "Encrpyt" | "Decrypt", encryptedDek?: string): {
+  encryptionMethod: EncrpytionMethod,
+  cmkWrn: AvailableCmkWrn;
+  encryptedDek: string;
+  plainkey: string;
+} => {
   if (type === "Encrpyt") return kmsInternalEncrypter();
   else return kmsInternalDecrypter(encryptedDek ? encryptedDek : "");
 };
 
-const kmsInternalDecrypter = (encryptedDek: string) => {
+const kmsInternalDecrypter = (encryptedDek: string): {
+  encryptionMethod: EncrpytionMethod,
+  cmkWrn: AvailableCmkWrn;
+  encryptedDek: string;
+  plainkey: string;
+} => {
   // be able to run the env key
   dotenv.config();
   
@@ -29,7 +38,12 @@ const kmsInternalDecrypter = (encryptedDek: string) => {
   };
 }
 
-const kmsInternalEncrypter = () => {
+const kmsInternalEncrypter = (): {
+  encryptionMethod: EncrpytionMethod,
+  cmkWrn: AvailableCmkWrn;
+  encryptedDek: string;
+  plainkey: string;
+} => {
   // be able to run the env key
   dotenv.config();
 
