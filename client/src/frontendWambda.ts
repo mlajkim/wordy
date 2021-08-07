@@ -4,11 +4,8 @@ import { WordyEvent } from './type/wordyEventType';
 import { pathFinder } from './type/wordyEventType';
 // Redux
 import store from './redux/store';
-// Redux-actions
-import { createEvent } from './redux/actions/eventAction';
 // types
 import { AvailableCookies } from './type/availableType';
-import { AvailableActions } from './type/AvailableActions';
 import { EventType } from './type/wordyEventType';
 import { setSnackbar } from './redux/actions';
 
@@ -45,13 +42,6 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
 
   return returningEvent;
 }; // end of throwEvent
-
-// 2021 June Latest version of requesting to API calls of apigateway of Wordy-cloud!!
-export const request = (action: AvailableActions, payload: object | object[]) => {
-  const refinedPayload: object[] = typeof payload === 'object' ? [payload] : payload;
-
-  store.dispatch(createEvent(action, refinedPayload)); 
-};
 
 // Cookies API
 export const readCookie = (cookieName: AvailableCookies) => {

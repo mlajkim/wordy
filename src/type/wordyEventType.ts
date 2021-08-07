@@ -17,8 +17,12 @@ export type WordyEvent = {
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
 };
 
-export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}`;
+export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`;
 
+type UserService = 
+  "*" |
+  "createUser";
+  
 type KmsService = 
   "*" |
   "decryptDek";

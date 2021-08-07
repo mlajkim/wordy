@@ -1,4 +1,5 @@
-
+// Commented on Aug 8, 2021
+// This type is valid
 
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
 export type AvailableFederalProvider = 'anonymous' | 'google';

@@ -1,3 +1,8 @@
+/**
+ * 
+ * Commented on Aug 7, 2021
+ * This type is valid
+ */
 import { AvailableCmkWrn, EncrpytionMethod } from './availableType';
 
 export type Resource = {
