@@ -39,15 +39,6 @@ router.use(pathFinder(EVENT_TYPE), async (req: Request, res: Response, next: Nex
   const requestedEvent = req.body as WordyEvent; // receives the event
   if (requestedEvent.serverResponse === "Denied") return res.send(requestedEvent);
 
-  // by default
-  requestedEvent.serverResponse = "Denied"
-  requestedEvent.serverMessage = `${EVENT_TYPE} has rejected your request by default`
-
-  // Record
-  requestedEvent.validatedBy 
-      ? requestedEvent.validatedBy.push(SERVICE_NAME) 
-      : requestedEvent.validatedBy = [SERVICE_NAME]; 
-
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, POLICY); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied')
@@ -64,6 +55,15 @@ router.use(connectToMongoDB);
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare 
   const iamValidatedEvent = req.body as WordyEvent; // receives the event
+
+  // by default
+  iamValidatedEvent.serverResponse = "Denied";
+  iamValidatedEvent.serverMessage = `${EVENT_TYPE} has rejected your request by default`;
+
+  // Record
+  iamValidatedEvent.validatedBy 
+    ? iamValidatedEvent.validatedBy.push(SERVICE_NAME) 
+    : iamValidatedEvent.validatedBy = [SERVICE_NAME]; 
 
   // Data validation
   const requesterInputData = iamValidatedEvent.requesterInputData as UserCreateuser;
@@ -83,9 +83,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   };
   verify()
     .then(async (ticket) => {
-      console.log(ticket);
-
-      const wrn = `wrn::user:google:mdb:${ticket.getUserId}`;
+      const wrn = `wrn::user:google:mdb:${ticket.getUserId()}`;
 
       // Check if the user already exists (this is encryptedData)
       const encryptedUserResource = await UserModel.findOne({ wrn }) as Resource | null;
@@ -137,9 +135,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
           iamValidatedEvent.serverResponse = "Denied";
           iamValidatedEvent.serverMessage = "Somehow has failed to save into mongodb"
           return res.send(iamValidatedEvent);
-        })
-      
-      
+        });
     })
     .catch(() => {
       // means Google has failed to validate your token

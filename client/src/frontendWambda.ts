@@ -29,8 +29,11 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
   .then((res) => {
     const returnedEvent: WordyEvent = res.data;
 
-    if (returnedEvent.serverResponse === 'Denied') 
+    if (returnedEvent.serverResponse === 'Denied') {
       store.dispatch(setSnackbar(typeof returnedEvent.serverMessage !== 'undefined' ? returnedEvent.serverMessage: "Denied for unknown reason by server", 'warning', 5))
+      console.log(returnedEvent);
+    }
+      
     
     return returnedEvent;
   })

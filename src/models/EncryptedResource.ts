@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 // Types
 import { Resource } from '../type/resourceType';
 
+const ENCRYPTED = 'encrypted_'
+
 const encryptedResource: Record<keyof Resource, any> =   {
   resourceVersion: String,
   wrn: String,
@@ -21,5 +23,5 @@ const encryptedResource: Record<keyof Resource, any> =   {
 const encryptedResourceSchema = new Schema(encryptedResource);
 
 // Path importing
-export const UserModel = mongoose.model('encrpyted_user', encryptedResourceSchema);
-export const OkrModel = mongoose.model('encrpyted_okr', encryptedResourceSchema);
+export const UserModel = mongoose.model(`${ENCRYPTED}user`, encryptedResourceSchema);
+export const OkrModel = mongoose.model(`${ENCRYPTED}okr`, encryptedResourceSchema);
