@@ -40,7 +40,7 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
         store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }))
       };
     };
-  }, [detectApi, detectedLanguage])
+  }, [detectApi, detectedLanguage]) 
 
   const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setEndUserChosen(true);

@@ -12,7 +12,7 @@ export type Resource = {
   // Encrpytion
   encryptionMethod: EncrpytionMethod; //if this undefined? not encrpted
   cmkWrn?: AvailableCmkWrn; // cmk data does not change.
-  encryptedDek?: string;
+  encryptedDek?: EncryptedDek;
   // Actual data
   ciphertextBlob?: any;
   notEncrpytedData?: any;
@@ -22,14 +22,17 @@ export type Resource = {
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
-}
-// Commented on Aug 4, 2021
-// All resource data will be the ABSOLUTE VALUE HERE.
+};
 
-/**
- * 
- * Identifier Resource
- */
+// these are all unecrypted data
+
+export type UserResource = ResourceId & {
+  federalProvider: 'google',
+  federalId: string;
+  lastName: string;
+}
+
+export type EncryptedDek = string;
 
 export type IdentifierResource = ResourceId & {
   // content

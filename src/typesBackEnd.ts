@@ -16,7 +16,13 @@ export type StatementType = {
   effect: "Allow" | "Deny";
   principal: Principal[] | Principal | [];
   action: "*" | EventType[] | EventType;
+  condition?: Condition;
 };
+
+// Condition
+export type Condition = {
+  requesterWrnMatchesResourceOwnerWrn?: boolean; // checks if the resource requester is trying to get is the same as owner.
+}
 
 export type Principal = Wrn;
 export type Wrn = string;

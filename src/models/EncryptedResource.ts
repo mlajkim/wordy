@@ -20,5 +20,6 @@ const encryptedResource: Record<keyof Resource, any> =   {
 // Finally export as a schema
 const encryptedResourceSchema = new Schema(encryptedResource);
 
-// Path
+// Path importing
 export const UserModel = mongoose.model('encrpyted_user', encryptedResourceSchema);
+export const OkrModel = mongoose.model('encrpyted_okr', encryptedResourceSchema);
