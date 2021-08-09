@@ -29,6 +29,7 @@ export const buttonDark = "#000000";
 // Appbar
 export const appbarLight = '#ccff99';
 export const appbarDark = '#59b300';
+export const appbarDevMode = '#C22656'
 
 // Word List Backgroud Color
 export const listLight = "#F2F2F2";

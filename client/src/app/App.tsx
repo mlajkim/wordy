@@ -13,7 +13,8 @@ import {handleCountryCode} from '../utils';
 // Hotkeys
 import { HotKeys } from "react-hotkeys";
 import shortcut from '../shortcut';
-// Mains
+// Pages
+import Okr from './Okr';
 import Dialog from './Dialog';
 import Page from './Page';
 import Snackbar from './Snackbar';
@@ -28,7 +29,6 @@ import { updateSupport } from '../redux/actions/supportAction';
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
-import HelpOutline from '@material-ui/icons/HelpOutline';
 
 const keyMap = {  
   OPEN_ADDER: [shortcut.CMD_ENTER.mac.hotKey, shortcut.CMD_ENTER.windows.hotKey]
@@ -77,7 +77,10 @@ const App: React.FC = () => {
         <Router>
           <Switch>
             <Route path="/okr" exact>
-              {"hello okr!?"}
+              <Appbar />
+              <Snackbar />
+              <Dialog />
+              <Okr />
             </Route>
             <Route path="">
               <Appbar />

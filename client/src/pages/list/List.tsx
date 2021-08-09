@@ -15,7 +15,7 @@ import { listDark, listLight } from '../../theme';
 import store from '../../redux/store';
 import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 
-const List = () => {
+const List: React.FC = () => {
   // Redux states
   const { language, support } = useSelector((state: State) => state);
   const ln = language;

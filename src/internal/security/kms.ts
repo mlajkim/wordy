@@ -14,8 +14,8 @@ type KmsReturningValue = {
 }
 
 // kms decides which cmkWrn uses. not others.
-export const kmsService = (type: "Encrypt" | "Decrypt", encryptedDek: string): KmsReturningValue => {
-  if (type === "Encrypt") return kmsInternalEncrypter();
+export const kmsService = (serviceType: "Encrypt" | "Decrypt", encryptedDek: string): KmsReturningValue => {
+  if (serviceType === "Encrypt") return kmsInternalEncrypter();
   else return kmsInternalDecrypter(encryptedDek);
 };
 

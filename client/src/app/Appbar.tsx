@@ -4,7 +4,7 @@ import Cookie from 'js-cookie';
 // shared import
 import { languageCodeIntoUserFriendlyFormat } from '../type/sharedWambda';
 // Theme
-import { appbarLight, appbarDark } from '../theme';
+import { appbarLight, appbarDark, appbarDevMode } from '../theme';
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -99,7 +99,7 @@ const Appbar = () => {
   
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="transparent" style={{ background: support.isDarkMode ? appbarDark : appbarLight }}>
+      <AppBar position="static" color="transparent" style={{ background: support.isBeta ? appbarDevMode : support.isDarkMode ? appbarDark : appbarLight }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
