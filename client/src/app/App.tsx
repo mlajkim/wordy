@@ -72,7 +72,7 @@ const App: React.FC = () => {
       <div style={{ 
         background: support.isDarkMode ? backgroundDark : backgroundLight,
         color: support.isDarkMode ? fontDark : fontLight,
-        height: "100vh"
+        minHeight: "100vh" // Legendary Yikumi solved my 1.5 years of my life zzzzzzz
       }}>
         <Router>
           <Switch>
