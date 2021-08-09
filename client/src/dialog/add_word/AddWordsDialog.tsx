@@ -112,16 +112,16 @@ const AddWordsDialog: React.FC = () => {
             detectedLanguage={detectedLanguage} 
             detectApi={detectApi}
           />
-          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => hdlWordChange(e.target.value)} 
+          <TextField margin="dense" id="word" label={tr.word[ln]} fullWidth value={word} onChange={(e) => hdlWordChange(e.target.value)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
           />
-          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)} 
+          <TextField margin="dense" id="pronun" label={tr.pronun[ln]} fullWidth value={pronun} onChange={(e) => setPronun(e.target.value)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
           />
-          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)} 
+          <TextField margin="dense" id="define" label={tr.meaning[ln]} fullWidth value={meaning} onChange={(e) => setMeaning(e.target.value)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
           />
-          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)} 
+          <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
           />
           <TagsList tags={tags} setTags={setTags} />

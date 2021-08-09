@@ -23,7 +23,7 @@ const List = () => {
   return (
     <Fragment>
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
-        <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, height: '30vh' }}>
+        <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
         {support.sems.length === 0
           ? <div style={{paddingTop: 40}}>
               <h4>{tr.empty[ln]}</h4>
