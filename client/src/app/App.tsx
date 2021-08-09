@@ -1,5 +1,11 @@
 // eslint-disable-next-line
 import React, {useEffect} from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import Appbar from './Appbar';
 import * as API from '../API';
 import axios from 'axios';
@@ -22,6 +28,7 @@ import { updateSupport } from '../redux/actions/supportAction';
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 // Types
 import { State } from '../types';
+import HelpOutline from '@material-ui/icons/HelpOutline';
 
 const keyMap = {  
   OPEN_ADDER: [shortcut.CMD_ENTER.mac.hotKey, shortcut.CMD_ENTER.windows.hotKey]
@@ -67,10 +74,19 @@ const App: React.FC = () => {
         color: support.isDarkMode ? fontDark : fontLight,
         height: "100vh"
       }}>
-        <Appbar />
-        <Snackbar />
-        <Dialog />
-        <Page />
+        <Router>
+          <Switch>
+            <Route path="/okr" exact>
+              {"hello okr!?"}
+            </Route>
+            <Route path="">
+              <Appbar />
+              <Snackbar />
+              <Dialog />
+              <Page />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     </ HotKeys>
   )
