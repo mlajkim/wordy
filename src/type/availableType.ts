@@ -2,6 +2,7 @@
 // This type is valid
 
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
+  | "WordyAccessToken";
 export type FederalProvider = 'anonymous' | 'google';
 export type Gateway = "iamGateway" | "wcsGateway" | "kmsGateway" | "mongoGateway" | "cloudTrailGateway" | "wesGateway";
 export type EncrpytionMethod = "NotEncrypted" | "AES-256-GCM";

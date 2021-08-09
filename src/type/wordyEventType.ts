@@ -21,7 +21,8 @@ export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${Km
 
 type UserService = 
   "*" |
-  "createUser";
+  "createUser" |
+  "getUser";
   
 type KmsService = 
   "*" |
