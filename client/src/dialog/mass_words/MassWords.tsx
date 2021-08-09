@@ -208,6 +208,7 @@ const MassWords = () => {
             value={massData} onChange={(e) => handleMassDataChange(e)}
             error={maxError}
             autoFocus
+            autoComplete={"off"}
             onKeyDown={(event) => {
               if (shortcut.CMD_ENTER.mac.textField(event)) hldAddingMassWords();
               else if (shortcut.CMD_ENTER.windows.textField(event)) hldAddingMassWords(); // if you mix with the mac key, it somehow receives two enters
