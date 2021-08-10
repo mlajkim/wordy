@@ -5,6 +5,7 @@ import Cryptr from 'cryptr';
 import cryptoRandomString from 'crypto-random-string';
 // type
 import { AvailableCmkWrn, EncrpytionMethod } from '../../type/availableType';
+import { EncryptedDek } from '../../type/resourceType';
 
 type KmsReturningValue = {
   encryptionMethod: EncrpytionMethod,
@@ -14,7 +15,7 @@ type KmsReturningValue = {
 }
 
 // kms decides which cmkWrn uses. not others.
-export const kmsService = (serviceType: "Encrypt" | "Decrypt", encryptedDek: string): KmsReturningValue => {
+export const kmsService = (serviceType: "Encrypt" | "Decrypt", encryptedDek: EncryptedDek): KmsReturningValue => {
   if (serviceType === "Encrypt") return kmsInternalEncrypter();
   else return kmsInternalDecrypter(encryptedDek);
 };
@@ -30,7 +31,7 @@ const kmsInternalDecrypter = (encryptedDek: string): KmsReturningValue => {
   return {
     encryptionMethod: "NotEncrypted",
     cmkWrn: "wrn::kms:master:env:1:210804",
-    encryptedDek: encryptedDek,
+    encryptedDek,
     plainkey // the end user will use this to encrypt
   };
 }

@@ -24,8 +24,6 @@ type Props = {
 const GoogleSignIn: React.FC<Props> = ({type}) => {
   const language = useSelector((state: {language: Language}) => state.language);
   const ln = language;
-  
-  const [jwt, setJwt] = useState();
 
   const generateAccessToken = async (googleRes: GoogleRes) => {
     const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
@@ -37,8 +35,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
     const userInput: UserCreateuser = {
       federalProvider: "google", validatingToken: googleRes.tokenId
     }
-    throwEvent("user:createUser", userInput)
-      .then(res => setJwt(res.payload!))
+    throwEvent("user:createUser", userInput);
 
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);

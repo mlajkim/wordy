@@ -63,9 +63,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   iamValidatedEvent.serverResponse = "Denied";
   iamValidatedEvent.serverMessage = `${EVENT_TYPE} has rejected your request by default`;
 
-  //test
-  console.log(process.env.WRN__KMS_MASTER_ENV_1_210804!);
-
   // Record
   iamValidatedEvent.validatedBy 
     ? iamValidatedEvent.validatedBy.push(SERVICE_NAME) 
@@ -101,13 +98,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         return res.send(iamValidatedEvent);
       };
 
+      console.log(ticket);
+
       // create basic userResource based on given data
       const newUser: UserResource = {
         wrn,
         ownerWrn: wrn,
         federalProvider: 'google',
-        federalId: "google",
-        lastName: "lastname"
+        federalId: ticket.getUserId() as string,
+        lastName: ticket.getPayload()!.family_name as string
       };
 
       // Get unecrypted object user from encrypted data
@@ -119,11 +118,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const ciphertextBlob = encrypt(plaindata);
       
       // generate jwt & cookie
-      const jwt = generateJwt({ wrn }); // wrn is enough.
-      // const httpOnlyCookie = cookie.serialize('WordyAccessToken', jwt, {
-      //   httpOnly: true,
-      //   maxAge: 60 * 60 * 24 * 7 * 365 // 1 year
-      // });
+      const jwt = generateJwt({ wrn });
 
       // confirm new resource
       const newResource: Resource = {

@@ -44,14 +44,14 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === requestedEvent.eventType);
       if (idx !== -1) {
         requestedEvent.requesterWrn = "wrn::user:::";
-        next(); // you are free to go, even w/o WAT
+        return next(); // you are free to go, even w/o WAT
       };
 
       requestedEvent.serverResponse = "Denied";
       requestedEvent.serverMessage = `Your requested event ${requestedEvent.eventType} was rejected by jwtService due to absense or invalid WordyAccessToken`;
       return res.send(requestedEvent);
     } else {
-      // validated
+      // validated, no err
       requestedEvent.requesterWrn = data.wrn;
       next();
     }

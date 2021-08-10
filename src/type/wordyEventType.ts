@@ -8,7 +8,7 @@ export type WordyEvent = {
   accessToken?: string,
   requesterInputData?: any,
   // body (what end user wants)
-  serverResponse?: "Denied" | "Accepted";
+  serverResponse?: "Denied" | "Accepted" | "NotFound";
   serverMessage?: string;
   payload?: any // data that is sent to end-user (front end)
   // tail (data put by server)

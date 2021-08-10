@@ -6,47 +6,46 @@ import { throwEvent } from '../frontendWambda';
 // Material UI
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 // Translation
-import tr from './okr.tr.json';
 import {useSelector} from 'react-redux';
 // Theme
 import { listDark, listLight } from '../theme';
-// Redux
-import store from '../redux/store';
-import { modifyNewWordAddingType } from '../redux/actions/supportAction';
+// // Redux
+// import store from '../redux/store';
+// import { modifyNewWordAddingType } from '../redux/actions/supportAction';
 // Declare
 type PathData = {
-  userName: string;
+  federalProviderAndId: string;
   tempAccessToken?: string;
 }
 
 const Okr: React.FC = () => {
   // Redux states
-  const { language, support } = useSelector((state: State) => state);
-  const ln = language;
+  const { support } = useSelector((state: State) => state);
+  // const ln = language;
   // Okr State
-  const [pathData, setPathData] = useState<PathData>({ userName: "" });
+  const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
 
   // Run once: read the path URL for it
   useEffect(() => {
     const path = window.location.pathname; // /okr/<userName>/accessToken
     const pathArr = path.split("/"); // ["", "okr", "userName", "tempAccessToken"]
-    if (pathArr.length > 3) setPathData({ userName: pathArr[2], tempAccessToken: pathArr[3] });
-    else if (pathArr.length > 2) setPathData({ userName: pathArr[2] });
-    else setPathData({ userName: "" }); // set blank, so that depending useEffect can run
+    if (pathArr.length > 3) setPathData({ federalProviderAndId: pathArr[2], tempAccessToken: pathArr[3] });
+    else if (pathArr.length > 2) setPathData({ federalProviderAndId: pathArr[2] });
+    else setPathData({ federalProviderAndId: "" }); // set blank, so that depending useEffect can run
   }, []);
 
   // When state is set, run the following
   useEffect(() => {
-    throwEvent("user:getUser", pathData.userName); 
+    throwEvent("user:getUser")
+      .then(res => console.log(res));
   }, [pathData])
 
   return (
     <Fragment>
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
-          hi
+          hello OKR.
         </Typography>
       </Container>
     </Fragment>
