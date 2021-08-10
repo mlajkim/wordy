@@ -8,7 +8,7 @@ export type WordyEvent = {
   accessToken?: string,
   requesterInputData?: any,
   // body (what end user wants)
-  serverResponse?: "Denied" | "Accepted" | "NotFound";
+  serverResponse?: ServerResponse
   serverMessage?: string;
   payload?: any // data that is sent to end-user (front end)
   // tail (data put by server)
@@ -17,6 +17,7 @@ export type WordyEvent = {
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
 };
 
+export type ServerResponse = "Denied" | "Accepted" | "NotFound";
 export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`;
 
 type UserService = 

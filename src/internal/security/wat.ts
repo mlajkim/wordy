@@ -49,7 +49,7 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
 
       requestedEvent.serverResponse = "Denied";
       requestedEvent.serverMessage = `Your requested event ${requestedEvent.eventType} was rejected by jwtService due to absense or invalid WordyAccessToken`;
-      return res.send(requestedEvent);
+      return res.status(401).send(requestedEvent);
     } else {
       // validated, no err
       requestedEvent.requesterWrn = data.wrn;

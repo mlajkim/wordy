@@ -12,6 +12,7 @@ import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { Resource, UserResource } from '../../../type/resourceType';
 import { Policy } from '../../../typesBackEnd';
 // Gateway
+import { ctGateway } from '../../../internal/management/cloudTrail'
 import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
@@ -35,12 +36,17 @@ const POLICY: Policy = {
 router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Validation
   const requestedEvent = req.body as WordyEvent; // receives the event
-  if (requestedEvent.serverResponse === "Denied") return res.send(requestedEvent);
+  if (requestedEvent.serverResponse === "Denied") {
+    const ctResponse = ctGateway(requestedEvent, "Denied");
+    return res.status(ctResponse.status).send(ctResponse.WE);
+  }
 
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, POLICY); // validate with iamGateway
-  if(iamValidatedEvent.serverResponse === 'Denied')
-    return res.send(iamValidatedEvent);
+  if(iamValidatedEvent.serverResponse === 'Denied'){
+    const ctResponse = ctGateway(iamValidatedEvent, "Denied");
+    return res.status(ctResponse.status).send(ctResponse.WE);
+  }
 
   // Validation complete
   req.body = iamValidatedEvent;
@@ -71,15 +77,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const user = JSON.parse(decrypt(foundResource.ciphertextBlob)) as UserResource;
       iamValidatedEvent.payload = user as UserResource; // apply the payload
 
-      iamValidatedEvent.serverResponse = "Accepted";
-      iamValidatedEvent.serverMessage = "OK";
-      return res.send(iamValidatedEvent);
+      const ctResponse = ctGateway(iamValidatedEvent, "Accepted");
+      return res.status(ctResponse.status).send(ctResponse.WE);
     })
     .catch(() => {
-      iamValidatedEvent.serverResponse = "NotFound";
-      iamValidatedEvent.serverMessage = `${EVENT_TYPE} was not able to find data`;
-
-      return res.send(iamValidatedEvent);
+      const ctResponse = ctGateway(iamValidatedEvent, "NotFound");
+      return res.status(ctResponse.status).send(ctResponse.WE);
     })
 });
 

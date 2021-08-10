@@ -1,6 +1,5 @@
 // Main
 import { intoArray, validateWrn } from '../../type/sharedWambda';
-import { censorUserWrn } from '../../internal/compute/backendWambda';
 // Type
 import { StatementType, AUTHORIZED_MESSAGE, Policy } from '../../typesBackEnd';
 import { Gateway } from '../../type/availableType';
@@ -34,7 +33,7 @@ export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEve
           if (validateWrn(requestedEvent.eventType!, action) === 'Passed') {
             requestedEvent.serverResponse = "Denied";
             requestedEvent.serverMessage = 
-              `User: ${censorUserWrn(requestedEvent.requesterWrn)} is not authorized to perform: ${requestedEvent.eventType}`
+              `User ${requestedEvent.requesterWrn} is not authorized to perform: ${requestedEvent.eventType}`
             return requestedEvent; // returned denied event
           }
         };
