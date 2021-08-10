@@ -12,9 +12,9 @@ type CTR = {
   WE: WordyEvent;
   status: 
     200 |
-    403 | // access denied (even if you do not find the resource, )
-    // status 401 is handled at apigateway.
-    404 |  // such content does not exist
+    403 | // access denied (even if you do not find the resource, ) (Denied)
+    // status 401 is handled at apigateway. (Denied)
+    404 |  // such content does not exist (NotFound)
     500; // internal server error. should never happen. 
   };
 
