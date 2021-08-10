@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, {Fragment} from 'react';
+import React, { Fragment, useState } from 'react';
 import * as API from '../../API';
 // types 
 import { throwEvent } from '../../frontendWambda';
@@ -25,6 +25,8 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
   const language = useSelector((state: {language: Language}) => state.language);
   const ln = language;
   
+  const [jwt, setJwt] = useState();
+
   const generateAccessToken = async (googleRes: GoogleRes) => {
     const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
 
@@ -35,7 +37,8 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
     const userInput: UserCreateuser = {
       federalProvider: "google", validatingToken: googleRes.tokenId
     }
-    throwEvent("user:createUser", userInput);
+    throwEvent("user:createUser", userInput)
+      .then(res => setJwt(res.payload!))
 
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);

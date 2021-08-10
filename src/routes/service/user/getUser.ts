@@ -1,12 +1,9 @@
 // Main
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
-// External Library
+// Library
 import { OAuth2Client } from 'google-auth-library';
 import Cryptr from 'cryptr';
-// import cookie from 'cookie';
-// Library
-import { generateJwt } from '../../../internal/security/wat';
 // Mogno DB
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
@@ -21,7 +18,7 @@ import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "user:createUser";
+const EVENT_TYPE = "user:getUser";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
@@ -62,9 +59,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // by default
   iamValidatedEvent.serverResponse = "Denied";
   iamValidatedEvent.serverMessage = `${EVENT_TYPE} has rejected your request by default`;
-
-  //test
-  console.log(process.env.WRN__KMS_MASTER_ENV_1_210804!);
 
   // Record
   iamValidatedEvent.validatedBy 
@@ -117,13 +111,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const { encrypt } = new Cryptr(kmsResult.plainkey);
       const plaindata: string = JSON.stringify(newUser);
       const ciphertextBlob = encrypt(plaindata);
-      
-      // generate jwt & cookie
-      const jwt = generateJwt({ wrn }); // wrn is enough.
-      // const httpOnlyCookie = cookie.serialize('WordyAccessToken', jwt, {
-      //   httpOnly: true,
-      //   maxAge: 60 * 60 * 24 * 7 * 365 // 1 year
-      // });
 
       // confirm new resource
       const newResource: Resource = {
@@ -142,17 +129,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
           iamValidatedEvent.payload = newResource;
           iamValidatedEvent.serverResponse = "Accepted";
           iamValidatedEvent.serverMessage = "OK"
-
-          const expiresIn = 1000 * 60 * 60 * 24 * 7; // 7 days
-          // Only when validated, it sends the 
-          res.cookie("WordyAccessToken", jwt, {
-            sameSite: 'strict', 
-            path: '/', 
-            expires: new Date(new Date().getTime() + expiresIn), // 1 year
-            httpOnly: true,
-            secure: true
-          })
-
           return res.send(iamValidatedEvent);
         })
         .catch(() => {

@@ -12,11 +12,11 @@ import { setSnackbar } from './redux/actions';
 // event Thrower
 export const throwEvent = async (eventType: EventType, requesterInputData?: any) => {
   // Prepare for a new event
+  // even if bad user modfies requesterWrn, it will be still validated forward, andtherefore it is okay.
   const newEvent: WordyEvent = {
     eventVersion: "1.0.210731",
     eventType,
     requesterInputData,
-    requesterWrn: "wrn::user:admin:mdb:00001111" // this is testing and shoudl not haapen for future use.
   };
 
   // loads the requester data if it exists

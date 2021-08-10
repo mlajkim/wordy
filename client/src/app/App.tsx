@@ -76,7 +76,7 @@ const App: React.FC = () => {
       }}>
         <Router>
           <Switch>
-            <Route path="/okr" exact>
+            <Route path="/okr">
               <Appbar />
               <Snackbar />
               <Dialog />
