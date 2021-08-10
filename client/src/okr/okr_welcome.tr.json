@@ -4,6 +4,16 @@
     "en": "First time? Click the button below to start OKR!",
     "ja": "初めての方ですか？以下のボタンをクリックし、OKRを始めましょう！"
   },
+  "notSignedIn": {
+    "ko": "로그인 후 이용하실 수 있어요",
+    "en": "You are not logged in yet",
+    "ja": "ログインの後利用可能です"
+  },
+  "reloadPlease": {
+    "ko": "로그인 후 새로고침 해주세요!",
+    "en": "Please reload the page after sign-in",
+    "ja": "ログインしてからReloadしてください"
+  },
   "welcomeButton": {
     "ko": "OKR 시작하기",
     "en": "BEGIN OKR",

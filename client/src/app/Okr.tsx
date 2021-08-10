@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 // Types
 import { State } from '../types';
 // library
@@ -9,10 +9,12 @@ import Container from '@material-ui/core/Container';
 // pages
 import OkrWelcome from '../okr/OkrWelcome';
 import OkrLoading from '../okr/OkrLoading';
-// Translation
-import {useSelector} from 'react-redux';
+import OkrNotSignedIn from '../okr/OkrNotSignedIn';
 // Theme
 import { listDark, listLight } from '../theme';
+// Redux
+import {useSelector} from 'react-redux';
+// Redux Actions
 // // Redux
 // import store from '../redux/store';
 // import { modifyNewWordAddingType } from '../redux/actions/supportAction';
@@ -25,25 +27,23 @@ type PathData = {
 const Okr: React.FC = () => {
   // Redux states
   const { support } = useSelector((state: State) => state);
-  // const ln = language;
   // Okr State
-  const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
-  const [okrPage, setOkrPage] = useState<"loading" | "welcome">("loading");
+  // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
+  const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome">("loading");
 
   // Run once: read the path URL for it
   useEffect(() => {
+    // Read and organize the path data
     const path = window.location.pathname; // /okr/<userName>/accessToken
     const pathArr = path.split("/"); // ["", "okr", "userName", "tempAccessToken"]
-    if (pathArr.length > 3) setPathData({ federalProviderAndId: pathArr[2], tempAccessToken: pathArr[3] });
-    else if (pathArr.length > 2) setPathData({ federalProviderAndId: pathArr[2] });
-    else setPathData({ federalProviderAndId: "" }); // set blank, so that depending useEffect can run
-  }, []);
+    const pathData: PathData = {
+      federalProviderAndId: pathArr.length > 2 ? pathArr[2] : "",
+      tempAccessToken: pathArr.length > 3 ? pathArr[2]: ""
+    };
 
-  // When state is set, run the following
-  useEffect(() => {
-    throwEvent("user:getUser")
-      .then(res => setOkrPage("welcome"));
-  }, [pathData])
+    throwEvent("user:getUser", pathData)
+      .then(() => setOkrPage("welcome"));
+  }, []);
 
   return (
     <Fragment>
@@ -51,10 +51,10 @@ const Okr: React.FC = () => {
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
           {okrPage === "loading" && <OkrLoading />}
           {okrPage === "welcome" && <OkrWelcome />}
+          {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
         </Typography>
       </Container>
     </Fragment>
-    
   )
 };
 
