@@ -1,0 +1,12 @@
+{
+  "welcome": {
+    "ko": "처음이신가요? 아래의 버튼을 클릭하면 OKR을 시작합니다",
+    "en": "First time? Click the button below to start OKR!",
+    "ja": "初めての方ですか？以下のボタンをクリックし、OKRを始めましょう！"
+  },
+  "welcomeButton": {
+    "ko": "OKR 시작하기",
+    "en": "BEGIN OKR",
+    "ja": "OKRを始める"
+  }
+}

@@ -34,11 +34,6 @@ export type MyOkr = ResourceId & {
   okrSems: number[]
 };
 
-export type OkrGroup = ResourceId & {
-  leaderWrn: Wrn,
-  members: Wrn[]
-};
-
 export type OkrKeyResult = ResourceId & {
   isPublic: boolean,
   associatedObjWrn: Wrn, // cut some pounds off.
@@ -61,11 +56,17 @@ export type OkrKeyResult = ResourceId & {
 };
 
 export type OkrObjective = ResourceId & {
+  isPublic: boolean;
+  title: string;
+  comment?: Wrn[]
+};
+
+export type MyOkrResource = ResourceId & {
   leaderWrn: Wrn,
   members: Wrn[]
 };
 
-export type MyOkrResource = ResourceId & {
+export type OkrGroup = ResourceId & {
   leaderWrn: Wrn,
   members: Wrn[]
 };

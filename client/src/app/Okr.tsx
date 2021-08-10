@@ -6,6 +6,9 @@ import { throwEvent } from '../frontendWambda';
 // Material UI
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+// pages
+import OkrWelcome from '../okr/OkrWelcome';
+import OkrLoading from '../okr/OkrLoading';
 // Translation
 import {useSelector} from 'react-redux';
 // Theme
@@ -25,6 +28,7 @@ const Okr: React.FC = () => {
   // const ln = language;
   // Okr State
   const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
+  const [okrPage, setOkrPage] = useState<"loading" | "welcome">("loading");
 
   // Run once: read the path URL for it
   useEffect(() => {
@@ -38,14 +42,15 @@ const Okr: React.FC = () => {
   // When state is set, run the following
   useEffect(() => {
     throwEvent("user:getUser")
-      .then(res => console.log(res));
+      .then(res => setOkrPage("welcome"));
   }, [pathData])
 
   return (
     <Fragment>
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
-          hello OKR.
+          {okrPage === "loading" && <OkrLoading />}
+          {okrPage === "welcome" && <OkrWelcome />}
         </Typography>
       </Container>
     </Fragment>
