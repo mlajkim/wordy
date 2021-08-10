@@ -17,6 +17,7 @@ import ReviewIcon from '@material-ui/icons/ImportContacts';
 import ListIcon from '@material-ui/icons/FormatListBulleted';
 import LoginButton from '@material-ui/icons/ExitToApp';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
+import OkrIcon from '@material-ui/icons/MultilineChart';
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
@@ -42,6 +43,10 @@ const DrawerComponent = (props: any) => {
   const handleChangePage = (type: string) => {
     setDrawer(false);
     store.dispatch(setPage(type));
+
+    // handle changing the hyperlink
+    const path = window.location.pathname; // /okr/<userName>/accessToken
+    if (path !== "/") document.location.href = "/";
   }
 
   const items = [
@@ -74,6 +79,11 @@ const DrawerComponent = (props: any) => {
           
           <Divider />
             {list}
+            {/* below is the OKR page, that does not use page of Redux*/}
+            <ListItem button onClick={() => {document.location.href = "/okr"}}>
+              <ListItemIcon >< OkrIcon /></ListItemIcon>
+              <ListItemText primary={"OKR"} />
+            </ListItem>
           <Divider />
           <ListItem button className={classes.list} onClick={() => store.dispatch(setDialog('SettingDialog'))}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
