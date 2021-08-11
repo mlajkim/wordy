@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 // Types
 import { State } from '../types';
 import { WordyEvent } from '../type/wordyEventType';
+import OkrData from '../okr/OkrPageData';
 // library
 import { throwEvent } from '../frontendWambda';
 // Material UI
@@ -32,6 +33,7 @@ const Okr: React.FC = () => {
   // Okr State
   // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
   const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode">("loading");
+  const [okrData, setOkrData] = useState<OkrData | undefined>();
 
   // Run once: read the path URL for it
   useEffect(() => {
@@ -56,7 +58,7 @@ const Okr: React.FC = () => {
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
           {okrPage === "loading" && <OkrLoading />}
           {okrPage === "welcome" && <OkrWelcome setOkrPage={setOkrPage}/>}
-          {okrPage === 'okrMode' && <OkrHome />}
+          {okrPage === 'okrMode' && <OkrHome okrData={okrData} setOkrData={setOkrData} />}
           {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
         </Typography>
       </Container>
