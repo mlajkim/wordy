@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   });
 
-const OkrWelcome: React.FC = () => {
+const OkrWelcome: React.FC<{ setOkrPage: any }> = ({ setOkrPage }) => {
   //Style
   const classes = useStyles();
   
@@ -39,7 +39,10 @@ const OkrWelcome: React.FC = () => {
 
   // handler
   const hdlWelcomeBtnClick = () => {
-    throwEvent("okr:createMyOkr");
+    setOkrPage("okrLoading");
+
+    throwEvent("okr:createMyOkr")
+      .then(() => setOkrPage('okrMode'));
   }
 
   return (

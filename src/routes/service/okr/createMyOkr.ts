@@ -34,7 +34,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
-  if(iamValidatedEvent.serverResponse === 'Denied'){
+  if (iamValidatedEvent.serverResponse === 'Denied'){
     ctGateway(requestedEvent, "Denied");
     return res.status(requestedEvent.status!).send(requestedEvent);
   }
@@ -60,6 +60,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const data = await MyOkrModel.findOne({ ownerWrn: RE.requesterWrn }); // returns null when not found
   
   if (data) {
+    
     ctGateway(RE, "LogicallyDenied", "Already exists");
     return res.status(RE.status!).send(RE);
   }

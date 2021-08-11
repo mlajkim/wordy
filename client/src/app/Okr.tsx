@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // Types
 import { State } from '../types';
+import { WordyEvent } from '../type/wordyEventType';
 // library
 import { throwEvent } from '../frontendWambda';
 // Material UI
@@ -10,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import OkrWelcome from '../okr/OkrWelcome';
 import OkrLoading from '../okr/OkrLoading';
 import OkrNotSignedIn from '../okr/OkrNotSignedIn';
+import OkrHome from '../okr/OkrHome';
 // Theme
 import { listDark, listLight } from '../theme';
 // Redux
@@ -29,7 +31,7 @@ const Okr: React.FC = () => {
   const { support } = useSelector((state: State) => state);
   // Okr State
   // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
-  const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome">("loading");
+  const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode">("loading");
 
   // Run once: read the path URL for it
   useEffect(() => {
@@ -41,8 +43,11 @@ const Okr: React.FC = () => {
       tempAccessToken: pathArr.length > 3 ? pathArr[2]: ""
     };
 
-    throwEvent("user:getUser", pathData)
-      .then(() => setOkrPage("welcome"));
+    throwEvent("okr:getMyOkr", pathData)
+      .then((res: WordyEvent) => {
+        if (res.serverResponse === 'Accepted') setOkrPage("okrMode");
+        else setOkrPage("welcome");
+      })
   }, []);
 
   return (
@@ -50,7 +55,8 @@ const Okr: React.FC = () => {
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
           {okrPage === "loading" && <OkrLoading />}
-          {okrPage === "welcome" && <OkrWelcome />}
+          {okrPage === "welcome" && <OkrWelcome setOkrPage={setOkrPage}/>}
+          {okrPage === 'okrMode' && <OkrHome />}
           {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
         </Typography>
       </Container>

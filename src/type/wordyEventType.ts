@@ -27,6 +27,7 @@ export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${Km
 type OkrService =
   "*" | //all
   "createMyOkr" |
+  "getMyOkr" |
   "inviteMember" | // will be used to invite any member using his or her public account number
   "acceptInvitation" | // accepts the invitation
   "rejectInvitation" | // rejects the invitaton

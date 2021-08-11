@@ -40,9 +40,11 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
     
     return returnedEvent;
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err);
     store.dispatch(setSnackbar('Server is rejecting or not responding your request', 'error', 5))
     newEvent.serverResponse = "Denied";
+    
     return newEvent;
   });
 

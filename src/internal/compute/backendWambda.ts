@@ -7,6 +7,7 @@ import cryptoRandomString from 'crypto-random-string';
 import dotenv from "dotenv";
 // internal
 import { kmsService } from '../security/kms';
+import { wpService } from '../security/wp';
 // type
 import { WordyEvent } from '../../type/wordyEventType';
 import { Resource } from '../../type/resourceType';
@@ -53,6 +54,16 @@ export const censorUserWrn = (wrn: string | undefined) => {
 export const generatedWrn = 
   (input: `${string}:${string}:${string}:${string}:${string}:`): string => 
   input + cryptoRandomString({length: 32, type: 'base64'}); // change this
+
+export const intoPayload = (resource: Resource, RE: WordyEvent) => {
+  const { plainkey } = kmsService("Decrypt", resource.encryptedDek!);
+  const { decrypt } = new Cryptr(plainkey);
+  // Get the data from mongo, and see if it is okay to be revealed
+  let  user = JSON.parse(decrypt(resource.ciphertextBlob));
+  user = wpService(RE, resource, user); // wp service censors data, if it is not available
+
+  return user;
+}
 
 
 export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customized?: object): Resource => {

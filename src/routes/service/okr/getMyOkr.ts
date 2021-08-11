@@ -1,22 +1,19 @@
 // Main
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
-// Library
-import Cryptr from 'cryptr';
 // Mogno DB
-import { UserModel } from '../../../models/EncryptedResource';
+import { MyOkrModel } from '../../../models/EncryptedResource';
 // internal
-import { kmsService } from '../../../internal/security/kms';
+import { ctGateway } from '../../../internal/management/cloudTrail';
+import { intoPayload } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { Resource, UserResource } from '../../../type/resourceType';
 // Gateway
-import { ctGateway } from '../../../internal/management/cloudTrail'
 import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "user:getUser";
+const EVENT_TYPE = "okr:getMyOkr";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
@@ -30,9 +27,9 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
-  if(iamValidatedEvent.serverResponse === 'Denied'){
-    ctGateway(iamValidatedEvent, "Denied");
-    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
+  if (iamValidatedEvent.serverResponse === 'Denied'){
+    ctGateway(requestedEvent, "Denied");
+    return res.status(requestedEvent.status!).send(requestedEvent);
   }
 
   // Validation complete
@@ -44,33 +41,26 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 router.use(connectToMongoDB);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  // declare 
-  const iamValidatedEvent = req.body as WordyEvent; // receives the event
-
-  // by default
-  iamValidatedEvent.serverResponse = "Denied";
-  iamValidatedEvent.serverMessage = `${EVENT_TYPE} has rejected your request by default`;
+  // declare requested event
+  const RE = req.body as WordyEvent; // receives the event
 
   // Record
-  iamValidatedEvent.validatedBy 
-    ? iamValidatedEvent.validatedBy.push(SERVICE_NAME) 
-    : iamValidatedEvent.validatedBy = [SERVICE_NAME]; 
+  RE.validatedBy 
+    ? RE.validatedBy.push(SERVICE_NAME) 
+    : RE.validatedBy = [SERVICE_NAME]; 
 
-  // Returning data
-  await UserModel.findOne({ ownerWrn: iamValidatedEvent.requesterWrn })
-    .then((foundResource: Resource) => {
-      const { plainkey } = kmsService("Decrypt", foundResource.encryptedDek!);
-      const { decrypt } = new Cryptr(plainkey);
-      const user = JSON.parse(decrypt(foundResource.ciphertextBlob)) as UserResource;
-      iamValidatedEvent.payload = user as UserResource; // apply the payload
-
-      ctGateway(iamValidatedEvent, "Accepted");
-      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
-    })
-    .catch(() => {
-      ctGateway(iamValidatedEvent, "LogicallyDenied");
-      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
-    })
+  // if my okr exists, it should reject, as it shouldh ave only one
+  const myOkrData = await MyOkrModel.findOne({ ownerWrn: RE.requesterWrn }); // returns null when not found
+  
+  if (myOkrData) {
+    // decrypt the data
+    RE.payload = intoPayload(myOkrData, RE)
+    ctGateway(RE, "Accepted");
+    return res.status(RE.status!).send(RE);
+  } else {
+    ctGateway(RE, "LogicallyDenied");
+    return res.status(RE.status!).send(RE);
+  };
 });
 
 export default router;
