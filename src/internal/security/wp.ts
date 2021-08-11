@@ -25,6 +25,7 @@ import {
   PREDEFINED_DANGEROUSLY_PUBLIC,
   PREDEFINED_ONLY_TO_ADMIN
 } from './predefinedPolicies';
+const SERVICE_NAME = "wpService";
 
 export const wpService = 
   (RE: WordyEvent, resource: Resource, unencryptedPureResource: ResourceId | UnencryptedPureResource)
@@ -34,7 +35,7 @@ export const wpService =
   if (wpServiceLogic(RE, resource) !== "Passed") {
     const censoredObject = pick(unencryptedPureResource, 'wrn') as ResourceId;
     censoredObject.resoureAvailability = "NotVisible";
-    censoredObject.rejectedReason = "Rejected due to resource policy";
+    censoredObject.rejectedReason = `Rejected by ${SERVICE_NAME} due to resource policy`;
 
     return censoredObject;
   }
@@ -43,7 +44,7 @@ export const wpService =
 }
 
 type WpResponse = "Passed" | "NotPassed";
-export const wpServiceLogic = (RE: WordyEvent, resource: Resource): WpResponse => {
+export const wpServiceLogic = (RE: WordyEvent, resource: Resource): WpResponse => {  
   // applying policy
   const policy: Policy = policyGrabber(resource.wpWrn);
 
