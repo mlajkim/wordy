@@ -2,14 +2,16 @@
 import { intoArray, validateWrn } from '../../type/sharedWambda';
 // Type
 import { StatementType, AUTHORIZED_MESSAGE, Policy } from '../../typesBackEnd';
-import { Gateway } from '../../type/availableType';
+import { Gateway, AvailableWpWrn } from '../../type/availableType';
 import { WordyEvent } from '../../type/wordyEventType';
+import { policyGrabber } from './wp'
 
-
-export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEvent => {
+export const iamGateway = (requestedEvent: WordyEvent, wpWrn: AvailableWpWrn): WordyEvent => {
 	// Validation
 	if (requestedEvent.serverResponse === "Denied") return requestedEvent;
-    
+  
+  const policy: Policy = policyGrabber(wpWrn);
+
   // Record
 	const GATEWAY_NAME: Gateway = "iamGateway"
 	requestedEvent.validatedBy 
@@ -56,7 +58,7 @@ export const iamGateway = (requestedEvent: WordyEvent, policy: Policy): WordyEve
 						requestedEvent.serverMessage = "Internal Error; Access denied" // should not happen
 				}
 		}
-	}
+	}// end of if
 	else {
 			requestedEvent.serverMessage = "Not authorized due to unsupported version receieved"
 	}

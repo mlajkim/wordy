@@ -1,9 +1,12 @@
-import { AvailableCmkWrn, EncryptionMethod, EncryptedDek, Wrn } from './availableType';
+import { AvailableCmkWrn, EncryptionMethod, EncryptedDek, Wrn, AvailableWpWrn } from './availableType';
 
 export type Resource = {
+  // finder data
   resourceVersion: "1.0.210804";
   wrn: string;
   ownerWrn?: string; // resource owner.
+  // wordy policy checker 
+  wpWrn: AvailableWpWrn; // this will be checked first, even before
   // Encrpytion
   encryptionMethod: EncryptionMethod; //if this undefined? not encrpted
   cmkWrn?: AvailableCmkWrn; // cmk data does not change.
@@ -18,6 +21,7 @@ export type Resource = {
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
+  resoureAvailability?: "Visible";
 };
 
 // these are all unecrypted data

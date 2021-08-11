@@ -10,7 +10,6 @@ import { kmsService } from '../../../internal/security/kms';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { Resource, UserResource } from '../../../type/resourceType';
-import { Policy } from '../../../typesBackEnd';
 // Gateway
 import { ctGateway } from '../../../internal/management/cloudTrail'
 import { iamGateway } from '../../../internal/security/iam';
@@ -21,18 +20,6 @@ const EVENT_TYPE = "user:getUser";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
-const POLICY: Policy = {
-  version: "1.0.210729",
-  comment: "Allow any user, enven without principal",
-  statement: [
-    {
-      effect: "Allow",
-      principal: "*",
-      action: "*", 
-    }
-  ]
-};
-
 router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Validation
   const requestedEvent = req.body as WordyEvent; // receives the event
@@ -42,7 +29,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
   }
 
   // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, POLICY); // validate with iamGateway
+  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied'){
     const ctResponse = ctGateway(iamValidatedEvent, "Denied");
     return res.status(ctResponse.status).send(ctResponse.WE);

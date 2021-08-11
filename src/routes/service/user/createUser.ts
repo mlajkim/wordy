@@ -14,7 +14,6 @@ import { kmsService } from '../../../internal/security/kms';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { Resource, UserResource } from '../../../type/resourceType';
-import { Policy } from '../../../typesBackEnd';
 import { UserCreateuser } from '../../../type/requesterInputType';
 // Gateway
 import { iamGateway } from '../../../internal/security/iam';
@@ -25,25 +24,13 @@ const EVENT_TYPE = "user:createUser";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
-const POLICY: Policy = {
-  version: "1.0.210729",
-  comment: "Allow any user, enven without principal",
-  statement: [
-    {
-      effect: "Allow",
-      principal: "*",
-      action: "*", 
-    }
-  ]
-};
-
 router.use(pathFinder(EVENT_TYPE), async (req: Request, res: Response, next: NextFunction) => {
   // Validation
   const requestedEvent = req.body as WordyEvent; // receives the event
   if (requestedEvent.serverResponse === "Denied") return res.send(requestedEvent);
 
   // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, POLICY); // validate with iamGateway
+  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:dangerously_public:210811"); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied')
     return res.send(iamValidatedEvent);
 
@@ -125,6 +112,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         resourceVersion: "1.0.210804",
         wrn,
         ownerWrn: wrn,
+        wpWrn: "wrn::wp:pre_defined:backend:only_me:210811",
         encryptionMethod: kmsResult.encryptionMethod,
         cmkWrn: kmsResult.cmkWrn,
         encryptedDek: kmsResult.encryptedDek,

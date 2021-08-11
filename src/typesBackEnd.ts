@@ -21,7 +21,11 @@ export type StatementType = {
 
 // Condition
 export type Condition = {
+  temporaryTokenValidated?: boolean;
   requesterWrnMatchesResourceOwnerWrn?: boolean; // checks if the resource requester is trying to get is the same as owner.
+  availableOnlyToTheGroupMemberOfOwner?: boolean;
+  wordyAccessTokenValidated? : boolean;
+  isAdmin?: boolean;
 }
 
 export type Principal = Wrn;

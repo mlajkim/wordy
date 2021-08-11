@@ -35,7 +35,7 @@ const Okr: React.FC = () => {
   useEffect(() => {
     // Read and organize the path data
     const path = window.location.pathname; // /okr/<userName>/accessToken
-    const pathArr = path.split("/"); // ["", "okr", "userName", "tempAccessToken"]
+    const pathArr = path.split("/"); // ["", "okr", "csuserName", "tempAccessToken"]
     const pathData: PathData = {
       federalProviderAndId: pathArr.length > 2 ? pathArr[2] : "",
       tempAccessToken: pathArr.length > 3 ? pathArr[2]: ""

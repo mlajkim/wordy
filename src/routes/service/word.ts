@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import DetectLanguage from 'detectlanguage';
 // type
 import { pathFinder } from '../../type/wordyEventType';
-import { Policy } from '../../typesBackEnd';
 import { wordDetectLanguagePayload } from '../../type/payloadType';
 // Gateway
 import { iamGateway } from '../../internal/security/iam';
@@ -13,18 +12,6 @@ const word = express.Router();
 const EVENT_TYPE = "word:detectLanguage";
 const SERVICE_NAME = `${EVENT_TYPE} service`
 dotenv.config();
-
-const POLICY: Policy = {
-  version: "1.0.210729",
-  comment: "Allow only admin account",
-  statement: [
-    {
-      effect: "Allow",
-      principal: "wrn::user:admin:*",
-      action: "*", 
-    }
-  ]
-};
 
 word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Validation
@@ -37,7 +24,7 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       : requestedEvent.validatedBy = [SERVICE_NAME]; 
 
   // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, POLICY); // validate with iamGateway
+  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied')
     return res.send(iamValidatedEvent);
 

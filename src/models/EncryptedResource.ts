@@ -9,6 +9,8 @@ const encryptedResource: Record<keyof Resource, any> =   {
   resourceVersion: String,
   wrn: String,
   ownerWrn: String, // resource owner.
+  // wordy policy checker 
+  wpWrn: String, //
   // Encrpytion
   encryptionMethod: String,
   isClientEncrpyted: Boolean, // client key encrypts the encryptedDek after 
