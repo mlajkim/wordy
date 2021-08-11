@@ -27,14 +27,14 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied'){
-    const ctResponse = ctGateway(iamValidatedEvent, "Denied");
-    return res.status(ctResponse.status).send(ctResponse.WE);
+    ctGateway(iamValidatedEvent, "Denied");
+    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
   }
 
   // Data validation
   if (typeof iamValidatedEvent.requesterInputData !== 'string') {
-    const ctResponse = ctGateway(iamValidatedEvent, "Denied", "Type of iamValidatedEvent.requesterData is wrong; requires string");
-    return res.status(ctResponse.status).send(ctResponse.WE);
+    ctGateway(iamValidatedEvent, "Denied", "Type of iamValidatedEvent.requesterData is wrong; requires string");
+    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
   };
 
   // Initialize detecter
@@ -45,13 +45,13 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     .then((response: any) => {
       iamValidatedEvent.payload = response as wordDetectLanguagePayload;
 
-      const ctResponse = ctGateway(iamValidatedEvent, "Accepted");
-      return res.status(ctResponse.status).send(ctResponse.WE);
+      ctGateway(iamValidatedEvent, "Accepted");
+      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
 
     })
     .catch(() => {      
-      const ctResponse = ctGateway(iamValidatedEvent, "Denied");
-      return res.status(ctResponse.status).send(ctResponse.WE);
+      ctGateway(iamValidatedEvent, "Denied");
+      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
     })
 
 

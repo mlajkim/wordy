@@ -26,5 +26,6 @@ const encryptedResourceSchema = new Schema(encryptedResource);
 
 // Path importing
 export const UserModel = mongoose.model(`${ENCRYPTED}user`, encryptedResourceSchema);
-export const OkrModel = mongoose.model(`${ENCRYPTED}okr`, encryptedResourceSchema);
 export const LogModel = mongoose.model(`${ENCRYPTED}log`, encryptedResourceSchema);
+// Okr
+export const MyOkrModel = mongoose.model(`${ENCRYPTED}my_okr`, encryptedResourceSchema);

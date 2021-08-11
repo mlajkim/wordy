@@ -13,6 +13,7 @@ import { createTheme,
 import tr from './okr_welcome.tr.json'
 // library
 import {useSelector} from 'react-redux';
+import { throwEvent } from '../frontendWambda';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -36,11 +37,18 @@ const OkrWelcome: React.FC = () => {
   const { language } = useSelector((state: State) => state);
   const ln = language;
 
+  // handler
+  const hdlWelcomeBtnClick = () => {
+    throwEvent("okr:createMyOkr");
+  }
+
   return (
     <Fragment>
       <h4>{tr.welcome[ln]}</h4>
       <ThemeProvider theme={theme}>
-        <Button variant="contained" color="primary" className={classes.margin}>
+        <Button variant="contained" color="primary" className={classes.margin}
+          onClick={() => hdlWelcomeBtnClick()}  
+        >
           {tr.welcomeButton[ln]}
         </Button>
       </ThemeProvider>

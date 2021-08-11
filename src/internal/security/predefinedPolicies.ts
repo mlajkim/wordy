@@ -2,7 +2,7 @@
 import { Policy } from "../../typesBackEnd";
 
 // Declare
-export const PREDEFINED_ONLY_ME: Policy = {
+export const PREDEFINED_ONLY_OWNER: Policy = {
   version: "1.0.210729",
   statement: {
     effect: "Allow",

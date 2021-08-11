@@ -7,48 +7,29 @@ import { wcsGateway } from '../billing/wcs';
 // Mogno DB
 // import { LogModel } from '../../models/EncryptedResource';
 //Decalre
-const SERVICE_NAME: Gateway = "cloudTrailGateway"
+const SERVICE_NAME: Gateway = "cloudTrailGateway";
 
-// Cloud Trail Response
-type CTR = {
-  WE: WordyEvent;
-  status: 
-    200 |
-    403 | // access denied (even if you do not find the resource, ) (Denied)
-    // status 401 is handled at apigateway. (Denied)
-    404 |  // such content does not exist (NotFound)
-    500; // internal server error. should never happen. 
-  };
-
-export const ctGateway = (WE: WordyEvent, SR: ServerResponse, customMessage?: string): CTR => {
+export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, customMessage?: string): WordyEvent => {
   // apply the SR
-  WE.serverResponse = SR;
-
-  let ctr: CTR = { WE, status: 404 };
+  // if, setServerResponse is not given, then it sets denied, unless specified
+  WE.serverResponse = setServerResponse ? setServerResponse : "Denied";
 
   // Write default comment
   if (WE.serverResponse === "Denied") {
-    if (!customMessage) 
-      WE.serverMessage = `The server rejected the following event: ${WE.eventType}`;
-    ctr = { WE, status: 403 };
-  } else if (WE.serverResponse === "NotFound") {
-    if (!customMessage) 
-      WE.serverMessage = `The server was not able to find resources for the following event: ${WE.eventType}`;
-    ctr = { WE, status: 404 };
+    WE.serverMessage = customMessage ? customMessage :`The server rejected the following event: ${WE.eventType}`;
+    WE.status = 403;
+  } else if (WE.serverResponse === "LogicallyDenied") {
+    WE.serverMessage = customMessage ? customMessage : `The server was not able to find resources for the following event: ${WE.eventType}`;
+    WE.status = 204;
   } else if (WE.serverResponse === "Accepted") {
-    if (!customMessage)
-      WE.serverMessage = `OK`;
-      wcsGateway(WE);
-    ctr = { WE, status: 200 };
+    WE.serverMessage = customMessage ? customMessage : `OK`;
+    WE.status = 200;
+    wcsGateway(WE);
   } else {
-    if (!customMessage) 
-      WE.serverMessage = `Check cloudTrail Gateway (ctGateway) this should not happen`;
-    WE.serverResponse = "Denied";
-    ctr = { WE, status: 500 };
+    WE.serverMessage = customMessage ? customMessage : `Check cloudTrail Gateway (ctGateway) this should not happen`;
+    WE.serverResponse = "Denied"
+    WE.status = 500;
   }
-
-  // Apply the status into the event
-  WE.status = ctr.status; // this is applied, even without returning
 
   // log saving with the policy
   // little confusing, but as long as it does not return the response of iamGateway, it is fine.
@@ -61,5 +42,5 @@ export const ctGateway = (WE: WordyEvent, SR: ServerResponse, customMessage?: st
     ? WE.validatedBy.push(SERVICE_NAME) 
     : WE.validatedBy = [SERVICE_NAME];
 
-  return ctr;
+  return WE;
 };

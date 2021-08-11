@@ -13,6 +13,7 @@ import { UserModel } from '../../../models/EncryptedResource';
 import { kmsService } from '../../../internal/security/kms';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
+import { JwtData } from '../../../type/availableType';
 import { Resource, UserResource } from '../../../type/resourceType';
 import { UserCreateuser } from '../../../type/requesterInputType';
 // Gateway
@@ -96,23 +97,26 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         lastName: ticket.getPayload()!.family_name as string
       };
 
-      // Get unecrypted object user from encrypted data
+      // Encrpytion method
       const kmsResult = kmsService("Encrypt", "");
-
-      // Decrpyt data
       const { encrypt } = new Cryptr(kmsResult.plainkey);
       const plaindata: string = JSON.stringify(newUser);
       const ciphertextBlob = encrypt(plaindata);
       
       // generate jwt & cookie
-      const jwt = generateJwt({ wrn });
+      const jwtData: JwtData = {
+        wrn,
+        federalProvider: 'google', // hard codeded google
+        federalId: `${ticket.getUserId()}`
+      }
+      const jwt = generateJwt(jwtData);
 
       // confirm new resource
       const newResource: Resource = {
         resourceVersion: "1.0.210804",
         wrn,
         ownerWrn: wrn,
-        wpWrn: "wrn::wp:pre_defined:backend:only_me:210811",
+        wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
         encryptionMethod: kmsResult.encryptionMethod,
         cmkWrn: kmsResult.cmkWrn,
         encryptedDek: kmsResult.encryptedDek,

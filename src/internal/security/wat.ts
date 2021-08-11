@@ -44,6 +44,7 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === requestedEvent.eventType);
       if (idx !== -1) {
         requestedEvent.requesterWrn = "wrn::user:::";
+        requestedEvent.requesterInfo = data;
         return next(); // you are free to go, even w/o WAT
       };
 
@@ -52,6 +53,7 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).send(requestedEvent);
     } else {
       // validated, no err
+      requestedEvent.requesterInfo = data;
       requestedEvent.requesterWrn = data.wrn;
       next();
     }

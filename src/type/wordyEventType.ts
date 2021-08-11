@@ -1,5 +1,5 @@
 import { Resource } from '../type/resourceType';
-import { Gateway } from '../type/availableType';
+import { Gateway, JwtData } from '../type/availableType';
 
 export type WordyEvent = {
   // header (data from end user)
@@ -12,15 +12,25 @@ export type WordyEvent = {
   serverMessage?: string;
   payload?: any // data that is sent to end-user (front end)
   price?: number
+  status?: number;
   // tail (data put by server)
   requesterWrn?: string;
+  requesterInfo?: JwtData;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
-  status?: number;
+  
 };
 
-export type ServerResponse = "Denied" | "Accepted" | "NotFound";
+export type ServerResponse = "Denied" | "Accepted" | "LogicallyDenied";
 export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`;
+
+type OkrService =
+  "*" | //all
+  "createMyOkr" |
+  "inviteMember" | // will be used to invite any member using his or her public account number
+  "acceptInvitation" | // accepts the invitation
+  "rejectInvitation" | // rejects the invitaton
+  "blockInvitation"; // block the invitation. the user can no longer 
 
 type UserService = 
   "*" |
@@ -35,14 +45,6 @@ type WordSerivce =
   "*" | //all
   "detectLanguage" |
   "postWord"
-
-type OkrService =
-  "*" | //all
-  "inviteMember" | // will be used to invite any member using his or her public account number
-  "acceptInvitation" | // accepts the invitation
-  "rejectInvitation" | // rejects the invitaton
-  "blockInvitation" | // block the invitation. the user can no longer 
-  "createNewOkr" 
 
 
 export const pathFinder = (eventType: EventType): string => {

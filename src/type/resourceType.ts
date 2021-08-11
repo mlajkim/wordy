@@ -40,12 +40,18 @@ export type UserResource = ResourceId & {
 
 // Below is the OKR resources
 export type MyOkr = ResourceId & {
+  id: string; // federalProvider (go) + federalId (will be modified, later. it is only displaying)
+  name: string; // dispalying name Jeongwoo Kim@jkim67cloud (but now, I will just use the same id)
+  okrSems: number[];
   joinedGroup: Wrn[],
-  okrSems: number[]
+};
+
+export type OkrObjective = ResourceId & {
+  title: string;
+  comment?: Wrn[]
 };
 
 export type OkrKeyResult = ResourceId & {
-  isPublic: boolean,
   associatedObjWrn: Wrn, // cut some pounds off.
   modifableUntil: number, // 8 days after creation
   // number, data driven data
@@ -63,12 +69,6 @@ export type OkrKeyResult = ResourceId & {
   score: number, // this must be auto calculatoable
   scoreModifiableUntil: number
   proof?: Wrn[]; // S3 images wrn 
-};
-
-export type OkrObjective = ResourceId & {
-  isPublic: boolean;
-  title: string;
-  comment?: Wrn[]
 };
 
 export type MyOkrResource = ResourceId & {

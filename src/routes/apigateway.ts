@@ -4,6 +4,7 @@ import { watGateway } from '../internal/security/wat';
 // Routeres
 import word from './service/word';
 import user from './service/user';
+import okr from './service/okr';
 
 const apigateway = express.Router();
 
@@ -23,6 +24,8 @@ apigateway.use(watGateway);
 // Apply
 apigateway.use(word);
 apigateway.use(user);
+apigateway.use(okr);
+
 
 // Finally
 export default apigateway;

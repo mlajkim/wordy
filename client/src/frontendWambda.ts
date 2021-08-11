@@ -41,7 +41,7 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any)
     return returnedEvent;
   })
   .catch(() => {
-    store.dispatch(setSnackbar('Server is rejecting or unresponsible of your request', 'error'))
+    store.dispatch(setSnackbar('Server is rejecting or not responding your request', 'error', 5))
     newEvent.serverResponse = "Denied";
     return newEvent;
   });

@@ -17,7 +17,7 @@ import { WordyEvent } from '../../type/wordyEventType';
 import { intoArray, validateWrn } from '../../type/sharedWambda';
 // Decalred
 import {
-  PREDEFINED_ONLY_ME, 
+  PREDEFINED_ONLY_OWNER, 
   PREDEFINED_ONLY_TO_GROUP_MEMBERS, 
   PREDEFINED_ONLY_TO_GROUP_AND_TEMPORARY_TOKEN,
   PREDEFINED_ONLY_TO_TEMPORARY_TOKEN,
@@ -120,8 +120,8 @@ export const conditionChecker = (RE: WordyEvent, resource: Resource, givenCondit
 // but will eventually connect to mongo db and get the data from db
 export const policyGrabber = (wpWrn: AvailableWpWrn) => {
   switch(wpWrn) {
-    case "wrn::wp:pre_defined:backend:only_me:210811":
-      return PREDEFINED_ONLY_ME;
+    case "wrn::wp:pre_defined:backend:only_owner:210811":
+      return PREDEFINED_ONLY_OWNER;
     case "wrn::wp:pre_defined:backend:only_to_group_members:210811":
       return PREDEFINED_ONLY_TO_GROUP_MEMBERS;
     case "wrn::wp:pre_defined:backend:only_to_group_and_temporary_token:210811":
@@ -136,6 +136,6 @@ export const policyGrabber = (wpWrn: AvailableWpWrn) => {
       return PREDEFINED_DANGEROUSLY_PUBLIC;
     default:
       // by default it is only available to the owner
-      return PREDEFINED_ONLY_ME;
+      return PREDEFINED_ONLY_OWNER;
   }
 }

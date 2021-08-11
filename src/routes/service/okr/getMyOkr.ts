@@ -24,15 +24,15 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Validation
   const requestedEvent = req.body as WordyEvent; // receives the event
   if (requestedEvent.serverResponse === "Denied") {
-    const ctResponse = ctGateway(requestedEvent, "Denied");
-    return res.status(ctResponse.status).send(ctResponse.WE);
+    ctGateway(requestedEvent, "Denied");
+    return res.status(requestedEvent.status!).send(requestedEvent);
   }
 
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied'){
-    const ctResponse = ctGateway(iamValidatedEvent, "Denied");
-    return res.status(ctResponse.status).send(ctResponse.WE);
+    ctGateway(iamValidatedEvent, "Denied");
+    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
   }
 
   // Validation complete
@@ -64,12 +64,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const user = JSON.parse(decrypt(foundResource.ciphertextBlob)) as UserResource;
       iamValidatedEvent.payload = user as UserResource; // apply the payload
 
-      const ctResponse = ctGateway(iamValidatedEvent, "Accepted");
-      return res.status(ctResponse.status).send(ctResponse.WE);
+      ctGateway(iamValidatedEvent, "Accepted");
+      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
     })
     .catch(() => {
-      const ctResponse = ctGateway(iamValidatedEvent, "NotFound");
-      return res.status(ctResponse.status).send(ctResponse.WE);
+      ctGateway(iamValidatedEvent, "LogicallyDenied");
+      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
     })
 });
 
