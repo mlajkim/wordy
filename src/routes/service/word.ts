@@ -7,6 +7,7 @@ import { pathFinder } from '../../type/wordyEventType';
 import { wordDetectLanguagePayload } from '../../type/payloadType';
 // Gateway
 import { iamGateway } from '../../internal/security/iam';
+import { ctGateway } from '../../internal/management/cloudTrail';
 // Router
 const word = express.Router();
 const EVENT_TYPE = "word:detectLanguage";
@@ -25,14 +26,15 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
-  if(iamValidatedEvent.serverResponse === 'Denied')
-    return res.send(iamValidatedEvent);
+  if(iamValidatedEvent.serverResponse === 'Denied'){
+    const ctResponse = ctGateway(iamValidatedEvent, "Denied");
+    return res.status(ctResponse.status).send(ctResponse.WE);
+  }
 
   // Data validation
   if (typeof iamValidatedEvent.requesterInputData !== 'string') {
-    iamValidatedEvent.serverResponse = 'Denied';
-    iamValidatedEvent.serverMessage = 'Type of iamValidatedEvent.requesterData is wrong; requires string';
-    return res.send(iamValidatedEvent);
+    const ctResponse = ctGateway(iamValidatedEvent, "Denied", "Type of iamValidatedEvent.requesterData is wrong; requires string");
+    return res.status(ctResponse.status).send(ctResponse.WE);
   };
 
   // Initialize detecter
@@ -41,14 +43,15 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Detecting begins
   detectlanguage.detect(iamValidatedEvent.requesterInputData)
     .then((response: any) => {
-      iamValidatedEvent.serverResponse === 'Accepted';
       iamValidatedEvent.payload = response as wordDetectLanguagePayload;
-      return res.send(iamValidatedEvent);  
+
+      const ctResponse = ctGateway(iamValidatedEvent, "Accepted");
+      return res.status(ctResponse.status).send(ctResponse.WE);
+
     })
-    .catch(() => {
-      iamValidatedEvent.serverResponse = 'Denied';
-      iamValidatedEvent.serverMessage = 'Detect Language API has denied your request';
-      return res.send(iamValidatedEvent);
+    .catch(() => {      
+      const ctResponse = ctGateway(iamValidatedEvent, "Denied");
+      return res.status(ctResponse.status).send(ctResponse.WE);
     })
 
 

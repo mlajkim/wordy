@@ -11,10 +11,12 @@ export type WordyEvent = {
   serverResponse?: ServerResponse
   serverMessage?: string;
   payload?: any // data that is sent to end-user (front end)
+  price?: number
   // tail (data put by server)
   requesterWrn?: string;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
+  status?: number;
 };
 
 export type ServerResponse = "Denied" | "Accepted" | "NotFound";
