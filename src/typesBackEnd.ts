@@ -16,7 +16,7 @@ export type StatementType = {
   effect: "Allow" | "Deny";
   principal: Principal[] | Principal | [];
   action: "*" | EventType[] | EventType;
-  condition?: Condition;
+  condition?: Condition; // there is only one condition
 };
 
 // Condition
@@ -26,7 +26,7 @@ export type Condition = {
   availableOnlyToTheGroupMemberOfOwner?: boolean;
   wordyAccessTokenValidated? : boolean;
   isAdmin?: boolean;
-}
+} | undefined;
 
 export type Principal = Wrn;
 export type Wrn = string;

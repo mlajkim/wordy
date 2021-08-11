@@ -9,10 +9,11 @@ import { UserModel } from '../../../models/EncryptedResource';
 import { kmsService } from '../../../internal/security/kms';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { Resource, UserResource } from '../../../type/resourceType';
+import { Resource, UserResource, ResourceId } from '../../../type/resourceType';
 // Gateway
 import { ctGateway } from '../../../internal/management/cloudTrail'
 import { iamGateway } from '../../../internal/security/iam';
+import { wpService } from '../../../internal/security/wp';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
@@ -57,11 +58,16 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     : iamValidatedEvent.validatedBy = [SERVICE_NAME]; 
 
   // Returning data
-  await UserModel.findOne({ ownerWrn: iamValidatedEvent.requesterWrn })
+  await UserModel.findOne({ wrn: iamValidatedEvent.requesterWrn })
     .then((foundResource: Resource) => {
       const { plainkey } = kmsService("Decrypt", foundResource.encryptedDek!);
       const { decrypt } = new Cryptr(plainkey);
-      const user = JSON.parse(decrypt(foundResource.ciphertextBlob)) as UserResource;
+      
+      // Get the data from mongo, and see if it is okay to be revealed
+      let  user = JSON.parse(decrypt(foundResource.ciphertextBlob)) as UserResource | ResourceId;
+      user = wpService(iamValidatedEvent, foundResource, user); // wp service censors data, if it is not available
+
+      // upload the payload
       iamValidatedEvent.payload = user as UserResource; // apply the payload
 
       const ctResponse = ctGateway(iamValidatedEvent, "Accepted");

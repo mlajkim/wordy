@@ -18,13 +18,19 @@ export type Resource = {
   isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
 };
 
+
+
+// these are all unecrypted data
+
+export type UnencryptedPureResource = 
+  UserResource;
+
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
-  resoureAvailability?: "Visible";
+  resoureAvailability?: "NotVisible";
+  rejectedReason?: string;
 };
-
-// these are all unecrypted data
 
 export type UserResource = ResourceId & {
   federalProvider: 'google',
