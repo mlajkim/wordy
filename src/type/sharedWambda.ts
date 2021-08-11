@@ -119,3 +119,12 @@ export const validateWrn = (target: string, validator: string): "Passed" | "NotP
 
   return 'NotPassed'; // by default
 };
+
+
+export const CreateMyOkrUserNameRule = (name: string): "Passed" | "NotPassed" => {
+  name = name.trim(); // tirm any space
+  if (name.length < 3 || name.length > 20) return "NotPassed";
+
+  // by default
+  return "Passed";
+}

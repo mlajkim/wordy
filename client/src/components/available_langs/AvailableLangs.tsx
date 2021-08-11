@@ -14,8 +14,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 // Material UI icon
 import CheckIcon from '@material-ui/icons/Check';
 // Redux
-import {useSelector} from 'react-redux';
 import store from '../../redux/store';
+import { useSelector } from 'react-redux';
 // Redux Actions
 import { modifySupport } from '../../redux/actions/supportAction';
 

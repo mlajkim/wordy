@@ -86,8 +86,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         return res.send(iamValidatedEvent);
       };
 
-      console.log(ticket);
-
       // create basic userResource based on given data
       const newUser: UserResource = {
         wrn,

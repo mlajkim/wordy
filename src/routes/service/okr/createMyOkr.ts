@@ -6,6 +6,7 @@ import { MyOkrModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource } from '../../../internal/compute/backendWambda';
+import { CreateMyOkrUserNameRule } from '../../../type/sharedWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { MyOkr } from '../../../type/resourceType';
@@ -54,13 +55,19 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Record
   RE.validatedBy 
     ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME]; 
+    : RE.validatedBy = [SERVICE_NAME];
+
+  // validation of user input with name
+  const userNicknameInput = RE.requesterInputData as string;
+  if (CreateMyOkrUserNameRule(userNicknameInput) === "NotPassed") {
+    ctGateway(RE, "LogicallyDenied");
+    return res.status(RE.status!).send(RE);
+  }
 
   // if my okr exists, it should reject, as it shouldh ave only one
   const data = await MyOkrModel.findOne({ ownerWrn: RE.requesterWrn }); // returns null when not found
   
   if (data) {
-    
     ctGateway(RE, "LogicallyDenied", "Already exists");
     return res.status(RE.status!).send(RE);
   }
@@ -72,7 +79,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     ownerWrn: RE.requesterWrn!,
     // pure data
     id: `go${RE.requesterInfo!.federalId}`, // for now, no customizing
-    name: `go${RE.requesterInfo!.federalId}`, // for now, no customizing
+    name: userNicknameInput, // for now, no customizing
     okrSems: [getCurrentSems()!],
     joinedGroup: []
   };

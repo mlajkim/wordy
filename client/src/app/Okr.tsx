@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { State } from '../types';
 import { WordyEvent } from '../type/wordyEventType';
 import OkrData from '../okr/OkrPageData';
+import { MyOkr } from '../type/resourceType';
 // library
 import { throwEvent } from '../frontendWambda';
 // Material UI
@@ -47,6 +48,8 @@ const Okr: React.FC = () => {
 
     throwEvent("okr:getMyOkr", pathData)
       .then((res: WordyEvent) => {
+        const foundData = res.payload as MyOkr;
+        setOkrData({ myOkrData: foundData});
         if (res.serverResponse === 'Accepted') setOkrPage("okrMode");
         else setOkrPage("welcome");
       })
@@ -57,8 +60,8 @@ const Okr: React.FC = () => {
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
           {okrPage === "loading" && <OkrLoading />}
-          {okrPage === "welcome" && <OkrWelcome setOkrPage={setOkrPage}/>}
-          {okrPage === 'okrMode' && <OkrHome okrData={okrData} setOkrData={setOkrData} />}
+          {okrPage === "welcome" && <OkrWelcome/>}
+          {okrPage === 'okrMode' && okrData && <OkrHome okrData={okrData} setOkrData={setOkrData} />}
           {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
         </Typography>
       </Container>
