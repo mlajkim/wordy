@@ -64,6 +64,16 @@
     "en": "Extracting...",
     "ja": "お待ち下さい"
   },
+  "toTopOfPage":{
+    "ko": "맨 위로 가기",
+    "en": "Go to the top of the page",
+    "ja": "上にスクロール"
+  },
+  "expandMore":{
+    "ko": "랜더링 늘리기",
+    "en": "Load more words",
+    "ja": "もっと"
+  },
   "": {
     "ko": "DUMMY",
     "en": "DO NOT",
