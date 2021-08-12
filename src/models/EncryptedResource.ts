@@ -30,5 +30,6 @@ const encryptedResourceSchema = new Schema(encryptedResource);
 export const UserModel = mongoose.model(`${ENCRYPTED}user`, encryptedResourceSchema);
 export const LogModel = mongoose.model(`${ENCRYPTED}log`, encryptedResourceSchema);
 // Okr
+export const OkrObjectModel = mongoose.model(`${ENCRYPTED}okr_object`, encryptedResourceSchema);
 export const MyOkrModel = mongoose.model(`${ENCRYPTED}my_okr`, encryptedResourceSchema);
 export const CustomizedOkrLinkModel = mongoose.model(`${ENCRYPTED}customized_okr_link`, encryptedResourceSchema);

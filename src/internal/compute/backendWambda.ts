@@ -53,7 +53,7 @@ export const censorUserWrn = (wrn: string | undefined) => {
 }
 
 export const generatedWrn = 
-  (input: `${string}:${string}:${string}:${string}:${string}:`): string => 
+  (input: `${string}:${string}:${string}:mdb:${string}:`): string => 
   input + cryptoRandomString({length: 32, type: 'base64'}); // change this
 
 export const intoPayload = (resource: Resource, RE: WordyEvent) => {
@@ -70,7 +70,7 @@ export const intoPayload = (resource: Resource, RE: WordyEvent) => {
 export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customized?: object): Resource => {
   const kmsResult = kmsService("Encrypt", "");
   const { encrypt } = new Cryptr(kmsResult.plainkey);
-  const plaindata: string = JSON.stringify(resource);
+  const plaindata: string = JSON.stringify({ ...resource, wrn: newWrn, ownerWrn: RE.requesterWrn });
   const ciphertextBlob = encrypt(plaindata);
 
   // new resource

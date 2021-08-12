@@ -1,4 +1,8 @@
-import { AvailableCmkWrn, EncryptionMethod, EncryptedDek, Wrn, AvailableWpWrn } from './availableType';
+import { 
+  AvailableCmkWrn, 
+  EncryptionMethod, 
+  EncryptedDek, Wrn, AvailableWpWrn,
+  OkrObjectType } from './availableType';
 
 export type Resource = {
   // finder data
@@ -30,6 +34,7 @@ export type UnencryptedPureResource =
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
+  // might add dateAdded;
   resoureAvailability?: "NotVisible";
   rejectedReason?: string;
 };
@@ -48,35 +53,28 @@ export type MyOkr = ResourceId & {
   joinedGroup: Wrn[],
 };
 
-export type OkrObjective = ResourceId & {
-  title: string;
-  comment?: Wrn[]
+export type OkrObject = ResourceId & OkrObjectHeader & {
+  // == basic info of the data == //
+  initialData: number; // 0 tasks or 77kg of weight
+  measuredType: "Speed" | "NumberOfTaskDone"; // 
+  speedPerWeek: number; // if NumberOfTaskDone, (getting -0.7 off all the time)
+  maxNumberOfTaskDone: number;
+  unitPerWeek: string; // kg/week 
+  // == comment == // 
+  standard: string; // write standard of the goal. one feature = 1.0pt, bug fix 0.2 pt
+  // body
+  modifableUntil: number;
+  objectOrder: number;
+  proof: Wrn[]
+  comment: Wrn[]
+  // tail
+  finalScore: number;
 };
 
-export type OkrKeyResult = ResourceId & {
-  associatedObjWrn: Wrn, // cut some pounds off.
-  modifableUntil: number, // 8 days after creation
-  // number, data driven data
-  content: string, // BFR cut til ## (2 hashtag calcualtes your result and put inside)
-  current: number; //19.9
-  method: "speed" | "taskNumber"
-  speed?: number; // -0.7
-  taskNumber?: number; // 4, then 4 tasks
-  unit?: string; // km/h or kg 
-  calculatingMethod: string // if it is wordy then, new feature 1pt, else 0.2pt? 
-  // or 4 tasks the same. 
-  beginProof?: Wrn[] // S3 images that show the initial have 
-  // result
-  result: number; // this must be auto calculatoable
-  score: number, // this must be auto calculatoable
-  scoreModifiableUntil: number
-  proof?: Wrn[]; // S3 images wrn 
-};
-
-export type MyOkrResource = ResourceId & {
-  leaderWrn: Wrn,
-  members: Wrn[]
-};
+export type OkrObjectHeader = {
+  type: OkrObjectType;
+  title: string, // BFR cut til ## (2 hashtag calcualtes your result and put inside)
+}
 
 export type OkrGroup = ResourceId & {
   leaderWrn: Wrn,

@@ -6,6 +6,7 @@ import { State } from '../types';
 import { Chip, Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
 // MUI icon
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -62,7 +63,7 @@ const OkrHome: React.FC<{
         <Grid style={{ paddingTop: 10 }}>
           {`${myOkrData.name}@${myOkrData.id}`}
           <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => hdlMoreClick(e)}>
-            <MoreVertIcon fontSize="small" />
+            <AddBoxRoundedIcon fontSize="small" />
           </IconButton>
           <Menu
             id="simple-menu"
@@ -71,7 +72,7 @@ const OkrHome: React.FC<{
             open={Boolean(menu)}
             onClose={() => openMenu(null)}
           >
-            <MenuItem onClick={() => hdlCreateObject()}>Create Objective</MenuItem>
+            <MenuItem onClick={() => hdlCreateObject()}>Create Key Result</MenuItem>
           </Menu>
         </Grid>
         <Grid style={{ paddingTop: 25 }}>
