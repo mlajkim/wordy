@@ -1,4 +1,7 @@
-
+/**
+ * 
+ * General type is a bit old style and should not use it.
+ */
 export const ADDABLE_LANGUAGES_LIST: AddableLanguage[] = ['ko', 'en', 'ja', 'zh'];
 export type AddableLanguage = 'ko' | 'en' | 'ja' | 'zh';
 

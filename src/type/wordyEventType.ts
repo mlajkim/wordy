@@ -14,7 +14,7 @@ export type WordyEvent = {
   price?: number
   status?: number;
   // tail (data put by server)
-  requesterWrn?: string;
+  requesterWrn?: string; // actual initiator
   requesterInfo?: JwtData;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK

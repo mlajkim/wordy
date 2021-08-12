@@ -2,8 +2,36 @@
 // this is validated type value
 // This data is what backend sends
 
+// Type
 import { UserResource } from '../type/resourceType';
+import { FederalProvider } from './availableType';
 
+
+// ===============
+// User service
+// ===============
+
+// word:detectLanguge
 export type wordDetectLanguagePayload = { language: string, isReliable: boolean, confidence: number }[];
 
-export type UserCreateUser = UserResource
+// user:createUser 
+export type UserCreateUserInput = {
+  federalProvider: FederalProvider;
+  validatingToken: string;
+};
+export type UserCreateUserPayload = UserResource;
+
+
+// ===============
+// OKR service
+// ===============
+
+// okr:getMyOkr
+export type OkrGetMyOkrInput = {
+  userLink: string;
+  tempAccessToken: string;
+};
+export type OkrGetMyOkrPayload = {
+  userLink: string;
+  tempAccessToken: string;
+};

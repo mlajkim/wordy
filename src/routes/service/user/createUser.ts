@@ -1,6 +1,11 @@
 // Main
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
+// type
+import { UserCreateUserPayload, UserCreateUserInput } from '../../../type/payloadType';
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
+import { JwtData } from '../../../type/availableType';
+import { Resource, UserResource } from '../../../type/resourceType';
 // External Library
 import { OAuth2Client } from 'google-auth-library';
 // Library
@@ -9,12 +14,7 @@ import { generateJwt } from '../../../internal/security/wat';
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
 import { intoResource } from '../../../internal/compute/backendWambda';
-// type
-import { UserCreateUser } from '../../../type/payloadType';
-import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { JwtData } from '../../../type/availableType';
-import { Resource, UserResource } from '../../../type/resourceType';
-import { UserCreateuser } from '../../../type/requesterInputType';
+
 // Gateway
 import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
@@ -56,7 +56,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     : iamValidatedEvent.validatedBy = [SERVICE_NAME]; 
 
   // Data validation
-  const requesterInputData = iamValidatedEvent.requesterInputData as UserCreateuser;
+  const requesterInputData = iamValidatedEvent.requesterInputData as UserCreateUserInput;
 
   // Validate it. since we only take google sign in at this point, I can go straight check
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
@@ -107,7 +107,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       // finally create
       await new UserModel(newUserResource).save()
         .then(() => {
-          iamValidatedEvent.payload = newResource as UserCreateUser;
+          iamValidatedEvent.payload = newResource as UserCreateUserPayload;
           iamValidatedEvent.serverResponse = "Accepted";
           iamValidatedEvent.serverMessage = "OK"
 

@@ -31,3 +31,4 @@ export const UserModel = mongoose.model(`${ENCRYPTED}user`, encryptedResourceSch
 export const LogModel = mongoose.model(`${ENCRYPTED}log`, encryptedResourceSchema);
 // Okr
 export const MyOkrModel = mongoose.model(`${ENCRYPTED}my_okr`, encryptedResourceSchema);
+export const CustomizedOkrLinkModel = mongoose.model(`${ENCRYPTED}customized_okr_link`, encryptedResourceSchema);

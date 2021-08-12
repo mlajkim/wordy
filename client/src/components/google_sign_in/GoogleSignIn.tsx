@@ -3,7 +3,7 @@ import React, { Fragment, useState } from 'react';
 import * as API from '../../API';
 // types 
 import { throwEvent } from '../../frontendWambda';
-import { UserCreateuser } from '../../type/requesterInputType';
+import { UserCreateUserInput } from '../../type/payloadType';
 // old type
 import { GoogleRes } from '../../types';
 import {GoogleLogin} from 'react-google-login';
@@ -32,7 +32,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
     if (error) return;
 
     // newUserApi called
-    const userInput: UserCreateuser = {
+    const userInput: UserCreateUserInput = {
       federalProvider: "google", validatingToken: googleRes.tokenId
     }
     throwEvent("user:createUser", userInput);

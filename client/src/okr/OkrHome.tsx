@@ -17,8 +17,7 @@ const OkrHome: React.FC<{
   okrData, setOkrData
 }) => {
   // Redux states
-  const {language, support} = useSelector((state: State) => state);
-  const ln = language;
+  const { support } = useSelector((state: State) => state);
   // state
   const { myOkrData } = okrData;
   const [selectedSem, setSelectedSem] = useState(0);

@@ -4,6 +4,7 @@ import { State } from '../types';
 import { WordyEvent } from '../type/wordyEventType';
 import OkrData from '../okr/OkrPageData';
 import { MyOkr } from '../type/resourceType';
+import { OkrGetMyOkrInput } from '../type/payloadType';
 // library
 import { throwEvent } from '../frontendWambda';
 // Material UI
@@ -17,16 +18,13 @@ import OkrHome from '../okr/OkrHome';
 // Theme
 import { listDark, listLight } from '../theme';
 // Redux
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 // Redux Actions
 // // Redux
 // import store from '../redux/store';
 // import { modifyNewWordAddingType } from '../redux/actions/supportAction';
 // Declare
-type PathData = {
-  federalProviderAndId: string;
-  tempAccessToken?: string;
-}
+
 
 const Okr: React.FC = () => {
   // Redux states
@@ -41,9 +39,9 @@ const Okr: React.FC = () => {
     // Read and organize the path data
     const path = window.location.pathname; // /okr/<userName>/accessToken
     const pathArr = path.split("/"); // ["", "okr", "csuserName", "tempAccessToken"]
-    const pathData: PathData = {
-      federalProviderAndId: pathArr.length > 2 ? pathArr[2] : "",
-      tempAccessToken: pathArr.length > 3 ? pathArr[2]: ""
+    const pathData: OkrGetMyOkrInput = {
+      userLink: pathArr.length > 2 ? pathArr[2] : "",
+      tempAccessToken: pathArr.length > 3 ? pathArr[3]: ""
     };
 
     throwEvent("okr:getMyOkr", pathData)

@@ -25,7 +25,8 @@ export const generateJwt = (data: any): Jwt => {
   return signedJwt;
 };
 
-const NOT_REQUIRING_WAT_EVENTS: EventType[] = ["user:createUser"];
+const NOT_REQUIRING_WAT_EVENTS: EventType[] = ["user:createUser", "okr:getMyOkr"];
+// okr:getMyOkr is available to anyone, even without token. 
 
 // WordyAccessToken Service
 export const watGateway = (req: Request, res: Response, next: NextFunction) => {
