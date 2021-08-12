@@ -53,7 +53,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     : RE.validatedBy = [SERVICE_NAME]; 
 
   // if my okr exists, it should reject, as it shouldh ave only one
-  const myOkrData = await MyOkrModel.findOne({ ownerWrn: RE.requesterWrn }); // returns null when not found
+  const myOkrData = await MyOkrModel.findOne({ ownerWrn: RE.identifiedAsWrn }); // returns null when not found
   
   if (myOkrData) {
     // decrypt the data

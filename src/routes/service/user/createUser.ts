@@ -102,7 +102,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         federalId: ticket.getUserId() as string,
         lastName: ticket.getPayload()!.family_name as string
       };
-      const newUserResource = intoResource(newResource, wrn, iamValidatedEvent);
+      const newUserResource = intoResource(newResource, wrn, iamValidatedEvent, "wrn::wp:pre_defined:backend:only_owner:210811");
 
       // finally create
       await new UserModel(newUserResource).save()

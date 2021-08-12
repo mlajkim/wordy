@@ -11,8 +11,6 @@ export type Resource = {
   dateAdded: number;
   ownerWrn?: string; // resource owner.
   createdByWrn?: string; // the one who created this resource. can be human or wordy internal service 
-// wordy policy checker 
-  wpWrn: AvailableWpWrn; // this will be checked first, even before
   // Encrpytion
   encryptionMethod: EncryptionMethod; //if this undefined? not encrpted
   cmkWrn?: AvailableCmkWrn; // cmk data does not change.
@@ -34,6 +32,8 @@ export type UnencryptedPureResource =
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
+  // wordy policy checker 
+  wpWrn?: AvailableWpWrn; // this will be checked first, even before
   // might add dateAdded;
   resoureAvailability?: "NotVisible";
   rejectedReason?: string;

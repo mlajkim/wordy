@@ -42,9 +42,9 @@ export const wpService =
 }
 
 type WpResponse = "Passed" | "NotPassed";
-export const wpServiceLogic = (RE: WordyEvent, resource: Resource): WpResponse => {  
+export const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpWrn): WpResponse => {  
   // applying policy
-  const policy: Policy = policyGrabber(resource.wpWrn);
+  const policy: Policy = policyGrabber(wpWrn);
 
   // defining default responese, and by default, not passed.
   let returningResponse: WpResponse = "NotPassed"; // by default
@@ -116,7 +116,7 @@ export const conditionChecker = (RE: WordyEvent, resource: Resource, givenCondit
 
 // currently does not support customized wp
 // but will eventually connect to mongo db and get the data from db
-export const policyGrabber = (wpWrn: AvailableWpWrn) => {
+export const policyGrabber = (wpWrn?: AvailableWpWrn) => {
   switch(wpWrn) {
     case "wrn::wp:pre_defined:backend:only_owner:210811":
       return PREDEFINED_ONLY_OWNER;

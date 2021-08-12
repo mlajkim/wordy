@@ -12,7 +12,7 @@ import { wpService } from '../security/wp';
 // type
 import { WordyEvent } from '../../type/wordyEventType';
 import { Resource } from '../../type/resourceType';
-import { Wrn } from '../../type/availableType';
+import { AvailableWpWrn, Wrn } from '../../type/availableType';
 
 // This function below is tested and verified on May 8, 2021
 // By Jeongwoo Kim
@@ -66,11 +66,13 @@ export const intoPayload = (resource: Resource, RE: WordyEvent) => {
   return user;
 }
 
-
-export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customized?: object): Resource => {
+export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any): Resource => {
   const kmsResult = kmsService("Encrypt", "");
   const { encrypt } = new Cryptr(kmsResult.plainkey);
-  const plaindata: string = JSON.stringify({ ...resource, wrn: newWrn, ownerWrn: RE.requesterWrn });
+  const plaindata: string = JSON.stringify({ 
+    ...resource, wrn: newWrn, ownerWrn: RE.requesterWrn, 
+    wpWrn: wpWrn ? wpWrn : "wrn::wp:pre_defined:backend:only_to_group_members:210811" // default value
+  });
   const ciphertextBlob = encrypt(plaindata);
 
   // new resource
@@ -80,9 +82,7 @@ export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customi
     dateAdded: moment().valueOf(),
     wrn: newWrn,
     ownerWrn: RE.requesterWrn,
-    createdByWrn: RE.requesterWrn, // by default, the creater of resource is the initiator of event 
-    //wordy policy checker
-    wpWrn: "wrn::wp:pre_defined:backend:only_to_group_members:210811", // by default
+    createdByWrn: RE.requesterWrn, // by default, the creater of resource is the initiator of event
     // Encrpytion
     encryptionMethod: kmsResult.encryptionMethod, //if this undefined? not encrpted
     cmkWrn: kmsResult.cmkWrn, // cmk data does not change.
