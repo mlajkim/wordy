@@ -19,8 +19,6 @@ import { intoArray, validateWrn } from '../../type/sharedWambda';
 import {
   PREDEFINED_ONLY_OWNER, 
   PREDEFINED_ONLY_TO_GROUP_MEMBERS, 
-  PREDEFINED_ONLY_TO_GROUP_AND_TEMPORARY_TOKEN,
-  PREDEFINED_ONLY_TO_TEMPORARY_TOKEN,
   PREDEFINED_ONLY_TO_WORDY_MEMBER,
   PREDEFINED_DANGEROUSLY_PUBLIC,
   PREDEFINED_ONLY_TO_ADMIN
@@ -124,14 +122,10 @@ export const policyGrabber = (wpWrn: AvailableWpWrn) => {
       return PREDEFINED_ONLY_OWNER;
     case "wrn::wp:pre_defined:backend:only_to_group_members:210811":
       return PREDEFINED_ONLY_TO_GROUP_MEMBERS;
-    case "wrn::wp:pre_defined:backend:only_to_group_and_temporary_token:210811":
-      return PREDEFINED_ONLY_TO_GROUP_AND_TEMPORARY_TOKEN;
-    case "wrn::wp:pre_defined:backend:only_to_temporary_token:210811":
-      return PREDEFINED_ONLY_TO_TEMPORARY_TOKEN;
     case "wrn::wp:pre_defined:backend:only_to_wordy_member:210811":
       return PREDEFINED_ONLY_TO_WORDY_MEMBER;
-      case "wrn::wp:pre_defined:backend:only_to_admin:210811":
-        return PREDEFINED_ONLY_TO_ADMIN;
+    case "wrn::wp:pre_defined:backend:only_to_admin:210811":
+      return PREDEFINED_ONLY_TO_ADMIN;
     case "wrn::wp:pre_defined:backend:dangerously_public:210811":
       return PREDEFINED_DANGEROUSLY_PUBLIC;
     default:

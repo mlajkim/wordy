@@ -30,8 +30,6 @@ export type AvailableCmkWrn = 'wrn::kms:master:env:1:210804'; // version 1 key c
 export type AvailableWpWrn = 
   "wrn::wp:pre_defined:backend:only_owner:210811" |
   "wrn::wp:pre_defined:backend:only_to_group_members:210811" |
-  "wrn::wp:pre_defined:backend:only_to_group_and_temporary_token:210811" |
   "wrn::wp:pre_defined:backend:only_to_wordy_member:210811" |
-  "wrn::wp:pre_defined:backend:only_to_temporary_token:210811" |
   "wrn::wp:pre_defined:backend:only_to_admin:210811" |
   "wrn::wp:pre_defined:backend:dangerously_public:210811";

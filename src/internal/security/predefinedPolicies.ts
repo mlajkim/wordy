@@ -25,38 +25,6 @@ export const PREDEFINED_ONLY_TO_GROUP_MEMBERS: Policy = {
     }
   }
 };
-export const PREDEFINED_ONLY_TO_GROUP_AND_TEMPORARY_TOKEN: Policy = {
-  version: "1.0.210729",
-  statement: [
-    {
-      effect: "Allow",
-      action: "*",
-      principal: "*",
-      condition: {
-        availableOnlyToTheGroupMemberOfOwner: true
-      }
-    },
-    {
-      effect: "Allow",
-      action: "*",
-      principal: "*",
-      condition: {
-        temporaryTokenValidated: true
-      }
-    }
-  ]
-};
-export const PREDEFINED_ONLY_TO_TEMPORARY_TOKEN: Policy = {
-  version: "1.0.210729",
-  statement: {
-    effect: "Allow",
-    action: "*",
-    principal: "*",
-    condition: {
-      temporaryTokenValidated: true
-    }
-  }
-};
 export const PREDEFINED_ONLY_TO_WORDY_MEMBER: Policy = {
   version: "1.0.210729",
   statement: {
