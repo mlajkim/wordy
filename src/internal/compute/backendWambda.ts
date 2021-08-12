@@ -82,7 +82,7 @@ export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customi
     ownerWrn: RE.requesterWrn,
     createdByWrn: RE.requesterWrn, // by default, the creater of resource is the initiator of event 
     //wordy policy checker
-    wpWrn: "wrn::wp:pre_defined:backend:only_to_wordy_member:210811", // by default
+    wpWrn: "wrn::wp:pre_defined:backend:only_to_group_members:210811", // by default
     // Encrpytion
     encryptionMethod: kmsResult.encryptionMethod, //if this undefined? not encrpted
     cmkWrn: kmsResult.cmkWrn, // cmk data does not change.
