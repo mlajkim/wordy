@@ -35,7 +35,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     : RE.validatedBy = [SERVICE_NAME]; 
 
   // Findt data from database
-  const okrObjects = await OkrObjectModel.find({ ownerWrn: RE.requesterWrn }) as Resource[]; // returns null when not found
+  const okrObjects = await OkrObjectModel.find({ ownerWrn: RE.identifiedAsWrn }) as Resource[]; // returns null when not found
   
   if (okrObjects) {
     // decrypt the data

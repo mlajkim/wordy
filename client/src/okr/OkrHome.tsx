@@ -3,6 +3,10 @@ import React, { Fragment, useEffect, useState } from 'react';
 import OkrData from './OkrPageData';
 import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload } from '../type/payloadType';
 import { State } from '../types';
+// Internal
+import { convertSem } from '../utils';
+// Translation
+import yearChipTr from '../pages/list/year_chip.tr.json';
 // MUI
 import { Chip, Grid, Typography, IconButton } from '@material-ui/core';
 // MUI icon
@@ -24,7 +28,8 @@ const OkrHome: React.FC<{
   okrData, setOkrData
 }) => {
   // Redux states
-  const { support, okrLoading } = useSelector((state: State) => state);
+  const { support, language, okrLoading } = useSelector((state: State) => state);
+  const ln = language;
   // state
   const { myOkrData } = okrData;
   const [ selectedSem, setSelectedSem ] = useState(0);
@@ -63,7 +68,7 @@ const OkrHome: React.FC<{
     throwEvent("okr:getOkrObject", input)
       .then(res => {
         if (res.serverResponse === "Accepted") {
-          setData(res.payload as OkrGetOkrObjectPayload)
+          setData(res.payload as  OkrGetOkrObjectPayload)
         }
       })
 
@@ -82,7 +87,7 @@ const OkrHome: React.FC<{
       key={sem}
       variant={sem === selectedSem ? undefined : "outlined"}
       size="small"
-      label={sem}
+      label={`${convertSem(sem).year}${yearChipTr.year[ln]} ${convertSem(sem).sem}${yearChipTr.sem[ln]}`}
       clickable
       color={support.isDarkMode ? undefined : "primary"}
       onClick={() => hdlChipClick()}
@@ -90,7 +95,7 @@ const OkrHome: React.FC<{
   ));
 
   const RenderList = data && data.map(data => (
-    <Typography gutterBottom>
+    <Typography gutterBottom key={data.wrn}>
       {data.title}
     </Typography>
   ))
@@ -107,8 +112,8 @@ const OkrHome: React.FC<{
         <Grid style={{ paddingTop: 25 }}>
           { RenderChips }
         </Grid>
-        { okrLoading && <LoadingFbStyle />}
         <Grid style={{ paddingTop: 10 }}>
+          { okrLoading && <LoadingFbStyle />}
           { RenderList }
         </Grid>
       </Grid>
