@@ -7,7 +7,7 @@ import { OkrObjectModel } from '../../../models/EncryptedResource';
 import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { generatedWrn, intoResource } from '../../../internal/compute/backendWambda';
+import { generatedWrn, intoResource, getToday } from '../../../internal/compute/backendWambda';
 // type
 import { CreateOkrObjectInput } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
@@ -34,8 +34,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     ? RE.validatedBy.push(SERVICE_NAME) 
     : RE.validatedBy = [SERVICE_NAME];
 
+  // get a good public id
+  let publicId = "";
+  const { year, sem } = getToday();
+  if (inputData.type === "Objective") publicId = year.toString();
+  else if (inputData.type === "KeyResult") publicId = sem.toString();
+  else if (inputData.type === "OkrDailyRoutine") publicId = sem.toString();
+
   // Data declration with generated Wrn
-  const wrn = generatedWrn("wrn::okr:okr_object:mdb::");
+  const wrn = generatedWrn(`wrn::okr:okr_object:mdb:${publicId}:`);
   const newMyOkr: OkrObjectHeader = inputData;
   const newMyOkrResource = intoResource(newMyOkr, wrn, RE);
 

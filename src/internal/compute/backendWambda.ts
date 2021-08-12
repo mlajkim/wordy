@@ -94,4 +94,13 @@ export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customi
 
   // finally return
   return newResource;
+};
+
+export const getToday = () => {
+  // now must be defined first, as the moment that year changes may cause bug (barely hpapen tho) 
+  const now = moment();
+  const year = parseInt(now.format('YYYY'));
+  const month = parseInt(now.format('MM'));
+  
+  return { year, sem: (year % 100) * 10 + Math.ceil(month / 3) }
 }

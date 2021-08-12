@@ -3,7 +3,7 @@
 // This data is what backend sends
 
 // Type
-import { UserResource, MyOkr, OkrObjectHeader } from '../type/resourceType';
+import { UserResource, MyOkr, OkrObjectHeader, OkrObject } from '../type/resourceType';
 import { 
   FederalProvider, 
 } from './availableType';
@@ -28,16 +28,19 @@ export type UserCreateUserPayload = UserResource;
 // OKR service
 // ===============
 
-// okr:createOkrObject (Aug 12, 2021)
+// okr:GET_OKR_OBJECT
+export type OkrGetOkrObjectPayload = OkrObject[];
+
+// okr:CREATE_OKR_OBJECT_INPUT (Aug 12, 2021)
 export type CreateOkrObjectInput = OkrObjectHeader;
-export type CreateOkrObjectPayload = {
 
-};
-
-// okr:getMyOkr
+// OKR:GET_MY_OKR
 export type OkrGetMyOkrInput = {
   userLink: string;
   tempAccessToken: string;
 };
 export type OkrGetMyOkrPayload = MyOkr;
+
+
+
 

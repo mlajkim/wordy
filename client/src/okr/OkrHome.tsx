@@ -11,7 +11,7 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux action
-import { offOkrReload, setDialog } from '../redux/actions';
+import { offDialog, offOkrReload, setDialog } from '../redux/actions';
 import { throwEvent } from '../frontendWambda';
 
 
@@ -25,7 +25,7 @@ const OkrHome: React.FC<{
   const { support, okrLoading } = useSelector((state: State) => state);
   // state
   const { myOkrData } = okrData;
-  const [selectedSem, setSelectedSem] = useState(0);
+  const [ selectedSem, setSelectedSem ] = useState(0);
   // Dialog state
 
   useEffect(() => {
@@ -39,7 +39,9 @@ const OkrHome: React.FC<{
   // handler for loading
   useEffect(() => {
     if (okrLoading) {
-      console.log("loading happens")
+      console.log("loading happens"); // test
+
+      // finally
       store.dispatch(offOkrReload());
     };
   }, [okrLoading]);

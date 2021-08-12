@@ -82,6 +82,7 @@ const CreateOkrObject: React.FC = () => {
         if (res.serverResponse === "LogicallyDenied") {
           // nothing happens I think for now
         } else if (res.serverResponse === "Accepted") {
+          store.dispatch(offDialog());
           store.dispatch(setOkrReloadOn());
         }
       })

@@ -30,6 +30,7 @@ type OkrService =
   "createMyOkr" |
   "getMyOkr" |
   "createOkrObject" |
+  "getOkrObject" |
   "inviteMember" | // will be used to invite any member using his or her public account number
   "acceptInvitation" | // accepts the invitation
   "rejectInvitation" | // rejects the invitaton

@@ -2,10 +2,11 @@
 import express, {   Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
+import { Resource } from '../../../type/resourceType';
 // Middleware
 import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // Mogno DB
-import { MyOkrModel } from '../../../models/EncryptedResource';
+import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { intoPayload } from '../../../internal/compute/backendWambda';
@@ -13,9 +14,10 @@ import { intoPayload } from '../../../internal/compute/backendWambda';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Gateway
 import { connectToMongoDB } from '../../../internal/database/mongo';
+import { OkrGetOkrObjectPayload } from 'src/type/payloadType';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "okr:getMyOkr";
+const EVENT_TYPE = "okr:getOkrObject";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
@@ -26,21 +28,18 @@ router.use(onlyToWordyMemberMdl);
 router.use(connectToMongoDB);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  // declare requested event
-  const RE = req.body as WordyEvent; // receives the event
-  // const userInput = RE.requesterInputData as OkrGetMyOkrInput;
-
-  // Record
+  // Declare + Save Record
+  const RE = req.body as WordyEvent;
   RE.validatedBy 
     ? RE.validatedBy.push(SERVICE_NAME) 
     : RE.validatedBy = [SERVICE_NAME]; 
 
-  // if my okr exists, it should reject, as it shouldh ave only one
-  const myOkrData = await MyOkrModel.findOne({ ownerWrn: RE.requesterWrn }); // returns null when not found
+  // Findt data from database
+  const okrObjects = await OkrObjectModel.find({ ownerWrn: RE.requesterWrn }) as Resource[]; // returns null when not found
   
-  if (myOkrData) {
+  if (okrObjects) {
     // decrypt the data
-    RE.payload = intoPayload(myOkrData, RE)
+    RE.payload = okrObjects.map(el => intoPayload(el, RE)) as OkrGetOkrObjectPayload;
     ctGateway(RE, "Accepted");
     return res.status(RE.status!).send(RE);
   } else {
