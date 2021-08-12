@@ -3,8 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { State } from '../types';
 import { WordyEvent } from '../type/wordyEventType';
 import OkrData from '../okr/OkrPageData';
-import { MyOkr } from '../type/resourceType';
-import { OkrGetMyOkrInput } from '../type/payloadType';
+import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../type/payloadType';
 // library
 import { throwEvent } from '../frontendWambda';
 // Material UI
@@ -44,13 +43,13 @@ const Okr: React.FC = () => {
       tempAccessToken: pathArr.length > 3 ? pathArr[3]: ""
     };
 
-    throwEvent("okr:getMyOkr", pathData)
+    throwEvent("okr:getMyOkr", pathData, pathData.tempAccessToken)
       .then((res: WordyEvent) => {
-        const foundData = res.payload as MyOkr;
+        const foundData = res.payload as OkrGetMyOkrPayload;
         setOkrData({ myOkrData: foundData});
         if (res.serverResponse === 'Accepted') setOkrPage("okrMode");
         else setOkrPage("welcome");
-      })
+      });
   }, []);
 
   return (

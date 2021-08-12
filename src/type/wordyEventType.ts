@@ -5,7 +5,7 @@ export type WordyEvent = {
   // header (data from end user)
   eventVersion: "1.0.210731",
   eventType: EventType,
-  accessToken?: string,
+  tempAccessToken?: string,
   requesterInputData?: any,
   // body (what end user wants)
   serverResponse?: ServerResponse
@@ -15,6 +15,7 @@ export type WordyEvent = {
   status?: number;
   // tail (data put by server)
   requesterWrn?: string; // actual initiator
+  identifiedAsWrn?: string;
   requesterInfo?: JwtData;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK

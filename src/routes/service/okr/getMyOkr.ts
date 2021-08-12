@@ -1,6 +1,8 @@
 // Main
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
+// Type
+// import { OkrGetMyOkrInput } from 'src/type/payloadType';
 // Mogno DB
 import { MyOkrModel } from '../../../models/EncryptedResource';
 // internal
@@ -43,6 +45,7 @@ router.use(connectToMongoDB);
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
+  // const userInput = RE.requesterInputData as OkrGetMyOkrInput;
 
   // Record
   RE.validatedBy 

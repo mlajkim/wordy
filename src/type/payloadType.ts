@@ -3,7 +3,7 @@
 // This data is what backend sends
 
 // Type
-import { UserResource } from '../type/resourceType';
+import { UserResource, MyOkr } from '../type/resourceType';
 import { FederalProvider } from './availableType';
 
 
@@ -31,7 +31,4 @@ export type OkrGetMyOkrInput = {
   userLink: string;
   tempAccessToken: string;
 };
-export type OkrGetMyOkrPayload = {
-  userLink: string;
-  tempAccessToken: string;
-};
+export type OkrGetMyOkrPayload = MyOkr;

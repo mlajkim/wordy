@@ -62,7 +62,7 @@ export const wpServiceLogic = (RE: WordyEvent, resource: Resource): WpResponse =
     const policyPrincipals = intoArray(definedStatement.principal) as string[];
     if (definedStatement.effect === "Deny") {
       for (const policyPrincipal of policyPrincipals) {
-        if (validateWrn(RE.requesterWrn!, policyPrincipal) === 'Passed') {
+        if (validateWrn(RE.identifiedAsWrn!, policyPrincipal) === 'Passed') {
           const actions = intoArray(definedStatement.action);
           for (const action of actions) {
             if (validateWrn(RE.eventType!, action) === 'Passed'
@@ -74,7 +74,7 @@ export const wpServiceLogic = (RE: WordyEvent, resource: Resource): WpResponse =
       };
     } else if (definedStatement.effect === "Allow") {
       for (const policyPrincipal of policyPrincipals) {
-        if (validateWrn(RE.requesterWrn!, policyPrincipal) === 'Passed') {
+        if (validateWrn(RE.identifiedAsWrn!, policyPrincipal) === 'Passed') {
           const actions = intoArray(definedStatement.action);
           for (const action of actions) {
             if (validateWrn(RE.eventType!, action) === 'Passed'

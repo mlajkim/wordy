@@ -25,6 +25,18 @@ export const generateJwt = (data: any): Jwt => {
   return signedJwt;
 };
 
+const identifiedWrnDefiner = (RE: WordyEvent) => {
+  if (typeof RE.tempAccessToken === 'string' && RE.tempAccessToken.length > 0) {
+    // validate if tempAccessToken is validating
+
+    // for temporarily I will just put the following
+    RE.identifiedAsWrn = RE.requesterWrn;
+  } else {
+    // just apply identifedWrn as requesterWrn
+    RE.identifiedAsWrn = RE.requesterWrn;
+  }
+}
+
 const NOT_REQUIRING_WAT_EVENTS: EventType[] = ["user:createUser", "okr:getMyOkr"];
 // okr:getMyOkr is available to anyone, even without token. 
 
@@ -37,8 +49,8 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
   // Record
   req.body.validatedBy 
     ? req.body.validatedBy.push(SERVICE_NAME) 
-    : req.body.validatedBy = [SERVICE_NAME]; 
-
+    : req.body.validatedBy = [SERVICE_NAME];
+    
   jwt.verify(httpOnlyToken!, process.env.WORDY_ACCESS_TOKEN_JWT!, (err: any, data: any) => {
     if (err) {
       // Validated if action does not require jwt token
@@ -46,6 +58,7 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       if (idx !== -1) {
         requestedEvent.requesterWrn = "wrn::user:::";
         requestedEvent.requesterInfo = data;
+        identifiedWrnDefiner(requestedEvent);
         return next(); // you are free to go, even w/o WAT
       };
 
@@ -56,6 +69,7 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       // validated, no err
       requestedEvent.requesterInfo = data;
       requestedEvent.requesterWrn = data.wrn;
+      identifiedWrnDefiner(requestedEvent);
       next();
     }
   });

@@ -10,13 +10,14 @@ import { EventType } from './type/wordyEventType';
 import { setSnackbar } from './redux/actions';
 
 // event Thrower
-export const throwEvent = async (eventType: EventType, requesterInputData?: any) => {
+export const throwEvent = async (eventType: EventType, requesterInputData?: any, tempAccessToken?: string) => {
   // Prepare for a new event
   // even if bad user modfies requesterWrn, it will be still validated forward, andtherefore it is okay.
   const newEvent: WordyEvent = {
     eventVersion: "1.0.210731",
     eventType,
     requesterInputData,
+    tempAccessToken,
   };
 
   // loads the requester data if it exists
