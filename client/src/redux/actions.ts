@@ -64,6 +64,8 @@ export const deleteOneYear = (year: number, sem: number) => {
 
 // @ SNACKBAR
 export const setSnackbar = (desc: string, type?: SnackbarType, duration?: number) => {
+  if (!duration && (type === "warning" || type === "error"))
+    duration = 5; // by default;
   return {
     type: actions.SET_SNACKBAR,
     payload: {

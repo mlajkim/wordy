@@ -1,9 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 // type
 import OkrData from './OkrPageData';
 import { State } from '../types';
 // MUI
-import { Chip, Grid } from '@material-ui/core';
+import { Chip, Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
+// MUI icon
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -19,9 +21,15 @@ const OkrHome: React.FC<{
   const ln = language;
   // state
   const { myOkrData } = okrData;
+  const [selectedSem, setSelectedSem] = useState(0);
+  const [menu, openMenu] = useState<null | HTMLElement>(null);
 
   useEffect(() => {
-    
+    // selecting sem algorithm. for now, I will hard code choosing 213
+    const foundSemByAlgorithm = 213;
+
+    // Set selectedSem for data pulling
+    setSelectedSem(foundSemByAlgorithm);
   }, []);
 
   // handler
@@ -32,7 +40,7 @@ const OkrHome: React.FC<{
   const RenderChips = myOkrData.okrSems.map(sem => (
     <Chip
       key={sem}
-      variant="outlined"
+      variant={sem === selectedSem ? undefined : "outlined"}
       size="small"
       label={sem}
       clickable
@@ -41,16 +49,35 @@ const OkrHome: React.FC<{
     />
   ));
 
-  // select color 
+  // handler
+  const hdlMoreClick = (e: React.MouseEvent<HTMLButtonElement>) => openMenu(e.currentTarget);
 
+  // handler
+  const hdlCreateObject = () => {
+
+  }
 
   return (
-    <Fragment> 
-      <Grid style={{ textAlign: 'center', paddingTop: 10 }}>
-        {`${myOkrData.name}@${myOkrData.id}`}
-      </Grid>
-      <Grid style={{ textAlign: 'center', paddingTop: 50 }}>
-        { RenderChips }
+    <Fragment>
+      <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
+        <Grid style={{ paddingTop: 10 }}>
+          {`${myOkrData.name}@${myOkrData.id}`}
+          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => hdlMoreClick(e)}>
+            <MoreVertIcon fontSize="small" />
+          </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={menu}
+            keepMounted
+            open={Boolean(menu)}
+            onClose={() => openMenu(null)}
+          >
+            <MenuItem onClick={() => hdlCreateObject()}>Create Objective</MenuItem>
+          </Menu>
+        </Grid>
+        <Grid style={{ paddingTop: 25 }}>
+          { RenderChips }
+        </Grid>
       </Grid>
     </Fragment>
   );

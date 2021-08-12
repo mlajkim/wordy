@@ -5,7 +5,8 @@ export type Resource = {
   resourceVersion: "1.0.210804";
   wrn: string;
   ownerWrn?: string; // resource owner.
-  // wordy policy checker 
+  createdByWrn?: string; // the one who created this resource. can be human or wordy internal service 
+// wordy policy checker 
   wpWrn: AvailableWpWrn; // this will be checked first, even before
   // Encrpytion
   encryptionMethod: EncryptionMethod; //if this undefined? not encrpted

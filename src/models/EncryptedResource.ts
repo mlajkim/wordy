@@ -9,6 +9,7 @@ const encryptedResource: Record<keyof Resource, any> =   {
   resourceVersion: String,
   wrn: String,
   ownerWrn: String, // resource owner.
+  createdByWrn: String, // the one who created this resource
   // wordy policy checker 
   wpWrn: String, //
   // Encrpytion
