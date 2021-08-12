@@ -3,6 +3,7 @@ import geoip from 'geoip-lite';
 import { OAuth2Client } from 'google-auth-library';
 import Cryptr from 'cryptr';
 import cryptoRandomString from 'crypto-random-string';
+import moment from 'moment';
 // For signing token
 import dotenv from "dotenv";
 // internal
@@ -76,8 +77,10 @@ export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, customi
   const newResource: Resource = {
     // data basic
     resourceVersion: "1.0.210804",
+    dateAdded: moment().valueOf(),
     wrn: newWrn,
-    ownerWrn: RE.requesterWrn, 
+    ownerWrn: RE.requesterWrn,
+    createdByWrn: RE.requesterWrn, // by default, the creater of resource is the initiator of event 
     //wordy policy checker
     wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811", // by default
     // Encrpytion

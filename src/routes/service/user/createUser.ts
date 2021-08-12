@@ -3,15 +3,14 @@ import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 // External Library
 import { OAuth2Client } from 'google-auth-library';
-import Cryptr from 'cryptr';
-// import cookie from 'cookie';
 // Library
 import { generateJwt } from '../../../internal/security/wat';
 // Mogno DB
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
-import { kmsService } from '../../../internal/security/kms';
+import { intoResource } from '../../../internal/compute/backendWambda';
 // type
+import { UserCreateUser } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { JwtData } from '../../../type/availableType';
 import { Resource, UserResource } from '../../../type/resourceType';
@@ -74,6 +73,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   };
   verify()
     .then(async (ticket) => {
+      // user resouce does not have private id as, it is hard to find
       const wrn = `wrn::user:google:mdb:${ticket.getUserId()}`;
 
       // Check if the user already exists (this is encryptedData)
@@ -85,21 +85,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         iamValidatedEvent.serverMessage = `user ${wrn} already exists`
         return res.send(iamValidatedEvent);
       };
-
-      // create basic userResource based on given data
-      const newUser: UserResource = {
-        wrn,
-        ownerWrn: wrn,
-        federalProvider: 'google',
-        federalId: ticket.getUserId() as string,
-        lastName: ticket.getPayload()!.family_name as string
-      };
-
-      // Encrpytion method
-      const kmsResult = kmsService("Encrypt", "");
-      const { encrypt } = new Cryptr(kmsResult.plainkey);
-      const plaindata: string = JSON.stringify(newUser);
-      const ciphertextBlob = encrypt(plaindata);
       
       // generate jwt & cookie
       const jwtData: JwtData = {
@@ -110,21 +95,19 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const jwt = generateJwt(jwtData);
 
       // confirm new resource
-      const newResource: Resource = {
-        resourceVersion: "1.0.210804",
+      const newResource: UserResource = {
         wrn,
         ownerWrn: wrn,
-        wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
-        encryptionMethod: kmsResult.encryptionMethod,
-        cmkWrn: kmsResult.cmkWrn,
-        encryptedDek: kmsResult.encryptedDek,
-        ciphertextBlob
+        federalProvider: 'google',
+        federalId: ticket.getUserId() as string,
+        lastName: ticket.getPayload()!.family_name as string
       };
+      const newUserResource = intoResource(newResource, wrn, iamValidatedEvent);
 
       // finally create
-      await new UserModel(newResource).save()
+      await new UserModel(newUserResource).save()
         .then(() => {
-          iamValidatedEvent.payload = newResource;
+          iamValidatedEvent.payload = newResource as UserCreateUser;
           iamValidatedEvent.serverResponse = "Accepted";
           iamValidatedEvent.serverMessage = "OK"
 

@@ -6,4 +6,4 @@ import { UserResource } from '../type/resourceType';
 
 export type wordDetectLanguagePayload = { language: string, isReliable: boolean, confidence: number }[];
 
-export type userCreateUser = UserResource
+export type UserCreateUser = UserResource

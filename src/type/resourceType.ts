@@ -4,6 +4,7 @@ export type Resource = {
   // finder data
   resourceVersion: "1.0.210804";
   wrn: string;
+  dateAdded: number;
   ownerWrn?: string; // resource owner.
   createdByWrn?: string; // the one who created this resource. can be human or wordy internal service 
 // wordy policy checker 
