@@ -5,7 +5,7 @@
 // Type
 import { UserResource, MyOkr, OkrObjectHeader, OkrObject } from '../type/resourceType';
 import { 
-  FederalProvider, 
+  FederalProvider, OkrObjectType
 } from './availableType';
 
 
@@ -29,6 +29,10 @@ export type UserCreateUserPayload = UserResource;
 // ===============
 
 // okr:GET_OKR_OBJECT
+export type OkrGetOkrObjectInput = {
+  sem: number;
+  okrObjectType: OkrObjectType;
+}
 export type OkrGetOkrObjectPayload = OkrObject[];
 
 // okr:CREATE_OKR_OBJECT_INPUT (Aug 12, 2021)

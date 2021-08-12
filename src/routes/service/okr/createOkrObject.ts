@@ -39,7 +39,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const { year, sem } = getToday();
   if (inputData.type === "Objective") publicId = year.toString();
   else if (inputData.type === "KeyResult") publicId = sem.toString();
-  else if (inputData.type === "OkrDailyRoutine") publicId = sem.toString();
+  else if (inputData.type === "OkrDailyRoutine") publicId = `100${sem.toString()}`;
 
   // Data declration with generated Wrn
   const wrn = generatedWrn(`wrn::okr:okr_object:mdb:${publicId}:`);

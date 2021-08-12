@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // type
 import OkrData from './OkrPageData';
+import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload } from '../type/payloadType';
 import { State } from '../types';
 // MUI
-import { Chip, Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
+import { Chip, Grid, Typography, IconButton } from '@material-ui/core';
 // MUI icon
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 
@@ -11,8 +12,9 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux action
-import { offDialog, offOkrReload, setDialog } from '../redux/actions';
+import { offOkrReload, setDialog } from '../redux/actions';
 import { throwEvent } from '../frontendWambda';
+import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
 
 const OkrHome: React.FC<{
@@ -26,11 +28,24 @@ const OkrHome: React.FC<{
   // state
   const { myOkrData } = okrData;
   const [ selectedSem, setSelectedSem ] = useState(0);
+  const [ data, setData ] = useState<OkrGetOkrObjectPayload>();
   // Dialog state
 
   useEffect(() => {
     // selecting sem algorithm. for now, I will hard code choosing 213
     const foundSemByAlgorithm = 213;
+
+    // get okr Data 
+    const input: OkrGetOkrObjectInput = {
+      sem: foundSemByAlgorithm,
+      okrObjectType: "KeyResult"
+    };
+    throwEvent("okr:getOkrObject", input)
+      .then(res => {
+        if (res.serverResponse === "Accepted") {
+          setData(res.payload as OkrGetOkrObjectPayload)
+        }
+      })
 
     // Set selectedSem for data pulling
     setSelectedSem(foundSemByAlgorithm);
@@ -38,13 +53,24 @@ const OkrHome: React.FC<{
 
   // handler for loading
   useEffect(() => {
-    if (okrLoading) {
-      console.log("loading happens"); // test
+    if (!okrLoading) return; 
 
-      // finally
-      store.dispatch(offOkrReload());
+    // get okr Data 
+    const input: OkrGetOkrObjectInput = {
+      sem: selectedSem,
+      okrObjectType: "KeyResult"
     };
-  }, [okrLoading]);
+    throwEvent("okr:getOkrObject", input)
+      .then(res => {
+        if (res.serverResponse === "Accepted") {
+          setData(res.payload as OkrGetOkrObjectPayload)
+        }
+      })
+
+    // finally
+    store.dispatch(offOkrReload());
+    
+  }, [okrLoading, selectedSem]);
 
   // handler
   const hdlChipClick = () => {
@@ -63,6 +89,12 @@ const OkrHome: React.FC<{
     />
   ));
 
+  const RenderList = data && data.map(data => (
+    <Typography gutterBottom>
+      {data.title}
+    </Typography>
+  ))
+
   return (
     <Fragment>
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
@@ -74,6 +106,10 @@ const OkrHome: React.FC<{
         </Grid>
         <Grid style={{ paddingTop: 25 }}>
           { RenderChips }
+        </Grid>
+        { okrLoading && <LoadingFbStyle />}
+        <Grid style={{ paddingTop: 10 }}>
+          { RenderList }
         </Grid>
       </Grid>
     </Fragment>
