@@ -8,7 +8,10 @@ import { Chip, Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 // Redux
+import store from '../redux/store';
 import { useSelector } from 'react-redux';
+// Redux action
+import { setDialog } from '../redux/actions';
 
 
 const OkrHome: React.FC<{
@@ -23,6 +26,7 @@ const OkrHome: React.FC<{
   const { myOkrData } = okrData;
   const [selectedSem, setSelectedSem] = useState(0);
   const [menu, openMenu] = useState<null | HTMLElement>(null);
+  // Dialog state
 
   useEffect(() => {
     // selecting sem algorithm. for now, I will hard code choosing 213
@@ -72,7 +76,7 @@ const OkrHome: React.FC<{
             open={Boolean(menu)}
             onClose={() => openMenu(null)}
           >
-            <MenuItem onClick={() => hdlCreateObject()}>Create Key Result</MenuItem>
+            <MenuItem onClick={() => store.dispatch(setDialog("CreateOkrObject"))}>Create Key Result</MenuItem>
           </Menu>
         </Grid>
         <Grid style={{ paddingTop: 25 }}>

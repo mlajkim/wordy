@@ -10,13 +10,17 @@ import MassWordsDialog from '../dialog/mass_words/MassWords';
 import EditWordDialog from '../dialog/edit_word/EditWord';
 import ShortcutDialog from '../dialog/shotcut_dialog/ShortcutDialog';
 import SettingDialog from '../dialog/setting_dialog/SettingDialog';
-
+// OKR
+import CreateOkrObject from '../dialog/create_okr_object/CreateOkrObject';
 
 const Dialog = () => {
   // states
   const {dialog} = useSelector((state: State) => state);
 
   switch(dialog.type) {
+    case 'CreateOkrObject': 
+      return <CreateOkrObject />;
+
     case 'LoginDialog': 
       return <LoginDialog type='login' />;
 
