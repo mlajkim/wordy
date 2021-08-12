@@ -1,8 +1,10 @@
 // Main
-import express, {  NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
+// Mdl
+import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource } from '../../../internal/compute/backendWambda';
@@ -11,7 +13,6 @@ import { CreateOkrObjectInput } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { OkrObjectHeader } from '../../../type/resourceType';
 // Gateway
-import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
@@ -19,25 +20,8 @@ const EVENT_TYPE = "okr:createOkrObject";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
-router.use(async (req: Request, res: Response, next: NextFunction) => {
-  // Validation
-  const requestedEvent = req.body as WordyEvent; // receives the event
-  if (requestedEvent.serverResponse === "Denied") {
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
-  }
-
-  // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
-  if (iamValidatedEvent.serverResponse === 'Denied'){
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
-  }
-
-  // Validation complete
-  req.body = iamValidatedEvent;
-  next();
-}); 
+// Only available to Wordy Members
+router.use(onlyToWordyMemberMdl); 
 
 // connects into mongodb
 router.use(connectToMongoDB);
