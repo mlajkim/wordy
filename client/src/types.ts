@@ -3,6 +3,7 @@ import { AvailableCookies } from './type/availableType';
 import { KeepStyleBtnProperty } from'./frontendTypes';
 
 export type State = {
+  okrLoading: boolean;
   dialog: Dialog;
   language: Language;
   support: Support;

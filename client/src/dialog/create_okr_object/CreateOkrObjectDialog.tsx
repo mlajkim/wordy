@@ -1,6 +1,7 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 // Type 
 import { OkrObjectType } from '../../type/availableType';
+import { CreateOkrObjectInput } from '../../type/payloadType';
 // MUI
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,10 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 // Redux
 import store from '../../redux/store';
-import { offDialog } from '../../redux/actions';
+// Redux Action
+import { offDialog, setOkrReloadOn } from '../../redux/actions';
+// Internal
+import { throwEvent } from '../../frontendWambda';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -67,17 +71,21 @@ const DialogActions = withStyles((theme: Theme) => ({
 const okrObjecTypeList: OkrObjectType[] = ["KeyResult", "Objective", "OkrDailyRoutine"];
 
 const CreateOkrObject: React.FC = () => {
-  const [input, setInput] = useState("");
+  const [title, setTitle] = useState("");
   const [selectedType, setType] = useState<OkrObjectType>("KeyResult");
   
   // handler
   const hdlCreateClick = () => {
-
+    const userInput: CreateOkrObjectInput = { type: selectedType, title };
+    throwEvent("okr:createOkrObject", userInput)
+      .then(res => {
+        if (res.serverResponse === "LogicallyDenied") {
+          // nothing happens I think for now
+        } else if (res.serverResponse === "Accepted") {
+          store.dispatch(setOkrReloadOn());
+        }
+      })
   };
-
-  const hdlInputChange = (inputValue: string) => {
-
-  }
 
   const randerButtons = okrObjecTypeList.map(okrObjectType => (
     <Button 
@@ -109,7 +117,7 @@ const CreateOkrObject: React.FC = () => {
             id="name"
             label="content"
             autoComplete={"off"}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             fullWidth
           />
         </DialogContent>

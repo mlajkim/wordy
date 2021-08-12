@@ -1,3 +1,6 @@
+// OKR (Aug 12, 2021)
+export const SET_OKR_RELOAD_ON = "[OKR Reload] ON"
+export const SET_OKR_RELOAD_OFF = "[OKR Reload] OFF"
 // Dialog
 export const SET_DIALOG = "[DIALOG] SET_DIALOG";
 export const OFF_DIALOG = "[DIALOG] OFF_DIALOG";

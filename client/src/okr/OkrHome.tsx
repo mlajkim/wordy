@@ -5,13 +5,14 @@ import { State } from '../types';
 // MUI
 import { Chip, Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
 // MUI icon
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux action
-import { setDialog } from '../redux/actions';
+import { offOkrReload, setDialog } from '../redux/actions';
+import { throwEvent } from '../frontendWambda';
 
 
 const OkrHome: React.FC<{
@@ -21,11 +22,10 @@ const OkrHome: React.FC<{
   okrData, setOkrData
 }) => {
   // Redux states
-  const { support } = useSelector((state: State) => state);
+  const { support, okrLoading } = useSelector((state: State) => state);
   // state
   const { myOkrData } = okrData;
   const [selectedSem, setSelectedSem] = useState(0);
-  const [menu, openMenu] = useState<null | HTMLElement>(null);
   // Dialog state
 
   useEffect(() => {
@@ -35,6 +35,14 @@ const OkrHome: React.FC<{
     // Set selectedSem for data pulling
     setSelectedSem(foundSemByAlgorithm);
   }, []);
+
+  // handler for loading
+  useEffect(() => {
+    if (okrLoading) {
+      console.log("loading happens")
+      store.dispatch(offOkrReload());
+    };
+  }, [okrLoading]);
 
   // handler
   const hdlChipClick = () => {
@@ -53,31 +61,14 @@ const OkrHome: React.FC<{
     />
   ));
 
-  // handler
-  const hdlMoreClick = (e: React.MouseEvent<HTMLButtonElement>) => openMenu(e.currentTarget);
-
-  // handler
-  const hdlCreateObject = () => {
-
-  }
-
   return (
     <Fragment>
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
         <Grid style={{ paddingTop: 10 }}>
           {`${myOkrData.name}@${myOkrData.id}`}
-          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => hdlMoreClick(e)}>
-            <AddBoxRoundedIcon fontSize="small" />
+          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => store.dispatch(setDialog("CreateOkrObject"))}>
+            <PlaylistAddIcon fontSize="small" />
           </IconButton>
-          <Menu
-            id="simple-menu"
-            anchorEl={menu}
-            keepMounted
-            open={Boolean(menu)}
-            onClose={() => openMenu(null)}
-          >
-            <MenuItem onClick={() => store.dispatch(setDialog("CreateOkrObject"))}>Create Key Result</MenuItem>
-          </Menu>
         </Grid>
         <Grid style={{ paddingTop: 25 }}>
           { RenderChips }

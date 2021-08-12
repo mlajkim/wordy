@@ -9,8 +9,13 @@ import words from './wordsReducer';
 import snackbar from './snackbar';
 import scrabbly from './scrabblyReducers';
 import keepStyleBtn from './keepStyleBtnReducer';
+// New OKR
+import okrLoading from './okrLoading'
 
 export default combineReducers({
+  // New (commented on Aug 12, 2021)
+  okrLoading,
+  // Old below
   dialog, 
   page, 
   // This represents the wordy app's default showing languages
@@ -23,5 +28,5 @@ export default combineReducers({
   words,
   snackbar,
   scrabbly,
-  keepStyleBtn
+  keepStyleBtn,
 });

@@ -11,7 +11,7 @@ import EditWordDialog from '../dialog/edit_word/EditWord';
 import ShortcutDialog from '../dialog/shotcut_dialog/ShortcutDialog';
 import SettingDialog from '../dialog/setting_dialog/SettingDialog';
 // OKR
-import CreateOkrObject from '../dialog/create_okr_object/CreateOkrObject';
+import CreateOkrObject from '../dialog/create_okr_object/CreateOkrObjectDialog';
 
 const Dialog = () => {
   // states
