@@ -5,7 +5,7 @@ export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' 
   | "WordyAccessToken";
 export type FederalProvider = 'anonymous' | 'google';
 export type EncryptedDek = string;
-export type Wrn = string;
+export type Wrn = `wrn::${string}:${string}:mdb:${string}:${string}`;
 // gateway is used for returning W.E
 export type Gateway = 
   "iamGateway" | 

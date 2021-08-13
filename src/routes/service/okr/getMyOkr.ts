@@ -42,7 +42,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     
   // check if such link exsits
   if (typeof userLink === "string" && userLink.length > 0) {
-    const customizedOkrLinkWrn: Wrn = `wrn::okr:custom_link:mdb:` 
+    const customizedOkrLinkWrn: Wrn = `wrn::okr:custom_link:mdb::` 
     const foundRes = await CustomizedOkrLinkModel.findOne({ wrn: customizedOkrLinkWrn });
     if (foundRes) { // if such link exists
       const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLinkPure;

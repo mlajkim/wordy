@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 // type
 import { UserCreateUserPayload, UserCreateUserInput } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { JwtData } from '../../../type/availableType';
+import { JwtData, Wrn } from '../../../type/availableType';
 import { Resource, UserPure } from '../../../type/resourceType';
 // External Library
 import { OAuth2Client } from 'google-auth-library';
@@ -74,7 +74,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   verify()
     .then(async (ticket) => {
       // user resouce does not have private id as, it is hard to find
-      const wrn = `wrn::user:google:mdb:${ticket.getUserId()}`;
+      const wrn: Wrn = `wrn::user:google:mdb:${ticket.getUserId()}:`;
 
       // Check if the user already exists (this is encryptedData)
       const encryptedUserResource = await UserModel.findOne({ wrn }) as Resource | null;

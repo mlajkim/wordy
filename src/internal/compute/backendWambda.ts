@@ -4,15 +4,16 @@ import { OAuth2Client } from 'google-auth-library';
 import Cryptr from 'cryptr';
 import cryptoRandomString from 'crypto-random-string';
 import moment from 'moment';
+// type
+import { WordyEvent } from '../../type/wordyEventType';
+import { Resource, PureResource } from '../../type/resourceType';
+import { AvailableWpWrn, Wrn } from '../../type/availableType';
 // For signing token
 import dotenv from "dotenv";
 // internal
 import { kmsService } from '../security/kms';
 import { wpService } from '../security/wp';
-// type
-import { WordyEvent } from '../../type/wordyEventType';
-import { Resource } from '../../type/resourceType';
-import { AvailableWpWrn, Wrn } from '../../type/availableType';
+
 
 // This function below is tested and verified on May 8, 2021
 // By Jeongwoo Kim
@@ -52,11 +53,10 @@ export const censorUserWrn = (wrn: string | undefined) => {
   return wrn.substring(0, wrn.lastIndexOf(":") + 1);
 }
 
-export const generatedWrn = 
-  (input: `${string}:${string}:${string}:mdb:${string}:`): string => 
-  input + cryptoRandomString({length: 32, type: 'base64'}); // change this
+export const generatedWrn = (input: Wrn): Wrn => 
+ `${input}${cryptoRandomString({length: 32, type: 'base64'})}`; // change this
 
-export const intoPayload = (resource: Resource, RE: WordyEvent) => {
+export const intoPayload = (resource: Resource, RE: WordyEvent): PureResource => {
   const { plainkey } = kmsService("Decrypt", resource.encryptedDek!);
   const { decrypt } = new Cryptr(plainkey);
   // Get the data from mongo, and see if it is okay to be revealed

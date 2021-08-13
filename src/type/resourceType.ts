@@ -3,15 +3,15 @@ import {
   AvailableCmkWrn, 
   EncryptionMethod, 
   EncryptedDek, Wrn, AvailableWpWrn,
-  OkrObjectType 
+  OkrObjectType
 } from './availableType';
 
 export type Resource = {
   // finder data
   resourceVersion: "1.0.210804";
-  wrn: string;
+  wrn: Wrn;
+  ownerWrn?: Wrn; // resource owner.
   dateAdded: number;
-  ownerWrn?: string; // resource owner.
   createdByWrn?: string; // the one who created this resource. can be human or wordy internal service 
   // Encrpytion
   encryptionMethod: EncryptionMethod; //if this undefined? not encrpted
@@ -25,8 +25,8 @@ export type Resource = {
 };
 
 export type ResourceId = {
-  wrn: string;
-  ownerWrn: string;
+  wrn: Wrn;
+  ownerWrn: Wrn;
   dateAdded?: number;
   // wordy policy checker 
   wpWrn?: AvailableWpWrn; // this will be checked first, even before

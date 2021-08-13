@@ -1,6 +1,10 @@
 // Main
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+// type
+import { Wrn } from '../../../type/availableType';
+import { CreateOkrObjectInput } from '../../../type/payloadType'
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // Mdl
@@ -10,9 +14,7 @@ import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource, getToday } from '../../../internal/compute/backendWambda';
 // Library
 import moment from 'moment';
-// type
-import { CreateOkrObjectInput } from '../../../type/payloadType'
-import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
+
 // Gateway
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
@@ -46,7 +48,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   inputData.title.trim();
 
   // Data declration with generated Wrn
-  const wrn = generatedWrn(`wrn::okr:okr_object:mdb:${publicId}:`);
+  const wrn: Wrn = generatedWrn(`wrn::okr:okr_object:mdb:${publicId}:`);
   const newMyOkr = { ...inputData, okrObjectOrder: moment().valueOf() };
   const newMyOkrResource = intoResource(newMyOkr, wrn, RE);
 
