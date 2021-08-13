@@ -9,7 +9,7 @@
 // External
 import { pick } from 'lodash';
 // Type
-import { Resource, UnencryptedPureResource, ResourceId } from "../../type/resourceType";
+import { Resource, PureResource, ResourceId } from "../../type/resourceType";
 import { AvailableWpWrn } from "../../type/availableType";
 import { Policy, StatementType, Condition } from '../../typesBackEnd';
 import { WordyEvent } from '../../type/wordyEventType';
@@ -29,10 +29,10 @@ export const wpService =
   (
     RE: WordyEvent, 
     resource: Resource, 
-    unencryptedPureResource: ResourceId | UnencryptedPureResource,
+    unencryptedPureResource: ResourceId | PureResource,
     wpWrn: AvailableWpWrn
   )
-  : ResourceId | UnencryptedPureResource  => {
+  : ResourceId | PureResource  => {
   // validate with wpServiceLogic
   if (wpServiceLogic(RE, resource, wpWrn) !== "Passed") {
     const censoredObject = pick(unencryptedPureResource, 'wrn') as ResourceId;

@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 // Type
 import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../../../type/payloadType';
 import { Wrn } from '../../../type/availableType';
-import { OkrLink } from '../../../type/resourceType';
+import { OkrLinkPure } from '../../../type/resourceType';
 // Middleware
 import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // internal
@@ -45,7 +45,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     const customizedOkrLinkWrn: Wrn = `wrn::okr:custom_link:mdb:` 
     const foundRes = await CustomizedOkrLinkModel.findOne({ wrn: customizedOkrLinkWrn });
     if (foundRes) { // if such link exists
-      const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLink;
+      const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLinkPure;
       findOneCondition = { ownerWrn: targetOwnerWrn }
     } else {
       findOneCondition = { ownerWrn: `wrn::user:google:mdb:${userLink.slice(2)}` }

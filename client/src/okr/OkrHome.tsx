@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // type
 import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload } from '../type/payloadType';
-import { OkrObject } from '../type/resourceType';
+import { ResourceId, OkrObjectPure } from '../type/resourceType';
 import { State } from '../types';
 // Library
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -36,7 +36,7 @@ const OkrHome: React.FC<{
   // state
   const [ selectedSem, setSelectedSem ] = useState(0);
   const [ data, setData ] = useState<OkrGetOkrObjectPayload>();
-  const [ selectedData, setSelectedData ] = useState<OkrObject>();
+  const [ selectedData, setSelectedData ] = useState<ResourceId & OkrObjectPure>();
   const [menu, openMenu] = useState<null | HTMLElement>(null);
   // Dialog state
 
@@ -103,7 +103,7 @@ const OkrHome: React.FC<{
     openMenu(null);
   };
 
-  const hdlMenuOpen = (target: HTMLElement, value: OkrObject) => {
+  const hdlMenuOpen = (target: HTMLElement, value: OkrObjectPure & ResourceId) => {
     openMenu(target);
     setSelectedData(value);
   }

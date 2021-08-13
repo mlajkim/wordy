@@ -113,13 +113,14 @@ const CreateOkrObject: React.FC = () => {
             { randerButtons }
           </ButtonGroup>
           <TextField
+            autoComplete={"off"}
             autoFocus
             margin="dense"
             id="name"
             label="content"
-            autoComplete={"off"}
             onChange={(e) => setTitle(e.target.value)}
             fullWidth
+            autoCorrect={"off"}
           />
         </DialogContent>
         <DialogActions>

@@ -1,8 +1,10 @@
+// Type
 import { 
   AvailableCmkWrn, 
   EncryptionMethod, 
   EncryptedDek, Wrn, AvailableWpWrn,
-  OkrObjectType } from './availableType';
+  OkrObjectType 
+} from './availableType';
 
 export type Resource = {
   // finder data
@@ -22,10 +24,6 @@ export type Resource = {
   isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
 };
 
-// these are all unecrypted data
-export type UnencryptedPureResource = 
-  UserResource;
-
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
@@ -37,7 +35,18 @@ export type ResourceId = {
   rejectedReason?: string;
 };
 
-export type UserResource = ResourceId & {
+// Pure resource contains all unencrypted human-readable resource 
+// that was decrypted from ciphertextBlob
+export type PureResource = ResourceId & (
+  UserPure |
+  OkrLinkPure |
+  MyOkrPure |
+  OkrObjectPure |
+  GroupPure |
+  OkrComment
+);
+
+export type UserPure = {
   federalProvider: 'google',
   federalId: string;
   lastName: string;
@@ -46,19 +55,19 @@ export type UserResource = ResourceId & {
 // OKR
 // =============
 
-export type OkrLink = ResourceId & {
+export type OkrLinkPure = {
   targetOwnerWrn: Wrn
 };
 
 // Below is the OKR resources
-export type MyOkr = ResourceId & {
+export type MyOkrPure = {
   id: string; // federalProvider (go) + federalId (will be modified, later. it is only displaying)
   name: string; // dispalying name Jeongwoo Kim@jkim67cloud (but now, I will just use the same id)
   okrSems: number[];
   joinedGroup: Wrn[],
 };
 
-export type OkrObject = ResourceId & OkrObjectHeader & {
+export type OkrObjectPure = OkrObjectHeader & {
   // == basic info of the data == //
   initialData: number; // 0 tasks or 77kg of weight
   measuredType: "Speed" | "NumberOfTaskDone"; // 
@@ -75,51 +84,20 @@ export type OkrObject = ResourceId & OkrObjectHeader & {
   // tail
   finalScore: number;
 };
-
 export type OkrObjectHeader = {
   type: OkrObjectType;
   title: string, // BFR cut til ## (2 hashtag calcualtes your result and put inside)
 }
 
-export type OkrGroup = ResourceId & {
+export type GroupPure = {
   leaderWrn: Wrn,
   members: Wrn[]
 };
 
-export type OkrComment = ResourceId & {
+export type OkrComment = {
   comment: string,
-  belongs?: Wrn; // if it belongs, the comment lives within the comment
+  repliedComment?: Wrn; // if it belongs, the comment lives within the comment
+  isRepliable: boolean;
   commentedOn: number // July 30, 2021
-};
-
-
-// below is the old resources
-
-export type IdentifierResource = ResourceId & {
-  // content
-  validRefreshtokens: Refreshtoken[];
-  // General Infos that can be blank
-  // Wordy Cloud Secured does not collect real names or emaail address, profile image or email.
-  nickName: string;
-  // familyName: string;
-  // givenName: string;
-  // email: string;
-  // imageUrl: string;
-};
-
-export type Refreshtoken = {
-  macAddress: string;
-  lastUsedLocation: string;
-  lastUsedIpAddress: string;
-  refrehstoken: string;
-};
-
-export type WordResource = {
-  language: 'ko' | 'en' | 'ja' | 'zh'
-  word: string
-  pronun: string
-  meaning: string
-  example: string
-  tags: string[]
 };
 

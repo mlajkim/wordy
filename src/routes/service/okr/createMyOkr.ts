@@ -3,7 +3,7 @@ import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { MyOkr } from '../../../type/resourceType';
+import { MyOkrPure } from '../../../type/resourceType';
 // Mogno DB
 import { MyOkrModel } from '../../../models/EncryptedResource';
 // internal
@@ -75,10 +75,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Data declration with generated Wrn
   const wrn = generatedWrn("wrn::okr:my_okr:mdb::");
-  const newMyOkr: MyOkr = {
-    wrn,
-    ownerWrn: RE.requesterWrn!,
-    // pure data
+  const newMyOkr: MyOkrPure = {
     id: `go${RE.requesterInfo!.federalId}`, // for now, no customizing
     name: userNicknameInput, // for now, no customizing
     okrSems: [getCurrentSems()!],

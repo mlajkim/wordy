@@ -91,6 +91,7 @@ const OkrWelcome: React.FC = () => {
             label="set your nickname"
             fullWidth
             onChange={(e) => setInput(e.target.value)}
+            autoComplete={"off"}
           />
         </DialogContent>
         <DialogActions>

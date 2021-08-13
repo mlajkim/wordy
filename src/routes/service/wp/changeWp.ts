@@ -2,7 +2,7 @@
 import express, {   Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
-import { Resource, OkrObject } from '../../../type/resourceType';
+import { Resource, OkrObjectPure } from '../../../type/resourceType';
 import { WpChangeWpInput, WpChangeWpPayload } from '../../../type/payloadType';
 import lec from '../../../type/LogicalErrorCode.json'
 // Middleware
@@ -46,7 +46,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return res.status(RE.status!).send(RE);
   };
 
-  const plainData = intoPayload(foundResource, RE) as OkrObject;
+  const plainData = intoPayload(foundResource, RE) as OkrObjectPure;
   const encryptedResource = intoResource(plainData, foundResource.wrn, RE, modifyingWpWrn);
 
   // finally modify

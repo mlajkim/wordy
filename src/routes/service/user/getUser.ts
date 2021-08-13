@@ -7,7 +7,7 @@ import { UserModel } from '../../../models/EncryptedResource';
 import { intoPayload } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { Resource, UserResource } from '../../../type/resourceType';
+import { Resource, UserPure } from '../../../type/resourceType';
 // Gateway
 import { ctGateway } from '../../../internal/management/cloudTrail'
 import { iamGateway } from '../../../internal/security/iam';
@@ -52,7 +52,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   await UserModel.findOne({ wrn: RE.requesterWrn })
     .then((foundResource: Resource) => {
       // upload the payload
-      RE.payload = intoPayload(foundResource, RE) as UserResource; // apply the payload
+      RE.payload = intoPayload(foundResource, RE) as UserPure; // apply the payload
 
       ctGateway(RE, "Accepted");
       return res.status(RE.status!).send(RE);

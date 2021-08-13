@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { UserCreateUserPayload, UserCreateUserInput } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { JwtData } from '../../../type/availableType';
-import { Resource, UserResource } from '../../../type/resourceType';
+import { Resource, UserPure } from '../../../type/resourceType';
 // External Library
 import { OAuth2Client } from 'google-auth-library';
 // Library
@@ -95,9 +95,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const jwt = generateJwt(jwtData);
 
       // confirm new resource
-      const newResource: UserResource = {
-        wrn,
-        ownerWrn: wrn,
+      const newResource: UserPure = {
         federalProvider: 'google',
         federalId: ticket.getUserId() as string,
         lastName: ticket.getPayload()!.family_name as string
