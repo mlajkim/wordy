@@ -3,6 +3,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload } from '../type/payloadType';
 import { OkrObject } from '../type/resourceType';
 import { State } from '../types';
+// Library
+import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
 // Internal
 import { convertSem } from '../utils';
 // Translation
