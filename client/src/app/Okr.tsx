@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 // Types
 import { State } from '../types';
 import { WordyEvent } from '../type/wordyEventType';
-import OkrData from '../okr/OkrPageData';
 import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../type/payloadType';
 // library
 import { throwEvent } from '../frontendWambda';
@@ -31,7 +30,7 @@ const Okr: React.FC = () => {
   // Okr State
   // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
   const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode">("loading");
-  const [okrData, setOkrData] = useState<OkrData | undefined>();
+  const [okrData, setOkrData] = useState<OkrGetMyOkrPayload>();
   
   // Run once: read the path URL for it
   useEffect(() => {
@@ -46,7 +45,7 @@ const Okr: React.FC = () => {
     throwEvent("okr:getMyOkr", pathData, pathData.tempAccessToken)
       .then((res: WordyEvent) => {
         const foundData = res.payload as OkrGetMyOkrPayload;
-        setOkrData({ myOkrData: foundData});
+        setOkrData(foundData);
         if (res.serverResponse === 'Accepted') setOkrPage("okrMode");
         else setOkrPage("welcome");
       });

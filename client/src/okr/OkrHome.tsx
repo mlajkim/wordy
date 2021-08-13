@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // type
-import OkrData from './OkrPageData';
-import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload } from '../type/payloadType';
+import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload } from '../type/payloadType';
+import { OkrObject } from '../type/resourceType';
 import { State } from '../types';
 // Internal
 import { convertSem } from '../utils';
 // Translation
 import yearChipTr from '../pages/list/year_chip.tr.json';
+import tr from './okr_home.tr.json';
 // MUI
 import { Chip, Grid, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 // MUI icon
@@ -22,8 +23,8 @@ import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
 
 const OkrHome: React.FC<{
-  okrData: OkrData,
-  setOkrData: React.Dispatch<React.SetStateAction<OkrData | undefined>>;
+  okrData: OkrGetMyOkrPayload | undefined,
+  setOkrData: React.Dispatch<React.SetStateAction<OkrGetMyOkrPayload | undefined>>;
 }> = ({
   okrData, setOkrData
 }) => {
@@ -31,9 +32,9 @@ const OkrHome: React.FC<{
   const { support, language, okrLoading } = useSelector((state: State) => state);
   const ln = language;
   // state
-  const { myOkrData } = okrData;
   const [ selectedSem, setSelectedSem ] = useState(0);
   const [ data, setData ] = useState<OkrGetOkrObjectPayload>();
+  const [ selectedData, setSelectedData ] = useState<OkrObject>();
   const [menu, openMenu] = useState<null | HTMLElement>(null);
   // Dialog state
 
@@ -43,6 +44,8 @@ const OkrHome: React.FC<{
 
     // get okr Data 
     const input: OkrGetOkrObjectInput = {
+      userLink: okrData!.userLink,
+      tempAccessToken: okrData!.tempAccessToken,
       sem: foundSemByAlgorithm,
       okrObjectType: "KeyResult"
     };
@@ -52,10 +55,10 @@ const OkrHome: React.FC<{
           setData(res.payload as OkrGetOkrObjectPayload)
         }
       })
-
+    
     // Set selectedSem for data pulling
     setSelectedSem(foundSemByAlgorithm);
-  }, []);
+  }, [okrData]);
 
   // handler for loading
   useEffect(() => {
@@ -63,6 +66,8 @@ const OkrHome: React.FC<{
 
     // get okr Data 
     const input: OkrGetOkrObjectInput = {
+      userLink: okrData!.userLink,
+      tempAccessToken: okrData!.tempAccessToken,
       sem: selectedSem,
       okrObjectType: "KeyResult"
     };
@@ -76,7 +81,7 @@ const OkrHome: React.FC<{
     // finally
     store.dispatch(offOkrReload());
     
-  }, [okrLoading, selectedSem]);
+  }, [okrLoading, selectedSem, okrData]);
 
   // handler
   const hdlChipClick = () => {
@@ -85,14 +90,25 @@ const OkrHome: React.FC<{
 
   // handler
   const hdlClickMenu = (inputType: string) => {
-    if (inputType === "toPublic") {
+    if (typeof selectedData === 'undefined') return;
 
-    } else if (inputType === "toPrivate") {
-
+    const userInput: WpChangeWpInput = {
+      modifyingTarget: selectedData.wrn,
+      modifyingWpWrn: inputType === "toPublic" 
+        ? "wrn::wp:pre_defined:backend:dangerously_public:210811"
+        : "wrn::wp:pre_defined:backend:only_owner:210811"
     }
+
+    throwEvent("wp:changeWp", userInput);
+    openMenu(null);
+  };
+
+  const hdlMenuOpen = (target: HTMLElement, value: OkrObject) => {
+    openMenu(target);
+    setSelectedData(value);
   }
  
-  const RenderChips = myOkrData.okrSems.map(sem => (
+  const RenderChips = okrData && okrData.okrSems.map(sem => (
     <Chip
       key={sem}
       variant={sem === selectedSem ? undefined : "outlined"}
@@ -104,20 +120,27 @@ const OkrHome: React.FC<{
     />
   ));
 
-  const RenderList = data && data.map(data => (
-    <Typography gutterBottom key={data.wrn}>
-      {data.title}
-      <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => openMenu(e.currentTarget)}>
-        <MoreVertIcon fontSize="small" />
-      </IconButton>
-    </Typography>
-  ))
+  const RenderList = data && data.map(data => {
+    if (data.resoureAvailability === "Visible") return (
+      <Typography gutterBottom key={data.wrn}>
+        {data.title}
+        <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+      </Typography>
+    )
+    else return (
+      <Typography gutterBottom key={data.wrn}>
+        {tr.thisDataIsPrivate[ln]}
+      </Typography>
+    )
+  })
 
   return (
     <Fragment>
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
         <Grid style={{ paddingTop: 10 }}>
-          {`${myOkrData.name}@${myOkrData.id}`}
+          {okrData && `${okrData.name}@${okrData.id}`}
           <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => store.dispatch(setDialog("CreateOkrObject"))}>
             <PlaylistAddIcon fontSize="small" />
           </IconButton>

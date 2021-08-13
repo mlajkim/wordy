@@ -1,19 +1,16 @@
 // Main
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
-// Library
-import Cryptr from 'cryptr';
 // Mogno DB
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
-import { kmsService } from '../../../internal/security/kms';
+import { intoPayload } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { Resource, UserResource, ResourceId } from '../../../type/resourceType';
+import { Resource, UserResource } from '../../../type/resourceType';
 // Gateway
 import { ctGateway } from '../../../internal/management/cloudTrail'
 import { iamGateway } from '../../../internal/security/iam';
-import { wpService } from '../../../internal/security/wp';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
@@ -45,37 +42,24 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 router.use(connectToMongoDB);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  // declare 
-  const iamValidatedEvent = req.body as WordyEvent; // receives the event
-
-  // by default
-  iamValidatedEvent.serverResponse = "Denied";
-  iamValidatedEvent.serverMessage = `${EVENT_TYPE} has rejected your request by default`;
-
-  // Record
-  iamValidatedEvent.validatedBy 
-    ? iamValidatedEvent.validatedBy.push(SERVICE_NAME) 
-    : iamValidatedEvent.validatedBy = [SERVICE_NAME]; 
+  // declare & record
+  const RE = req.body as WordyEvent; // receives the event
+  RE.validatedBy 
+    ? RE.validatedBy.push(SERVICE_NAME) 
+    : RE.validatedBy = [SERVICE_NAME]; 
 
   // Returning data
-  await UserModel.findOne({ wrn: iamValidatedEvent.requesterWrn })
+  await UserModel.findOne({ wrn: RE.requesterWrn })
     .then((foundResource: Resource) => {
-      const { plainkey } = kmsService("Decrypt", foundResource.encryptedDek!);
-      const { decrypt } = new Cryptr(plainkey);
-      
-      // Get the data from mongo, and see if it is okay to be revealed
-      let  user = JSON.parse(decrypt(foundResource.ciphertextBlob)) as UserResource | ResourceId;
-      user = wpService(iamValidatedEvent, foundResource, user); // wp service censors data, if it is not available
-
       // upload the payload
-      iamValidatedEvent.payload = user as UserResource; // apply the payload
+      RE.payload = intoPayload(foundResource, RE) as UserResource; // apply the payload
 
-      ctGateway(iamValidatedEvent, "Accepted");
-      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
+      ctGateway(RE, "Accepted");
+      return res.status(RE.status!).send(RE);
     })
     .catch(() => {
-      ctGateway(iamValidatedEvent, "LogicallyDenied");
-      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
+      ctGateway(RE, "LogicallyDenied");
+      return res.status(RE.status!).send(RE);
     })
 });
 

@@ -35,7 +35,7 @@ export type ResourceId = {
   // wordy policy checker 
   wpWrn?: AvailableWpWrn; // this will be checked first, even before
   // might add dateAdded;
-  resoureAvailability?: "NotVisible";
+  resoureAvailability?: "Visible" | "NotVisible";
   rejectedReason?: string;
 };
 

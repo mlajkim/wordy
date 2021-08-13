@@ -26,23 +26,29 @@ import {
 const SERVICE_NAME = "wpService";
 
 export const wpService = 
-  (RE: WordyEvent, resource: Resource, unencryptedPureResource: ResourceId | UnencryptedPureResource)
+  (
+    RE: WordyEvent, 
+    resource: Resource, 
+    unencryptedPureResource: ResourceId | UnencryptedPureResource,
+    wpWrn: AvailableWpWrn
+  )
   : ResourceId | UnencryptedPureResource  => {
-  
-    // validate with wpServiceLogic
-  if (wpServiceLogic(RE, resource) !== "Passed") {
+  // validate with wpServiceLogic
+  if (wpServiceLogic(RE, resource, wpWrn) !== "Passed") {
     const censoredObject = pick(unencryptedPureResource, 'wrn') as ResourceId;
     censoredObject.resoureAvailability = "NotVisible";
     censoredObject.rejectedReason = `Rejected by ${SERVICE_NAME} due to resource policy`;
 
     return censoredObject;
+  } else {
+    unencryptedPureResource.resoureAvailability = "Visible";
   }
 
   return unencryptedPureResource;
 }
 
 type WpResponse = "Passed" | "NotPassed";
-export const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpWrn): WpResponse => {  
+const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpWrn): WpResponse => {  
   // applying policy
   const policy: Policy = policyGrabber(wpWrn);
 

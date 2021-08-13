@@ -1,0 +1,7 @@
+{
+  "RESOURCE_NOT_EXIST": {
+    "en": "Resource does not exist",
+    "ko": "존재하지 않는 리소스입니다",
+    "ja": "存在しないリソースです"
+  }
+}

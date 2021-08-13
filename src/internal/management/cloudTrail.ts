@@ -9,7 +9,7 @@ import { wcsGateway } from '../billing/wcs';
 //Decalre
 const SERVICE_NAME: Gateway = "cloudTrailGateway";
 
-export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, customMessage?: string): WordyEvent => {
+export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, customMessage?: any): WordyEvent => {
   // apply the SR
   // if, setServerResponse is not given, then it sets denied, unless specified
   WE.serverResponse = setServerResponse ? setServerResponse : "Denied";

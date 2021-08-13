@@ -5,6 +5,7 @@ import { watGateway } from '../internal/security/wat';
 import word from './service/word';
 import user from './service/user';
 import okr from './service/okr';
+import wp from './service/wp';
 
 const apigateway = express.Router();
 
@@ -25,6 +26,7 @@ apigateway.use(watGateway);
 apigateway.use(word);
 apigateway.use(user);
 apigateway.use(okr);
+apigateway.use(wp);
 
 
 // Finally

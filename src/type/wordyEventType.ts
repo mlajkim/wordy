@@ -1,5 +1,5 @@
 import { Resource } from '../type/resourceType';
-import { Gateway, JwtData } from '../type/availableType';
+import { Gateway, JwtData, AssignedIdentity } from '../type/availableType';
 
 export type WordyEvent = {
   // header (data from end user)
@@ -15,7 +15,7 @@ export type WordyEvent = {
   status?: number;
   // tail (data put by server)
   requesterWrn?: string; // actual initiator
-  identifiedAsWrn?: string;
+  identifiedAsWrn?: string | AssignedIdentity;
   requesterInfo?: JwtData;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
@@ -23,7 +23,12 @@ export type WordyEvent = {
 };
 
 export type ServerResponse = "Denied" | "Accepted" | "LogicallyDenied";
-export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`;
+export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`
+  | `wp:${WpService}`;
+
+type WpService = // Wordy Policy 
+  "*" |
+  "changeWp";
 
 type OkrService =
   "*" | //all

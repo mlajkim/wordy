@@ -5,9 +5,9 @@
 // Type
 import { UserResource, MyOkr, OkrObjectHeader, OkrObject } from '../type/resourceType';
 import { 
-  FederalProvider, OkrObjectType
+  AvailableWpWrn,
+  FederalProvider, OkrObjectType, Wrn
 } from './availableType';
-
 
 // ===============
 // User service
@@ -29,7 +29,7 @@ export type UserCreateUserPayload = UserResource;
 // ===============
 
 // okr:GET_OKR_OBJECT
-export type OkrGetOkrObjectInput = {
+export type OkrGetOkrObjectInput = OkrGetMyOkrInput & {
   sem: number;
   okrObjectType: OkrObjectType;
 }
@@ -43,8 +43,17 @@ export type OkrGetMyOkrInput = {
   userLink: string;
   tempAccessToken: string;
 };
-export type OkrGetMyOkrPayload = MyOkr;
+export type OkrGetMyOkrPayload = MyOkr & OkrGetMyOkrInput;
 
 
 
+// ===============
+// WP service (Wordy Policy Service)
+// ===============
 
+// okr:GET_OKR_OBJECT
+export type WpChangeWpInput = {
+  modifyingTarget: Wrn;
+  modifyingWpWrn: AvailableWpWrn;
+};
+export type WpChangeWpPayload = undefined;

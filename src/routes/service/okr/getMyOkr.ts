@@ -1,10 +1,12 @@
 // Main
-import express, {  NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
-import { OkrGetMyOkrInput } from '../../../type/payloadType';
+import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../../../type/payloadType';
 import { Wrn } from '../../../type/availableType';
 import { OkrLink } from '../../../type/resourceType';
+// Middleware
+import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { intoPayload } from '../../../internal/compute/backendWambda';
@@ -13,7 +15,6 @@ import { MyOkrModel, CustomizedOkrLinkModel } from '../../../models/EncryptedRes
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Gateway
-import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
@@ -21,25 +22,8 @@ const EVENT_TYPE = "okr:getMyOkr";
 const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
-router.use(async (req: Request, res: Response, next: NextFunction) => {
-  // Validation
-  const requestedEvent = req.body as WordyEvent; // receives the event
-  if (requestedEvent.serverResponse === "Denied") {
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
-  }
-
-  // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
-  if (iamValidatedEvent.serverResponse === 'Denied'){
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
-  }
-
-  // Validation complete
-  req.body = iamValidatedEvent;
-  next();
-}); 
+// comment
+router.use(onlyToWordyMemberMdl);
 
 // connects into mongodb
 router.use(connectToMongoDB);
@@ -47,10 +31,12 @@ router.use(connectToMongoDB);
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
-  const { userLink } = RE.requesterInputData as OkrGetMyOkrInput;
+  const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
   RE.validatedBy 
     ? RE.validatedBy.push(SERVICE_NAME) 
     : RE.validatedBy = [SERVICE_NAME];
+
+  console.log(RE);
 
   let findOneCondition = {}
     
@@ -77,7 +63,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   
   if (myOkrData) {
     // decrypt the data
-    RE.payload = intoPayload(myOkrData, RE)
+    RE.payload = { ...intoPayload(myOkrData, RE), userLink, tempAccessToken } as OkrGetMyOkrPayload
     ctGateway(RE, "Accepted");
     return res.status(RE.status!).send(RE);
   } else {

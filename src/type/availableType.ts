@@ -32,7 +32,12 @@ export type AvailableWpWrn =
   "wrn::wp:pre_defined:backend:only_to_group_members:210811" |
   "wrn::wp:pre_defined:backend:only_to_wordy_member:210811" |
   "wrn::wp:pre_defined:backend:only_to_admin:210811" |
-  "wrn::wp:pre_defined:backend:dangerously_public:210811";
+"wrn::wp:pre_defined:backend:dangerously_public:210811";
+
+// identity
+export type AssignedIdentity = 
+  "wrn::backend_assigned_identity:anonymous_public" |
+  "wrn::backend_assigned_identity:group_member";
 
 //
 // OKR

@@ -4,15 +4,18 @@ import dotenv from "dotenv";
 import { NextFunction, Request, Response } from 'express';
 // type
 import { WordyEvent, EventType } from '../../type/wordyEventType';
-import { Gateway } from '../../type/availableType';
+import { Gateway, AssignedIdentity } from '../../type/availableType';
 // Declare
 dotenv.config();
 const LOGIN_TOKEN_EXPIRES_IN_DAYS = 5;
 const SERVICE_NAME: Gateway = "watGateway"
+const NOT_REQUIRING_WAT_EVENTS: EventType[] = [
+  "user:createUser", 
+  "okr:getMyOkr",
+  "okr:getOkrObject"
+];
 
-type Jwt = string;
-
-export const generateJwt = (data: any): Jwt => {
+export const generateJwt = (data: any) => {
   // Declare using dotenv
   dotenv.config();
 
@@ -37,7 +40,6 @@ const identifiedWrnDefiner = (RE: WordyEvent) => {
   }
 }
 
-const NOT_REQUIRING_WAT_EVENTS: EventType[] = ["user:createUser", "okr:getMyOkr"];
 // okr:getMyOkr is available to anyone, even without token. 
 
 // WordyAccessToken Service
@@ -56,8 +58,12 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       // Validated if action does not require jwt token
       const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === requestedEvent.eventType);
       if (idx !== -1) {
-        requestedEvent.requesterWrn = "wrn::user:::";
-        requestedEvent.requesterInfo = data;
+        // FYI
+        // if it fails to read the data, the retruning data will be undefined
+
+        const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public";
+        requestedEvent.requesterWrn = identity;
+        requestedEvent.identifiedAsWrn = identity;
         identifiedWrnDefiner(requestedEvent);
         return next(); // you are free to go, even w/o WAT
       };

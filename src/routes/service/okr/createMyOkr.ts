@@ -1,15 +1,16 @@
 // Main
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
+// type
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
+import { MyOkr } from '../../../type/resourceType';
 // Mogno DB
 import { MyOkrModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource } from '../../../internal/compute/backendWambda';
 import { CreateMyOkrUserNameRule } from '../../../type/sharedWambda';
-// type
-import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { MyOkr } from '../../../type/resourceType';
+
 // Gateway
 import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
@@ -83,7 +84,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     okrSems: [getCurrentSems()!],
     joinedGroup: []
   };
-  const newMyOkrResource = intoResource(newMyOkr, wrn, RE);
+  const newMyOkrResource = intoResource(newMyOkr, wrn, RE, "wrn::wp:pre_defined:backend:dangerously_public:210811");
 
   // Returning data
   await new MyOkrModel(newMyOkrResource).save()

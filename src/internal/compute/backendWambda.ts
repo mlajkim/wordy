@@ -60,17 +60,17 @@ export const intoPayload = (resource: Resource, RE: WordyEvent) => {
   const { plainkey } = kmsService("Decrypt", resource.encryptedDek!);
   const { decrypt } = new Cryptr(plainkey);
   // Get the data from mongo, and see if it is okay to be revealed
-  let  user = JSON.parse(decrypt(resource.ciphertextBlob));
-  user = wpService(RE, resource, user); // wp service censors data, if it is not available
+  let plainData = JSON.parse(decrypt(resource.ciphertextBlob));
+  plainData = wpService(RE, resource, plainData, plainData.wpWrn as AvailableWpWrn); // wp service censors data, if it is not available
 
-  return user;
+  return plainData;
 }
 
-export const intoResource = (resource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any): Resource => {
+export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any): Resource => {
   const kmsResult = kmsService("Encrypt", "");
   const { encrypt } = new Cryptr(kmsResult.plainkey);
   const plaindata: string = JSON.stringify({ 
-    ...resource, wrn: newWrn, ownerWrn: RE.requesterWrn, 
+    ...pureResource, wrn: newWrn, ownerWrn: RE.requesterWrn, 
     wpWrn: wpWrn ? wpWrn : "wrn::wp:pre_defined:backend:only_to_group_members:210811" // default value
   });
   const ciphertextBlob = encrypt(plaindata);
