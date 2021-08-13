@@ -20,7 +20,7 @@ export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, cu
     WE.status = 403;
   } else if (WE.serverResponse === "LogicallyDenied") {
     WE.serverMessage = customMessage ? customMessage : `The server was not able to find resources for the following event: ${WE.eventType}`;
-    WE.status = 200;
+    WE.status = 201;
   } else if (WE.serverResponse === "Accepted") {
     WE.serverMessage = "OK"; // accepted data cannot have customer message.
     WE.status = 200;

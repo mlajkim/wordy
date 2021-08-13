@@ -44,6 +44,13 @@ export type UserResource = ResourceId & {
   federalId: string;
   lastName: string;
 };
+// =============
+// OKR
+// =============
+
+export type OkrLink = ResourceId & {
+  targetOwnerWrn: Wrn
+};
 
 // Below is the OKR resources
 export type MyOkr = ResourceId & {

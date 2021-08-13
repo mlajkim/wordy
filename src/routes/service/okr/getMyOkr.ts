@@ -2,12 +2,14 @@
 import express, {  NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
-// import { OkrGetMyOkrInput } from 'src/type/payloadType';
-// Mogno DB
-import { MyOkrModel } from '../../../models/EncryptedResource';
+import { OkrGetMyOkrInput } from '../../../type/payloadType';
+import { Wrn } from '../../../type/availableType';
+import { OkrLink } from '../../../type/resourceType';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { intoPayload } from '../../../internal/compute/backendWambda';
+// Mogno DB
+import { MyOkrModel, CustomizedOkrLinkModel } from '../../../models/EncryptedResource';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Gateway
@@ -45,15 +47,33 @@ router.use(connectToMongoDB);
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
-  // const userInput = RE.requesterInputData as OkrGetMyOkrInput;
-
-  // Record
+  const { userLink } = RE.requesterInputData as OkrGetMyOkrInput;
   RE.validatedBy 
     ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME]; 
+    : RE.validatedBy = [SERVICE_NAME];
+
+  let findOneCondition = {}
+    
+  // check if such link exsits
+  if (typeof userLink === "string" && userLink.length > 0) {
+    const customizedOkrLinkWrn: Wrn = `wrn::okr:custom_link:mdb:` 
+    const foundRes = await CustomizedOkrLinkModel.findOne({ wrn: customizedOkrLinkWrn });
+    if (foundRes) { // if such link exists
+      const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLink;
+      findOneCondition = { ownerWrn: targetOwnerWrn }
+    } else {
+      findOneCondition = { ownerWrn: `wrn::user:google:mdb:${userLink.slice(2)}` }
+    }
+  } else {
+    findOneCondition = { ownerWrn: RE.identifiedAsWrn }
+  }
+  
+  // if yes, get that data instead
+
+  // if it is not provided, then just return the one that owner has.
 
   // if my okr exists, it should reject, as it shouldh ave only one
-  const myOkrData = await MyOkrModel.findOne({ ownerWrn: RE.identifiedAsWrn }); // returns null when not found
+  const myOkrData = await MyOkrModel.findOne(findOneCondition); // returns null when not found
   
   if (myOkrData) {
     // decrypt the data
