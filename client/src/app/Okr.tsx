@@ -32,7 +32,7 @@ const Okr: React.FC = () => {
   // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
   const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode">("loading");
   const [okrData, setOkrData] = useState<OkrData | undefined>();
-
+  
   // Run once: read the path URL for it
   useEffect(() => {
     // Read and organize the path data

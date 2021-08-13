@@ -8,10 +8,10 @@ import { convertSem } from '../utils';
 // Translation
 import yearChipTr from '../pages/list/year_chip.tr.json';
 // MUI
-import { Chip, Grid, Typography, IconButton } from '@material-ui/core';
+import { Chip, Grid, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 // MUI icon
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
@@ -34,6 +34,7 @@ const OkrHome: React.FC<{
   const { myOkrData } = okrData;
   const [ selectedSem, setSelectedSem ] = useState(0);
   const [ data, setData ] = useState<OkrGetOkrObjectPayload>();
+  const [menu, openMenu] = useState<null | HTMLElement>(null);
   // Dialog state
 
   useEffect(() => {
@@ -82,6 +83,15 @@ const OkrHome: React.FC<{
 
   };
 
+  // handler
+  const hdlClickMenu = (inputType: string) => {
+    if (inputType === "toPublic") {
+
+    } else if (inputType === "toPrivate") {
+
+    }
+  }
+ 
   const RenderChips = myOkrData.okrSems.map(sem => (
     <Chip
       key={sem}
@@ -97,6 +107,9 @@ const OkrHome: React.FC<{
   const RenderList = data && data.map(data => (
     <Typography gutterBottom key={data.wrn}>
       {data.title}
+      <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => openMenu(e.currentTarget)}>
+        <MoreVertIcon fontSize="small" />
+      </IconButton>
     </Typography>
   ))
 
@@ -105,7 +118,7 @@ const OkrHome: React.FC<{
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
         <Grid style={{ paddingTop: 10 }}>
           {`${myOkrData.name}@${myOkrData.id}`}
-          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => store.dispatch(setDialog("CreateOkrObject"))}>
+          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => store.dispatch(setDialog("CreateOkrObject"))}>
             <PlaylistAddIcon fontSize="small" />
           </IconButton>
         </Grid>
@@ -117,6 +130,17 @@ const OkrHome: React.FC<{
           { RenderList }
         </Grid>
       </Grid>
+      {/* Menu */}
+      <Menu
+        id="simple-menu"
+        anchorEl={menu}
+        keepMounted
+        open={Boolean(menu)}
+        onClose={() => openMenu(null)}
+      >
+        <MenuItem onClick={() => hdlClickMenu('toPublic')}>{`Change To Public`}</MenuItem>
+        <MenuItem onClick={() => hdlClickMenu('toPrivate')}>{`Change To Only Me (Private)`}</MenuItem>
+      </Menu>
     </Fragment>
   );
 };
