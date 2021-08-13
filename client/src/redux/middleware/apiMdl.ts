@@ -1,4 +1,4 @@
-import { FETCHY, FETCHY3, CONSOLER } from '../actions/apiAction';
+import { FETCHY, FETCHY3 } from '../actions/apiAction';
 import { Fetchy3ActionPayload } from '../actions/apiAction';
 import axios from 'axios';
 import * as API from '../../API';
@@ -48,13 +48,4 @@ export const fetchy3 = ({dispatch, getState} : any) => (next: any) => async (act
   }
 };
 
-
-export const consoler = ({dispatch, getState} : any) => (next: any) => async (action: any) => {
-  next(action);
-
-  if (action.type === CONSOLER) {
-    console.log(action.payload);
-  }
-};
-
-export const apiMdl = [fetchy, fetchy3, consoler]; 
+export const apiMdl = [fetchy, fetchy3]; 

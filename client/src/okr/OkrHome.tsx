@@ -6,10 +6,7 @@ import { Wrn } from '../type/availableType';
 import { State } from '../types';
 // Library
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
-// Internal
-import { convertSem } from '../utils';
 // Translation
-import yearChipTr from '../pages/list/year_chip.tr.json';
 import tr from './okr_home.tr.json';
 // MUI
 import { Chip, Grid, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
@@ -39,16 +36,18 @@ const OkrHome: React.FC<{
   const [ selectedChip, selectChip ] = useState<Wrn>(okrData.whichOneDownloadFirst);
   // Dialog state
 
+
   // handler for loading
   useEffect(() => {
-    if (!okrLoading) return; 
+    if (!okrLoading) return;
 
-    // get okr Data 
     const input: OkrGetOkrObjectInput = {
       userLink: okrData!.userLink,
       tempAccessToken: okrData!.tempAccessToken,
       containingObject: containerData.containingObject!,
     };
+
+    // get data
     throwEvent("okr:getOkrObject", input)
       .then(res => {
         if (res.serverResponse === "Accepted") {
@@ -59,12 +58,7 @@ const OkrHome: React.FC<{
     // finally
     store.dispatch(offOkrReload());
     
-  }, [okrLoading, okrData]);
-
-  // handler
-  const hdlChipClick = () => {
-
-  };
+  }, [okrLoading, okrData, containerData.containingObject]);
 
   // handler
   const hdlClickMenu = (inputType: string) => {
@@ -92,7 +86,7 @@ const OkrHome: React.FC<{
       label={`${containerWrn}`}
       clickable
       color={support.isDarkMode ? undefined : "primary"}
-      onClick={() => hdlChipClick()}
+      onClick={() => selectChip(containerWrn)}
     />
   ));
   

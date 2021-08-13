@@ -41,8 +41,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     ctGateway(RE, "LogicallyDenied");
     return res.status(RE.status!).send(RE); };
   
-  console.log(unrefinedResource); //test
-  
   RE.payload = intoPayload(unrefinedResource, RE) as OkrGetOkrContainerPayload;
   ctGateway(RE, "Accepted");
   return res.status(RE.status!).send(RE);

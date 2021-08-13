@@ -35,7 +35,7 @@ export type OkrGetOkrContainerPayload = OkrContainerPure & ResourceId;
 
 // okr:GET_OKR_OBJECT
 export type OkrGetOkrObjectInput = OkrGetMyOkrInput & {
-  containingObject: Wrn; };
+  containingObject: Wrn[] };
 export type OkrGetOkrObjectPayload = (ResourceId & OkrObjectPure)[];
 
 // okr:CREATE_OKR_OBJECT_INPUT (Aug 12, 2021)
