@@ -2,7 +2,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 // Types
 import { State } from '../types';
 import { WordyEvent } from '../type/wordyEventType';
-import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../type/payloadType';
+import { OkrContainerPure, ResourceId } from '../type/resourceType';
+import { OkrGetMyOkrInput, OkrGetMyOkrPayload, OkrGetOkrContainerInput, OkrGetOkrContainerPayload } from '../type/payloadType';
 // library
 import { throwEvent } from '../frontendWambda';
 // Material UI
@@ -17,11 +18,9 @@ import OkrHome from '../okr/OkrHome';
 import { listDark, listLight } from '../theme';
 // Redux
 import { useSelector } from 'react-redux';
-// Redux Actions
-// // Redux
-// import store from '../redux/store';
-// import { modifyNewWordAddingType } from '../redux/actions/supportAction';
-// Declare
+// Redux
+import store from '../redux/store';
+import { setOkrReloadOn } from '../redux/actions';
 
 
 const Okr: React.FC = () => {
@@ -31,6 +30,7 @@ const Okr: React.FC = () => {
   // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
   const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode">("loading");
   const [okrData, setOkrData] = useState<OkrGetMyOkrPayload>();
+  const [containerData, setContainerData] = useState<OkrContainerPure & ResourceId>();
   
   // Run once: read the path URL for it
   useEffect(() => {
@@ -42,13 +42,29 @@ const Okr: React.FC = () => {
       tempAccessToken: pathArr.length > 3 ? pathArr[3]: ""
     };
 
-    throwEvent("okr:getMyOkr", pathData, pathData.tempAccessToken)
-      .then((res: WordyEvent) => {
-        const foundData = res.payload as OkrGetMyOkrPayload;
-        setOkrData(foundData);
-        if (res.serverResponse === 'Accepted') setOkrPage("okrMode");
-        else setOkrPage("welcome");
-      });
+    const callAsyncFunction = async () => {
+      const returnedWordyEvent = await throwEvent("okr:getMyOkr", pathData, pathData.tempAccessToken) as WordyEvent | undefined;
+      if (returnedWordyEvent) {
+        const { whichOneDownloadFirst } = returnedWordyEvent.payload as OkrGetMyOkrPayload;
+        
+        // get the events 
+        const userInput: OkrGetOkrContainerInput = { containerWrn: whichOneDownloadFirst };
+        const returnedGetOkrContainerEvent = await throwEvent("okr:getOkrContainer", userInput, pathData.tempAccessToken);
+
+        if (returnedGetOkrContainerEvent) {
+          const containerData = returnedGetOkrContainerEvent.payload as OkrGetOkrContainerPayload;
+          setContainerData(containerData);
+          setOkrPage("okrMode");
+
+          store.dispatch(setOkrReloadOn());
+
+          return; //
+        }
+      }
+    }
+    
+    // call
+    callAsyncFunction()
   }, []);
 
   return (
@@ -57,7 +73,7 @@ const Okr: React.FC = () => {
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
           {okrPage === "loading" && <OkrLoading />}
           {okrPage === "welcome" && <OkrWelcome/>}
-          {okrPage === 'okrMode' && okrData && <OkrHome okrData={okrData} setOkrData={setOkrData} />}
+          {okrPage === 'okrMode' && okrData && containerData && <OkrHome okrData={okrData} containerData={containerData} />}
           {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
         </Typography>
       </Container>

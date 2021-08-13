@@ -56,12 +56,12 @@ export const censorUserWrn = (wrn: string | undefined) => {
 export const generatedWrn = (input: Wrn): Wrn => 
  `${input}${cryptoRandomString({length: 32, type: 'base64'})}`; // change this
 
-export const intoPayload = (resource: Resource, RE: WordyEvent): PureResource => {
-  const { plainkey } = kmsService("Decrypt", resource.encryptedDek!);
+export const intoPayload = (unrefinedResource: Resource, RE: WordyEvent): PureResource => {
+  const { plainkey } = kmsService("Decrypt", unrefinedResource.encryptedDek!);
   const { decrypt } = new Cryptr(plainkey);
   // Get the data from mongo, and see if it is okay to be revealed
-  let plainData = JSON.parse(decrypt(resource.ciphertextBlob));
-  plainData = wpService(RE, resource, plainData, plainData.wpWrn as AvailableWpWrn); // wp service censors data, if it is not available
+  let plainData = JSON.parse(decrypt(unrefinedResource.ciphertextBlob));
+  plainData = wpService(RE, unrefinedResource, plainData, plainData.wpWrn as AvailableWpWrn); // wp service censors data, if it is not available
 
   return plainData;
 }

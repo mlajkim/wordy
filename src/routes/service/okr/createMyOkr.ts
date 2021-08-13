@@ -87,6 +87,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const newMyOkr: MyOkrPure = {
     id: `go${RE.requesterInfo!.federalId}`, // for now, no customizing
     name: userNicknameInput, // for now, no customizing
+    whichOneDownloadFirst: quarterlyContainerWrn,
     quarterlyContainers: [quarterlyContainerWrn], // default
     yearlyContainers: [],
     longtermContainers: [],

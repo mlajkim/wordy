@@ -43,6 +43,7 @@ export type PureResource = ResourceId & (
   MyOkrPure |
   OkrObjectPure |
   OkrComment |
+  OkrContainerPure | 
   // USER & GROUP
   UserPure |
   GroupPure
@@ -65,6 +66,7 @@ export type OkrLinkPure = {
 export type MyOkrPure = {
   id: string; // federalProvider (go) + federalId (will be modified, later. it is only displaying)
   name: string; // dispalying name Jeongwoo Kim@jkim67cloud (but now, I will just use the same id)
+  whichOneDownloadFirst: Wrn;
   quarterlyContainers: Wrn[];
   yearlyContainers: Wrn[],
   longtermContainers: Wrn[],

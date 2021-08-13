@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // type
-import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload } from '../type/payloadType';
+import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload, OkrGetOkrContainerPayload } from '../type/payloadType';
 import { ResourceId, OkrObjectPure } from '../type/resourceType';
+import { Wrn } from '../type/availableType';
 import { State } from '../types';
 // Library
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -25,44 +26,18 @@ import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
 
 const OkrHome: React.FC<{
-  okrData: OkrGetMyOkrPayload | undefined,
-  setOkrData: React.Dispatch<React.SetStateAction<OkrGetMyOkrPayload | undefined>>;
-}> = ({
-  okrData, setOkrData
-}) => {
+  okrData: OkrGetMyOkrPayload,
+  containerData: OkrGetOkrContainerPayload
+}> = ({ okrData, containerData }) => {
   // Redux states
   const { support, language, okrLoading } = useSelector((state: State) => state);
   const ln = language;
   // state
-  const [ selectedSem, setSelectedSem ] = useState(0);
   const [ data, setData ] = useState<OkrGetOkrObjectPayload>();
   const [ selectedData, setSelectedData ] = useState<ResourceId & OkrObjectPure>();
-  const [menu, openMenu] = useState<null | HTMLElement>(null);
+  const [ menu, openMenu ] = useState<null | HTMLElement>(null);
+  const [ selectedChip, selectChip ] = useState<Wrn>(okrData.whichOneDownloadFirst);
   // Dialog state
-
-  useEffect(() => {
-    // selecting sem algorithm. for now, I will hard code choosing 213
-    const foundSemByAlgorithm = 213;
-
-    // get okr Data 
-    const input: OkrGetOkrObjectInput = {
-      userLink: okrData!.userLink,
-      tempAccessToken: okrData!.tempAccessToken,
-      sem: foundSemByAlgorithm,
-      okrObjectType: "KeyResult"
-    };
-    throwEvent("okr:getOkrObject", input)
-      .then(res => {
-        if (res.serverResponse === "Accepted") {
-          // when succesufl with myOkr, its time to download
-          throwEvent("okr:getOkrContainer")
-          setData(res.payload as OkrGetOkrObjectPayload);
-        }
-      })
-    
-    // Set selectedSem for data pulling
-    setSelectedSem(foundSemByAlgorithm);
-  }, [okrData]);
 
   // handler for loading
   useEffect(() => {
@@ -72,8 +47,7 @@ const OkrHome: React.FC<{
     const input: OkrGetOkrObjectInput = {
       userLink: okrData!.userLink,
       tempAccessToken: okrData!.tempAccessToken,
-      sem: selectedSem,
-      okrObjectType: "KeyResult"
+      containingObject: containerData.containingObject!,
     };
     throwEvent("okr:getOkrObject", input)
       .then(res => {
@@ -85,7 +59,7 @@ const OkrHome: React.FC<{
     // finally
     store.dispatch(offOkrReload());
     
-  }, [okrLoading, selectedSem, okrData]);
+  }, [okrLoading, okrData]);
 
   // handler
   const hdlChipClick = () => {
@@ -94,10 +68,8 @@ const OkrHome: React.FC<{
 
   // handler
   const hdlClickMenu = (inputType: string) => {
-    if (typeof selectedData === 'undefined') return;
-
     const userInput: WpChangeWpInput = {
-      modifyingTarget: selectedData.wrn,
+      modifyingTarget: selectedData!.wrn,
       modifyingWpWrn: inputType === "toPublic" 
         ? "wrn::wp:pre_defined:backend:dangerously_public:210811"
         : "wrn::wp:pre_defined:backend:only_owner:210811"
@@ -112,12 +84,12 @@ const OkrHome: React.FC<{
     setSelectedData(value);
   }
  
-  const RenderChips = okrData && okrData.okrSems.map(sem => (
+  const RenderChips = okrData && okrData.quarterlyContainers.map(containerWrn => (
     <Chip
-      key={sem}
-      variant={sem === selectedSem ? undefined : "outlined"}
+      key={containerWrn}
+      variant={containerWrn === selectedChip ? undefined : "outlined"}
       size="small"
-      label={`${convertSem(sem).year}${yearChipTr.year[ln]} ${convertSem(sem).sem}${yearChipTr.sem[ln]}`}
+      label={`${containerWrn}`}
       clickable
       color={support.isDarkMode ? undefined : "primary"}
       onClick={() => hdlChipClick()}
@@ -159,7 +131,6 @@ const OkrHome: React.FC<{
     setData(newDataArr);
   }
 
-  const tempArr = ["hi", "bi"]
   return (
     <Fragment>
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>

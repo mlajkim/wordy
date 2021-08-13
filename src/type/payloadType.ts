@@ -3,10 +3,12 @@
 // This data is what backend sends
 
 // Type
-import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId } from '../type/resourceType';
+import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
+  OkrContainerPure,
+} from '../type/resourceType';
 import { 
   AvailableWpWrn,
-  FederalProvider, OkrObjectType, Wrn
+  FederalProvider, Wrn
 } from './availableType';
 
 // ===============
@@ -27,12 +29,13 @@ export type UserCreateUserPayload = UserPure;
 // ===============
 // OKR service
 // ===============
+// okr:GET_OKR_CONTAINER
+export type OkrGetOkrContainerInput = { containerWrn: Wrn } ;
+export type OkrGetOkrContainerPayload = OkrContainerPure & ResourceId;
 
 // okr:GET_OKR_OBJECT
 export type OkrGetOkrObjectInput = OkrGetMyOkrInput & {
-  sem: number;
-  okrObjectType: OkrObjectType;
-}
+  containingObject: Wrn; };
 export type OkrGetOkrObjectPayload = (ResourceId & OkrObjectPure)[];
 
 // okr:CREATE_OKR_OBJECT_INPUT (Aug 12, 2021)
@@ -41,8 +44,7 @@ export type CreateOkrObjectInput = OkrObjectHeader;
 // OKR:GET_MY_OKR
 export type OkrGetMyOkrInput = {
   userLink: string;
-  tempAccessToken: string;
-};
+  tempAccessToken: string; };
 export type OkrGetMyOkrPayload = ResourceId & MyOkrPure & OkrGetMyOkrInput;
 
 
