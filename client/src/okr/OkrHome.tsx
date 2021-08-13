@@ -53,9 +53,7 @@ const OkrHome: React.FC<{
     };
     throwEvent("okr:getOkrObject", input)
       .then(res => {
-        if (res.serverResponse === "Accepted") {
-          setData(res.payload as OkrGetOkrObjectPayload)
-        }
+        if (res.serverResponse === "Accepted") setData(res.payload as OkrGetOkrObjectPayload);
       })
     
     // Set selectedSem for data pulling
@@ -123,7 +121,6 @@ const OkrHome: React.FC<{
   ));
   
   // Sort first, and get the data
-  if (data) data.sort((a, b) => a.okrObjectOrder - b.okrObjectOrder);
   const RenderList = data && data.map((data, idx) => (
     <Draggable draggableId={data.wrn} key={data.wrn} index={idx}>
       {(provided) => (
@@ -145,10 +142,17 @@ const OkrHome: React.FC<{
 
   //handler
   const hdlDragEnd = (result: any) => {
+    if(!data) return;
+
     const sourceIdx = result.source.index;
     const destinationIdx = result.destination.index;
 
-    
+    const newDataArr = Array.from(data);
+    const sourceData = newDataArr.splice(sourceIdx, 1)[0];
+    newDataArr.splice(destinationIdx, 0, sourceData);
+
+    // finally
+    setData(newDataArr);
   }
 
   const tempArr = ["hi", "bi"]
