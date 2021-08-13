@@ -34,6 +34,7 @@ type OkrService =
   "*" | //all
   "createMyOkr" |
   "getMyOkr" |
+  "getOkrContainer" |
   "createOkrObject" |
   "getOkrObject" |
   "inviteMember" | // will be used to invite any member using his or her public account number

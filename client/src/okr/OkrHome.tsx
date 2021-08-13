@@ -53,7 +53,11 @@ const OkrHome: React.FC<{
     };
     throwEvent("okr:getOkrObject", input)
       .then(res => {
-        if (res.serverResponse === "Accepted") setData(res.payload as OkrGetOkrObjectPayload);
+        if (res.serverResponse === "Accepted") {
+          // when succesufl with myOkr, its time to download
+          throwEvent("okr:getOkrContainer")
+          setData(res.payload as OkrGetOkrObjectPayload);
+        }
       })
     
     // Set selectedSem for data pulling

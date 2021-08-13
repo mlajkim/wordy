@@ -99,11 +99,25 @@ export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpW
   return newResource;
 };
 
-export const getToday = () => {
+export const getNow = () => moment().valueOf();
+
+export const getToday = (beginningDate?: number) => {
   // now must be defined first, as the moment that year changes may cause bug (barely hpapen tho) 
-  const now = moment();
+  const now = beginningDate ? moment(beginningDate) : moment();
   const year = parseInt(now.format('YYYY'));
   const month = parseInt(now.format('MM'));
   
-  return { year, sem: (year % 100) * 10 + Math.ceil(month / 3) }
+  return { year, month, quarterly: (year % 100) * 10 + Math.ceil(month / 3) }
 }
+
+export const convertQuarterlyIntoMoment = (quarterlyInput: number) => {
+  const WHICH_LAST_DAY = 6; // if 6, Saturday
+  const AFTER_WHICH_HOURS = 12; // if 12, then 12pm of saturady;
+
+  const year = Math.ceil((quarterlyInput / 10) + 2000)
+  const month = quarterlyInput % 10 * 3 - 1; // 0 is actually jaunuary. 
+
+  const potentialLastSaturdayAt12pm = moment({ year, month }).endOf('month').startOf('day').weekday(WHICH_LAST_DAY).add(AFTER_WHICH_HOURS, "hours");
+  if (potentialLastSaturdayAt12pm.month() % 3 !== 2) return potentialLastSaturdayAt12pm.add(12, "hours").valueOf();
+  else return potentialLastSaturdayAt12pm.valueOf();
+} 

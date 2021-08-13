@@ -31,4 +31,9 @@ export const LogModel = mongoose.model(`${ENCRYPTED}log`, encryptedResourceSchem
 export const OkrLink = mongoose.model(`${ENCRYPTED}okr_link`, encryptedResourceSchema);
 export const OkrObjectModel = mongoose.model(`${ENCRYPTED}okr_object`, encryptedResourceSchema);
 export const MyOkrModel = mongoose.model(`${ENCRYPTED}my_okr`, encryptedResourceSchema);
+export const ContainerModel = mongoose.model(`${ENCRYPTED}okr_container`, encryptedResourceSchema);
 export const CustomizedOkrLinkModel = mongoose.model(`${ENCRYPTED}customized_okr_link`, encryptedResourceSchema);
+
+// Comemented on Aug 13, 2021
+// ResCheck checks if type Resource has been used, not unencrypted data.
+export const ResCheck = (resource: Resource) => resource;

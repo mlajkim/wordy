@@ -38,12 +38,14 @@ export type ResourceId = {
 // Pure resource contains all unencrypted human-readable resource 
 // that was decrypted from ciphertextBlob
 export type PureResource = ResourceId & (
-  UserPure |
+  // OKR
   OkrLinkPure |
   MyOkrPure |
   OkrObjectPure |
-  GroupPure |
-  OkrComment
+  OkrComment |
+  // USER & GROUP
+  UserPure |
+  GroupPure
 );
 
 export type UserPure = {
@@ -63,10 +65,25 @@ export type OkrLinkPure = {
 export type MyOkrPure = {
   id: string; // federalProvider (go) + federalId (will be modified, later. it is only displaying)
   name: string; // dispalying name Jeongwoo Kim@jkim67cloud (but now, I will just use the same id)
-  okrSems: number[];
+  quarterlyContainers: Wrn[];
+  yearlyContainers: Wrn[],
+  longtermContainers: Wrn[],
+  finaldayContainer?: Wrn, // this is NOT WRN[]
   joinedGroup: Wrn[],
 };
 
+export type OkrContainerPure = {
+  containerType: "quarterly" | "yearly" | "longterm" | "finalday";
+  from: number;
+  until: number;
+  containingObject?: Wrn[];
+  title?: string;
+}
+
+export type OkrObjectHeader = {
+  type: OkrObjectType;
+  title: string, // BFR cut til ## (2 hashtag calcualtes your result and put inside)
+};
 export type OkrObjectPure = OkrObjectHeader & {
   // == basic info of the data == //
   initialData: number; // 0 tasks or 77kg of weight
@@ -84,10 +101,6 @@ export type OkrObjectPure = OkrObjectHeader & {
   // tail
   finalScore: number;
 };
-export type OkrObjectHeader = {
-  type: OkrObjectType;
-  title: string, // BFR cut til ## (2 hashtag calcualtes your result and put inside)
-}
 
 export type GroupPure = {
   leaderWrn: Wrn,

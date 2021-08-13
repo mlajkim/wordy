@@ -6,7 +6,7 @@ import { Wrn } from '../../../type/availableType';
 import { CreateOkrObjectInput } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Mogno DB
-import { OkrObjectModel } from '../../../models/EncryptedResource';
+import { OkrObjectModel, ResCheck } from '../../../models/EncryptedResource';
 // Mdl
 import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // internal
@@ -39,10 +39,10 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // get a good public id
   let publicId = "";
-  const { year, sem } = getToday();
+  const { year, quarterly } = getToday();
   if (inputData.type === "Objective") publicId = year.toString();
-  else if (inputData.type === "KeyResult") publicId = sem.toString();
-  else if (inputData.type === "OkrDailyRoutine") publicId = `100${sem.toString()}`;
+  else if (inputData.type === "KeyResult") publicId = quarterly.toString();
+  else if (inputData.type === "OkrDailyRoutine") publicId = `100${quarterly.toString()}`;
 
   // Cleaning the data before using it
   inputData.title.trim();
@@ -53,7 +53,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const newMyOkrResource = intoResource(newMyOkr, wrn, RE);
 
   // Returning data
-  await new OkrObjectModel(newMyOkrResource).save()
+  await new OkrObjectModel(ResCheck(newMyOkrResource)).save()
     .then(() => {
       ctGateway(RE, "Accepted");
       return res.status(RE.status!).send(RE);
