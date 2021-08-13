@@ -22,16 +22,14 @@ export type Resource = {
   isClientEncrpyted?: boolean; // client key encrypts the encryptedDek after 
 };
 
-
-
 // these are all unecrypted data
-
 export type UnencryptedPureResource = 
   UserResource;
 
 export type ResourceId = {
   wrn: string;
   ownerWrn: string;
+  dateAdded?: number;
   // wordy policy checker 
   wpWrn?: AvailableWpWrn; // this will be checked first, even before
   // might add dateAdded;

@@ -67,11 +67,14 @@ export const intoPayload = (resource: Resource, RE: WordyEvent) => {
 }
 
 export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any): Resource => {
+  const dateAdded = moment().valueOf();
+
   const kmsResult = kmsService("Encrypt", "");
   const { encrypt } = new Cryptr(kmsResult.plainkey);
   const plaindata: string = JSON.stringify({ 
     ...pureResource, wrn: newWrn, ownerWrn: RE.requesterWrn, 
-    wpWrn: wpWrn ? wpWrn : "wrn::wp:pre_defined:backend:only_to_group_members:210811" // default value
+    wpWrn: wpWrn ? wpWrn : "wrn::wp:pre_defined:backend:only_to_group_members:210811", // default value
+    dateAdded
   });
   const ciphertextBlob = encrypt(plaindata);
 
@@ -79,7 +82,7 @@ export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpW
   const newResource: Resource = {
     // data basic
     resourceVersion: "1.0.210804",
-    dateAdded: moment().valueOf(),
+    dateAdded,
     wrn: newWrn,
     ownerWrn: RE.requesterWrn,
     createdByWrn: RE.requesterWrn, // by default, the creater of resource is the initiator of event

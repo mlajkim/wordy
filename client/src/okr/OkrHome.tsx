@@ -121,23 +121,37 @@ const OkrHome: React.FC<{
       onClick={() => hdlChipClick()}
     />
   ));
-
-  const RenderList = data && data.map(data => {
-    if (data.resoureAvailability === "Visible") return (
-      <Typography gutterBottom key={data.wrn}>
-        {data.title}
-        <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
-          <MoreVertIcon fontSize="small" />
-        </IconButton>
-      </Typography>
+  
+  // Sort first, and get the data
+  if (data) data.sort((a, b) => a.okrObjectOrder - b.okrObjectOrder);
+  const RenderList = data && data.map((data, idx) => (
+    <Draggable draggableId={data.wrn} key={data.wrn} index={idx}>
+      {(provided) => (
+        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+          <Typography gutterBottom>
+            {data.resoureAvailability === "Visible"
+              ? data.title
+              : tr.thisDataIsPrivate[ln]
+            }
+            <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          </Typography>
+        </div>
+      )}
+    </Draggable>
     )
-    else return (
-      <Typography gutterBottom key={data.wrn}>
-        {tr.thisDataIsPrivate[ln]}
-      </Typography>
-    )
-  })
+  )
 
+  //handler
+  const hdlDragEnd = (result: any) => {
+    const sourceIdx = result.source.index;
+    const destinationIdx = result.destination.index;
+
+    
+  }
+
+  const tempArr = ["hi", "bi"]
   return (
     <Fragment>
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
@@ -151,8 +165,17 @@ const OkrHome: React.FC<{
           { RenderChips }
         </Grid>
         <Grid style={{ paddingTop: 10 }}>
+          <DragDropContext onDragEnd={(result) => hdlDragEnd(result)}>
+            <Droppable droppableId="testTempid">
+              {(provided) => (
+                <div ref={provided.innerRef}  {...provided.droppableProps}>
+                  { RenderList }
+                  { provided.placeholder }
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           { okrLoading && <LoadingFbStyle />}
-          { RenderList }
         </Grid>
       </Grid>
       {/* Menu */}

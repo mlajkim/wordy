@@ -8,10 +8,11 @@ import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource, getToday } from '../../../internal/compute/backendWambda';
+// Library
+import moment from 'moment';
 // type
 import { CreateOkrObjectInput } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { OkrObjectHeader } from '../../../type/resourceType';
 // Gateway
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
@@ -41,9 +42,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   else if (inputData.type === "KeyResult") publicId = sem.toString();
   else if (inputData.type === "OkrDailyRoutine") publicId = `100${sem.toString()}`;
 
+  // Cleaning the data before using it
+  inputData.title.trim();
+
   // Data declration with generated Wrn
   const wrn = generatedWrn(`wrn::okr:okr_object:mdb:${publicId}:`);
-  const newMyOkr: OkrObjectHeader = inputData;
+  const newMyOkr = { ...inputData, okrObjectOrder: moment().valueOf() };
   const newMyOkrResource = intoResource(newMyOkr, wrn, RE);
 
   // Returning data
