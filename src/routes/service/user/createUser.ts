@@ -65,16 +65,16 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         const alreadyExistingJwt: JwtData = {
           wrn: encryptedUserResource.wrn, federalProvider: 'google', federalId: `${ticket.getUserId()}`
         }
+        const signedWat = generateJwt(alreadyExistingJwt);
 
         // I need to assign token
-        res.cookie("WordyAccessToken", alreadyExistingJwt, {
+        res.cookie("WordyAccessToken", signedWat, {
           sameSite: 'strict', 
           path: '/', 
           expires: new Date(new Date().getTime() + TOKEN_DEFAULT_EXPIRING_IN), // 1 year
           httpOnly: true,
           secure: true
         });
-
         return res.send(RE);
       };
 

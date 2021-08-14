@@ -11,7 +11,7 @@ import { pushDataEvenUndefined } from '../../../type/sharedWambda';
 // Mogno DB
 import { OkrObjectModel, ResCheck, ContainerModel } from '../../../models/EncryptedResource';
 // Mdl
-import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
+import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource, getNow, intoPayload } from '../../../internal/compute/backendWambda';
@@ -20,25 +20,18 @@ import { generatedWrn, intoResource, getNow, intoPayload } from '../../../intern
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "okr:createOkrObject";
-const SERVICE_NAME: EventType = `${EVENT_TYPE}`
+const EVENT_TYPE: EventType = "okr:createOkrObject";
 dotenv.config();
 
 // Only available to Wordy Members
 router.use(onlyToWordyMemberMdl); 
-
-// connects into mongodb
 router.use(connectToMongoDB);
+router.use(addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event & write it down with validation 
   const RE = req.body as WordyEvent; // receives the event
   const { type, title, associateContainerWrn } = RE.requesterInputData as CreateOkrObjectInput;
-  RE.validatedBy 
-    ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME];
-
-  // Cleaning the data before using it
   title.trim();
 
   // First, prepare okr object data.

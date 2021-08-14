@@ -47,7 +47,7 @@ const identifiedWrnDefiner = (RE: WordyEvent) => {
 export const watGateway = (req: Request, res: Response, next: NextFunction) => {
   // get httponly token from header
   const httpOnlyToken = req.cookies.WordyAccessToken;
-  const requestedEvent = req.body as WordyEvent;
+  const RE = req.body as WordyEvent;
 
   // Record
   req.body.validatedBy 
@@ -55,28 +55,29 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
     : req.body.validatedBy = [SERVICE_NAME];
     
   jwt.verify(httpOnlyToken!, process.env.WORDY_ACCESS_TOKEN_JWT!, (err: any, data: any) => {
+    console.log(data);
     if (err) {
       // Validated if action does not require jwt token
-      const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === requestedEvent.eventType);
+      const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === RE.eventType);
       if (idx !== -1) {
         // FYI
         // if it fails to read the data, the retruning data will be undefined
 
         const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public";
-        requestedEvent.requesterWrn = identity;
-        requestedEvent.identifiedAsWrn = identity;
-        identifiedWrnDefiner(requestedEvent);
+        RE.requesterWrn = identity;
+        RE.identifiedAsWrn = identity;
+        identifiedWrnDefiner(RE);
         return next(); // you are free to go, even w/o WAT
       };
 
-      requestedEvent.serverResponse = "Denied";
-      requestedEvent.serverMessage = `Your requested event ${requestedEvent.eventType} was rejected by jwtService due to absense or invalid WordyAccessToken`;
-      return res.status(401).send(requestedEvent);
+      RE.serverResponse = "Denied";
+      RE.serverMessage = `Your requested event ${RE.eventType} was rejected by jwtService due to absense or invalid WordyAccessToken`;
+      return res.status(202).send(RE);
     } else {
       // validated, no err
-      requestedEvent.requesterInfo = data;
-      requestedEvent.requesterWrn = data.wrn;
-      identifiedWrnDefiner(requestedEvent);
+      RE.requesterInfo = data;
+      RE.requesterWrn = data.wrn;
+      identifiedWrnDefiner(RE);
       next();
     }
   });
