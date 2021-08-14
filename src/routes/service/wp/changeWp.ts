@@ -6,7 +6,7 @@ import { Resource, OkrObjectPure } from '../../../type/resourceType';
 import { WpChangeWpInput, WpChangeWpPayload } from '../../../type/payloadType';
 import lec from '../../../type/LogicalErrorCode.json'
 // Middleware
-import { onlyToOwnerMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
@@ -22,7 +22,7 @@ const EVENT_TYPE: EventType = "wp:changeWp";
 dotenv.config();
 
 // Only modifable to owner the resource
-router.use(onlyToOwnerMdl);
+router.use(onlyToWordyMemberMdl);
 router.use(connectToMongoDB);
 router.use(addValidatedByThisService);
 
@@ -31,6 +31,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent;
   const { modifyingTarget, modifyingWpWrn } = RE.requesterInputData as WpChangeWpInput;
 
+  console.log(RE.requesterWrn); 
   // Findt data from database
   const foundResource = 
     await OkrObjectModel.findOne({ wrn: modifyingTarget, ownerWrn: RE.requesterWrn }) as Resource | null; // returns null when not found

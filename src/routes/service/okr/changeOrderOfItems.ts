@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 // Type
 import { OkrChangeOrderOfItemInput } from '../../../type/payloadType';
 // Middleware
-import { onlyToOwnerMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
@@ -20,7 +20,7 @@ const EVENT_TYPE: EventType = "okr:changeOrderOfItem";
 dotenv.config();
 
 // Only modifable to owner the resource
-router.use(onlyToOwnerMdl);
+router.use(onlyToWordyMemberMdl);
 router.use(connectToMongoDB);
 router.use(addValidatedByThisService);
 

@@ -4,22 +4,22 @@ import { intoArray, validateWrn } from '../../type/sharedWambda';
 import { StatementType, AUTHORIZED_MESSAGE, Policy } from '../../typesBackEnd';
 import { Gateway, AvailableWpWrn } from '../../type/availableType';
 import { WordyEvent } from '../../type/wordyEventType';
-import { policyGrabber } from './wp'
+import { policyGrabber, conditionChecker } from './wp'
 
-export const iamGateway = (requestedEvent: WordyEvent, wpWrn: AvailableWpWrn): WordyEvent => {
+export const iamGateway = (RE: WordyEvent, wpWrn: AvailableWpWrn): WordyEvent => {
 	// Validation
-	if (requestedEvent.serverResponse === "Denied") return requestedEvent;
+	if (RE.serverResponse === "Denied") return RE;
   
   const policy: Policy = policyGrabber(wpWrn);
 
   // Record
 	const GATEWAY_NAME: Gateway = "iamGateway"
-	requestedEvent.validatedBy 
-    ? requestedEvent.validatedBy.push(GATEWAY_NAME)   
-    : requestedEvent.validatedBy = [GATEWAY_NAME]; 
+	RE.validatedBy 
+    ? RE.validatedBy.push(GATEWAY_NAME)   
+    : RE.validatedBy = [GATEWAY_NAME]; 
 
-	requestedEvent.serverResponse = "Denied" // by default
-	requestedEvent.serverMessage = `Implicitly denied by ${GATEWAY_NAME} due to insufficient pemission`; // by default
+	RE.serverResponse = "Denied" // by default
+	RE.serverMessage = `Implicitly denied by ${GATEWAY_NAME} due to insufficient pemission`; // by default
 
 	if (policy.version === "1.0.210729") {
     const definedStatements = intoArray(policy.statement) as StatementType[]; 
@@ -29,39 +29,43 @@ export const iamGateway = (requestedEvent: WordyEvent, wpWrn: AvailableWpWrn): W
     if (definedStatement.effect === "Deny") {
     for (const policyPrincipal of policyPrincipals) {
         
-      if (validateWrn(requestedEvent.requesterWrn!, policyPrincipal) === 'Passed') {
+      if (validateWrn(RE.requesterWrn!, policyPrincipal) === 'Passed') {
         const actions = intoArray(definedStatement.action);
         for (const action of actions) {
-          if (validateWrn(requestedEvent.eventType!, action) === 'Passed') {
-            requestedEvent.serverResponse = "Denied";
-            requestedEvent.serverMessage = 
-              `User ${requestedEvent.requesterWrn} is not authorized to perform: ${requestedEvent.eventType}`
-            return requestedEvent; // returned denied event
+          if (validateWrn(RE.eventType!, action) === 'Passed'
+            && conditionChecker(RE, definedStatement.condition) === "Passed"
+          ) {
+            RE.serverResponse = "Denied";
+            RE.serverMessage = 
+              `User ${RE.requesterWrn} is not authorized to perform: ${RE.eventType}`
+            return RE; // returned denied event
           }
         };
       }
     };
 			} else if (definedStatement.effect === "Allow") {
         for (const policyPrincipal of policyPrincipals) {
-          if (validateWrn(requestedEvent.requesterWrn!, policyPrincipal) === 'Passed') {
+          if (validateWrn(RE.requesterWrn!, policyPrincipal) === 'Passed') {
             const actions = intoArray(definedStatement.action);
             for (const action of actions) {
-              if (validateWrn(requestedEvent.eventType!, action) === 'Passed') {
-                requestedEvent.serverResponse = "Accepted";
-                requestedEvent.serverMessage = AUTHORIZED_MESSAGE
+              if (validateWrn(RE.eventType!, action) === 'Passed'
+                && conditionChecker(RE, definedStatement.condition) === "Passed"
+              ) {
+                RE.serverResponse = "Accepted";
+                RE.serverMessage = AUTHORIZED_MESSAGE
                 break; // for performance
               }
             };
           }
         };
 			} else {
-						requestedEvent.serverMessage = "Internal Error; Access denied" // should not happen
+						RE.serverMessage = "Internal Error; Access denied" // should not happen
 				}
 		}
 	}// end of if
 	else {
-			requestedEvent.serverMessage = "Not authorized due to unsupported version receieved"
+			RE.serverMessage = "Not authorized due to unsupported version receieved"
 	}
 
-	return requestedEvent;
+	return RE;
 }

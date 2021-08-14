@@ -70,7 +70,7 @@ const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpW
           const actions = intoArray(definedStatement.action);
           for (const action of actions) {
             if (validateWrn(RE.eventType!, action) === 'Passed'
-              && conditionChecker(RE, resource, definedStatement.condition) === "Passed"  
+              && conditionChecker(RE, definedStatement.condition, resource) === "Passed"  
             ) 
               return "NotPassed"; // no longer requires checking
           };
@@ -82,7 +82,7 @@ const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpW
           const actions = intoArray(definedStatement.action);
           for (const action of actions) {
             if (validateWrn(RE.eventType!, action) === 'Passed'
-              && conditionChecker(RE, resource, definedStatement.condition) === "Passed"
+              && conditionChecker(RE, definedStatement.condition, resource) === "Passed"
             ) {
               returningResponse = "Passed"
               break; // for performance
@@ -98,7 +98,7 @@ const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpW
 
 // condition should be matched all!
 // Since condition is optional, it passes if it is blank. 
-export const conditionChecker = (RE: WordyEvent, resource: Resource, givenCondition: Condition): WpResponse => {
+export const conditionChecker = (RE: WordyEvent, givenCondition: Condition, resource?: Resource): WpResponse => {
   let defaultResponse: WpResponse = "Passed";
   const conditions = Object.entries(givenCondition ? givenCondition : []);
 
@@ -108,6 +108,7 @@ export const conditionChecker = (RE: WordyEvent, resource: Resource, givenCondit
   for (const condition of conditions) {
     switch(condition[0]) {
       case "requesterWrnMatchesResourceOwnerWrn":
+        if (!resource) break; // if resource is not provided, then its skipped.
         if (RE.requesterWrn !== resource.ownerWrn) defaultResponse = "NotPassed";
         break; // no longer requires checking. it is not passed.
       default:
