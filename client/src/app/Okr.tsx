@@ -10,6 +10,7 @@ import { throwEvent } from '../frontendWambda';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 // pages
+import NotFound from '../okr/NotFound';
 import OkrWelcome from '../okr/OkrWelcome';
 import OkrLoading from '../okr/OkrLoading';
 import OkrNotSignedIn from '../okr/OkrNotSignedIn';
@@ -28,7 +29,7 @@ const Okr: React.FC = () => {
   const { support } = useSelector((state: State) => state);
   // Okr State
   // const [pathData, setPathData] = useState<PathData>({ federalProviderAndId: "" });
-  const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode">("loading");
+  const [okrPage, setOkrPage] = useState<"loading" | "notSignedIn" | "welcome" | "okrMode" | "notFound">("loading");
   const [okrData, setOkrData] = useState<OkrGetMyOkrPayload>();
   const [containerData, setContainerData] = useState<OkrContainerPure & ResourceId>();
   
@@ -60,21 +61,35 @@ const Okr: React.FC = () => {
 
           return; //
         }
-      } else setOkrPage("welcome");
+      } else {
+        if (pathData.userLink !== "") setOkrPage("notFound");
+        else setOkrPage("welcome");
+      }
+
     }
     
     // call
     callAsyncFunction()
   }, []);
 
+  const showThisPage = () => {
+    switch(okrPage) {
+      case "notFound": return <NotFound />
+      case "loading": return <OkrLoading />
+      case "welcome": return <OkrWelcome />
+      case "okrMode":
+        if (okrData && containerData) return  <OkrHome okrData={okrData} containerData={containerData} setContainerData={setContainerData}/>
+        return <OkrLoading />
+      case "notSignedIn": return <OkrNotSignedIn setOkrPage={setOkrPage}/>
+      default: return null;
+    }
+  }
+
   return (
     <Fragment>
       <Container maxWidth="md" style={{marginTop: 10, textAlign: "center"}}>
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
-          {okrPage === "loading" && <OkrLoading />}
-          {okrPage === "welcome" && <OkrWelcome/>}
-          {okrPage === 'okrMode' && okrData && containerData && <OkrHome okrData={okrData} containerData={containerData} setContainerData={setContainerData}/>}
-          {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
+          { showThisPage() }
         </Typography>
       </Container>
     </Fragment>
