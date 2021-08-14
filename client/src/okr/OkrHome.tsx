@@ -35,7 +35,7 @@ const OkrHome: React.FC<{
   const { support, language, okrLoading } = useSelector((state: State) => state);
   const ln = language;
   // state
-  const [ data, setData ] = useState<OkrGetOkrObjectPayload>();
+  const [ okrObjects, setData ] = useState<OkrGetOkrObjectPayload>();
   const [ selectedData, setSelectedData ] = useState<ResourceId & OkrObjectPure>();
   const [ menu, openMenu ] = useState<null | HTMLElement>(null);
   const [ selectedChip, selectChip ] = useState<Wrn>(okrData.whichOneDownloadFirst);
@@ -104,7 +104,8 @@ const OkrHome: React.FC<{
   ));
   
   // Sort first, and get the data
-  const RenderList = data && data.map((data, idx) => (
+  const orderedOkrObjects = okrObjects && okrObjects.sort((a, b) => a.objectOrder! - b.objectOrder!);
+  const RenderList = orderedOkrObjects && orderedOkrObjects.map((data, idx) => (
     <Draggable draggableId={data.wrn} key={data.wrn} index={idx}>
       {(provided) => (
         <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
@@ -125,18 +126,21 @@ const OkrHome: React.FC<{
 
   //handler
   const hdlDragEnd = (result: any) => {
-    if(!data) return;
+    if(!okrObjects) return;
 
     const sourceIdx = result.source.index;
     const destinationIdx = result.destination.index;
 
-    const newDataArr = Array.from(data);
+    const newDataArr = Array.from(okrObjects);
     const sourceData = newDataArr.splice(sourceIdx, 1)[0];
-    newDataArr.splice(destinationIdx, 0, sourceData);
-
+    newDataArr.splice(destinationIdx, 0, sourceData)
+    const newlyOrderedObjects = newDataArr.map((el, idx) => {
+      el.objectOrder = idx;
+      return el;
+    });
+    
     // Get pure WRN[] list & do the change of DB
-    const orderedWrn = newDataArr.map(el => el.wrn);
-    const input: OkrChangeOrderOfItemInput = { containerWrn: containerData.wrn, orderedWrn };
+    const input: OkrChangeOrderOfItemInput = { newlyOrderedObjects };
     throwEvent("okr:changeOrderOfItem", input);
 
     // finally

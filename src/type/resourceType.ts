@@ -103,6 +103,7 @@ export type OkrObjectPure = OkrObjectHeader & {
   proof?: Wrn[]
   comment?: Wrn[]
   // tail
+  objectOrder?: number;
   finalScore?: number;
 };
 
@@ -117,4 +118,3 @@ export type OkrComment = {
   isRepliable: boolean;
   commentedOn: number // July 30, 2021
 };
-

@@ -4,7 +4,7 @@
 
 // Type
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
-  OkrContainerPure,
+  OkrContainerPure
 } from '../type/resourceType';
 import { 
   AvailableWpWrn,
@@ -31,7 +31,7 @@ export type UserCreateUserPayload = UserPure;
 // ===============
 
 // okr:CHANGE_ORDER_OR_ITEM
-export type OkrChangeOrderOfItemInput = { containerWrn: Wrn, orderedWrn: Wrn[] };
+export type OkrChangeOrderOfItemInput = { newlyOrderedObjects: (ResourceId & OkrObjectPure)[] };
 export type OkrChangeOrderOfItemPayload = undefined;
 
 // okr:GET_OKR_CONTAINER
