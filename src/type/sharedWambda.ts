@@ -3,6 +3,19 @@
 import { AddableLanguage } from './generalType';
 //
 import moment from 'moment';
+import { FederalProvider } from './availableType';
+
+// Aug 14, 2021
+export const convertFederalProvider = (federalProvider: FederalProvider) => {
+  switch (federalProvider) {
+    case "google":
+      return "end_user";
+    case "anonymous":
+      return "anonymous";
+    default:
+      return "THIS_SHOULD_NOT_HAPPEN";
+  }
+};
 
 export const pushDataEvenUndefined = (pushingData: any, pushingArr: any[] | undefined): any[] => {
   if (typeof pushingArr === "object") pushingArr.push(pushingData) 

@@ -84,6 +84,9 @@ export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpW
   });
   const ciphertextBlob = encrypt(plaindata);
 
+  console.log(newWrn);
+  console.log(RE.requesterWrn);
+
   // new resource
   const newResource: Resource = {
     // data basic

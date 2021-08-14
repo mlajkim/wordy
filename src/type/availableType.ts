@@ -1,8 +1,10 @@
 // Commented on Aug 8, 2021
 // This type is valid
 
+
+export type HttpOnlyCookie = 'WordyAccessToken';
+
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
-  | "WordyAccessToken";
 export type FederalProvider = 'anonymous' | 'google';
 export type EncryptedDek = string;
 export type Wrn = `wrn::${string}:${string}:mdb:${string}:${string}`;

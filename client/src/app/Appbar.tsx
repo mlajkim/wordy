@@ -35,6 +35,7 @@ import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
 import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
 // Credetnial
 import { GOOGLE_CLIENT_ID } from '../credential';
+import { throwEvent } from '../frontendWambda';
 
 const Appbar = () => {
   const classes = MUIStyle();
@@ -83,6 +84,9 @@ const Appbar = () => {
 
   // @ LOGOUT FUNCTIONS
   const handleLogout = () => {
+    // Commented on Aug 14
+    throwEvent("wss:signOut");
+
     API.killCookie('login');
     setProfileMenu(null);
     store.dispatch(updateUser({ isSignedIn: false }));

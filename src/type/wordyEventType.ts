@@ -26,7 +26,10 @@ export type WordyEvent = {
 
 export type ServerResponse = "Denied" | "Accepted" | "LogicallyDenied";
 export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`
-  | `wp:${WpService}`;
+  | `wp:${WpService}` | `wss:${Wss}`;
+
+type Wss = // Wordy Signin Service
+  "signOut"
 
 type WpService = // Wordy Policy 
   "*" |

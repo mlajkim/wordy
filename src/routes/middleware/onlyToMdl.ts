@@ -1,6 +1,6 @@
 import {  NextFunction, Request, Response } from 'express';
 // Type
-import { WordyEvent } from '../../type/wordyEventType';
+import { WordyEvent, EventType } from '../../type/wordyEventType';
 // Internal
 import { iamGateway } from '../../internal/security/iam';
 import { ctGateway } from '../../internal/management/cloudTrail';
@@ -59,5 +59,16 @@ export const openToPublic = (async (req: Request, res: Response, next: NextFunct
 
   // Validation complete
   req.body = RE;
+  next();
+}); 
+
+
+// This should be called only when it is not denied by permission
+export const addValidatedByThisService = (async (req: Request, _res: Response, next: NextFunction) => {
+  const wordyEvent = req.body.eventType as EventType;
+  req.body.validatedBy 
+    ? req.body.validatedBy.push(wordyEvent) 
+    : req.body.validatedBy = [wordyEvent]; 
+
   next();
 }); 

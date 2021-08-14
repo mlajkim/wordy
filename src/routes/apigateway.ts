@@ -2,6 +2,7 @@ import express from 'express';
 // library
 import { watGateway } from '../internal/security/wat';
 // Routeres
+import wss from './service/wss';
 import word from './service/word';
 import user from './service/user';
 import okr from './service/okr';
@@ -23,6 +24,7 @@ apigateway.use((req: Request, _res: Response, next: NextFunction) => {
 apigateway.use(watGateway);
 
 // Apply
+apigateway.use(wss);
 apigateway.use(word);
 apigateway.use(user);
 apigateway.use(okr);
