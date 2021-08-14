@@ -34,9 +34,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
   RE.validatedBy 
     ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME];
-
-  console.log(RE);
+    : RE.validatedBy = [SERVICE_NAME];  
 
   let findOneCondition = {}
     
@@ -48,7 +46,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLinkPure;
       findOneCondition = { ownerWrn: targetOwnerWrn }
     } else {
-      findOneCondition = { ownerWrn: `wrn::user:google:mdb:${userLink.slice(2)}` }
+      findOneCondition = { ownerWrn: `wrn::user:google:mdb:${userLink.slice(2)}:` }
     }
   } else {
     findOneCondition = { ownerWrn: RE.identifiedAsWrn }

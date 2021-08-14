@@ -2,17 +2,19 @@ import { Resource } from '../type/resourceType';
 import { Gateway, JwtData, AssignedIdentity } from '../type/availableType';
 
 export type WordyEvent = {
+  
   // header (data from end user)
   eventVersion: "1.0.210731",
   eventType: EventType,
   tempAccessToken?: string,
   requesterInputData?: any,
+  // header core (written by server, but its important)
+  status?: number;
   // body (what end user wants)
   serverResponse?: ServerResponse
   serverMessage?: string;
   payload?: any // data that is sent to end-user (front end)
   price?: number
-  status?: number;
   // tail (data put by server)
   requesterWrn?: string; // actual initiator
   identifiedAsWrn?: string | AssignedIdentity;

@@ -73,7 +73,7 @@ const Okr: React.FC = () => {
         <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
           {okrPage === "loading" && <OkrLoading />}
           {okrPage === "welcome" && <OkrWelcome/>}
-          {okrPage === 'okrMode' && okrData && containerData && <OkrHome okrData={okrData} containerData={containerData} />}
+          {okrPage === 'okrMode' && okrData && containerData && <OkrHome okrData={okrData} containerData={containerData} setContainerData={setContainerData}/>}
           {okrPage === 'notSignedIn' && <OkrNotSignedIn setOkrPage={setOkrPage}/>}
         </Typography>
       </Container>

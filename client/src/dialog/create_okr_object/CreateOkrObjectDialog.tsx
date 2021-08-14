@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // Type 
 import { OkrObjectType } from '../../type/availableType';
-import { CreateOkrObjectInput } from '../../type/payloadType';
+import { CreateOkrObjectInput, CreateOkrObjectPayload } from '../../type/payloadType';
 // MUI
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -76,14 +76,17 @@ const CreateOkrObject: React.FC = () => {
   
   // handler
   const hdlCreateClick = () => {
-    const userInput: CreateOkrObjectInput = { type: selectedType, title };
+    const userInput: CreateOkrObjectInput = { 
+      associateContainerWrn: "wrn::okr:container:mdb:213:rRMSvMXnyMmgyejOsnfQgcOMKjKcLg2d", type: selectedType, title 
+    };
     throwEvent("okr:createOkrObject", userInput)
       .then(res => {
         if (res.serverResponse === "LogicallyDenied") {
           // nothing happens I think for now
         } else if (res.serverResponse === "Accepted") {
+          const payload = res.payload as CreateOkrObjectPayload;
           store.dispatch(offDialog());
-          store.dispatch(setOkrReloadOn());
+          store.dispatch(setOkrReloadOn(payload));
         }
       })
   };

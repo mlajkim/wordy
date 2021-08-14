@@ -3,5 +3,20 @@
     "en": "Resource does not exist",
     "ko": "존재하지 않는 리소스입니다",
     "ja": "存在しないリソースです"
+  },
+  "NO_LONGER_ADDABLE_TO_THE_CONTAINER": {
+    "en": "Resource is no longer addable to the container",
+    "ko": "해당의 컨테이너에 더이상 데이터를 추가할 수 없습니다",
+    "ja": "該当のコンテイナーにデータを追加できません"
+  },
+  "FAILED_TO_MODIFY_FOLLOWING_MODEL_DUE_TO_DB_FAILURE": {
+    "en": "Failed to modify following model due to DB failure: ",
+    "ko": "DB fail에 의해 이하의 모델에 데이터를 변경하지 못했습니다: ",
+    "ja": "DB failによる、以下のモデルにデータの変更ができませんでした: "
+  },
+  "FAILED_TO_SAVE_FOLLOWING_MODEL_DUE_TO_DB_FAILURE": {
+    "en": "Failed to save following model due to DB failure: ",
+    "ko": "DB fail에 의해 이하의 모델에 데이터를 저장하지 못했습니다: ",
+    "ja": "DB failによる、以下のモデルにデータを保存できませんでした: "
   }
 }

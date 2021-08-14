@@ -12,7 +12,8 @@ const SERVICE_NAME: Gateway = "watGateway"
 const NOT_REQUIRING_WAT_EVENTS: EventType[] = [
   "user:createUser", 
   "okr:getMyOkr",
-  "okr:getOkrObject"
+  "okr:getOkrObject",
+  "okr:getOkrContainer"
 ];
 
 export const generateJwt = (data: any) => {
@@ -22,7 +23,7 @@ export const generateJwt = (data: any) => {
   const signedJwt = jwt.sign(
     data, // this data is actually readable without key. 
     process.env.WORDY_ACCESS_TOKEN_JWT!, 
-    {expiresIn: `${LOGIN_TOKEN_EXPIRES_IN_DAYS}d`
+    {expiresIn: `${LOGIN_TOKEN_EXPIRES_IN_DAYS}d` 
   }); 
 
   return signedJwt;

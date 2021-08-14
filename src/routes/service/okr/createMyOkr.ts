@@ -21,10 +21,12 @@ const SERVICE_NAME: EventType = `${EVENT_TYPE}`
 dotenv.config();
 
 const LIMIT = 1000 * 60 * 60 * 24 * 14; // 14 days after
+const MODIFIABLE_UNTIL_LIMIT = 1000 * 60 * 60 * 24 * 14; // 14 days after
 const getNextQuarterly = () => {
   const { quarterly } = getToday(getNow() + LIMIT);
   return quarterly;
-}
+};
+const getAddableUntil = () => getNow() + MODIFIABLE_UNTIL_LIMIT;
 
 router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Validation
@@ -78,7 +80,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const newContainer: OkrContainerPure = {
     containerType: "quarterly",
     from: getNow(),
-    until: convertQuarterlyIntoMoment(quarterly)
+    until: convertQuarterlyIntoMoment(quarterly),
+    addableUntil: getAddableUntil()
   }
   const newContainerResource = intoResource(newContainer, quarterlyContainerWrn, RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); //testing
 

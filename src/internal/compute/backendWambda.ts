@@ -66,6 +66,12 @@ export const intoPayload = (unrefinedResource: Resource, RE: WordyEvent): PureRe
   return plainData;
 }
 
+export const modifyResource = (howModify: object, unmodifiedResource: Resource, RE: WordyEvent): Resource => {
+  let plainData = intoPayload(unmodifiedResource, RE) as PureResource;
+  plainData = { ...plainData, ...howModify}; // modify begins here
+  return intoResource(plainData, unmodifiedResource.wrn, RE, plainData.wpWrn);
+}
+
 export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any): Resource => {
   const dateAdded = moment().valueOf();
 

@@ -39,7 +39,8 @@ export type OkrGetOkrObjectInput = OkrGetMyOkrInput & {
 export type OkrGetOkrObjectPayload = (ResourceId & OkrObjectPure)[];
 
 // okr:CREATE_OKR_OBJECT_INPUT (Aug 12, 2021)
-export type CreateOkrObjectInput = OkrObjectHeader;
+export type CreateOkrObjectInput = OkrObjectHeader & { associateContainerWrn: Wrn };
+export type CreateOkrObjectPayload = OkrContainerPure; // you may wonder, it is because container is updated and frontend should know too.
 
 // OKR:GET_MY_OKR
 export type OkrGetMyOkrInput = {

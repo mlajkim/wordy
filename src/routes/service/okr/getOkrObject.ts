@@ -29,18 +29,13 @@ router.use(connectToMongoDB);
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Declare + Save Record
   const RE = req.body as WordyEvent;
-  const { userLink } = RE.requesterInputData as OkrGetOkrObjectInput;
+  const { containingObject } = RE.requesterInputData as OkrGetOkrObjectInput;
   RE.validatedBy 
     ? RE.validatedBy.push(SERVICE_NAME) 
     : RE.validatedBy = [SERVICE_NAME]; 
 
-  let condition = { ownerWrn: RE.identifiedAsWrn }; // default
-
-  if (userLink && userLink.length > 1) 
-    condition = { ownerWrn: `wrn::user:google:mdb:${userLink.slice(2)}` };
-
   // Findt data from database
-  const okrObjects = await OkrObjectModel.find(condition) as Resource[]; // returns null when not found
+  const okrObjects = await OkrObjectModel.find().where("wrn").in(containingObject) as Resource[]; // returns null when not found
   
   if (okrObjects) {
     // decrypt the data

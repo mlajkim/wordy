@@ -2,9 +2,10 @@ import { SnackbarType, DialogType } from '../types';
 import * as actions from './actionTypes';
 
 // OKR (Aug 12, 2021)
-export const setOkrReloadOn = () => {
+export const setOkrReloadOn = (data?: any) => {
   return {
     type: actions.SET_OKR_RELOAD_ON,
+    payload: data
   };
 }
 

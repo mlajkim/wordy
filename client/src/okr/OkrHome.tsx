@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // type
-import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload, OkrGetOkrContainerPayload } from '../type/payloadType';
-import { ResourceId, OkrObjectPure } from '../type/resourceType';
+import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload, OkrGetOkrContainerPayload, OkrGetOkrContainerInput } from '../type/payloadType';
+import { ResourceId, OkrObjectPure, OkrContainerPure } from '../type/resourceType';
 import { Wrn } from '../type/availableType';
 import { State } from '../types';
 // Library
@@ -24,8 +24,9 @@ import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
 const OkrHome: React.FC<{
   okrData: OkrGetMyOkrPayload,
-  containerData: OkrGetOkrContainerPayload
-}> = ({ okrData, containerData }) => {
+  containerData: OkrGetOkrContainerPayload,
+  setContainerData: React.Dispatch<React.SetStateAction<(OkrContainerPure & ResourceId) | undefined>>
+}> = ({ okrData, containerData, setContainerData }) => {
   // Redux states
   const { support, language, okrLoading } = useSelector((state: State) => state);
   const ln = language;
@@ -39,26 +40,34 @@ const OkrHome: React.FC<{
 
   // handler for loading
   useEffect(() => {
-    if (!okrLoading) return;
+    if (!okrLoading.isLoading) return;
 
-    const input: OkrGetOkrObjectInput = {
-      userLink: okrData!.userLink,
-      tempAccessToken: okrData!.tempAccessToken,
-      containingObject: containerData.containingObject!,
-    };
-
-    // get data
-    throwEvent("okr:getOkrObject", input)
+    // Get the container data first
+    const getOkrContainerInput: OkrGetOkrContainerInput = { containerWrn: containerData.wrn }
+    throwEvent("okr:getOkrContainer", getOkrContainerInput)
       .then(res => {
-        if (res.serverResponse === "Accepted") {
-          setData(res.payload as  OkrGetOkrObjectPayload)
-        }
-      })
+        setContainerData(res.payload);
 
-    // finally
-    store.dispatch(offOkrReload());
+        const input: OkrGetOkrObjectInput = {
+          userLink: okrData!.userLink,
+          tempAccessToken: okrData!.tempAccessToken,
+          containingObject: res.payload.containingObject!,
+        };
+
+        // get data
+        throwEvent("okr:getOkrObject", input)
+        .then(res => {
+          if (res.serverResponse === "Accepted") {
+            setData(res.payload as  OkrGetOkrObjectPayload)
+          };
+
+          // finally
+          store.dispatch(offOkrReload());
+        })
+      })
+      .catch(() => store.dispatch(offOkrReload()))
     
-  }, [okrLoading, okrData, containerData.containingObject]);
+  }, [okrLoading, okrData, containerData.containingObject, containerData.wrn, setContainerData]);
 
   // handler
   const hdlClickMenu = (inputType: string) => {
@@ -148,7 +157,7 @@ const OkrHome: React.FC<{
               )}
             </Droppable>
           </DragDropContext>
-          { okrLoading && <LoadingFbStyle />}
+          { okrLoading.isLoading && <LoadingFbStyle />}
         </Grid>
       </Grid>
       {/* Menu */}

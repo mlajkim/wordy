@@ -3,7 +3,7 @@ import { AvailableCookies } from './type/availableType';
 import { KeepStyleBtnProperty } from'./frontendTypes';
 
 export type State = {
-  okrLoading: boolean;
+  okrLoading: OkrLoading;
   dialog: Dialog;
   language: Language;
   support: Support;
@@ -15,6 +15,11 @@ export type State = {
   keepStyleBtn: KeepStyleBtnProperty[];
   page: string;
 };
+
+export type OkrLoading = {
+  isLoading: boolean;
+  foundData: any;
+}
 
 export type Scrabbly = {
   step: 'initialize' | 'playerNotFound' | 'gameStart' | 'waiting';

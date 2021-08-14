@@ -4,9 +4,14 @@ import { AddableLanguage } from './generalType';
 //
 import moment from 'moment';
 
-export const getEventName = (givenOriginalUrl: string) => {
-  console.log(givenOriginalUrl);
-  
+export const pushDataEvenUndefined = (pushingData: any, pushingArr: any[] | undefined): any[] => {
+  if (typeof pushingArr === "object") pushingArr.push(pushingData) 
+  else if (typeof pushingArr === "undefined") pushingArr = [pushingData];
+
+  return pushingArr;
+}
+
+export const getEventName = (givenOriginalUrl: string) => {  
   const regex = /\/apigateway\/event\/(?<partition>.*)\/(?<action>.*)/g;
   const { groups } = regex.exec(givenOriginalUrl)!;
 

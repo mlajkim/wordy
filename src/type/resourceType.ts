@@ -28,6 +28,8 @@ export type ResourceId = {
   wrn: Wrn;
   ownerWrn: Wrn;
   dateAdded?: number;
+  // Modifing data
+  modifableUntil?: number; // unless specified, data can be modifed?
   // wordy policy checker 
   wpWrn?: AvailableWpWrn; // this will be checked first, even before
   // might add dateAdded;
@@ -78,6 +80,7 @@ export type OkrContainerPure = {
   containerType: "quarterly" | "yearly" | "longterm" | "finalday";
   from: number;
   until: number;
+  addableUntil: number;
   containingObject?: Wrn[];
   title?: string;
 }
@@ -85,23 +88,22 @@ export type OkrContainerPure = {
 export type OkrObjectHeader = {
   type: OkrObjectType;
   title: string, // BFR cut til ## (2 hashtag calcualtes your result and put inside)
+  isDataSatisfied?: "Satisfied" | "NotSatisfied"
 };
 export type OkrObjectPure = OkrObjectHeader & {
-  // == basic info of the data == //
-  initialData: number; // 0 tasks or 77kg of weight
-  measuredType: "Speed" | "NumberOfTaskDone"; // 
-  speedPerWeek: number; // if NumberOfTaskDone, (getting -0.7 off all the time)
-  maxNumberOfTaskDone: number;
-  unitPerWeek: string; // kg/week 
+  // == MANDATORY DATA AFTER CREATION == //
+  initialData?: number; // 0 tasks or 77kg of weight
+  measuredType?: "Speed" | "NumberOfTaskDone"; // 
+  speedPerWeek?: number; // if NumberOfTaskDone, (getting -0.7 off all the time)
+  maxNumberOfTaskDone?: number;
+  unitPerWeek?: string; // kg/week 
   // == comment == // 
-  standard: string; // write standard of the goal. one feature = 1.0pt, bug fix 0.2 pt
+  standard?: string; // write standard of the goal. one feature = 1.0pt, bug fix 0.2 pt, written by end user
   // body
-  modifableUntil: number;
-  objectOrder: number;
-  proof: Wrn[]
-  comment: Wrn[]
+  proof?: Wrn[]
+  comment?: Wrn[]
   // tail
-  finalScore: number;
+  finalScore?: number;
 };
 
 export type GroupPure = {
