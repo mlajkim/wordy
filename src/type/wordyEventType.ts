@@ -1,5 +1,5 @@
 import { Resource } from '../type/resourceType';
-import { Gateway, JwtData, AssignedIdentity } from '../type/availableType';
+import { Wrn, Gateway, JwtData, AssignedIdentity } from '../type/availableType';
 
 export type WordyEvent = {
   
@@ -16,8 +16,8 @@ export type WordyEvent = {
   payload?: any // data that is sent to end-user (front end)
   price?: number
   // tail (data put by server)
-  requesterWrn?: string; // actual initiator
-  identifiedAsWrn?: string | AssignedIdentity;
+  requesterWrn?: Wrn; // actual initiator
+  identifiedAsWrn?: Wrn | AssignedIdentity;
   requesterInfo?: JwtData;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK

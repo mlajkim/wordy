@@ -54,7 +54,7 @@ export const censorUserWrn = (wrn: string | undefined) => {
 }
 
 export const generatedWrn = (input: Wrn): Wrn => 
- `${input}${cryptoRandomString({length: 32, type: 'base64'})}`; // change this
+ `${input}${cryptoRandomString({length: 32, type: 'hex'})}`; // change this
 
 export const intoPayload = (unrefinedResource: Resource, RE: WordyEvent): PureResource => {
   const { plainkey } = kmsService("Decrypt", unrefinedResource.encryptedDek!);

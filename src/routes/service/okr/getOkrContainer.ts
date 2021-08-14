@@ -6,7 +6,7 @@ import { Resource } from '../../../type/resourceType';
 import { OkrGetOkrContainerInput, OkrGetOkrContainerPayload } from 'src/type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Middleware
-import { openToPublic } from '../../middleware/onlyToMdl';
+import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // Mogno DB
 import { ContainerModel } from '../../../models/EncryptedResource';
 // internal
@@ -16,23 +16,17 @@ import { intoPayload } from '../../../internal/compute/backendWambda';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "okr:getOkrContainer";
-const SERVICE_NAME: EventType = `${EVENT_TYPE}`
+const EVENT_TYPE: EventType = "okr:getOkrContainer";
 dotenv.config();
-
 // Only available to Wordy Members
-router.use(openToPublic); 
-
-// connects into mongodb
+router.use(openToPublic);
 router.use(connectToMongoDB);
+router.use(addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Declare + Save Record
   const RE = req.body as WordyEvent;
   const { containerWrn } = RE.requesterInputData as OkrGetOkrContainerInput;
-  RE.validatedBy 
-    ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME];
 
   // Findt data from database
   // const unrefinedResource = await ContainerModel.find().where('wrn').in(gettingTarget) as (Resource & OkrContainerPure)[] | undefined; // returns null when not found

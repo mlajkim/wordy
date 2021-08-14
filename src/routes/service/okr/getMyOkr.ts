@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 // Type
 import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../../../type/payloadType';
 import { Wrn } from '../../../type/availableType';
-import { OkrLinkPure } from '../../../type/resourceType';
+import { Resource, OkrLinkPure } from '../../../type/resourceType';
 // Middleware
-import { onlyToWordyMemberMdl } from '../../middleware/onlyToMdl';
+import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { intoPayload } from '../../../internal/compute/backendWambda';
@@ -18,25 +18,20 @@ import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "okr:getMyOkr";
-const SERVICE_NAME: EventType = `${EVENT_TYPE}`
+const EVENT_TYPE: EventType = "okr:getMyOkr";
 dotenv.config();
 
 // comment
 router.use(onlyToWordyMemberMdl);
-
-// connects into mongodb
 router.use(connectToMongoDB);
+router.use(addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
   const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
-  RE.validatedBy 
-    ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME];  
 
-  let findOneCondition = {}
+  let regexCondition: Wrn | undefined = RE.identifiedAsWrn;
     
   // check if such link exsits
   if (typeof userLink === "string" && userLink.length > 0) {
@@ -44,20 +39,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     const foundRes = await CustomizedOkrLinkModel.findOne({ wrn: customizedOkrLinkWrn });
     if (foundRes) { // if such link exists
       const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLinkPure;
-      findOneCondition = { ownerWrn: targetOwnerWrn }
-    } else {
-      findOneCondition = { ownerWrn: `wrn::user:google:mdb:${userLink.slice(2)}:` }
-    }
-  } else {
-    findOneCondition = { ownerWrn: RE.identifiedAsWrn }
+      regexCondition = targetOwnerWrn;
+    } 
+    else regexCondition = `wrn::user:google:mdb:${userLink.slice(2)}:`;
   }
-  
-  // if yes, get that data instead
 
-  // if it is not provided, then just return the one that owner has.
-
-  // if my okr exists, it should reject, as it shouldh ave only one
-  const myOkrData = await MyOkrModel.findOne(findOneCondition); // returns null when not found
+  const myOkrData = await MyOkrModel.findOne({ ownerWrn: { $regex: `${regexCondition}.*`} }) as Resource | null;
   
   if (myOkrData) {
     // decrypt the data

@@ -7,7 +7,8 @@ export type HttpOnlyCookie = 'WordyAccessToken';
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
 export type FederalProvider = 'anonymous' | 'google';
 export type EncryptedDek = string;
-export type Wrn = `wrn::${string}:${string}:mdb:${string}:${string}`;
+export type Wrn = `wrn::${string}:${string}:${WrnDatabase}:${string}:${string}`;
+export type WrnDatabase = 'mdb' | 'internal'
 // gateway is used for returning W.E
 export type Gateway = 
   "iamGateway" | 
@@ -38,8 +39,8 @@ export type AvailableWpWrn =
 
 // identity
 export type AssignedIdentity = 
-  "wrn::backend_assigned_identity:anonymous_public" |
-  "wrn::backend_assigned_identity:group_member";
+  "wrn::backend_assigned_identity:anonymous_public:internal::" |
+  "wrn::backend_assigned_identity:group_member:internal::";
 
 //
 // OKR

@@ -2,6 +2,7 @@
 // Type
 import { WordyEvent, ServerResponse } from "../../type/wordyEventType";
 import { Gateway } from '../../type/availableType';
+import { IS_DEV_MODE } from '../../server';
 // internal
 import { wcsGateway } from '../billing/wcs';
 // Mogno DB
@@ -17,7 +18,7 @@ export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, cu
   // Write default comment
   if (WE.serverResponse === "Denied") {
     WE.serverMessage = customMessage ? customMessage :`The server rejected the following event: ${WE.eventType}`;
-    WE.status = 403;
+    WE.status = IS_DEV_MODE ? 203: 403; // this is to make sure developer can read printed event. main server wont reply anything
   } else if (WE.serverResponse === "LogicallyDenied") {
     WE.serverMessage = customMessage ? customMessage : `The server was not able to find resources for the following event: ${WE.eventType}`;
     WE.status = 201;

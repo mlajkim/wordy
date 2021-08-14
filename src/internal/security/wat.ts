@@ -13,7 +13,8 @@ const NOT_REQUIRING_WAT_EVENTS: EventType[] = [
   "user:createUser", 
   "okr:getMyOkr",
   "okr:getOkrObject",
-  "okr:getOkrContainer"
+  "okr:getOkrContainer",
+  "wss:signOut"
 ];
 
 export const generateJwt = (data: any) => {
@@ -62,7 +63,7 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
         // FYI
         // if it fails to read the data, the retruning data will be undefined
 
-        const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public";
+        const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public:internal::";
         RE.requesterWrn = identity;
         RE.identifiedAsWrn = identity;
         identifiedWrnDefiner(RE);
