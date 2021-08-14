@@ -16,8 +16,7 @@ export type WordyEvent = {
   payload?: any // data that is sent to end-user (front end)
   price?: number
   // tail (data put by server)
-  requesterWrn?: Wrn; // actual initiator
-  identifiedAsWrn?: Wrn | AssignedIdentity;
+  requesterWrn?: Wrn | AssignedIdentity; // actual initiator
   requesterInfo?: JwtData;
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK

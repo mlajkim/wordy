@@ -32,7 +32,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent; // receives the event
   const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
 
-  let regexCondition: Wrn | undefined = RE.identifiedAsWrn;
+  let regexCondition: Wrn | undefined = RE.requesterWrn;
     
   // check if such link exsits
   if (typeof userLink === "string" && userLink.length > 0) {

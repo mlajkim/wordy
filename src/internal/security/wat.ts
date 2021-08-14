@@ -30,18 +30,6 @@ export const generateJwt = (data: any) => {
   return signedJwt;
 };
 
-const identifiedWrnDefiner = (RE: WordyEvent) => {
-  if (typeof RE.tempAccessToken === 'string' && RE.tempAccessToken.length > 0) {
-    // validate if tempAccessToken is validating
-
-    // for temporarily I will just put the following
-    RE.identifiedAsWrn = RE.requesterWrn;
-  } else {
-    // just apply identifedWrn as requesterWrn
-    RE.identifiedAsWrn = RE.requesterWrn;
-  }
-}
-
 // okr:getMyOkr is available to anyone, even without token. 
 
 // WordyAccessToken Service
@@ -65,8 +53,6 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
 
         const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public:internal::";
         RE.requesterWrn = identity;
-        RE.identifiedAsWrn = identity;
-        identifiedWrnDefiner(RE);
         return next(); // you are free to go, even w/o WAT
       };
 
@@ -77,7 +63,6 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       // validated, no err
       RE.requesterInfo = data;
       RE.requesterWrn = data.wrn;
-      identifiedWrnDefiner(RE);
       next();
     }
   });
