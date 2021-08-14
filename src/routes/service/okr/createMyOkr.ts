@@ -1,9 +1,11 @@
 // Main
-import express, {  NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { MyOkrPure, OkrContainerPure } from '../../../type/resourceType';
+// Middleware
+import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // internal
 import { getToday, getNow } from '../../../internal/compute/backendWambda';
 import { ctGateway } from '../../../internal/management/cloudTrail';
@@ -12,12 +14,10 @@ import { CreateMyOkrUserNameRule } from '../../../type/sharedWambda';
 // Mogno DB
 import { MyOkrModel, ContainerModel, ResCheck } from '../../../models/EncryptedResource';
 // Gateway
-import { iamGateway } from '../../../internal/security/iam';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "okr:createMyOkr";
-const SERVICE_NAME: EventType = `${EVENT_TYPE}`
+const EVENT_TYPE: EventType = "okr:createMyOkr";
 dotenv.config();
 
 const LIMIT = 1000 * 60 * 60 * 24 * 14; // 14 days after
@@ -28,38 +28,15 @@ const getNextQuarterly = () => {
 };
 const getAddableUntil = () => getNow() + MODIFIABLE_UNTIL_LIMIT;
 
-router.use(async (req: Request, res: Response, next: NextFunction) => {
-  // Validation
-  const requestedEvent = req.body as WordyEvent; // receives the event
-  if (requestedEvent.serverResponse === "Denied") {
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
-  }
-
-  // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
-  if (iamValidatedEvent.serverResponse === 'Denied'){
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
-  }
-
-  // Validation complete
-  req.body = iamValidatedEvent;
-  next();
-}); 
-
-// connects into mongodb
+// Who can use this router? Connects to MongoDB?
+router.use(onlyToWordyMemberMdl);
 router.use(connectToMongoDB);
+router.use(addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
-
-  // Record
-  RE.validatedBy 
-    ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME];
-
+  
   // validation of user input with name
   const userNicknameInput = RE.requesterInputData as string;
   if (CreateMyOkrUserNameRule(userNicknameInput) === "NotPassed") {

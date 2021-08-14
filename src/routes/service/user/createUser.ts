@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // type
 import { UserCreateUserPayload, UserCreateUserInput } from '../../../type/payloadType';
-import { pathFinder, WordyEvent } from '../../../type/wordyEventType';
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { JwtData, Wrn } from '../../../type/availableType';
 import { Resource, UserPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
@@ -20,8 +20,9 @@ import { intoResource, generatedWrn } from '../../../internal/compute/backendWam
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "user:createUser";
+const EVENT_TYPE: EventType = "user:createUser";
 dotenv.config();
+const TOKEN_DEFAULT_EXPIRING_IN = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 // Who can use this router? Connects to MongoDB?
 router.use(openToPublic);
@@ -59,7 +60,21 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       // Possible Logical Trap
       if (encryptedUserResource) {
         RE.serverResponse = "LogicallyDenied";
-        RE.serverMessage = `user ${encryptedUserResource.wrn} already exists`
+        RE.serverMessage = `user ${encryptedUserResource.wrn} already exists`;
+
+        const alreadyExistingJwt: JwtData = {
+          wrn: encryptedUserResource.wrn, federalProvider: 'google', federalId: `${ticket.getUserId()}`
+        }
+
+        // I need to assign token
+        res.cookie("WordyAccessToken", alreadyExistingJwt, {
+          sameSite: 'strict', 
+          path: '/', 
+          expires: new Date(new Date().getTime() + TOKEN_DEFAULT_EXPIRING_IN), // 1 year
+          httpOnly: true,
+          secure: true
+        });
+
         return res.send(RE);
       };
 
@@ -92,12 +107,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
           RE.serverResponse = "Accepted";
           RE.serverMessage = "OK"
 
-          const expiresIn = 1000 * 60 * 60 * 24 * 7; // 7 days
+          
           // Only when validated, it sends the 
           res.cookie("WordyAccessToken", jwt, {
             sameSite: 'strict', 
             path: '/', 
-            expires: new Date(new Date().getTime() + expiresIn), // 1 year
+            expires: new Date(new Date().getTime() + TOKEN_DEFAULT_EXPIRING_IN), // 1 year
             httpOnly: true,
             secure: true
           })

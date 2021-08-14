@@ -2,7 +2,7 @@
 import express, {   Request, Response } from 'express';
 // Type
 import { HttpOnlyCookie } from '../../../type/availableType';
-import { pathFinder, WordyEvent } from '../../../type/wordyEventType';
+import { pathFinder, EventType, WordyEvent } from '../../../type/wordyEventType';
 // Middleware
 import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // internal
@@ -11,7 +11,7 @@ import { ctGateway } from '../../../internal/management/cloudTrail';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "wss:signOut";
+const EVENT_TYPE: EventType = "wss:signOut";
 
 // Who can use this router? Connects to MongoDB?
 router.use(openToPublic); 
