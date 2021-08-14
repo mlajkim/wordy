@@ -37,6 +37,7 @@ type WpService = // Wordy Policy
 
 type OkrService =
   "*" | //all
+  "changeOrderOfItem" | 
   "createMyOkr" |
   "getMyOkr" |
   "getOkrContainer" |

@@ -7,8 +7,10 @@ import createMyOkr from './okr/createMyOkr';
 import getMyOkr from './okr/getMyOkr';
 import createOkr from './okr/createOkrObject';
 import getOkrObject from './okr/getOkrObject';
+import changeOrderOfItemsOf from './okr/changeOrderOfItems';
 
 // Apply router
+router.use(changeOrderOfItemsOf);
 router.use(getOkrContainer);
 router.use(createMyOkr);
 router.use(getMyOkr);

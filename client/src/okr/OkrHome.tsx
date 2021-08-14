@@ -1,6 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // type
-import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload, OkrGetOkrContainerPayload, OkrGetOkrContainerInput } from '../type/payloadType';
+import { 
+  OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload, 
+  OkrGetOkrContainerPayload, OkrGetOkrContainerInput,
+  OkrChangeOrderOfItemInput
+} from '../type/payloadType';
 import { ResourceId, OkrObjectPure, OkrContainerPure } from '../type/resourceType';
 import { Wrn } from '../type/availableType';
 import { State } from '../types';
@@ -129,6 +133,11 @@ const OkrHome: React.FC<{
     const newDataArr = Array.from(data);
     const sourceData = newDataArr.splice(sourceIdx, 1)[0];
     newDataArr.splice(destinationIdx, 0, sourceData);
+
+    // Get pure WRN[] list & do the change of DB
+    const orderedWrn = newDataArr.map(el => el.wrn);
+    const input: OkrChangeOrderOfItemInput = { containerWrn: containerData.wrn, orderedWrn };
+    throwEvent("okr:changeOrderOfItem", input);
 
     // finally
     setData(newDataArr);

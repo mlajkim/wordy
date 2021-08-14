@@ -29,6 +29,11 @@ export type UserCreateUserPayload = UserPure;
 // ===============
 // OKR service
 // ===============
+
+// okr:CHANGE_ORDER_OR_ITEM
+export type OkrChangeOrderOfItemInput = { containerWrn: Wrn, orderedWrn: Wrn[] };
+export type OkrChangeOrderOfItemPayload = undefined;
+
 // okr:GET_OKR_CONTAINER
 export type OkrGetOkrContainerInput = { containerWrn: Wrn } ;
 export type OkrGetOkrContainerPayload = OkrContainerPure & ResourceId;
