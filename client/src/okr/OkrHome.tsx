@@ -139,7 +139,7 @@ const OkrHome: React.FC<{
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
         <Grid style={{ paddingTop: 10 }}>
           {okrData && `${okrData.name}@${okrData.id}`}
-          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => store.dispatch(setDialog("CreateOkrObject"))}>
+          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => store.dispatch(setDialog("CreateOkrObject", containerData))}>
             <PlaylistAddIcon fontSize="small" />
           </IconButton>
         </Grid>

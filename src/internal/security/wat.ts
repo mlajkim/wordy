@@ -55,7 +55,6 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
     : req.body.validatedBy = [SERVICE_NAME];
     
   jwt.verify(httpOnlyToken!, process.env.WORDY_ACCESS_TOKEN_JWT!, (err: any, data: any) => {
-    console.log(data);
     if (err) {
       // Validated if action does not require jwt token
       const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === RE.eventType);

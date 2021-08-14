@@ -6,7 +6,7 @@ import { Resource } from '../../../type/resourceType';
 import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload } from 'src/type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Middleware
-import { openToPublic } from '../../middleware/onlyToMdl';
+import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
@@ -16,23 +16,18 @@ import { intoPayload } from '../../../internal/compute/backendWambda';
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "okr:getOkrObject";
-const SERVICE_NAME: EventType = `${EVENT_TYPE}`
+const EVENT_TYPE: EventType = "okr:getOkrObject";
 dotenv.config();
 
 // Only available to Wordy Members
 router.use(openToPublic); 
-
-// connects into mongodb
 router.use(connectToMongoDB);
+router.use(addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Declare + Save Record
   const RE = req.body as WordyEvent;
   const { containingObject } = RE.requesterInputData as OkrGetOkrObjectInput;
-  RE.validatedBy 
-    ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME]; 
 
   // Findt data from database
   const okrObjects = await OkrObjectModel.find().where("wrn").in(containingObject) as Resource[]; // returns null when not found

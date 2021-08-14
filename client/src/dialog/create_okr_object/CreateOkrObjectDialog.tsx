@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Type 
 import { OkrObjectType } from '../../type/availableType';
 import { CreateOkrObjectInput, CreateOkrObjectPayload } from '../../type/payloadType';
+import { State } from '../../types';
+import { OkrGetOkrContainerPayload } from '../../type/payloadType';
 // MUI
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -16,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 // Redux
 import store from '../../redux/store';
+import { useSelector } from 'react-redux';
 // Redux Action
 import { offDialog, setOkrReloadOn } from '../../redux/actions';
 // Internal
@@ -73,11 +76,20 @@ const okrObjecTypeList: OkrObjectType[] = ["KeyResult", "Objective", "OkrDailyRo
 const CreateOkrObject: React.FC = () => {
   const [title, setTitle] = useState("");
   const [selectedType, setType] = useState<OkrObjectType>("KeyResult");
+  const [ containerData, setContainerData ] = useState<OkrGetOkrContainerPayload>();
+  const { dialog } = useSelector((state: State) => state);
+
+  // containerData: OkrGetOkrContainerPayload
+  useEffect(() => {
+    setContainerData(dialog.payload as OkrGetOkrContainerPayload);
+  }, [dialog.payload, setContainerData])
   
   // handler
   const hdlCreateClick = () => {
+    if (!containerData) return; // should never happen
+
     const userInput: CreateOkrObjectInput = { 
-      associateContainerWrn: "wrn::okr:container:mdb:213:rRMSvMXnyMmgyejOsnfQgcOMKjKcLg2d", type: selectedType, title 
+      associateContainerWrn: `${containerData.wrn}`, type: selectedType, title 
     };
     throwEvent("okr:createOkrObject", userInput)
       .then(res => {

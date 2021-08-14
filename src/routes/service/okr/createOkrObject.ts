@@ -15,7 +15,6 @@ import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middlewar
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource, getNow, intoPayload } from '../../../internal/compute/backendWambda';
-
 // Gateway
 import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
