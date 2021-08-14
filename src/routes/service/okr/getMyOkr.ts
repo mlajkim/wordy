@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../../../type/payloadType';
 import { Wrn } from '../../../type/availableType';
 import { Resource, OkrLinkPure } from '../../../type/resourceType';
+import { convertFederalProvider } from '../../../type/sharedWambda';
 // Middleware
 import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // internal
@@ -41,8 +42,9 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLinkPure;
       regexCondition = targetOwnerWrn;
     } 
-    else regexCondition = `wrn::user:google:mdb:${userLink.slice(2)}:`;
+    else regexCondition = `wrn::user:${convertFederalProvider('google')}:mdb:${userLink.slice(2)}:`;
   }
+  console.log(regexCondition);
 
   const myOkrData = await MyOkrModel.findOne({ ownerWrn: { $regex: `${regexCondition}.*`} }) as Resource | null;
   
