@@ -23,6 +23,13 @@ const router = express.Router();
 const EVENT_TYPE: EventType = "user:createUser";
 dotenv.config();
 const TOKEN_DEFAULT_EXPIRING_IN = 1000 * 60 * 60 * 24 * 7; // 7 days
+// DECLARE
+const adminList = [
+  {
+    federalId: "116355363420877047854",
+    adminName: "Kim, Jeongwoo"
+  }
+]
 
 // Who can use this router? Connects to MongoDB?
 router.use(openToPublic);
@@ -80,12 +87,18 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
       // user resouce does not have private id as, it is hard to find
       const wrn: Wrn = generatedWrn(`wrn::user:${convertFederalProvider('google')}:mdb:${ticket.getUserId()}:`);
+
+      // get adminData
+      let adminName: undefined | string = undefined;
+      const idx = adminList.findIndex(el => el.federalId === ticket.getUserId());
+      if (idx === -1) adminName = adminList[idx].adminName;
       
       // generate jwt & cookie
       const jwtData: JwtData = {
         wrn,
         federalProvider: 'google', // hard codeded google
-        federalId: `${ticket.getUserId()}`
+        federalId: `${ticket.getUserId()}`,
+        adminName
       }
       const jwt = generateJwt(jwtData);
 
@@ -93,7 +106,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       const newResource: UserPure = {
         federalProvider: 'google',
         federalId: ticket.getUserId() as string,
-        lastName: ticket.getPayload()!.family_name as string
+        lastName: ticket.getPayload()!.family_name as string,
+        adminName
       };
       const newUserResource = intoResource(newResource, wrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", {
         // This must be specified, as new 

@@ -55,6 +55,7 @@ export type UserPure = {
   federalProvider: 'google',
   federalId: string;
   lastName: string;
+  adminName?: string;
 };
 // =============
 // OKR

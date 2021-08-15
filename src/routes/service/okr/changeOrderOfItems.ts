@@ -31,7 +31,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const { newlyOrderedObjects } = RE.requesterInputData as OkrChangeOrderOfItemInput;
 
   // modify begins here
-  newlyOrderedObjects.forEach(async (object) => {
+  for (const object of newlyOrderedObjects) {
     const foundResource = await OkrObjectModel.findOne({ wrn: object.wrn });
     if (foundResource && foundResource.ownerWrn === RE.requesterWrn) {
       const modifedResource = modifyResource({
@@ -39,11 +39,11 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       }, foundResource, RE);
       await OkrObjectModel.findOneAndUpdate({ wrn: object.wrn }, modifedResource, { useFindAndModify: false })
     } else { // end of if. only happens when such resource exists.
-      // Sunccessful call finally
+      // if it is not owner, then it should reject it
       const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION);
       return res.status(sending.status!).send(sending);
     }
-  });
+  };
 
   // Sunccessful call finally
   const sending = ctGateway(RE, "Accepted");

@@ -22,6 +22,7 @@ export type JwtData = {
   wrn: Wrn,
   federalProvider: FederalProvider
   federalId: string;
+  adminName?: string;
   iat?: number, // iniated at
   exp?: number, //validated unitl
 }
