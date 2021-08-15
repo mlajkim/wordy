@@ -35,8 +35,7 @@ export const generateJwt = (data: any) => {
 // WordyAccessToken Service
 export const watGateway = (req: Request, res: Response, next: NextFunction) => {
   // get httponly token from header
-  console.log(req.cookies);
-  const httpOnlyToken = req.cookies.WordyAccessToken;
+  const httpOnlyToken = req.cookies.WordyAccessToken; // Aug 15, 2021 -> darkLighTmodcookie, loigin WAT G_AUTHUSER_H
   const RE = req.body as WordyEvent;
 
   // Record

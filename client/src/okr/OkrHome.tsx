@@ -57,7 +57,7 @@ const OkrHome: React.FC<{
         const input: OkrGetOkrObjectInput = {
           userLink: okrData!.userLink,
           tempAccessToken: okrData!.tempAccessToken,
-          containingObject: res.payload.containingObject!,
+          containingObject: foundContainerData.containingObject!,
         };
 
         // get data
