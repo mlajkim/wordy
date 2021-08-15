@@ -152,7 +152,8 @@ const OkrHome: React.FC<{
 
   //handler
   const hdlDragEnd = async (result: any) => {
-    if(isDropDisabled || !okrObjects) return;
+    if (isDropDisabled || !okrObjects) return;
+    if (result.destination === null) return; // happens when dragged to non DragDropContext area
 
     const sourceIdx = result.source.index;
     const destinationIdx = result.destination.index;
