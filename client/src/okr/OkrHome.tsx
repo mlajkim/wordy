@@ -24,7 +24,7 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux action
-import { offOkrReload, setDialog, setOkrReloadOn } from '../redux/actions';
+import { offOkrReload, setDialog, setOkrReloadOn, setSnackbar } from '../redux/actions';
 import { throwEvent } from '../frontendWambda';
 import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
@@ -164,6 +164,14 @@ const OkrHome: React.FC<{
     const newDataArr = originalData;
     const sourceData = newDataArr.splice(sourceIdx, 1)[0];
     newDataArr.splice(destinationIdx, 0, sourceData);
+
+    // 
+    if (newDataArr[0].type !== "Objective") {
+      store.dispatch(setSnackbar("Key Result or daily routine cannot be on the top of list", "warning"));
+      return;
+    }
+
+    // change frontEnd
     setData(newDataArr); // at first change the front end.
 
     // prepare for back sync if rejected, back to orignal data array.
