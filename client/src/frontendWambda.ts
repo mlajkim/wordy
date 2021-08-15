@@ -35,6 +35,7 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any,
       console.log(returnedEvent);
     }
       
+    console.log(res); // testing
     return returnedEvent;
   })
   .catch((err) => {
