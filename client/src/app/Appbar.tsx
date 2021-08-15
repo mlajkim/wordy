@@ -85,8 +85,8 @@ const Appbar = () => {
   // @ LOGOUT FUNCTIONS
   const handleLogout = () => {
     // Commented on Aug 14
-    throwEvent("wss:signOut");
-    store.dispatch(setOkrReloadOn());
+    throwEvent("wss:signOut")
+      .then(() => store.dispatch(setOkrReloadOn()));
 
     API.killCookie('login');
     setProfileMenu(null);

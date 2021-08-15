@@ -127,15 +127,19 @@ const OkrHome: React.FC<{
   )
 
   //handler
-  const hdlDragEnd = (result: any) => {
+  const hdlDragEnd = async (result: any) => {
     if(isDropDisabled || !okrObjects) return;
 
     const sourceIdx = result.source.index;
     const destinationIdx = result.destination.index;
 
-    const newDataArr = Array.from(okrObjects);
+    const originalData = Array.from(okrObjects);
+    const newDataArr = originalData;
     const sourceData = newDataArr.splice(sourceIdx, 1)[0];
-    newDataArr.splice(destinationIdx, 0, sourceData)
+    newDataArr.splice(destinationIdx, 0, sourceData);
+    setData(newDataArr); // at first change the front end.
+
+    // prepare for back sync if rejected, back to orignal data array.
     const newlyOrderedObjects = newDataArr.map((el, idx) => {
       el.objectOrder = idx;
       return el;
@@ -143,9 +147,11 @@ const OkrHome: React.FC<{
     
     // Get pure WRN[] list & do the change of DB
     const input: OkrChangeOrderOfItemInput = { newlyOrderedObjects };
-    throwEvent("okr:changeOrderOfItem", input)
-      .then(res => res.serverResponse === "Accepted" && setData(newDataArr))
+    const RE = await throwEvent("okr:changeOrderOfItem", input);
+    if (RE.serverResponse === 'Accepted') return;
 
+    // Back to original data
+    setData(originalData); // as it has not been returned yet.
   }
 
   return (
