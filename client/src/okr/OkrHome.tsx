@@ -64,7 +64,7 @@ const OkrHome: React.FC<{
         throwEvent("okr:getOkrObject", input)
         .then(res => {
           if (res.serverResponse === "Accepted") {
-            setData(res.payload as  OkrGetOkrObjectPayload)
+            setData(res.payload as OkrGetOkrObjectPayload)
           };
 
           // finally

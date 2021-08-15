@@ -27,7 +27,7 @@ const TOKEN_DEFAULT_EXPIRING_IN = 1000 * 60 * 60 * 24 * 7; // 7 days
 const adminList = [
   {
     federalId: "116355363420877047854",
-    adminName: "Kim, Jeongwoo"
+    adminName: "ADMIN_AJ_KIM"
   }
 ]
 
@@ -92,7 +92,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       // get adminData
       let adminName: undefined | string = undefined;
       const idx = adminList.findIndex(el => el.federalId === ticket.getUserId());
-      if (idx === -1) adminName = adminList[idx].adminName;
+      if (idx !== -1) adminName = adminList[idx].adminName;
       
       // generate jwt & cookie
       const jwtData: JwtData = {

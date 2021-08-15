@@ -28,6 +28,8 @@ export type ResourceId = {
   wrn: Wrn;
   ownerWrn: Wrn;
   dateAdded?: number;
+  // basic info
+  objectOrder?: number;
   // Modifing data
   modifableUntil?: number; // unless specified, data can be modifed?
   // wordy policy checker 
@@ -104,7 +106,7 @@ export type OkrObjectPure = OkrObjectHeader & {
   proof?: Wrn[]
   comment?: Wrn[]
   // tail
-  objectOrder?: number;
+  
   finalScore?: number;
 };
 

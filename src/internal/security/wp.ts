@@ -35,7 +35,7 @@ export const wpService =
   : ResourceId | PureResource  => {
   // validate with wpServiceLogic
   if (wpServiceLogic(RE, resource, wpWrn) !== "Passed") {
-    const censoredObject = pick(unencryptedPureResource, 'wrn') as ResourceId;
+    const censoredObject = pick(unencryptedPureResource, 'wrn', 'objectOrder') as ResourceId;
     censoredObject.resoureAvailability = "NotVisible";
     censoredObject.rejectedReason = `Rejected by ${SERVICE_NAME} due to resource policy`;
 

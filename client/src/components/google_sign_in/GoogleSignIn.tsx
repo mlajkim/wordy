@@ -35,8 +35,8 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
     const userInput: UserCreateUserInput = {
       federalProvider: "google", validatingToken: googleRes.tokenId
     }
-    throwEvent("user:createUser", userInput);
-    store.dispatch(setOkrReloadOn());
+    throwEvent("user:createUser", userInput)
+      .then(() => store.dispatch(setOkrReloadOn()))
 
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);

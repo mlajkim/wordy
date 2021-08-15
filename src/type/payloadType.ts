@@ -54,7 +54,7 @@ export type CreateOkrObjectPayload = OkrContainerPure; // you may wonder, it is 
 export type OkrGetMyOkrInput = {
   userLink: string;
   tempAccessToken: string; };
-export type OkrGetMyOkrPayload = ResourceId & MyOkrPure & OkrGetMyOkrInput;
+export type OkrGetMyOkrPayload = ResourceId & MyOkrPure & OkrGetMyOkrInput & { isSignedInCheckedByBackend: boolean };
 
 
 

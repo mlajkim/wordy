@@ -75,12 +75,13 @@ export const modifyResource = (howModify: object, unmodifiedResource: Resource, 
 
 export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any): Resource => {
   const dateAdded = moment().valueOf();
-
+  // objectOrder: dateAdded
   const kmsResult = kmsService("Encrypt", "");
   const { encrypt } = new Cryptr(kmsResult.plainkey);
   const plaindata: string = JSON.stringify({ 
     ...pureResource, wrn: newWrn, ownerWrn: RE.requesterWrn, 
     wpWrn: wpWrn ? wpWrn : "wrn::wp:pre_defined:backend:only_to_group_members:210811", // default value
+    objectOrder: dateAdded,
     dateAdded
   });
   const ciphertextBlob = encrypt(plaindata);

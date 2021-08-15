@@ -13,8 +13,8 @@ import { createTheme,
 import tr from './okr_welcome.tr.json'
 import trAppbar from '../app/appbar.tr.json';
 // library
-import {useSelector} from 'react-redux';
 import store from '../redux/store';
+import { useSelector } from 'react-redux';
 // Redux Actions
 import { setDialog } from '../redux/actions';
 

@@ -35,7 +35,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // First, prepare okr object data.
   const okrObjectWrn: Wrn = generatedWrn(`wrn::okr:okr_object:mdb:${type}:`);
-  const newMyOkr: OkrObjectPure = { type, title, isDataSatisfied: "NotSatisfied", objectOrder: getNow() }; // NotSatisfied by default
+  const newMyOkr: OkrObjectPure = { type, title, isDataSatisfied: "NotSatisfied" }; // NotSatisfied by default
   const newMyOkrResource = intoResource(newMyOkr, okrObjectWrn, RE);
 
   // Before creating the okr object, the container first must allow 

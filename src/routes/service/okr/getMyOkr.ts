@@ -32,6 +32,17 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent; // receives the event
   const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
 
+  // Check if this user is not even signed in & trying to access without ink
+  if (
+    typeof userLink === "string" && 
+    userLink.length === 0 &&
+    RE.requesterWrn === "wrn::backend_assigned_identity:anonymous_public:internal::"
+  ) {
+    const sending = ctGateway(RE, "LogicallyDenied", "You are not signed in");
+    sending.payload = { isSignedInCheckedByBackend: false };
+    return res.status(sending.status!).send(sending);
+  };
+
   let regexCondition: Wrn | undefined = RE.requesterWrn;
     
   // check if such link exsits
@@ -43,14 +54,16 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       regexCondition = targetOwnerWrn;
     } 
     else regexCondition = `wrn::user:${convertFederalProvider('google')}:mdb:${userLink.slice(2)}:`;
-  }
-  console.log(regexCondition);
+  };
+
+  
+  
 
   const myOkrData = await MyOkrModel.findOne({ ownerWrn: { $regex: `${regexCondition}.*`} }) as Resource | null;
   
   if (myOkrData) {
     // decrypt the data
-    RE.payload = { ...intoPayload(myOkrData, RE), userLink, tempAccessToken } as OkrGetMyOkrPayload
+    RE.payload = { ...intoPayload(myOkrData, RE), userLink, tempAccessToken, isSignedInCheckedByBackend: true } as OkrGetMyOkrPayload
     const sending = ctGateway(RE, "Accepted");
     return res.status(sending.status!).send(sending);
   } else {
