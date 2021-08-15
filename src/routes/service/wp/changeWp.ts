@@ -34,11 +34,16 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   console.log(RE.requesterWrn); 
   // Findt data from database
   const foundResource = 
-    await OkrObjectModel.findOne({ wrn: modifyingTarget, ownerWrn: RE.requesterWrn }) as Resource | null; // returns null when not found
+    await OkrObjectModel.findOne({ wrn: modifyingTarget }) as Resource | null; // returns null when not found
 
   // Return response if foundResource does not exist
   if (foundResource === null) {
     const sending = ctGateway(RE, "LogicallyDenied", lec.RESOURCE_NOT_EXIST);
+    return res.status(sending.status!).send(sending);
+  };
+
+  if (foundResource.ownerWrn !== RE.requesterWrn) {
+    const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION);
     return res.status(sending.status!).send(sending);
   };
 

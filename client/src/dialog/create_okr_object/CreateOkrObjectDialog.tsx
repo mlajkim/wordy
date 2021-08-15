@@ -20,7 +20,7 @@ import TextField from '@material-ui/core/TextField';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Action
-import { offDialog, setOkrReloadOn } from '../../redux/actions';
+import { offDialog, setSnackbar, setOkrReloadOn } from '../../redux/actions';
 // Internal
 import { throwEvent } from '../../frontendWambda';
 
@@ -74,8 +74,8 @@ const DialogActions = withStyles((theme: Theme) => ({
 const okrObjecTypeList: OkrObjectType[] = ["KeyResult", "Objective", "OkrDailyRoutine"];
 
 const CreateOkrObject: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const [selectedType, setType] = useState<OkrObjectType>("KeyResult");
+  const [ title, setTitle ] = useState("");
+  const [ selectedType, setType ] = useState<OkrObjectType>("KeyResult");
   const [ containerData, setContainerData ] = useState<OkrGetOkrContainerPayload>();
   const { dialog } = useSelector((state: State) => state);
 
@@ -95,6 +95,7 @@ const CreateOkrObject: React.FC = () => {
       .then(res => {
         if (res.serverResponse === "LogicallyDenied") {
           // nothing happens I think for now
+          store.dispatch(setSnackbar(res.serverMessage!, "warning"));
         } else if (res.serverResponse === "Accepted") {
           const payload = res.payload as CreateOkrObjectPayload;
           store.dispatch(offDialog());

@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // type
 import { Wrn } from '../../../type/availableType';
+import lec from '../../../type/LogicalErrorCode.json';
 import { CreateOkrObjectInput, CreateOkrObjectPayload } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { OkrObjectPure, OkrContainerPure, ResourceId } from '../../../type/resourceType';
@@ -45,7 +46,14 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   if (!foundContainer) {
     const sending = ctGateway(RE, "LogicallyDenied", "associateContainerWrn does not exist");
     return res.status(sending.status!).send(sending);
-  }
+  };
+
+  // check if container is belong to requester
+  if (foundContainer.ownerWrn !== RE.requesterWrn) {
+    const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION);
+    return res.status(sending.status!).send(sending);
+  };
+
   const pureContainerRes = intoPayload(foundContainer, RE) as ResourceId & OkrContainerPure;
   if (pureContainerRes.addableUntil < getNow()) {
     const sending = ctGateway(RE, "LogicallyDenied", LogicalErrorCode.NO_LONGER_ADDABLE_TO_THE_CONTAINER);
