@@ -3,55 +3,50 @@ import express, {  Request, Response } from 'express';
 import dotenv from 'dotenv';
 import DetectLanguage from 'detectlanguage';
 // type
-import { pathFinder } from '../../type/wordyEventType';
+import { pathFinder, WordyEvent, EventType } from '../../type/wordyEventType';
 import { wordDetectLanguagePayload } from '../../type/payloadType';
+// mdl
+import * as OTM from '../middleware/onlyToMdl'
 // Gateway
-import { iamGateway } from '../../internal/security/iam';
 import { ctGateway } from '../../internal/management/cloudTrail';
 // Router
 const word = express.Router();
-const EVENT_TYPE = "word:detectLanguage";
-const SERVICE_NAME = `${EVENT_TYPE} service`
+const EVENT_TYPE: EventType = "word:detectLanguage";
 dotenv.config();
 
-word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  // Validation
-  const requestedEvent = req.body; // receives the event
-  if (requestedEvent.serverResponse === "Denied") return res.send(requestedEvent);
-  
-  // Record
-  requestedEvent.validatedBy 
-      ? requestedEvent.validatedBy.push(SERVICE_NAME) 
-      : requestedEvent.validatedBy = [SERVICE_NAME]; 
+word.use(OTM.onlyToWordyMemberMdl);
+word.use(OTM.addValidatedByThisService);
 
-  // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
-  if(iamValidatedEvent.serverResponse === 'Denied'){
-    ctGateway(iamValidatedEvent, "Denied");
-    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
-  }
+word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
+  const RE = req.body as WordyEvent;
 
   // Data validation
-  if (typeof iamValidatedEvent.requesterInputData !== 'string') {
-    ctGateway(iamValidatedEvent, "Denied", "Type of iamValidatedEvent.requesterData is wrong; requires string");
-    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
+  if (typeof RE.requesterInputData !== 'string') {
+    const sending = ctGateway(RE, "LogicallyDenied", "Type of iamValidatedEvent.requesterData is wrong; requires string");
+    return res.status(sending.status!).send(sending);
+  };
+
+  // Data validation of env key
+  const detectLanguageApiKey = process.env.DETECT_LANGUAGE_API_KEY;
+  if (!detectLanguageApiKey) {
+    const sending = ctGateway(RE, "LogicallyDenied", "Internal error: Wordy-cloud is missing internal detectLanguageApiKey info");
+    return res.status(sending.status!).send(sending);
   };
 
   // Initialize detecter
   const detectlanguage = new DetectLanguage(process.env.DETECT_LANGUAGE_API_KEY!);
 
   // Detecting begins
-  detectlanguage.detect(iamValidatedEvent.requesterInputData)
+  detectlanguage.detect(RE.requesterInputData)
     .then((response: any) => {
-      iamValidatedEvent.payload = response as wordDetectLanguagePayload;
+      RE.payload = response as wordDetectLanguagePayload;
 
-      ctGateway(iamValidatedEvent, "Accepted");
-      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
-
+      const sending = ctGateway(RE, "Accepted");
+      return res.status(sending.status!).send(sending);
     })
     .catch(() => {      
-      ctGateway(iamValidatedEvent, "Denied");
-      return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
+      const sending = ctGateway(RE, "Denied");
+      return res.status(sending.status!).send(sending);
     })
 
 
