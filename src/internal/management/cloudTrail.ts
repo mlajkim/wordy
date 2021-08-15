@@ -10,27 +10,30 @@ import { wcsGateway } from '../billing/wcs';
 //Decalre
 const SERVICE_NAME: Gateway = "cloudTrailGateway";
 
-export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, customMessage?: any): WordyEvent => {
+export const ctGateway = (RE: WordyEvent, setServerResponse?: ServerResponse, customMessage?: any): WordyEvent => {
   // apply the SR
   // if, setServerResponse is not given, then it sets denied, unless specified
-  WE.serverResponse = setServerResponse ? setServerResponse : "Denied";
+  RE.serverResponse = setServerResponse ? setServerResponse : "Denied";
 
   // Write default comment
-  if (WE.serverResponse === "Denied") {
-    WE.serverMessage = customMessage ? customMessage :`The server rejected the following event: ${WE.eventType}`;
-    WE.status = IS_DEV_MODE ? 203: 403; // this is to make sure developer can read printed event. main server wont reply anything
-  } else if (WE.serverResponse === "LogicallyDenied") {
-    WE.serverMessage = customMessage ? customMessage : `The server was not able to find resources for the following event: ${WE.eventType}`;
-    WE.status = 201;
-  } else if (WE.serverResponse === "Accepted") {
-    WE.serverMessage = "OK"; // accepted data cannot have customer message.
-    WE.status = 200;
-    wcsGateway(WE);
+  if (RE.serverResponse === "Denied") {
+    RE.serverMessage = customMessage ? customMessage :`The server rejected the following event: ${RE.eventType}`;
+    RE = { status: IS_DEV_MODE ? 203: 403, ...RE } // this is to make sure developer can read printed event. main server wont reply anything
+  } else if (RE.serverResponse === "LogicallyDenied") {
+    RE.serverMessage = customMessage ? customMessage : `The server was not able to find resources for the following event: ${RE.eventType}`;
+    RE = { status: 201, ...RE }
+  } else if (RE.serverResponse === "Accepted") {
+    RE.serverMessage = "OK"; // accepted data cannot have customer message.
+    RE = { status: 200, ...RE }
+    // console.log(WE);
+    wcsGateway(RE);
   } else {
-    WE.serverMessage = customMessage ? customMessage : `Check cloudTrail Gateway (ctGateway) this should not happen`;
-    WE.serverResponse = "Denied"
-    WE.status = 500;
+    RE.serverMessage = customMessage ? customMessage : `Check cloudTrail Gateway (ctGateway) this should not happen`;
+    RE.serverResponse = "Denied"
+    RE = { status: 500, ...RE }
   }
+
+  // console.log(WE);
 
   // log saving with the policy
   // little confusing, but as long as it does not return the response of iamGateway, it is fine.
@@ -39,9 +42,9 @@ export const ctGateway = (WE: WordyEvent, setServerResponse?: ServerResponse, cu
   // this somehow saves WE.. hmmmmmmmm :( id ont know why
 
   // cloudTrail interestingly apply the service name input at the end
-  WE.validatedBy 
-    ? WE.validatedBy.push(SERVICE_NAME) 
-    : WE.validatedBy = [SERVICE_NAME];
+  RE.validatedBy 
+    ? RE.validatedBy.push(SERVICE_NAME) 
+    : RE.validatedBy = [SERVICE_NAME];
 
-  return WE;
+  return RE;
 };

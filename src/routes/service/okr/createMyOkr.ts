@@ -40,15 +40,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // validation of user input with name
   const userNicknameInput = RE.requesterInputData as string;
   if (CreateMyOkrUserNameRule(userNicknameInput) === "NotPassed") {
-    ctGateway(RE, "LogicallyDenied");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "LogicallyDenied");
+    return res.status(sending.status!).send(sending);
   }
 
   // if my okr exists, it should reject, as it shouldh ave only one
   const data = await MyOkrModel.findOne({ ownerWrn: RE.requesterWrn }); // returns null when not found
   if (data) {
-    ctGateway(RE, "LogicallyDenied", "Already exists");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "LogicallyDenied", "Already exists");
+    return res.status(sending.status!).send(sending);
   };
 
   // Set up container too
@@ -81,17 +81,17 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       // quickly saves container.
       const isContainerAdded = await new ContainerModel(ResCheck(newContainerResource)).save();
       if (!isContainerAdded) {
-        ctGateway(RE, "LogicallyDenied", "Failed during saving Container Resource");
-        return res.status(RE.status!).send(RE)
+        const sending = ctGateway(RE, "LogicallyDenied", "Failed during saving Container Resource");
+        return res.status(sending.status!).send(sending)
       };
 
       RE.payload = newMyOkr;
-      ctGateway(RE, "Accepted");
-      return res.status(RE.status!).send(RE);
+      const sending = ctGateway(RE, "Accepted");
+      return res.status(sending.status!).send(sending);
     })
     .catch(() => {
-      ctGateway(RE, "LogicallyDenied", "Failed during saving newMyOkr Resource");
-      return res.status(RE.status!).send(RE)
+      const sending = ctGateway(RE, "LogicallyDenied", "Failed during saving newMyOkr Resource");
+      return res.status(sending.status!).send(sending)
     });
 });
 

@@ -3,6 +3,7 @@ import express, {   Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
 import { OkrChangeOrderOfItemInput } from '../../../type/payloadType';
+import lec from '../../../type/LogicalErrorCode.json';
 // Middleware
 import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
 // Mogno DB
@@ -30,19 +31,23 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const { newlyOrderedObjects } = RE.requesterInputData as OkrChangeOrderOfItemInput;
 
   // modify begins here
-  newlyOrderedObjects.map(async (object) => {
+  newlyOrderedObjects.forEach(async (object) => {
     const foundResource = await OkrObjectModel.findOne({ wrn: object.wrn });
-    if (foundResource) {
+    if (foundResource && foundResource.ownerWrn === RE.requesterWrn) {
       const modifedResource = modifyResource({
         objectOrder: object.objectOrder
       }, foundResource, RE);
       await OkrObjectModel.findOneAndUpdate({ wrn: object.wrn }, modifedResource, { useFindAndModify: false })
-    }; // end of if. only happens when such resource exists.
+    } else { // end of if. only happens when such resource exists.
+      // Sunccessful call finally
+      const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION);
+      return res.status(sending.status!).send(sending);
+    }
   });
 
   // Sunccessful call finally
-  ctGateway(RE, "Accepted");
-  return res.status(RE.status!).send(RE);
+  const sending = ctGateway(RE, "Accepted");
+  return res.status(sending.status!).send(sending);
 });
 
 export default router;

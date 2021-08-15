@@ -42,11 +42,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // if it is addable or not. so it checks here following
   // this line of code rejects if not satisfied. and modify, and finally prepare for E/R (Encrypted Reosurce)
   const foundContainer = await ContainerModel.findOne({ wrn: associateContainerWrn, ownerWrn: RE.requesterWrn })
-  if (!foundContainer) ctGateway(RE, "LogicallyDenied", "associateContainerWrn does not exist");
-  if (!foundContainer) return res.status(RE.status!).send(RE);
+  if (!foundContainer) {
+    const sending = ctGateway(RE, "LogicallyDenied", "associateContainerWrn does not exist");
+    return res.status(sending.status!).send(sending);
+  }
   const pureContainerRes = intoPayload(foundContainer, RE) as ResourceId & OkrContainerPure;
-  if (pureContainerRes.addableUntil < getNow()) ctGateway(RE, "LogicallyDenied", LogicalErrorCode.NO_LONGER_ADDABLE_TO_THE_CONTAINER);
-  if (pureContainerRes.addableUntil < getNow()) return res.status(RE.status!).send(RE);
+  if (pureContainerRes.addableUntil < getNow()) {
+    const sending = ctGateway(RE, "LogicallyDenied", LogicalErrorCode.NO_LONGER_ADDABLE_TO_THE_CONTAINER);
+    return res.status(sending.status!).send(sending);
+  };
   pureContainerRes.containingObject = pushDataEvenUndefined(okrObjectWrn, pureContainerRes.containingObject);
   const modifiedContainerRes = intoResource(pureContainerRes, pureContainerRes.wrn, RE, pureContainerRes.wpWrn);
 
@@ -56,15 +60,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       await ContainerModel.findOneAndUpdate({ wrn: pureContainerRes.wrn }, ResCheck(modifiedContainerRes))
         .then(() => {
           RE.payload = pureContainerRes as CreateOkrObjectPayload;
-          ctGateway(RE, "Accepted");
-          return res.status(RE.status!).send(RE) })
+          const sending = ctGateway(RE, "Accepted");
+          return res.status(sending.status!).send(sending) })
         .catch(() => {
-          ctGateway(RE, "LogicallyDenied", LogicalErrorCode.FAILED_TO_MODIFY_FOLLOWING_MODEL_DUE_TO_DB_FAILURE + "ContainerModel");
-          return res.status(RE.status!).send(RE) });
+          const sending = ctGateway(RE, "LogicallyDenied", LogicalErrorCode.FAILED_TO_MODIFY_FOLLOWING_MODEL_DUE_TO_DB_FAILURE + "ContainerModel");
+          return res.status(sending.status!).send(sending) });
     })
     .catch(() => {
-      ctGateway(RE, "LogicallyDenied", LogicalErrorCode.FAILED_TO_SAVE_FOLLOWING_MODEL_DUE_TO_DB_FAILURE + "OkrObjectModel");
-      return res.status(RE.status!).send(RE)
+      const sending = ctGateway(RE, "LogicallyDenied", LogicalErrorCode.FAILED_TO_SAVE_FOLLOWING_MODEL_DUE_TO_DB_FAILURE + "OkrObjectModel");
+      return res.status(sending.status!).send(sending)
     });
 });
 

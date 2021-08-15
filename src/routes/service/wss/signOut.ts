@@ -24,8 +24,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const deletingCookieName: HttpOnlyCookie = "WordyAccessToken";
 
   // there is no logic for killing cookie. and therefore will just do the following;
-  ctGateway(RE, "Accepted");
-  res.clearCookie(deletingCookieName).status(RE.status!).send(RE);
+  const sending = ctGateway(RE, "Accepted");
+  res.clearCookie(deletingCookieName).status(sending.status!).send(sending);
 });
 
 export default router;

@@ -141,10 +141,9 @@ const OkrHome: React.FC<{
     
     // Get pure WRN[] list & do the change of DB
     const input: OkrChangeOrderOfItemInput = { newlyOrderedObjects };
-    throwEvent("okr:changeOrderOfItem", input);
+    throwEvent("okr:changeOrderOfItem", input)
+      .then(res => res.serverResponse === "Accepted" && setData(newDataArr))
 
-    // finally
-    setData(newDataArr);
   }
 
   return (

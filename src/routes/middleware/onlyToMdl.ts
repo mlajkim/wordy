@@ -10,8 +10,8 @@ export const onlyToWordyMemberMdl = (async (req: Request, res: Response, next: N
   const RE = req.body as WordyEvent;
   iamGateway(RE, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
-    ctGateway(RE, "Denied");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "Denied");
+    return res.status(sending.status!).send(sending);
   };
 
   // Validation complete
@@ -24,8 +24,8 @@ export const onlyToAdminMdl = (async (req: Request, res: Response, next: NextFun
   const RE = req.body as WordyEvent;
   iamGateway(RE, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
-    ctGateway(RE, "Denied");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "Denied");
+    return res.status(sending.status!).send(sending);
   };
 
   // Validation complete
@@ -38,8 +38,8 @@ export const openToPublic = (async (req: Request, res: Response, next: NextFunct
   const RE = req.body as WordyEvent;
   iamGateway(RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
-    ctGateway(RE, "Denied");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "Denied");
+    return res.status(sending.status!).send(sending);
   };
 
   // Validation complete

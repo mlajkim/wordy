@@ -33,15 +33,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const okrObjects = await OkrObjectModel.find().where("wrn").in(containingObject) as Resource[]; // returns null when not found
 
   if (!okrObjects) {
-    ctGateway(RE, "LogicallyDenied");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "LogicallyDenied");
+    return res.status(sending.status!).send(sending);
   };
 
   // Found the objects (Encrypted)
   // decrypt the data
   RE.payload = okrObjects.map(el => intoPayload(el, RE)) as OkrGetOkrObjectPayload;
-  ctGateway(RE, "Accepted");
-  return res.status(RE.status!).send(RE);
+  const sending = ctGateway(RE, "Accepted");
+  return res.status(sending.status!).send(sending);
   
 });
 

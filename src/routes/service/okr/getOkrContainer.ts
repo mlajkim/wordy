@@ -32,12 +32,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // const unrefinedResource = await ContainerModel.find().where('wrn').in(gettingTarget) as (Resource & OkrContainerPure)[] | undefined; // returns null when not found
   const unrefinedResource = await ContainerModel.findOne({ wrn: containerWrn }) as Resource;
   if (!unrefinedResource) {
-    ctGateway(RE, "LogicallyDenied");
-    return res.status(RE.status!).send(RE); };
+    const sending = ctGateway(RE, "LogicallyDenied");
+    return res.status(sending.status!).send(sending); };
   
   RE.payload = intoPayload(unrefinedResource, RE) as OkrGetOkrContainerPayload;
-  ctGateway(RE, "Accepted");
-  return res.status(RE.status!).send(RE);
+  const sending = ctGateway(RE, "Accepted");
+  return res.status(sending.status!).send(sending);
 });
 
 export default router;

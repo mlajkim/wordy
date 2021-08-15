@@ -54,12 +54,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       // upload the payload
       RE.payload = intoPayload(foundResource, RE) as UserPure; // apply the payload
 
-      ctGateway(RE, "Accepted");
-      return res.status(RE.status!).send(RE);
+      const sending = ctGateway(RE, "Accepted");
+      return res.status(sending.status!).send(sending);
     })
     .catch(() => {
-      ctGateway(RE, "LogicallyDenied");
-      return res.status(RE.status!).send(RE);
+      const sending = ctGateway(RE, "LogicallyDenied");
+      return res.status(sending.status!).send(sending);
     })
 });
 

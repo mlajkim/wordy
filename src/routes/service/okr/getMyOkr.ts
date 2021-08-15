@@ -51,11 +51,11 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   if (myOkrData) {
     // decrypt the data
     RE.payload = { ...intoPayload(myOkrData, RE), userLink, tempAccessToken } as OkrGetMyOkrPayload
-    ctGateway(RE, "Accepted");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "Accepted");
+    return res.status(sending.status!).send(sending);
   } else {
-    ctGateway(RE, "LogicallyDenied");
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "LogicallyDenied");
+    return res.status(sending.status!).send(sending);
   };
 });
 

@@ -38,8 +38,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Return response if foundResource does not exist
   if (foundResource === null) {
-    ctGateway(RE, "LogicallyDenied", lec.RESOURCE_NOT_EXIST);
-    return res.status(RE.status!).send(RE);
+    const sending = ctGateway(RE, "LogicallyDenied", lec.RESOURCE_NOT_EXIST);
+    return res.status(sending.status!).send(sending);
   };
 
   const plainData = intoPayload(foundResource, RE) as OkrObjectPure;
@@ -51,8 +51,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   
   // return data
   RE.payload = undefined as WpChangeWpPayload;
-  ctGateway(RE, "Accepted");
-  return res.status(RE.status!).send(RE);
+  const sending = ctGateway(RE, "Accepted");
+  return res.status(sending.status!).send(sending);
 });
 
 export default router;

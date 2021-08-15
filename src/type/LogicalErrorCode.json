@@ -4,6 +4,11 @@
     "ko": "존재하지 않는 리소스입니다",
     "ja": "存在しないリソースです"
   },
+  "NO_PERMISSION_TO_PERFORM_SUCH_ACTION": {
+    "en": "You cannot perform such an event on this resource",
+    "ko": "이 리소스에 해당의 이벤트의 이행권한이 없습니다",
+    "ja": "リソースに該当のイベントを移行する権限がありません"
+  },
   "NO_LONGER_ADDABLE_TO_THE_CONTAINER": {
     "en": "Resource is no longer addable to the container",
     "ko": "해당의 컨테이너에 더이상 데이터를 추가할 수 없습니다",
