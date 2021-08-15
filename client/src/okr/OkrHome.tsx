@@ -14,7 +14,7 @@ import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
 // Translation
 import tr from './okr_home.tr.json';
 // MUI
-import { Chip, Grid, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Chip, Grid, Typography, IconButton, Menu, MenuItem, Badge } from '@material-ui/core';
 // MUI icon
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -194,15 +194,21 @@ const OkrHome: React.FC<{
       <Grid style={{ textAlign: 'left', paddingLeft: 25, paddingTop: 20 }}>
         <Grid style={{ paddingTop: 10 }}>
           {okrData && `${okrData.name}@${okrData.id}`}
+          
           <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => store.dispatch(setDialog("CreateOkrObject", containerData))}>
             <PlaylistAddIcon fontSize="small" />
           </IconButton>
+          
           <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => {}}>
             <GroupIcon fontSize="small" />
           </IconButton>
           <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => {}}>
-            <NotificationsNoneIcon fontSize="small" />
+            <Badge color="secondary" variant="dot">
+              <NotificationsNoneIcon fontSize="small" />
+            </Badge>
           </IconButton>
+          
+          
         </Grid>
         <Grid style={{ paddingTop: 25 }}>
           { RenderChips }
