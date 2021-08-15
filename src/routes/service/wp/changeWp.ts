@@ -16,6 +16,7 @@ import { intoPayload, intoResource } from '../../../internal/compute/backendWamb
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Gateway
 import { connectToMongoDB } from '../../../internal/database/mongo';
+import { sln } from '../../../type/sharedWambda';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "wp:changeWp";
@@ -38,12 +39,12 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Return response if foundResource does not exist
   if (foundResource === null) {
-    const sending = ctGateway(RE, "LogicallyDenied", lec.RESOURCE_NOT_EXIST);
+    const sending = ctGateway(RE, "LogicallyDenied", lec.RESOURCE_NOT_EXIST[sln(RE)]);
     return res.status(sending.status!).send(sending);
   };
 
   if (foundResource.ownerWrn !== RE.requesterWrn) {
-    const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION);
+    const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION[sln(RE)]);
     return res.status(sending.status!).send(sending);
   };
 

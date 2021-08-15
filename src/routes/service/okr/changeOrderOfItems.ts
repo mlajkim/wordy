@@ -9,6 +9,7 @@ import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middlewar
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
+import { sln } from '../../../type/sharedWambda';
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { modifyResource } from '../../../internal/compute/backendWambda';
 // type
@@ -40,7 +41,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       await OkrObjectModel.findOneAndUpdate({ wrn: object.wrn }, modifedResource, { useFindAndModify: false })
     } else { // end of if. only happens when such resource exists.
       // if it is not owner, then it should reject it
-      const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION);
+      const sending = ctGateway(RE, "LogicallyDenied", lec.NO_PERMISSION_TO_PERFORM_SUCH_ACTION[sln(RE)]);
       return res.status(sending.status!).send(sending);
     }
   };

@@ -1,9 +1,16 @@
 
 // Types
+import { WordyEvent } from './wordyEventType';
+import { FederalProvider, AddableLn } from './availableType';
 import { AddableLanguage } from './generalType';
-//
+// External
 import moment from 'moment';
-import { FederalProvider } from './availableType';
+
+// language selector
+export const sln = (RE: WordyEvent): AddableLn => {
+  if (!RE.requesterInfo) return "en";
+  return RE.requesterInfo.ln ? RE.requesterInfo.ln : "en";
+}
 
 // Aug 14, 2021
 export const convertFederalProvider = (federalProvider: FederalProvider) => {

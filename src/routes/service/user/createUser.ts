@@ -70,7 +70,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         RE.serverMessage = `user ${encryptedUserResource.wrn} already exists`;
 
         const alreadyExistingJwt: JwtData = {
-          wrn: encryptedUserResource.wrn, federalProvider: 'google', federalId: `${ticket.getUserId()}`
+          wrn: encryptedUserResource.wrn, federalProvider: 'google', federalId: `${ticket.getUserId()}`,
+          ln: 'en'
         }
         const signedWat = generateJwt(alreadyExistingJwt);
 
@@ -98,7 +99,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         wrn,
         federalProvider: 'google', // hard codeded google
         federalId: `${ticket.getUserId()}`,
-        adminName
+        adminName,
+        ln: 'en'
       }
       const jwt = generateJwt(jwtData);
 

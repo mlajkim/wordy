@@ -36,7 +36,10 @@ export type OkrChangeOrderOfItemPayload = undefined;
 
 // okr:GET_OKR_CONTAINER
 export type OkrGetOkrContainerInput = { containerWrn: Wrn } ;
-export type OkrGetOkrContainerPayload = OkrContainerPure & ResourceId;
+export type OkrGetOkrContainerPayload = {
+  foundContainerData: OkrContainerPure & ResourceId;
+  doesBelongToRequester: boolean;
+};
 
 // okr:GET_OKR_OBJECT
 export type OkrGetOkrObjectInput = OkrGetMyOkrInput & {

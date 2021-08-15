@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { OkrObjectType } from '../../type/availableType';
 import { CreateOkrObjectInput, CreateOkrObjectPayload } from '../../type/payloadType';
 import { State } from '../../types';
-import { OkrGetOkrContainerPayload } from '../../type/payloadType';
+import { ResourceId, OkrContainerPure } from '../../type/resourceType';
 // MUI
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -76,12 +76,12 @@ const okrObjecTypeList: OkrObjectType[] = ["KeyResult", "Objective", "OkrDailyRo
 const CreateOkrObject: React.FC = () => {
   const [ title, setTitle ] = useState("");
   const [ selectedType, setType ] = useState<OkrObjectType>("KeyResult");
-  const [ containerData, setContainerData ] = useState<OkrGetOkrContainerPayload>();
+  const [ containerData, setContainerData ] = useState<ResourceId & OkrContainerPure>();
   const { dialog } = useSelector((state: State) => state);
 
   // containerData: OkrGetOkrContainerPayload
   useEffect(() => {
-    setContainerData(dialog.payload as OkrGetOkrContainerPayload);
+    setContainerData(dialog.payload as ResourceId & OkrContainerPure);
   }, [dialog.payload, setContainerData])
   
   // handler

@@ -15,7 +15,7 @@ import {GOOGLE_CLIENT_ID} from '../../credential';
 // Redux
 import store from '../../redux/store';
 import {useSelector} from 'react-redux';
-import {setSnackbar} from '../../redux/actions';
+import {setOkrReloadOn, setSnackbar} from '../../redux/actions';
 
 type Props = {
   type: 'login' | 'signup';
@@ -36,6 +36,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
       federalProvider: "google", validatingToken: googleRes.tokenId
     }
     throwEvent("user:createUser", userInput);
+    store.dispatch(setOkrReloadOn());
 
     API.addToken('login', accessToken, expires);
     API.handleEverySignIn(accessToken, googleRes, language);

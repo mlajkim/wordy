@@ -2,7 +2,7 @@
 import express, {   Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
-import { Resource } from '../../../type/resourceType';
+import { OkrContainerPure, Resource } from '../../../type/resourceType';
 import { OkrGetOkrContainerInput, OkrGetOkrContainerPayload } from 'src/type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Middleware
@@ -30,12 +30,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Findt data from database
   // const unrefinedResource = await ContainerModel.find().where('wrn').in(gettingTarget) as (Resource & OkrContainerPure)[] | undefined; // returns null when not found
-  const unrefinedResource = await ContainerModel.findOne({ wrn: containerWrn }) as Resource;
+  const unrefinedResource = await ContainerModel.findOne({ wrn: containerWrn }) as Resource & OkrContainerPure;
   if (!unrefinedResource) {
     const sending = ctGateway(RE, "LogicallyDenied");
     return res.status(sending.status!).send(sending); };
-  
-  RE.payload = intoPayload(unrefinedResource, RE) as OkrGetOkrContainerPayload;
+
+  RE.payload = {
+    foundContainerData: intoPayload(unrefinedResource, RE), 
+    doesBelongToRequester: RE.requesterWrn === unrefinedResource.ownerWrn
+  } as OkrGetOkrContainerPayload
   const sending = ctGateway(RE, "Accepted");
   return res.status(sending.status!).send(sending);
 });

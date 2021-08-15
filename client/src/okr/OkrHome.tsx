@@ -28,7 +28,7 @@ import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
 const OkrHome: React.FC<{
   okrData: OkrGetMyOkrPayload,
-  containerData: OkrGetOkrContainerPayload,
+  containerData: OkrContainerPure & ResourceId,
   setContainerData: React.Dispatch<React.SetStateAction<(OkrContainerPure & ResourceId) | undefined>>
 }> = ({ okrData, containerData, setContainerData }) => {
   // Redux states
@@ -40,7 +40,8 @@ const OkrHome: React.FC<{
   const [ menu, openMenu ] = useState<null | HTMLElement>(null);
   const [ selectedChip, selectChip ] = useState<Wrn>(okrData.whichOneDownloadFirst);
   // Dialog state
-
+  // foundState
+  const [isDropDisabled, setDropDisabled] = useState(true);
 
   // handler for loading
   useEffect(() => {
@@ -50,8 +51,9 @@ const OkrHome: React.FC<{
     const getOkrContainerInput: OkrGetOkrContainerInput = { containerWrn: containerData.wrn }
     throwEvent("okr:getOkrContainer", getOkrContainerInput)
       .then(res => {
-        setContainerData(res.payload);
-
+        const { foundContainerData, doesBelongToRequester } = res.payload as OkrGetOkrContainerPayload;
+        setContainerData(foundContainerData);
+        setDropDisabled(doesBelongToRequester !== true);
         const input: OkrGetOkrObjectInput = {
           userLink: okrData!.userLink,
           tempAccessToken: okrData!.tempAccessToken,
@@ -71,7 +73,7 @@ const OkrHome: React.FC<{
       })
       .catch(() => store.dispatch(offOkrReload()))
     
-  }, [okrLoading, okrData, containerData.containingObject, containerData.wrn, setContainerData]);
+  }, [okrLoading, okrData, containerData.wrn, setContainerData]);
 
   // handler
   const hdlClickMenu = (inputType: string) => {
@@ -126,7 +128,7 @@ const OkrHome: React.FC<{
 
   //handler
   const hdlDragEnd = (result: any) => {
-    if(!okrObjects) return;
+    if(isDropDisabled || !okrObjects) return;
 
     const sourceIdx = result.source.index;
     const destinationIdx = result.destination.index;
@@ -160,7 +162,7 @@ const OkrHome: React.FC<{
         </Grid>
         <Grid style={{ paddingTop: 10 }}>
           <DragDropContext onDragEnd={(result) => hdlDragEnd(result)}>
-            <Droppable droppableId="testTempid">
+            <Droppable isDropDisabled={isDropDisabled} droppableId="testTempid">
               {(provided) => (
                 <div ref={provided.innerRef}  {...provided.droppableProps}>
                   { RenderList }

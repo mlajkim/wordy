@@ -53,8 +53,8 @@ const Okr: React.FC = () => {
         const returnedGetOkrContainerEvent = await throwEvent("okr:getOkrContainer", userInput, pathData.tempAccessToken);
 
         if (returnedGetOkrContainerEvent) {
-          const containerData = returnedGetOkrContainerEvent.payload as OkrGetOkrContainerPayload;
-          setContainerData(containerData);
+          const { foundContainerData } = returnedGetOkrContainerEvent.payload as OkrGetOkrContainerPayload;
+          setContainerData(foundContainerData);
           setOkrPage("okrMode");
 
           store.dispatch(setOkrReloadOn());

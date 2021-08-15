@@ -24,7 +24,7 @@ import MUIStyle from '../styles/MUIStyle';
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Actions
-import { setDialog, setLanguage, setPage, offDialog, setSnackbar } from '../redux/actions';
+import { setDialog, setLanguage, setPage, offDialog, setSnackbar, setOkrReloadOn } from '../redux/actions';
 import { getSupport,switchDarkLightMode } from '../redux/actions/supportAction';
 import { updateUser } from '../redux/actions/userAction';
 // Icons
@@ -86,6 +86,7 @@ const Appbar = () => {
   const handleLogout = () => {
     // Commented on Aug 14
     throwEvent("wss:signOut");
+    store.dispatch(setOkrReloadOn());
 
     API.killCookie('login');
     setProfileMenu(null);
