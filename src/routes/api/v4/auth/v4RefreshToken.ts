@@ -6,7 +6,7 @@ import { generateRefreshToken, generateAccessToken } from '../../../../utils';
 // Models
 import userSchema from '../../../../models/Users';
 // Type
-import { User } from 'src/typesBackEnd';
+import { User } from '../../../../typesBackEnd';
 // json
 import response from '../../../../responseStandard.json';
 

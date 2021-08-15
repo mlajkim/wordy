@@ -1,6 +1,5 @@
 // Main
 import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
 // type
 import lec from '../../../type/LogicalErrorCode.json'
 import { OkrDeleteOkrObjectInput } from '../../../type/payloadType'
@@ -13,11 +12,10 @@ import { OkrObjectModel } from '../../../models/EncryptedResource';
 import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { OkrObjectPure, ResourceId } from 'src/type/resourceType';
+import { OkrObjectPure, ResourceId } from '../../../type/resourceType';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:deleteOkrObject";
-dotenv.config();
 
 // Only available to Wordy Members
 router.use(OTM.onlyToWordyMemberMdl); 

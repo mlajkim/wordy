@@ -3,7 +3,7 @@ import express, {   Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
 import { OkrContainerPure, Resource } from '../../../type/resourceType';
-import { OkrGetOkrContainerInput, OkrGetOkrContainerPayload } from 'src/type/payloadType';
+import { OkrGetOkrContainerInput, OkrGetOkrContainerPayload } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Middleware
 import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';

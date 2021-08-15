@@ -4,7 +4,7 @@ import moment from 'moment';
 // utils
 import { getSem } from '../../../../utils';
 // Types
-import { User, Support } from 'src/typesBackEnd';
+import { User, Support } from '../../../../typesBackEnd';
 // Models
 import userSchema from '../../../../models/Users';
 import supportSchema from '../../../../models/Supports';

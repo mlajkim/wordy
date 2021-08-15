@@ -1,4 +1,3 @@
-
 // Types
 import { WordyEvent } from './wordyEventType';
 import { FederalProvider, AddableLn } from './availableType';

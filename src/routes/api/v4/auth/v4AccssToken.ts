@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 const v4AccessToken = express.Router();
 // Type
-import { User } from 'src/typesBackEnd';
+import { User } from '../../../../typesBackEnd';
 // Utils
 import { connectToMongoDB, generateAccessToken } from '../../../../utils';
 // JSON

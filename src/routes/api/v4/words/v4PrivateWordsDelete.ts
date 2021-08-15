@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 const wordsPrivateDelete = express.Router();
 import dotenv from "dotenv";
 // Types
-import { Support, User } from 'src/typesBackEnd';
+import { Support, User } from '../../../../typesBackEnd';
 // Models
 import userSchema from '../../../../models/Users';
 import supportSchema from '../../../../models/Supports';

@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 const v4ValidateRefreshToken = express.Router();
 import { connectToMongoDB, generateToken, minimizeUserData } from '../../../../utils';
 // Types
-import { User } from 'src/typesBackEnd';
+import { User } from '../../../../typesBackEnd';
 // Models
 import userSchema from '../../../../models/Users';
 // json

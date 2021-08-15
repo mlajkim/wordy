@@ -1,9 +1,8 @@
 // Main
 import express, {   Request, Response } from 'express';
-import dotenv from 'dotenv';
 // Type
 import { Resource } from '../../../type/resourceType';
-import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload } from 'src/type/payloadType';
+import { OkrGetOkrObjectInput, OkrGetOkrObjectPayload } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Middleware
 import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';
@@ -17,7 +16,6 @@ import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:getOkrObject";
-dotenv.config();
 
 // Only available to Wordy Members
 router.use(openToPublic); 
