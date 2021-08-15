@@ -18,6 +18,8 @@ import { Chip, Grid, Typography, IconButton, Menu, MenuItem } from '@material-ui
 // MUI icon
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import GroupIcon from '@material-ui/icons/Group';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
@@ -186,6 +188,12 @@ const OkrHome: React.FC<{
           {okrData && `${okrData.name}@${okrData.id}`}
           <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={(e) => store.dispatch(setDialog("CreateOkrObject", containerData))}>
             <PlaylistAddIcon fontSize="small" />
+          </IconButton>
+          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => {}}>
+            <GroupIcon fontSize="small" />
+          </IconButton>
+          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => {}}>
+            <NotificationsNoneIcon fontSize="small" />
           </IconButton>
         </Grid>
         <Grid style={{ paddingTop: 25 }}>
