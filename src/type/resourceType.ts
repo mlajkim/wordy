@@ -31,7 +31,7 @@ export type ResourceId = {
   // basic info
   objectOrder?: number;
   // Modifing data
-  modifableUntil?: number; // unless specified, data can be modifed?
+  modifableUntil?: number; // unless specified, data can be modifed!!!
   // wordy policy checker 
   wpWrn?: AvailableWpWrn; // this will be checked first, even before
   // might add dateAdded;

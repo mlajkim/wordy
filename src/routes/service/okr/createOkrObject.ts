@@ -21,6 +21,7 @@ import { connectToMongoDB } from '../../../internal/database/mongo';
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:createOkrObject";
 dotenv.config();
+const MODIFABLE_AFTER = 1000 * 60 * 60 * 24 * 14; // 2 weeks
 
 // Only available to Wordy Members
 router.use(onlyToWordyMemberMdl); 
@@ -36,7 +37,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // First, prepare okr object data.
   const okrObjectWrn: Wrn = generatedWrn(`wrn::okr:okr_object:mdb:${type}:`);
   const newMyOkr: OkrObjectPure = { type, title, isDataSatisfied: "NotSatisfied" }; // NotSatisfied by default
-  const newMyOkrResource = intoResource(newMyOkr, okrObjectWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811");
+  const newMyOkrResource = intoResource(newMyOkr, okrObjectWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", undefined, getNow() + MODIFABLE_AFTER);
 
   // Before creating the okr object, the container first must allow 
   // if it is addable or not. so it checks here following

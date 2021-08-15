@@ -30,6 +30,12 @@ export type UserCreateUserPayload = UserPure;
 // OKR service
 // ===============
 
+// okr:DELETE_OKR_OBJECT (Aug 15, 2021)
+export type OkrDeleteOkrObjectInput = {
+  deletingTargetWrn: Wrn
+};
+export type OkrDeleteOkrObjectPayload = undefined;
+
 // okr:CHANGE_ORDER_OR_ITEM
 export type OkrChangeOrderOfItemInput = { newlyOrderedObjects: (ResourceId & OkrObjectPure)[] };
 export type OkrChangeOrderOfItemPayload = undefined;

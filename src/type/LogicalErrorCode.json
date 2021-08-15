@@ -9,6 +9,11 @@
     "ko": "이 리소스에 해당의 이벤트의 이행권한이 없습니다",
     "ja": "リソースに該当のイベントを移行する権限がありません"
   },
+  "NO_LONGER_MODIFABLE": {
+    "en": "This resource has passed modifable time and no longer modifable",
+    "ko": "변경 가능 시간을 지났으므로, 해당 이벤트의 이행권한이 없습니다",
+    "ja": "変更可能日がすぎたため、該当のイベントを移行する権限がありません"
+  },
   "NO_LONGER_ADDABLE_TO_THE_CONTAINER": {
     "en": "Resource is no longer addable to the container",
     "ko": "해당의 컨테이너에 더이상 데이터를 추가할 수 없습니다",
@@ -18,6 +23,11 @@
     "en": "Failed to modify following model due to DB failure: ",
     "ko": "DB fail에 의해 이하의 모델에 데이터를 변경하지 못했습니다: ",
     "ja": "DB failによる、以下のモデルにデータの変更ができませんでした: "
+  },
+  "NO_MODIFY_UNTIL_DATA_INTERNAL_PROGRAM_BUG": {
+    "en": "You are trying to make a change (delete) on the resource that does not have modifable date specified. Denied by default for security reason.",
+    "ko": "THIS_RESOURCE_DOES_NOT_CONTAIN_MODIFABLE_DATE_SO_IT_REJECTS_ANY_CHANGE",
+    "ja": "THIS_RESOURCE_DOES_NOT_CONTAIN_MODIFABLE_DATE_SO_IT_REJECTS_ANY_CHANGE"
   },
   "FAILED_TO_SAVE_FOLLOWING_MODEL_DUE_TO_DB_FAILURE": {
     "en": "Failed to save following model due to DB failure: ",

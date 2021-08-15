@@ -2,6 +2,7 @@
 import express from 'express';
 const router = express.Router();
 // Imported Routers
+import deteleOkrObject from './okr/deteleOkrObject';
 import getOkrContainer from './okr/getOkrContainer';
 import createMyOkr from './okr/createMyOkr';
 import getMyOkr from './okr/getMyOkr';
@@ -10,6 +11,7 @@ import getOkrObject from './okr/getOkrObject';
 import changeOrderOfItemsOf from './okr/changeOrderOfItems';
 
 // Apply router
+router.use(deteleOkrObject);
 router.use(changeOrderOfItemsOf);
 router.use(getOkrContainer);
 router.use(createMyOkr);

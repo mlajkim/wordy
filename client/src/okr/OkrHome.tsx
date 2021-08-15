@@ -3,7 +3,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { 
   OkrGetOkrObjectInput, OkrGetOkrObjectPayload, WpChangeWpInput, OkrGetMyOkrPayload, 
   OkrGetOkrContainerPayload, OkrGetOkrContainerInput,
-  OkrChangeOrderOfItemInput
+  OkrChangeOrderOfItemInput,
+  OkrDeleteOkrObjectInput
 } from '../type/payloadType';
 import { ResourceId, OkrObjectPure, OkrContainerPure } from '../type/resourceType';
 import { Wrn } from '../type/availableType';
@@ -21,7 +22,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux action
-import { offOkrReload, setDialog } from '../redux/actions';
+import { offOkrReload, setDialog, setOkrReloadOn } from '../redux/actions';
 import { throwEvent } from '../frontendWambda';
 import LoadingFbStyle from '../components/loading_fbstyle/LoadingFbStyle';
 
@@ -42,6 +43,7 @@ const OkrHome: React.FC<{
   // Dialog state
   // foundState
   const [isDropDisabled, setDropDisabled] = useState(true);
+  const [hoveredElement, setHoveredElement] = useState<Wrn>();
 
   // handler for loading
   useEffect(() => {
@@ -76,15 +78,28 @@ const OkrHome: React.FC<{
   }, [okrLoading, okrData, containerData.wrn, setContainerData]);
 
   // handler
-  const hdlClickMenu = (inputType: string) => {
+  const hdlClickMenu = (e: any, objectActionType: 'TO_PUBLIC' | 'TO_ONLY_ME' | 'DELETE') => {
     const userInput: WpChangeWpInput = {
       modifyingTarget: selectedData!.wrn,
-      modifyingWpWrn: inputType === "toPublic" 
+      modifyingWpWrn: objectActionType === "TO_PUBLIC" 
         ? "wrn::wp:pre_defined:backend:dangerously_public:210811"
         : "wrn::wp:pre_defined:backend:only_owner:210811"
-    }
+    };
 
-    throwEvent("wp:changeWp", userInput);
+    switch (objectActionType) {
+      case "TO_ONLY_ME" || "TO_ONLY_ME": 
+        throwEvent("wp:changeWp", userInput);
+        break;
+      case "DELETE":
+        const eventInput: OkrDeleteOkrObjectInput = { deletingTargetWrn: selectedData!.wrn }
+        throwEvent("okr:deleteOkrObject", eventInput)
+          .then(() => store.dispatch(setOkrReloadOn()))
+        break;
+      default:
+        break; // nothing happens
+    };
+    
+    // finally
     openMenu(null);
   };
 
@@ -105,19 +120,28 @@ const OkrHome: React.FC<{
     />
   ));
   
+  const hdlMouseHover = (e: React.MouseEvent, wrn: Wrn) => {
+    if (e.type === 'mouseover') return setHoveredElement(wrn);
+    else if (e.type === 'mouseleave') setHoveredElement(undefined);
+  }
+  
   // Sort first, and get the data
   const orderedOkrObjects = okrObjects && okrObjects.sort((a, b) => a.objectOrder! - b.objectOrder!);
   const RenderList = orderedOkrObjects && orderedOkrObjects.map((data, idx) => (
     <Draggable draggableId={data.wrn} key={data.wrn} index={idx}>
       {(provided) => (
-        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-          <Typography gutterBottom>
+        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} 
+          onMouseOver={(e) => hdlMouseHover(e, data.wrn)} 
+          onMouseLeave={(e) => hdlMouseHover(e, data.wrn)}
+          defaultValue={data.wrn}
+        >
+          <Typography gutterBottom style={{ marginLeft: data.type === "Objective" ? 0 : 35, paddingTop: 5, paddingBottom: 5 }}>
             {data.resoureAvailability === "Visible"
               ? data.title
               : tr.thisDataIsPrivate[ln]
             }
             <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
-              <MoreVertIcon fontSize="small" />
+              {hoveredElement === data.wrn && <MoreVertIcon fontSize="small" />}
             </IconButton>
           </Typography>
         </div>
@@ -188,8 +212,9 @@ const OkrHome: React.FC<{
         open={Boolean(menu)}
         onClose={() => openMenu(null)}
       >
-        <MenuItem onClick={() => hdlClickMenu('toPublic')}>{`Change To Public`}</MenuItem>
-        <MenuItem onClick={() => hdlClickMenu('toPrivate')}>{`Change To Only Me (Private)`}</MenuItem>
+        <MenuItem onClick={(e) => hdlClickMenu(e, 'TO_PUBLIC')}>{`Change To Public`}</MenuItem>
+        <MenuItem onClick={(e) => hdlClickMenu(e, 'TO_ONLY_ME')}>{`Change To Only Me (Private)`}</MenuItem>
+        <MenuItem onClick={(e) => hdlClickMenu(e, 'DELETE')}>{`Delete this`}</MenuItem>
       </Menu>
     </Fragment>
   );

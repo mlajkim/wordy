@@ -36,6 +36,7 @@ type WpService = // Wordy Policy
 
 type OkrService =
   "*" | //all
+  "deleteOkrObject" | // Aug 15, 2021
   "changeOrderOfItem" | 
   "createMyOkr" |
   "getMyOkr" |
