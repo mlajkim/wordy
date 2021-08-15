@@ -36,7 +36,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // First, prepare okr object data.
   const okrObjectWrn: Wrn = generatedWrn(`wrn::okr:okr_object:mdb:${type}:`);
   const newMyOkr: OkrObjectPure = { type, title, isDataSatisfied: "NotSatisfied" }; // NotSatisfied by default
-  const newMyOkrResource = intoResource(newMyOkr, okrObjectWrn, RE);
+  const newMyOkrResource = intoResource(newMyOkr, okrObjectWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811");
 
   // Before creating the okr object, the container first must allow 
   // if it is addable or not. so it checks here following
