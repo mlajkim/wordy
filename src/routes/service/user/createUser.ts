@@ -8,7 +8,7 @@ import { JwtData, Wrn } from '../../../type/availableType';
 import { Resource, UserPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
 // Middleware
-import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl';
 // External Library
 import { OAuth2Client } from 'google-auth-library';
 // Library
@@ -17,7 +17,6 @@ import { generateJwt } from '../../../internal/security/wat';
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
 import { intoResource, generatedWrn } from '../../../internal/compute/backendWambda';
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "user:createUser";
@@ -32,9 +31,9 @@ const adminList = [
 ]
 
 // Who can use this router? Connects to MongoDB?
-router.use(openToPublic);
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(OTM.openToPublic);
+router.use(OTM.connectToMongoDB);
+router.use(OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare 

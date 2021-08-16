@@ -7,7 +7,7 @@ import { Wrn } from '../../../type/availableType';
 import { Resource, OkrLinkPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
 // Middleware
-import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { intoPayload } from '../../../internal/compute/backendWambda';
@@ -15,28 +15,28 @@ import { intoPayload } from '../../../internal/compute/backendWambda';
 import { MyOkrModel, CustomizedOkrLinkModel } from '../../../models/EncryptedResource';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-// Gateway
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:getMyOkr";
 dotenv.config();
 
 // comment
-router.use(onlyToWordyMemberMdl);
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(OTM.openToPublic);
+router.use(OTM.connectToMongoDB);
+router.use(OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
   const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
 
+  console.log("has passed here so far/")
+
   // Check if this user is not even signed in & trying to access without ink
   if (
-    typeof userLink === "string" && 
-    userLink.length === 0 &&
-    RE.requesterWrn === "wrn::backend_assigned_identity:anonymous_public:internal::"
+    typeof userLink === "string" 
+    && userLink.length === 0 
+    && RE.requesterWrn === "wrn::backend_assigned_identity:anonymous_public:internal::"
   ) {
     const sending = ctGateway(RE, "LogicallyDenied", "You are not signed in");
     sending.payload = { isSignedInCheckedByBackend: false };

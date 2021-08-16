@@ -46,7 +46,7 @@ export const onlyToAdminMdl = (async (req: Request, res: Response, next: NextFun
   const RE = req.body as WordyEvent;
   iamGateway(RE, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
-    const sending = ctGateway(RE, "Denied");
+    const sending = ctGateway(RE, "Denied", "This event is currently open only to admin");
     return res.status(sending.status!).send(sending);
   };
 

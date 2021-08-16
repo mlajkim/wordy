@@ -14,7 +14,7 @@ const word = express.Router();
 const EVENT_TYPE: EventType = "word:detectLanguage";
 dotenv.config();
 
-word.use(OTM.onlyToWordyMemberMdl);
+word.use(OTM.onlyToAdminMdl);
 word.use(OTM.addValidatedByThisService);
 
 word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
