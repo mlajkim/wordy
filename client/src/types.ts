@@ -52,6 +52,7 @@ export type Dialog = {
 export type DialogType = 'LoginDialog' | 'SignUpDialog' | 'AddWordsDialog' | 'EditWord' |
   'MassWordsDialog' | 'ConfirmDelete' | 'Warning401' | 'Warning403' | 'ShortcutDialog' | 'SettingDialog' |
   // okr below
+  'GroupDialog' |
   'CreateOkrObject';
 
 export type SnackbarState = {

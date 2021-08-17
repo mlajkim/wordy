@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 // type
-import { Language } from '../../types';
+import { State } from '../../types';
 // MUI
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import tr from './login_dialog.tr.json';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux action
 import { offDialog } from '../../redux/actions';
-// Components
-import GoogleSignIn from '../../components/google_sign_in/GoogleSignIn';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -58,31 +57,50 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-type Props = {
-  type: 'login' | 'signup';
-}
+const DialogActions = withStyles((theme: Theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions);
 
-const LoginDialog = ({type}: Props) => {
-  const ln = useSelector((state: {language: Language}) => state.language);
+const GroupDialog: React.FC = () => {
+  const { dialog } = useSelector((state: State) => state);
 
-  const handleClose = () => {
-    store.dispatch(offDialog());
-  }
+  useEffect(() => {
+    
+  }, [dialog.payload]);
+
   return (
-    <div >
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true} fullWidth={true} maxWidth="sm" style={{textAlign: 'center'}}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose} >
-          {type === 'login' ? tr.title[ln] : tr.titleSignUp[ln]}
+    <Fragment>
+      {console.log(dialog.payload)}
+      <Dialog aria-labelledby="customized-dialog-title" open={true}>
+        <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
+          Group
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            {type === 'login' ? tr.desc[ln] : tr.descSignUp[ln]}
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
+            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
           </Typography>
-          {type === 'login' ? <GoogleSignIn type="login"/> : <GoogleSignIn type="signup"/>}
+          <Typography gutterBottom>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
+            lacus vel augue laoreet rutrum faucibus dolor auctor.
+          </Typography>
+          <Typography gutterBottom>
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
+            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
+            auctor fringilla.
+          </Typography>
         </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => store.dispatch(offDialog())} color="primary">
+            Save changes
+          </Button>
+        </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   );
-}
+};
 
-export default LoginDialog;
+export default GroupDialog;

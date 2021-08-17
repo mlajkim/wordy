@@ -11,6 +11,7 @@ import EditWordDialog from '../dialog/edit_word/EditWord';
 import ShortcutDialog from '../dialog/shotcut_dialog/ShortcutDialog';
 import SettingDialog from '../dialog/setting_dialog/SettingDialog';
 // OKR
+import GroupDialog from '../dialog/group_dialog/GroupDialog';
 import CreateOkrObject from '../dialog/create_okr_object/CreateOkrObjectDialog';
 
 const Dialog = () => {
@@ -18,6 +19,9 @@ const Dialog = () => {
   const {dialog} = useSelector((state: State) => state);
 
   switch(dialog.type) {
+    case 'GroupDialog':
+        return <GroupDialog />
+
     case 'CreateOkrObject': 
       return <CreateOkrObject />;
 

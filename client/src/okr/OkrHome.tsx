@@ -199,10 +199,10 @@ const OkrHome: React.FC<{
             <PlaylistAddIcon fontSize="small" />
           </IconButton>
           
-          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => {}}>
+          <IconButton className={"GroupIcon"} color="inherit" aria-label="language" onClick={() => store.dispatch(setDialog("GroupDialog", okrData))}>
             <GroupIcon fontSize="small" />
           </IconButton>
-          <IconButton className={"moreMyOkr"} color="inherit" aria-label="language" onClick={() => {}}>
+          <IconButton className={"Notification"} color="inherit" aria-label="language" onClick={() => {}}>
             <Badge color="secondary" variant="dot">
               <NotificationsNoneIcon fontSize="small" />
             </Badge>
