@@ -71,11 +71,11 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-const okrObjecTypeList: OkrObjectType[] = ["KeyResult", "Objective", "OkrDailyRoutine"];
+const okrObjecTypeList: OkrObjectType[] = ["Objective", "KeyResult", "OkrDailyRoutine"];
 
 const CreateOkrObject: React.FC = () => {
   const [ title, setTitle ] = useState("");
-  const [ selectedType, setType ] = useState<OkrObjectType>("KeyResult");
+  const [ selectedType, setType ] = useState<OkrObjectType>("Objective");
   const [ containerData, setContainerData ] = useState<ResourceId & OkrContainerPure>();
   const { dialog } = useSelector((state: State) => state);
 
@@ -110,6 +110,7 @@ const CreateOkrObject: React.FC = () => {
       color={selectedType === okrObjectType ? "primary" : undefined}
       onClick={()=> setType(okrObjectType)}
       variant={selectedType === okrObjectType ? "contained" : undefined}
+      disabled={okrObjectType === "OkrDailyRoutine" ? true : false}
     >
       {okrObjectType}
     </Button>
