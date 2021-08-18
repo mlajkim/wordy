@@ -20,6 +20,7 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import GroupIcon from '@material-ui/icons/Group';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import DataNotSatisfied from '@material-ui/icons/Close';
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
@@ -142,6 +143,9 @@ const OkrHome: React.FC<{
               ? data.title
               : tr.thisDataIsPrivate[ln]
             }
+            <IconButton size={"small"} className={"NotEnouugh"} color="inherit" onClick={() => store.dispatch(setDialog("EditOkrObject", data))}>
+              {data.type === "KeyResult" && data.isDataSatisfied === "NotSatisfied" && <DataNotSatisfied fontSize="small" /> }
+            </IconButton>
             <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
               {hoveredElement === data.wrn && <MoreVertIcon fontSize="small" />}
             </IconButton>

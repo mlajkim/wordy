@@ -13,14 +13,18 @@ import SettingDialog from '../dialog/setting_dialog/SettingDialog';
 // OKR
 import GroupDialog from '../dialog/group_dialog/GroupDialog';
 import CreateOkrObject from '../dialog/create_okr_object/CreateOkrObjectDialog';
+import EditOkrObjectDialog from '../dialog/edit_okr_object/EditOkrObjectDialog';
 
 const Dialog = () => {
   // states
   const {dialog} = useSelector((state: State) => state);
 
   switch(dialog.type) {
+    case 'EditOkrObject':
+      return <EditOkrObjectDialog />
+
     case 'GroupDialog':
-        return <GroupDialog />
+      return <GroupDialog />
 
     case 'CreateOkrObject': 
       return <CreateOkrObject />;
