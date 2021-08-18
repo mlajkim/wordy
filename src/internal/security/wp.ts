@@ -114,14 +114,21 @@ export const conditionChecker = (RE: WordyEvent, givenCondition: Condition, reso
         if (!resource) return "NotPassed"; // no resource? you are not passed.
         if (RE.requesterWrn !== resource.ownerWrn) return "NotPassed";
         break; // no longer requires checking. it is not passed.
-        /*
-       case "wordyAccessTokenValidated":
+
+      case "wordyAccessTokenValidated":
         if (condition[1] !== true) continue;
-        if (RE.requesterInfo && typeof RE.requesterInfo.isWordyUser !== "undefined" && RE.requesterInfo.isWordyUser) defaultResponse = "Passed";
+        if (RE.requesterInfo && typeof RE.requesterInfo.isWordyUser) defaultResponse = "Passed";
         else return "NotPassed";
         break; 
-          */
       
+        /*
+         case "isAdmin":
+        if (condition[1] !== true) continue;
+          if (RE.requesterInfo && typeof RE.requesterInfo.adminName === "string") defaultResponse = "Passed";
+          else return "NotPassed";
+          break; 
+        */
+
       default:
         // This is when it does not read the condition. 
         // condition is optional, any unsupported condition will not reflect not passing it
