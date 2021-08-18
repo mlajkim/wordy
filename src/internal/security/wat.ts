@@ -47,23 +47,21 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
     if (err) {
       // Validated if action does not require jwt token
       const idx = NOT_REQUIRING_WAT_EVENTS.findIndex(event => event === RE.eventType);
-      if (idx !== -1) {
-        // FYI
-        // if it fails to read the data, the retruning data will be undefined
-
-        const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public:internal::";
-        RE.requesterWrn = identity;
-        return next(); // you are free to go, even w/o WAT
+      if (idx === -1) {
+        RE.serverResponse = "Denied";
+        RE.serverMessage = `Your requested event ${RE.eventType} was rejected by jwtService due to absense or invalid WordyAccessToken`;
+        return res.status(202).send(RE);
       };
 
-      RE.serverResponse = "Denied";
-      RE.serverMessage = `Your requested event ${RE.eventType} was rejected by jwtService due to absense or invalid WordyAccessToken`;
-      return res.status(202).send(RE);
-    } else {
-      // validated, no err
-      RE.requesterInfo = data;
-      RE.requesterWrn = data.wrn;
-      next();
-    }
+      
+      const identity: AssignedIdentity = "wrn::backend_assigned_identity:anonymous_public:internal::";
+      RE.requesterWrn = identity;
+      return next(); // you are free to go, even w/o WAT
+    };
+
+    // validated, no err
+    RE.requesterInfo = { ...data, isWordyUser: true };
+    RE.requesterWrn = data.wrn;
+    next();
   });
 };

@@ -22,15 +22,15 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Validation
   const requestedEvent = req.body as WordyEvent; // receives the event
   if (requestedEvent.serverResponse === "Denied") {
-    ctGateway(requestedEvent, "Denied");
-    return res.status(requestedEvent.status!).send(requestedEvent);
+    const result = ctGateway(requestedEvent, "Denied");
+    return res.status(result.status!).send(result);
   }
 
   // Validation with IAM
   const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
   if(iamValidatedEvent.serverResponse === 'Denied'){
-    ctGateway(iamValidatedEvent, "Denied");
-    return res.status(iamValidatedEvent.status!).send(iamValidatedEvent);
+    const result = ctGateway(iamValidatedEvent, "Denied");
+    return res.status(result.status!).send(result);
   }
 
   // Validation complete

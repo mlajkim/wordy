@@ -25,8 +25,8 @@ app.use(express.json());
 app.use('/api', api); //REST API
 app.use('/apigateway', apigateway); //REST API
 app.use('/graphql', graphqlHTTP({schema, graphiql: true}));  //GraphQL
-app.get('*', (_req: Request, res: Response) => {
-  res.sendFile('index.html', {root: path.join(__dirname, '../../client/build/')});
+app.get('/', (_req: Request, res: Response) => {
+  res.sendFile('index.html', {root: path.join(__dirname, '../client/build/')});
 });
 
 // https certificates import

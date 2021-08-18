@@ -6,22 +6,20 @@ import { OkrContainerPure, Resource } from '../../../type/resourceType';
 import { OkrGetOkrContainerInput, OkrGetOkrContainerPayload } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 // Middleware
-import { openToPublic, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl';
 // Mogno DB
 import { ContainerModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { intoPayload } from '../../../internal/compute/backendWambda';
-// Gateway
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:getOkrContainer";
 dotenv.config();
 // Only available to Wordy Members
-router.use(openToPublic);
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(OTM.openToPublic);
+router.use(OTM.connectToMongoDB);
+router.use(OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Declare + Save Record

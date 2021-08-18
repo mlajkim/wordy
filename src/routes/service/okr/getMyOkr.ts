@@ -26,12 +26,13 @@ router.use(OTM.connectToMongoDB);
 router.use(OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
+  
   // declare requested event
   const RE = req.body as WordyEvent; // receives the event
   const { userLink, tempAccessToken } = RE.requesterInputData as OkrGetMyOkrInput;
 
-  console.log("has passed here so far/")
-
+  console.log(RE);
+  
   // Check if this user is not even signed in & trying to access without ink
   if (
     typeof userLink === "string" 

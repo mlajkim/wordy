@@ -29,10 +29,9 @@ export const connectToMongoDB = (_req: Request, _res: Response, next: NextFuncti
 
 export const onlyToWordyMemberMdl = (async (req: Request, res: Response, next: NextFunction) => {
   // Validation with IAM
-  const RE = req.body as WordyEvent;
-  iamGateway(RE, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
+  const RE = iamGateway(req.body, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811") as WordyEvent; // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
-    const sending = ctGateway(RE, "Denied");
+    const sending = ctGateway(RE, "Denied", "Denied by IAM GATEWAY");
     return res.status(sending.status!).send(sending);
   };
 
@@ -43,8 +42,7 @@ export const onlyToWordyMemberMdl = (async (req: Request, res: Response, next: N
 
 export const onlyToAdminMdl = (async (req: Request, res: Response, next: NextFunction) => {
   // Validation with IAM
-  const RE = req.body as WordyEvent;
-  iamGateway(RE, "wrn::wp:pre_defined:backend:only_to_admin:210811"); // validate with iamGateway
+  const RE = iamGateway(req.body, "wrn::wp:pre_defined:backend:only_to_admin:210811") as WordyEvent;; // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
     const sending = ctGateway(RE, "Denied", "This event is currently open only to admin");
     return res.status(sending.status!).send(sending);
@@ -57,10 +55,9 @@ export const onlyToAdminMdl = (async (req: Request, res: Response, next: NextFun
 
 export const openToPublic = (async (req: Request, res: Response, next: NextFunction) => {
   // Validation with IAM
-  const RE = req.body as WordyEvent;
-  iamGateway(RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); // validate with iamGateway
+  const RE = iamGateway(req.body, "wrn::wp:pre_defined:backend:dangerously_public:210811") as WordyEvent; // validate with iamGateway
   if (RE.serverResponse !== "Accepted") {
-    const sending = ctGateway(RE, "Denied");
+    const sending = ctGateway(RE, "Denied", "Denied by IAM GATEWAY");
     return res.status(sending.status!).send(sending);
   };
 

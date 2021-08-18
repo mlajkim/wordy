@@ -100,7 +100,9 @@ const wpServiceLogic = (RE: WordyEvent, resource: Resource, wpWrn?: AvailableWpW
 // Since condition is optional, it passes if it is blank. 
 export const conditionChecker = (RE: WordyEvent, givenCondition: Condition, resource?: Resource): WpResponse => {
   let defaultResponse: WpResponse = "Passed";
-  const conditions = Object.entries(givenCondition ? givenCondition : []);
+  const conditions = Object.entries(givenCondition ? givenCondition : [])
+
+  if (typeof conditions === "undefined") return "Passed";
 
   // validating
   // logic: must match all, if blocked once, then it rejects
@@ -108,9 +110,18 @@ export const conditionChecker = (RE: WordyEvent, givenCondition: Condition, reso
   for (const condition of conditions) {
     switch(condition[0]) {
       case "requesterWrnMatchesResourceOwnerWrn":
-        if (!resource) break; // if resource is not provided, then its skipped.
-        if (RE.requesterWrn !== resource.ownerWrn) defaultResponse = "NotPassed";
+        if (condition[1] !== true) continue;
+        if (!resource) return "NotPassed"; // no resource? you are not passed.
+        if (RE.requesterWrn !== resource.ownerWrn) return "NotPassed";
         break; // no longer requires checking. it is not passed.
+        /*
+       case "wordyAccessTokenValidated":
+        if (condition[1] !== true) continue;
+        if (RE.requesterInfo && typeof RE.requesterInfo.isWordyUser !== "undefined" && RE.requesterInfo.isWordyUser) defaultResponse = "Passed";
+        else return "NotPassed";
+        break; 
+          */
+      
       default:
         // This is when it does not read the condition. 
         // condition is optional, any unsupported condition will not reflect not passing it

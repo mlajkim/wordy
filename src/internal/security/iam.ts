@@ -36,8 +36,7 @@ export const iamGateway = (RE: WordyEvent, wpWrn: AvailableWpWrn): WordyEvent =>
             && conditionChecker(RE, definedStatement.condition) === "Passed"
           ) {
             RE.serverResponse = "Denied";
-            RE.serverMessage = 
-              `User ${RE.requesterWrn} is not authorized to perform: ${RE.eventType}`
+            RE.serverMessage = `User ${RE.requesterWrn} is not authorized to perform: ${RE.eventType}`;
             return RE; // returned denied event
           }
         };
