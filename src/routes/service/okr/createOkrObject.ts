@@ -11,12 +11,10 @@ import { pushDataEvenUndefined, sln } from '../../../type/sharedWambda';
 // Mogno DB
 import { OkrObjectModel, ResCheck, ContainerModel } from '../../../models/EncryptedResource';
 // Mdl
-import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
 import { generatedWrn, intoResource, getNow, intoPayload } from '../../../internal/compute/backendWambda';
-// Gateway
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:createOkrObject";
@@ -24,9 +22,9 @@ dotenv.config();
 const MODIFABLE_AFTER = 1000 * 60 * 60 * 24 * 14; // 2 weeks
 
 // Only available to Wordy Members
-router.use(onlyToWordyMemberMdl); 
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl); 
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event & write it down with validation 

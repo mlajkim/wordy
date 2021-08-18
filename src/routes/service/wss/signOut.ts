@@ -14,9 +14,9 @@ const router = express.Router();
 const EVENT_TYPE: EventType = "wss:signOut";
 
 // Who can use this router? Connects to MongoDB?
-router.use(openToPublic); 
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), openToPublic); 
+router.use(pathFinder(EVENT_TYPE), connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // DECLARE

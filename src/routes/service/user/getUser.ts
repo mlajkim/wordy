@@ -1,6 +1,5 @@
 // Main
-import express, {  NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
+import express, { Request, Response } from 'express';
 // Mogno DB
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
@@ -8,45 +7,21 @@ import { intoPayload } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { Resource, UserPure } from '../../../type/resourceType';
+// Mdl
+import * as OTM from '../../middleware/onlyToMdl';
 // Gateway
 import { ctGateway } from '../../../internal/management/cloudTrail'
-import { iamGateway } from '../../../internal/security/iam';
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
-const EVENT_TYPE = "user:getUser";
-const SERVICE_NAME: EventType = `${EVENT_TYPE}`
-dotenv.config();
+const EVENT_TYPE: EventType = "user:getUser";
 
-router.use(async (req: Request, res: Response, next: NextFunction) => {
-  // Validation
-  const requestedEvent = req.body as WordyEvent; // receives the event
-  if (requestedEvent.serverResponse === "Denied") {
-    const result = ctGateway(requestedEvent, "Denied");
-    return res.status(result.status!).send(result);
-  }
-
-  // Validation with IAM
-  const iamValidatedEvent = iamGateway(requestedEvent, "wrn::wp:pre_defined:backend:only_to_wordy_member:210811"); // validate with iamGateway
-  if(iamValidatedEvent.serverResponse === 'Denied'){
-    const result = ctGateway(iamValidatedEvent, "Denied");
-    return res.status(result.status!).send(result);
-  }
-
-  // Validation complete
-  req.body = iamValidatedEvent;
-  next();
-}); 
-
-// connects into mongodb
-router.use(connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl);
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare & record
   const RE = req.body as WordyEvent; // receives the event
-  RE.validatedBy 
-    ? RE.validatedBy.push(SERVICE_NAME) 
-    : RE.validatedBy = [SERVICE_NAME]; 
 
   // Returning data
   await UserModel.findOne({ wrn: RE.requesterWrn })

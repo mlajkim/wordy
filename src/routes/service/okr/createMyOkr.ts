@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { MyOkrPure, OkrContainerPure } from '../../../type/resourceType';
 // Middleware
-import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { getToday, getNow } from '../../../internal/compute/backendWambda';
 import { ctGateway } from '../../../internal/management/cloudTrail';
@@ -13,8 +13,6 @@ import { generatedWrn, intoResource, convertQuarterlyIntoMoment } from '../../..
 import { CreateMyOkrUserNameRule } from '../../../type/sharedWambda';
 // Mogno DB
 import { MyOkrModel, ContainerModel, ResCheck } from '../../../models/EncryptedResource';
-// Gateway
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:createMyOkr";
@@ -29,9 +27,9 @@ const getNextQuarterly = () => {
 const getAddableUntil = () => getNow() + MODIFIABLE_UNTIL_LIMIT;
 
 // Who can use this router? Connects to MongoDB?
-router.use(onlyToWordyMemberMdl);
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl);
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event

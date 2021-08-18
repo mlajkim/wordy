@@ -31,9 +31,9 @@ const adminList = [
 ]
 
 // Who can use this router? Connects to MongoDB?
-router.use(OTM.openToPublic);
-router.use(OTM.connectToMongoDB);
-router.use(OTM.addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.openToPublic);
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare 

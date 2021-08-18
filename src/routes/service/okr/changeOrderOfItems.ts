@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { OkrChangeOrderOfItemInput } from '../../../type/payloadType';
 import lec from '../../../type/LogicalErrorCode.json';
 // Middleware
-import { onlyToWordyMemberMdl, addValidatedByThisService } from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
@@ -14,17 +14,15 @@ import { ctGateway } from '../../../internal/management/cloudTrail';
 import { modifyResource } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-// Gateway
-import { connectToMongoDB } from '../../../internal/database/mongo';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:changeOrderOfItem";
 dotenv.config();
 
 // Only modifable to owner the resource
-router.use(onlyToWordyMemberMdl);
-router.use(connectToMongoDB);
-router.use(addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl);
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Declare + Save Record

@@ -18,9 +18,9 @@ const router = express.Router();
 const EVENT_TYPE: EventType = "okr:deleteOkrObject";
 
 // Only available to Wordy Members
-router.use(OTM.onlyToWordyMemberMdl); 
-router.use(OTM.connectToMongoDB);
-router.use(OTM.addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl); 
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare requested event & write it down with validation 
