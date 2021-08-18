@@ -17,7 +17,7 @@ export type WordyEvent = {
   price?: number
   // tail (data put by server)
   requesterWrn?: Wrn | AssignedIdentity; // actual initiator
-  requesterInfo?: JwtData & { isWordyUser?: boolean };
+  requesterInfo?: JwtData & { isWordyUser?: boolean, isAdmin?: boolean };
   validatedBy?: (EventType | Gateway)[];
   internalResource?: Resource[] | Resource; // unrefined pure resource. will be deleted at CMK
   

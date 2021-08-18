@@ -16,6 +16,12 @@ const NOT_REQUIRING_WAT_EVENTS: EventType[] = [
   "okr:getOkrContainer",
   "wss:signOut"
 ];
+const ADMIN_LIST = [
+  {
+    federalId: "116355363420877047854",
+    adminName: "ADMIN_AJ_KIM"
+  }
+]
 
 export const generateJwt = (data: any) => {
   // Declare using dotenv
@@ -58,9 +64,11 @@ export const watGateway = (req: Request, res: Response, next: NextFunction) => {
       RE.requesterWrn = identity;
       return next(); // you are free to go, even w/o WAT
     };
-
+    // admin data
+    const isAdmin = ADMIN_LIST.find(el => el.federalId === data.federalId) ? true : false;
+    
     // validated, no err
-    RE.requesterInfo = { ...data, isWordyUser: true };
+    RE.requesterInfo = { ...data, isWordyUser: true, isAdmin };
     RE.requesterWrn = data.wrn;
     next();
   });
