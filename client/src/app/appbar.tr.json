@@ -33,5 +33,20 @@
     "ko": "단축키",
     "en": "Keyboard shortcut",
     "ja": "ショートカットキー"
+  },
+  "youAreCurrentlyLoggedInAsGuest": {
+    "ko": "You are currently logged in as a guest account",
+    "en": "You are currently logged in as a guest account",
+    "ja": "You are currently logged in as a guest account"
+  },
+  "whoIsDeveloper": {
+    "ko": "개발자자가 궁금하시다면?",
+    "en": "Who is the developer of this website?",
+    "ja": "開発者については？"
+  },
+  "details": {
+    "ko": "더 보기",
+    "en": "Details",
+    "ja": "こちら"
   }
 }

@@ -1,10 +1,10 @@
 // eslint-disable-next-line
 import React, {useEffect} from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// Types
+import { State } from '../types';
+// Component
+import AppbarNotice from './AppbarNotice';
 import Appbar from './Appbar';
 import * as API from '../API';
 import axios from 'axios';
@@ -26,8 +26,7 @@ import { setLanguage, setDialog } from '../redux/actions';
 import { updateSupport } from '../redux/actions/supportAction';
 // Theme
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
-// Types
-import { State } from '../types';
+
 
 const keyMap = {  
   OPEN_ADDER: [shortcut.CMD_ENTER.mac.hotKey, shortcut.CMD_ENTER.windows.hotKey]
@@ -76,12 +75,14 @@ const App: React.FC = () => {
         <Router>
           <Switch>
             <Route path="/okr">
+              <AppbarNotice />
               <Appbar />
               <Snackbar />
               <Dialog />
               <Okr />
             </Route>
             <Route path="">
+              <AppbarNotice />
               <Appbar />
               <Snackbar />
               <Dialog />
