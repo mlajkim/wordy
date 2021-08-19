@@ -4,7 +4,7 @@ import { UPDATE_SUPPORT } from '../actions/supportAction';
 
 
 const initialState: Support = {
-  version: 'v0.4.1',
+  version: 'v0.4.2',
   isBeta: true,
   versionDate: 'Aug ?, 2021',
   status: null,
