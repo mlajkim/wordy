@@ -143,10 +143,10 @@ const OkrHome: React.FC<{
               ? data.title
               : tr.thisDataIsPrivate[ln]
             }
-            <IconButton size={"small"} className={"NotEnouugh"} color="inherit" onClick={() => store.dispatch(setDialog("EditOkrObject", data))}>
+            <IconButton size={"small"} className={"NotEnouugh"} style={{ marginBottom: 2 }} color="inherit" onClick={() => store.dispatch(setDialog("EditOkrObject", data))}>
               {data.type === "KeyResult" && data.isDataSatisfied === "NotSatisfied" && <DataNotSatisfied fontSize="small" /> }
             </IconButton>
-            <IconButton size={"small"} className={"key render"} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
+            <IconButton size={"small"} className={"key render"} style={{ marginBottom: 2 }} color="inherit" onClick={(e) => hdlMenuOpen(e.currentTarget, data)}>
               {hoveredElement === data.wrn && <MoreVertIcon fontSize="small" />}
             </IconButton>
           </Typography>
