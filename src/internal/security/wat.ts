@@ -23,19 +23,6 @@ const ADMIN_LIST = [
   }
 ]
 
-export const generateJwt = (data: any) => {
-  // Declare using dotenv
-  dotenv.config();
-
-  const signedJwt = jwt.sign(
-    data, // this data is actually readable without key. 
-    process.env.WORDY_ACCESS_TOKEN_JWT!, 
-    {expiresIn: `${LOGIN_TOKEN_EXPIRES_IN_DAYS}d` 
-  }); 
-
-  return signedJwt;
-};
-
 // okr:getMyOkr is available to anyone, even without token. 
 
 // WordyAccessToken Service

@@ -36,7 +36,7 @@ export const validateGoogleSigninToken = (token: string): boolean => {
 };
 
 export const getLocationFromIp = (req: Request) => {
-  const ip = req.connection.remoteAddress;
+  const ip = req.socket.remoteAddress;
   const area = geoip.lookup(ip as string);
 
   const result: { countryName: string | null, ip: string } = {
@@ -129,4 +129,17 @@ export const convertQuarterlyIntoMoment = (quarterlyInput: number) => {
   const potentialLastSaturdayAt12pm = moment({ year, month }).endOf('month').startOf('day').weekday(WHICH_LAST_DAY).add(AFTER_WHICH_HOURS, "hours");
   if (potentialLastSaturdayAt12pm.month() % 3 !== 2) return potentialLastSaturdayAt12pm.add(12, "hours").valueOf();
   else return potentialLastSaturdayAt12pm.valueOf();
-} 
+};
+
+export const generateJwt = (data: any) => {
+  // Declare using dotenv
+  dotenv.config();
+
+  const signedJwt = jwt.sign(
+    data, // this data is actually readable without key. 
+    process.env.WORDY_ACCESS_TOKEN_JWT!, 
+    {expiresIn: `${LOGIN_TOKEN_EXPIRES_IN_DAYS}d` 
+  }); 
+
+  return signedJwt;
+};

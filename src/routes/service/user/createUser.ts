@@ -7,16 +7,13 @@ import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { JwtData, Wrn } from '../../../type/availableType';
 import { Resource, UserPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
+import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda';
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl';
 // External Library
 import { OAuth2Client } from 'google-auth-library';
-// Library
-import { generateJwt } from '../../../internal/security/wat';
 // Mogno DB
 import { UserModel } from '../../../models/EncryptedResource';
-// internal
-import { intoResource, generatedWrn } from '../../../internal/compute/backendWambda';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "user:createUser";
