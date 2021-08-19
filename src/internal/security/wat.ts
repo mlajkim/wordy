@@ -7,7 +7,6 @@ import { WordyEvent, EventType } from '../../type/wordyEventType';
 import { Gateway, AssignedIdentity } from '../../type/availableType';
 // Declare
 dotenv.config();
-const LOGIN_TOKEN_EXPIRES_IN_DAYS = 5;
 const SERVICE_NAME: Gateway = "watGateway"
 const NOT_REQUIRING_WAT_EVENTS: EventType[] = [
   "user:createUser", 

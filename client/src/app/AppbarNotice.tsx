@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 //Type
 import { State } from '../types';
 import trAppbar from './appbar.tr.json';
-import { throwEvent } from '../frontendWambda';
+// import { throwEvent } from '../frontendWambda';
 // MUI
 import AppBar from '@material-ui/core/AppBar';
 import { Button, Typography, Grid } from '@material-ui/core';
 // Redux
-import store from '../redux/store';
+// import store from '../redux/store';
 import { useSelector } from 'react-redux';
 
 const AppbarNotice: React.FC = () => {
@@ -21,7 +21,7 @@ const AppbarNotice: React.FC = () => {
     // read the link
     
     // throw event based on it.
-    throwEvent("user:guestLogin", { guestLoginToken: "cmFiJ123SCxas152rgsqRRWJvdmoi" });
+    // throwEvent("user:guestLogin", { guestLoginToken: "cmFiJ123SCxas152rgsqRRWJvdmoi" });
 
     // if it matches
     setAppbarNotice(false);

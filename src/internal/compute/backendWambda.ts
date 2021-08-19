@@ -1,18 +1,21 @@
 import { Request } from 'express';
-import geoip from 'geoip-lite';
-import { OAuth2Client } from 'google-auth-library';
-import Cryptr from 'cryptr';
-import cryptoRandomString from 'crypto-random-string';
-import moment from 'moment';
 // type
 import { WordyEvent } from '../../type/wordyEventType';
 import { Resource, PureResource } from '../../type/resourceType';
 import { AvailableWpWrn, Wrn } from '../../type/availableType';
-// For signing token
+// Library
+import geoip from 'geoip-lite';
+import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
+import Cryptr from 'cryptr';
+import cryptoRandomString from 'crypto-random-string';
+import moment from 'moment';
 import dotenv from "dotenv";
 // internal
 import { kmsService } from '../security/kms';
 import { wpService } from '../security/wp';
+// Declaare
+const LOGIN_TOKEN_EXPIRES_IN_DAYS = 5;
 
 
 // This function below is tested and verified on May 8, 2021
