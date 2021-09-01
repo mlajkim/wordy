@@ -80,9 +80,10 @@ const CreateOkrObject: React.FC = () => {
   const { dialog } = useSelector((state: State) => state);
 
   // containerData: OkrGetOkrContainerPayload
+  // FYI: you do not need to put setContainerData as, setContainerData is guarnteed by React that it wont change
   useEffect(() => {
     setContainerData(dialog.payload as ResourceId & OkrContainerPure);
-  }, [dialog.payload, setContainerData])
+  }, [dialog.payload])
   
   // handler
   const hdlCreateClick = () => {

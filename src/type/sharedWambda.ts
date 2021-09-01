@@ -110,13 +110,11 @@ export const generateWrn = (
 
 
 export const intoArray = (inputData: any): any[] => {
-  if (typeof inputData === "object")
-      return Array.isArray(inputData) ? inputData : [inputData];
-  else if (typeof inputData === "undefined")
-      return []; // return blank array for undefined
+  if (typeof inputData === "object") return Array.isArray(inputData) ? inputData : [inputData];
+  if (typeof inputData === "undefined") return [];
   
-  return [inputData]; // by default
-}
+  return [inputData];
+};
 
 // moment.now() gets the time in millisecond such as 123452582575
 export const runAfter = (second: number) => moment.now() + (second * 1000);
