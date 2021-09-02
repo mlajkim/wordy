@@ -36,6 +36,8 @@ import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
 // Credetnial
 import { GOOGLE_CLIENT_ID } from '../credential';
 import { throwEvent } from '../frontendWambda';
+// Component
+import SearchBar from '../components/search_bar/SearchBar';
 
 const Appbar = () => {
   const classes = MUIStyle();
@@ -109,12 +111,13 @@ const Appbar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title}>
+          <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title} style={{ minWidth: "200px", display: "flex" }}>
             {`Wordy ${support.version}`}
             <i>{support.isBeta ? " Beta" : ""}</i> 
           </Typography>
+          <SearchBar />
           {user.isSignedIn &&
-            <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages" 
+            <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages"
               onClick={() => handleAddWordClick()}>
               <AddIcon fontSize="small" />
             </IconButton>
