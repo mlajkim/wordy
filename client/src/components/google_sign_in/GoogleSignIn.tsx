@@ -1,21 +1,22 @@
 // eslint-disable-next-line
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import * as API from '../../API';
 // types 
 import { throwEvent } from '../../frontendWambda';
 import { UserCreateUserInput } from '../../type/payloadType';
-// old type
-import { GoogleRes } from '../../types';
-import {GoogleLogin} from 'react-google-login';
+import { Language } from '../../types';
 // Translation
 import tr from './google_sign_in.tr.json'
-import { Language } from '../../types';
+// old type
+import { GoogleRes } from '../../types';
+import { GoogleLogin } from 'react-google-login';
 // Credential
-import {GOOGLE_CLIENT_ID} from '../../credential';
+import { GOOGLE_CLIENT_ID } from '../../credential';
 // Redux
 import store from '../../redux/store';
-import {useSelector} from 'react-redux';
-import {setOkrReloadOn, setSnackbar} from '../../redux/actions';
+import { useSelector } from 'react-redux';
+// Redux Action
+import { setOkrReloadOn, setSnackbar } from '../../redux/actions';
 
 type Props = {
   type: 'login' | 'signup';

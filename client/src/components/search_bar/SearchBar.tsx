@@ -1,10 +1,18 @@
 import React, { Fragment, useLayoutEffect, useState } from 'react';
-import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+// Type
+import { Language } from '../../types';
+// Translation
+import tr from './search_bar.tr.json';
 // Appbar
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
+// MUI
+import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
+// Redux
+// import store from '../../redux/store';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,6 +59,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SearchBar: React.FC = () => {
   const classes = useStyles();
+  // Redux State
+  const language = useSelector((state: {language: Language}) => state.language);
+  const ln = language;
   // State
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
@@ -74,7 +85,7 @@ const SearchBar: React.FC = () => {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search"
+              placeholder={tr.search[ln]}
               classes={{
                 root: classes.inputRoot,
                   input: classes.inputInput,
