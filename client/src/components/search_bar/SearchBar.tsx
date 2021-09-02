@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // Appbar
 import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
 // MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -16,8 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       marginRight: theme.spacing(2),
       marginLeft: 0,
-      minWidth: '440px',
-      maxWidth: '720px',
+      minWidth: '740px',
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
@@ -52,9 +52,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const SearchBar: React.FC = () => {
   const classes = useStyles();
 
+  const hdlClickSearch = () => {};
+
   return (
     <Fragment>
-      {window.innerWidth > 1000
+      {window.innerWidth > 1300
         ? <Fragment>
             <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -71,7 +73,9 @@ const SearchBar: React.FC = () => {
             </div>
             <div className="Blank" style={{ width: "100%" }} />
           </Fragment>
-        : <SearchIcon />
+        : <IconButton color="inherit" onClick={() => hdlClickSearch()}>
+            <SearchIcon fontSize="small" />
+          </IconButton>
       }
     </Fragment>
   );  
