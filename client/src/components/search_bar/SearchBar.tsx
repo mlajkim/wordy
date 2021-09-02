@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // Appbar
-import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 // MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
@@ -55,23 +54,27 @@ const SearchBar: React.FC = () => {
 
   return (
     <Fragment>
-        <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <InputBase
-          placeholder="Search"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}  
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </div>
-      <div className="Blank" style={{ minWidth: "80px", width: "100%" }} />
+      {window.innerWidth > 1000
+        ? <Fragment>
+            <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search"
+              classes={{
+                root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}  
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+            <div className="Blank" style={{ width: "100%" }} />
+          </Fragment>
+        : <SearchIcon />
+      }
     </Fragment>
-      
-  );
+  );  
 };
 
 export default SearchBar;
