@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect, Fragment } from 'react';
 import {useGoogleLogout} from 'react-google-login'
 import Cookie from 'js-cookie';
 // shared import
@@ -47,6 +47,15 @@ const Appbar = () => {
 
   // @languge menu
   const [menu, openMenu] = useState<null | HTMLElement>(null);
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+
+  // Get window size and apply, so that some of the functions may work!
+  useLayoutEffect(() => {
+    const resize = () => setInnerWidth(window.innerWidth);
+    window.addEventListener('resize', resize);
+  }, []);
+
   // Methods
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     openMenu(event.currentTarget);
@@ -111,30 +120,41 @@ const Appbar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography onClick={() => {store.dispatch(setPage('dashboard'))}} variant="h6" className={classes.title} style={{ minWidth: "200px", display: "flex" }}>
-            {`Wordy ${support.version}`}
-            <i>{support.isBeta ? " Beta" : ""}</i> 
+          <Typography 
+            onClick={() => {store.dispatch(setPage('dashboard'))}} 
+            variant="h6" 
+            className={classes.title} 
+            style={{ minWidth: innerWidth > 520 ? "140px" : "70px", display: "flex" }}
+          >
+            {`Wordy ${innerWidth > 520 ? support.version : ""}`}
           </Typography>
           <SearchBar />
-          {user.isSignedIn &&
+          {user.isSignedIn && 
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages"
               onClick={() => handleAddWordClick()}>
               <AddIcon fontSize="small" />
             </IconButton>
           }
-          <IconButton className={"ChangeDarkLightMode"} color="inherit" aria-label="darkmode" onClick={() => store.dispatch(switchDarkLightMode())}>
-            {support.isDarkMode 
-              ? <Tooltip title={tr.toLightMode[ln]} placement="bottom">
-                  <LightModeIcon fontSize="small" />
-                </Tooltip> 
-              : <Tooltip title={tr.toDarkMode[ln]} placement="bottom">
-                  <DarkModeIcon fontSize="small" /> 
-                </Tooltip>
-            }
-          </IconButton>
-          <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
-            <TranslateIcon fontSize="small" />
-          </IconButton>
+          {
+            innerWidth > 500 &&
+            <Fragment>
+              <IconButton className={"ChangeDarkLightMode"} color="inherit" aria-label="darkmode" onClick={() => store.dispatch(switchDarkLightMode())}>
+                {support.isDarkMode 
+                  ? <Tooltip title={tr.toLightMode[ln]} placement="bottom">
+                      <LightModeIcon fontSize="small" />
+                    </Tooltip> 
+                  : <Tooltip title={tr.toDarkMode[ln]} placement="bottom">
+                      <DarkModeIcon fontSize="small" /> 
+                    </Tooltip>
+                }
+              </IconButton>
+              <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
+              <TranslateIcon fontSize="small" />
+            </IconButton>
+            </Fragment>
+          }
+          
+          
           <Menu
             id="simple-menu"
             anchorEl={menu}

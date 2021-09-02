@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useLayoutEffect, useState } from 'react';
 import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // Appbar
 import InputBase from '@material-ui/core/InputBase';
@@ -51,12 +51,23 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SearchBar: React.FC = () => {
   const classes = useStyles();
+  // State
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+
+  // Get window size and apply, so that some of the functions may work!
+  // FYI:  it fires synchronously after all DOM mutations, pretty much similar to useEffect
+  useLayoutEffect(() => {
+    const resize = () => setInnerWidth(window.innerWidth);
+    window.addEventListener('resize', resize);
+  }, []);
+
 
   const hdlClickSearch = () => {};
 
   return (
     <Fragment>
-      {window.innerWidth > 1300
+      {innerWidth > 1300
         ? <Fragment>
             <div className={classes.search}>
             <div className={classes.searchIcon}>
