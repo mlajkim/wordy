@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect, useState } from 'react';
+import React, { Fragment, useLayoutEffect, useState, useEffect } from 'react';
 // Type
 import { Language } from '../../types';
 // Translation
@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       marginRight: theme.spacing(2),
       marginLeft: 0,
-      minWidth: '740px',
+      minWidth: '240px',
+      maxWidth: '720px',
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
@@ -64,38 +65,52 @@ const SearchBar: React.FC = () => {
   const ln = language;
   // State
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [searchBarLength, setSearchBarLength] = useState(720);
 
 
   // Get window size and apply, so that some of the functions may work!
   // FYI:  it fires synchronously after all DOM mutations, pretty much similar to useEffect
   useLayoutEffect(() => {
-    const resize = () => setInnerWidth(window.innerWidth);
+    const resize = () => {
+      const newLength = window.innerWidth;
+      setInnerWidth(newLength);
+      
+    };
     window.addEventListener('resize', resize);
   }, []);
 
+  useEffect(() => {
+    setSearchBarLength(innerWidth + 600);
+  }, [innerWidth])
 
-  const hdlClickSearch = () => {};
+  const hdlSerachInputChange = (input: string) => {
+    if (input.trim().length > 0) {
+
+    }
+  };
+
+  const hdlClickSearchIcon = () => {};
 
   return (
     <Fragment>
-      {innerWidth > 1300
+      {innerWidth > 700
         ? <Fragment>
-            <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+            <div className={classes.search} style={{ width: searchBarLength }}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder={tr.search[ln]}
+                onChange={(e) => hdlSerachInputChange(e.target.value)}
+                classes={{
+                  root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}  
+                  inputProps={{ 'aria-label': 'search' }}
+                />
             </div>
-            <InputBase
-              placeholder={tr.search[ln]}
-              classes={{
-                root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}  
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-            <div className="Blank" style={{ width: "100%" }} />
           </Fragment>
-        : <IconButton color="inherit" onClick={() => hdlClickSearch()}>
+        : <IconButton color="inherit" onClick={() => hdlClickSearchIcon()}>
             <SearchIcon fontSize="small" />
           </IconButton>
       }
