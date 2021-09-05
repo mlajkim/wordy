@@ -93,7 +93,7 @@ const SearchBar: React.FC = () => {
   }, []);
 
   const hdlSerachInputChange = (input: string) => {
-    const trimmedInput = input.trim();
+    const trimmedInput = input
     if (trimmedInput.length > 0) {
       store.dispatch(modifySupport({ searchData: trimmedInput }, true));
       setCancelSearchVisibility(true);

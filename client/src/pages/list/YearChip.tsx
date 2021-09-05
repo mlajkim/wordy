@@ -166,7 +166,7 @@ const YearChip = () => {
   );
 
   const RenderSearchResult = support.searchData !== "" && <SearchResult />
-  const RenderWordList = support.searchData.trim() === "" && (
+  const RenderWordList = support.searchData === "" && (
     <Fragment>
       <ListSetting selectedSem={selectedSem} />
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
