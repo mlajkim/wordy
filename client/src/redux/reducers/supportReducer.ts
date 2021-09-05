@@ -21,6 +21,8 @@ const initialState: Support = {
   isDarkMode: false, // dark mode off by default.
   // personal setting
   isYearQuadrantEnabled: false,
+  // Search Data
+  searchData: "",
 // reviewss
   mixedSem: 0,
   maxStep: 8,

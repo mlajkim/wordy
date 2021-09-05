@@ -10,6 +10,7 @@ import { buttonLight, buttonDark } from '../../theme';
 import WordCard from '../../components/word_card/WordCard';
 import ListSetting from './ListSetting';
 import WordList from '../../components/word_list/WordList';
+import SearchResult from '../../components/searchResult/SearchResult';
 // Material UI
 import Tooltip from '@material-ui/core/Tooltip';
 import Chip from '@material-ui/core/Chip';
@@ -164,8 +165,8 @@ const YearChip = () => {
     </Tooltip>
   );
 
-  // Return
-  return (
+  const RenderSearchResult = support.searchData !== "" && <SearchResult />
+  const RenderWordList = support.searchData.trim() === "" && (
     <Fragment>
       <ListSetting selectedSem={selectedSem} />
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
@@ -228,6 +229,15 @@ const YearChip = () => {
         </Tooltip> 
       }
       { selectedSem !== 0 && typeof filteredWordsList !== "boolean" && wordCardsMax < filteredWordsList.length! && renderMoreButton }
+      <Grid style={{ paddingBottom: 20 }}/>
+    </Fragment>
+  )
+
+  // Return
+  return (
+    <Fragment>
+      { RenderSearchResult }
+      { RenderWordList }
     </Fragment>
   );
 }

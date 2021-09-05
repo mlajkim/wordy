@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react';
-import './List.css';
+import React, { Fragment, useEffect } from 'react';
 import { State } from '../../types';
 import YearChip from './YearChip';
 // Material UI
@@ -13,6 +12,7 @@ import {useSelector} from 'react-redux';
 import { listDark, listLight } from '../../theme';
 // Redux
 import store from '../../redux/store';
+import { setPage } from '../../redux/actions';
 import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
 
 const List: React.FC = () => {

@@ -11,8 +11,10 @@ import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles
 // MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
 // Redux
-// import store from '../../redux/store';
+import store from '../../redux/store';
 import { useSelector } from 'react-redux';
+// Redux Action
+import { modifySupport } from '../../redux/actions/supportAction';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,8 +86,11 @@ const SearchBar: React.FC = () => {
   }, [innerWidth])
 
   const hdlSerachInputChange = (input: string) => {
-    if (input.trim().length > 0) {
-
+    const trimmedInput = input.trim();
+    if (trimmedInput.length > 0) {
+      store.dispatch(modifySupport({ searchData: trimmedInput }, false));
+    } else {
+      store.dispatch(modifySupport({ searchData: "" }, false));
     }
   };
 

@@ -81,6 +81,8 @@ export type Support = {
   isDarkMode: boolean;
   // Personal Setting
   isYearQuadrantEnabled: boolean;
+  // Search Data
+  searchData: string
   // Reviews
   mixedSem: number;
   maxStep: number,
@@ -88,7 +90,7 @@ export type Support = {
   // old
   addedWordsCount: number;
   deletedWordsCount: number;
-}
+};
 
 export type CookiesAvailable = AvailableCookies;
 export type AscDescType = 'asc' | 'desc';
