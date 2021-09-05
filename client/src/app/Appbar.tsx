@@ -127,7 +127,6 @@ const Appbar = () => {
                     onClick={() => {store.dispatch(setPage('dashboard'))}} 
                     variant="h6" 
                     className={classes.title} 
-                    style={{ minWidth: innerWidth > 520 ? "140px" : "70px", display: "flex" }}
                   >
                     {`Wordy ${innerWidth > 520 ? support.version : ""}`}
                   </Typography>

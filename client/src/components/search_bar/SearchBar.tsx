@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect, useState, useEffect } from 'react';
+import React, { Fragment, useLayoutEffect, useState } from 'react';
 // Type
 import { State } from '../../types';
 // Translation
@@ -8,8 +8,10 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 // MUI
 import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
 // MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -27,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       marginRight: theme.spacing(2),
       marginLeft: 0,
-      minWidth: '240px',
       maxWidth: '720px',
       width: '100%',
       [theme.breakpoints.up('sm')]: {
@@ -44,6 +45,11 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'center',
     },
+    cancelIcon: {
+      textAlign: 'right',
+      marginTop: 0,
+      marginRight: 4,
+    },
     inputRoot: {
       color: 'inherit',
     },
@@ -54,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        width: '40ch',
       },
     }
   }),
@@ -67,7 +73,6 @@ const SearchBar: React.FC = () => {
   const ln = language;
   // State
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-  const [searchBarLength, setSearchBarLength] = useState(720);
 
   // Get window size and apply, so that some of the functions may work!
   // FYI:  it fires synchronously after all DOM mutations, pretty much similar to useEffect
@@ -79,10 +84,6 @@ const SearchBar: React.FC = () => {
     };
     window.addEventListener('resize', resize);
   }, []);
-
-  useEffect(() => {
-    setSearchBarLength(innerWidth + 600);
-  }, [innerWidth])
 
   const hdlSerachInputChange = (input: string) => {
     const trimmedInput = input.trim();
@@ -106,7 +107,7 @@ const SearchBar: React.FC = () => {
     <Fragment>
       {support.extendedSearchBar || innerWidth > 700
         ? <Fragment>
-            <div className={classes.search} style={{ width: searchBarLength }}>
+            <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -117,8 +118,16 @@ const SearchBar: React.FC = () => {
                   root: classes.inputRoot,
                     input: classes.inputInput,
                   }}  
-                  inputProps={{ 'aria-label': 'search' }}
-                />
+                inputProps={{ 'aria-label': 'search' }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton className={classes.cancelIcon} size="small" color="inherit" onClick={() => {}}>
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                }
+      
+              />
             </div>
           </Fragment>
         : <IconButton color="inherit" onClick={() => hdlClickSearchIcon()}>
