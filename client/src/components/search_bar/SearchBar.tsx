@@ -12,6 +12,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 // MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
+// Theme
+import { buttonColorNonHover, buttonColorHover } from '../../theme';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -49,6 +51,10 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'right',
       marginTop: 0,
       marginRight: 4,
+      color: buttonColorNonHover,
+      '&:hover': {
+        color: buttonColorHover,
+      }
     },
     inputRoot: {
       color: 'inherit',
@@ -73,6 +79,7 @@ const SearchBar: React.FC = () => {
   const ln = language;
   // State
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [isCancelSearchVisible, setCancelSearchVisibility] = useState(false);
 
   // Get window size and apply, so that some of the functions may work!
   // FYI:  it fires synchronously after all DOM mutations, pretty much similar to useEffect
@@ -89,8 +96,10 @@ const SearchBar: React.FC = () => {
     const trimmedInput = input.trim();
     if (trimmedInput.length > 0) {
       store.dispatch(modifySupport({ searchData: trimmedInput }, true));
+      setCancelSearchVisibility(true);
     } else {
       store.dispatch(modifySupport({ searchData: "" }, true));
+      setCancelSearchVisibility(false);
     }
 
     // unextend if data is empty
@@ -101,6 +110,11 @@ const SearchBar: React.FC = () => {
 
   const hdlClickSearchIcon = () => {
     store.dispatch(modifySupport({ extendedSearchBar: true }, true));
+  };
+
+  const hdlCancelSearchIcon = () => {
+    store.dispatch(modifySupport({ searchData: "" }, true));
+    setCancelSearchVisibility(false);
   };
 
   return (
@@ -114,14 +128,15 @@ const SearchBar: React.FC = () => {
               <InputBase
                 placeholder={tr.search[ln]}
                 onChange={(e) => hdlSerachInputChange(e.target.value)}
+                value={support.searchData}
                 classes={{
                   root: classes.inputRoot,
                     input: classes.inputInput,
                   }}  
                 inputProps={{ 'aria-label': 'search' }}
-                endAdornment={
+                endAdornment={ isCancelSearchVisible &&
                   <InputAdornment position="end">
-                    <IconButton className={classes.cancelIcon} size="small" color="inherit" onClick={() => {}}>
+                    <IconButton className={classes.cancelIcon} size="small" onClick={() => hdlCancelSearchIcon()}>
                       <CloseIcon fontSize="small" />
                     </IconButton>
                   </InputAdornment>

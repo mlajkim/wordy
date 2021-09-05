@@ -7,6 +7,9 @@
 export const backgroundLight = '#ffffff';
 export const backgroundDark = '#2b3035';
 
+export const buttonColorNonHover = "#B5B5B5";
+export const buttonColorHover = "#BDFBA3";
+
 // Font Color
 // Comment on Jul 18, 2021 below
 /**
