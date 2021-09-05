@@ -80,6 +80,7 @@ export type Support = {
   wordDisplayPref: 'wordcard' | 'list';
   isDarkMode: boolean;
   // Personal Setting
+  extendedSearchBar: boolean;
   isYearQuadrantEnabled: boolean;
   // Search Data
   searchData: string

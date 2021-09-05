@@ -117,17 +117,23 @@ const Appbar = () => {
     <div className={classes.root}>
       <AppBar position="static" color="transparent" style={{ background: support.isBeta ? appbarDevMode : support.isDarkMode ? appbarDark : appbarLight }}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
-            <MenuIcon />
-          </IconButton>
-          <Typography 
-            onClick={() => {store.dispatch(setPage('dashboard'))}} 
-            variant="h6" 
-            className={classes.title} 
-            style={{ minWidth: innerWidth > 520 ? "140px" : "70px", display: "flex" }}
-          >
-            {`Wordy ${innerWidth > 520 ? support.version : ""}`}
-          </Typography>
+          {!support.extendedSearchBar
+             && (
+               <Fragment>
+                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography 
+                    onClick={() => {store.dispatch(setPage('dashboard'))}} 
+                    variant="h6" 
+                    className={classes.title} 
+                    style={{ minWidth: innerWidth > 520 ? "140px" : "70px", display: "flex" }}
+                  >
+                    {`Wordy ${innerWidth > 520 ? support.version : ""}`}
+                  </Typography>
+                </Fragment>
+             )
+          }
           <SearchBar />
           {user.isSignedIn && 
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages"

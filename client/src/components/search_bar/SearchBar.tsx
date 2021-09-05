@@ -1,6 +1,6 @@
 import React, { Fragment, useLayoutEffect, useState, useEffect } from 'react';
 // Type
-import { Language } from '../../types';
+import { State } from '../../types';
 // Translation
 import tr from './search_bar.tr.json';
 // Appbar
@@ -63,12 +63,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const SearchBar: React.FC = () => {
   const classes = useStyles();
   // Redux State
-  const language = useSelector((state: {language: Language}) => state.language);
+  const { language, support } = useSelector((state: State) => state);
   const ln = language;
   // State
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [searchBarLength, setSearchBarLength] = useState(720);
-
 
   // Get window size and apply, so that some of the functions may work!
   // FYI:  it fires synchronously after all DOM mutations, pretty much similar to useEffect
@@ -88,17 +87,24 @@ const SearchBar: React.FC = () => {
   const hdlSerachInputChange = (input: string) => {
     const trimmedInput = input.trim();
     if (trimmedInput.length > 0) {
-      store.dispatch(modifySupport({ searchData: trimmedInput }, false));
+      store.dispatch(modifySupport({ searchData: trimmedInput }, true));
     } else {
-      store.dispatch(modifySupport({ searchData: "" }, false));
+      store.dispatch(modifySupport({ searchData: "" }, true));
+    }
+
+    // unextend if data is empty
+    if (trimmedInput === "") {
+      store.dispatch(modifySupport({ extendedSearchBar: false }, true));
     }
   };
 
-  const hdlClickSearchIcon = () => {};
+  const hdlClickSearchIcon = () => {
+    store.dispatch(modifySupport({ extendedSearchBar: true }, true));
+  };
 
   return (
     <Fragment>
-      {innerWidth > 700
+      {support.extendedSearchBar || innerWidth > 700
         ? <Fragment>
             <div className={classes.search} style={{ width: searchBarLength }}>
               <div className={classes.searchIcon}>

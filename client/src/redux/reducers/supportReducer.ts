@@ -20,6 +20,7 @@ const initialState: Support = {
   recommandedTags: [],
   isDarkMode: false, // dark mode off by default.
   // personal setting
+  extendedSearchBar: false,
   isYearQuadrantEnabled: false,
   // Search Data
   searchData: "",
