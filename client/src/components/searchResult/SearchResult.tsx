@@ -47,7 +47,7 @@ const SearchResult: React.FC = () => {
         if (!found && enableExamplesearch && regex.exec(word.example) !== null) found = true;
         if (found) searchedWord.push(word);
       };
-    });
+    }); 
 
     setMatchingWord(searchedWord);
 
@@ -72,7 +72,7 @@ const SearchResult: React.FC = () => {
   const RenderSerachResult = matchingWord.length > 0
   ? (
     <Fragment>
-      <Typography style={{ textAlign: 'left', paddingLeft: 24}}>
+      <Typography style={{ paddingTop: 10 }}>
         {`${tr.found[ln]} ${matchingWord.length} ${tr.resultMeasurement[ln]}`}
       </Typography>
       <Grid style={{ margin: 8}}>

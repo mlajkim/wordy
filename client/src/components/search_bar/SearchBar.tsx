@@ -109,11 +109,13 @@ const SearchBar: React.FC = () => {
   };
 
   const hdlClickSearchIcon = () => {
+    setCancelSearchVisibility(true);
     store.dispatch(modifySupport({ extendedSearchBar: true }, true));
   };
 
   const hdlCancelSearchIcon = () => {
     store.dispatch(modifySupport({ searchData: "" }, true));
+    store.dispatch(modifySupport({ extendedSearchBar: false }, true));
     setCancelSearchVisibility(false);
   };
 
