@@ -1,0 +1,23 @@
+{
+  "found": {
+    "en": "Found",
+    "ko": "약",
+    "ja": "約"
+  },
+  "resultMeasurement": {
+    "en": "results",
+    "ko": "건",
+    "ja": "件"
+  },
+  "yourSearch": {
+    "en": "Your search - ",
+    "ko": "",
+    "ja": ""
+  },
+  "notFound": {
+    "en": " - did not match any documents.",
+    "ko": " 와(과) 일치하는 검색결과가 없습니다.",
+    "ja": " に一致する情報は見つかりませんでした。"
+  }
+  
+}

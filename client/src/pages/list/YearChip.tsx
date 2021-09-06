@@ -29,8 +29,8 @@ import {useSelector} from 'react-redux';
 import {getWords} from '../../redux/actions/wordsAction';
 
 type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'threeWeeksAgo' | 'monthAgo';
-const ADDING_MORE_WORDS_AMOUNT = 100;
-const DEFAULT_MORE_WORDS_AMOUNT = 100;
+const ADDING_MORE_WORDS_AMOUNT = 50;
+const DEFAULT_MORE_WORDS_AMOUNT = 50;
 // @ MAIN
 const YearChip = () => {
   // Redux states
