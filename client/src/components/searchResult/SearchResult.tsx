@@ -68,10 +68,14 @@ const SearchResult: React.FC = () => {
     </Tooltip>
   );
 
-
   const RenderSerachResult = matchingWord.length > 0
   ? (
     <Fragment>
+      <Typography style={{ paddingTop: 10, fontSize: `15px` }}>
+        {tr.thisIsTheResultOf[ln]}
+        <b>{support.searchData}</b>
+        {tr.thatWeFound[ln]}
+      </Typography>
       <Typography style={{ paddingTop: 10 }}>
         {`${tr.found[ln]} ${matchingWord.length} ${tr.resultMeasurement[ln]}`}
       </Typography>

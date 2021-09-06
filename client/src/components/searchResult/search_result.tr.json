@@ -4,6 +4,16 @@
     "ko": "약",
     "ja": "約"
   },
+  "thisIsTheResultOf": {
+    "en": "Search result of - ",
+    "ko": "\"",
+    "ja": "\""
+  },
+  "thatWeFound": {
+    "en": " -",
+    "ko": "\" 의 검색 결과",
+    "ja": "\" の検索結果"
+  },
   "resultMeasurement": {
     "en": "results",
     "ko": "건",
