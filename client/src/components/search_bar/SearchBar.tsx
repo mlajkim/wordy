@@ -99,11 +99,11 @@ const SearchBar: React.FC = () => {
       setCancelSearchVisibility(true);
     } else {
       store.dispatch(modifySupport({ searchData: "" }, true));
-      setCancelSearchVisibility(false);
+      if (!support.extendedSearchBar) setCancelSearchVisibility(false);
     }
 
     // unextend if data is empty
-    if (trimmedInput === "") {
+    if (!support.extendedSearchBar && trimmedInput === "") {
       store.dispatch(modifySupport({ extendedSearchBar: false }, true));
     }
   };
