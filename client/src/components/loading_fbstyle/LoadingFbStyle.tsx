@@ -8,11 +8,11 @@ const CIRCLE_THICKNESS = 4;
 const useStylesFacebook = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      position: 'relative',
+      position: 'absolute',
     },
     bottom: {
       color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-    },
+    },  
     top: {
       color: '#1a90ff',
       animationDuration: '550ms',
