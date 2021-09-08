@@ -24,6 +24,7 @@ const initialState: Support = {
   isYearQuadrantEnabled: false,
   // Search Data
   searchData: "",
+  searchingBegins: false,
 // reviewss
   mixedSem: 0,
   maxStep: 8,

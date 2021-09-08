@@ -83,7 +83,8 @@ export type Support = {
   extendedSearchBar: boolean;
   isYearQuadrantEnabled: boolean;
   // Search Data
-  searchData: string
+  searchData: string;
+  searchingBegins: boolean;
   // Reviews
   mixedSem: number;
   maxStep: number,
