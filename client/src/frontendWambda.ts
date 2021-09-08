@@ -8,6 +8,7 @@ import store from './redux/store';
 import { AvailableCookies } from './type/availableType';
 import { EventType } from './type/wordyEventType';
 import { setSnackbar } from './redux/actions';
+import { Word } from './types';
 
 // event Thrower
 export const throwEvent = async (eventType: EventType, requesterInputData?: any, tempAccessToken?: string) => {
@@ -58,3 +59,22 @@ export const addOrUpdateCookie = (cookieName: AvailableCookies, data: any, expir
   cookies.set(cookieName, data, { expires });
 };
 
+// Developed 
+type Condition = {
+  enableWordSearch?: boolean;
+  enableMeaningSearch?: boolean;
+  enableExamplesearch?: boolean;
+};
+
+export const wordSearchingAlgorithm = (searchData: string, words: Word[], condition: Condition): Word[] => {
+  const regex = new RegExp(`.*${searchData}.*`);
+
+  return words.filter(word => {
+    let found = false;
+    if (!found && condition.enableWordSearch && regex.exec(word.word) !== null) found = true;
+    if (!found && condition.enableMeaningSearch && regex.exec(word.meaning) !== null) found = true;
+    if (!found && condition.enableExamplesearch && regex.exec(word.example) !== null) found = true;
+
+    return found;
+  })
+};

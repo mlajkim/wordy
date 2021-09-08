@@ -4,12 +4,15 @@ import { State, Word } from '../../types';
 // Translation
 import tr from './search_result.tr.json';
 import trYearChip from '../../pages/list/year_chip.tr.json';
+// Lambda
+import { wordSearchingAlgorithm } from '../../frontendWambda';
 // Theme
 import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Action
+import { getWords } from '../../redux/actions/wordsAction';
 import { modifySupport } from '../../redux/actions/supportAction';
 // Material UI
 import Typography from '@material-ui/core/Typography';
@@ -27,6 +30,8 @@ const SEARCH_BEGINS_TERM_IN_SEC = 0.2;
 const enableWordSearch = true;
 const enableMeaningSearch = true;
 const enableExamplesearch = true;
+// customizing
+const USER_SEARCH_ONLY_THIS_YEAR = [213, 212, 211];
 
 const SearchResult: React.FC = () => {
   // Redux states
@@ -43,18 +48,43 @@ const SearchResult: React.FC = () => {
     const searchingAlgorithm = () => {
       const searchedWord: Word[] = [];
       const regex = new RegExp(`.*${support.searchData}.*`);
+      const alreadyDownloadedSems: number[] = [];
 
       words.forEach(wordChunk => {
-        for (const word of wordChunk) {
-          let found = false;
-          if (!found && enableWordSearch && regex.exec(word.word) !== null) found = true;
-          if (!found && enableMeaningSearch && regex.exec(word.meaning) !== null) found = true;
-          if (!found && enableExamplesearch && regex.exec(word.example) !== null) found = true;
-          if (found) searchedWord.push(word);
-        };
-      }); 
+        // push semester of the chunk into it
+        alreadyDownloadedSems.push(wordChunk[0].sem);
 
+        // Search and replace
+        searchedWord.push(...wordSearchingAlgorithm(support.searchData, wordChunk, {
+          enableWordSearch, enableMeaningSearch, enableExamplesearch
+        }));
+        
+      });
+
+      // Apply found one
       setMatchingWord(searchedWord);
+      
+      // get the not downloaded semseters
+      const notDownloadedSems: number[] = support.sems.filter(
+        sem => !alreadyDownloadedSems.includes(sem) && USER_SEARCH_ONLY_THIS_YEAR.findIndex(el => el === sem) !== -1
+      );
+
+      // Download from the semester 
+
+      
+
+      for (const undownloadeSem of notDownloadedSems) {
+        // download data.
+        store.dispatch(getWords(undownloadeSem));
+        const foundWords = words[words.length - 1].map(word => word);
+        searchedWord.push(...foundWords);
+      }
+
+      
+
+      // Apply found one
+      setMatchingWord(searchedWord);
+      
 
       // Finally turn off
       setSeraching(false);
@@ -66,7 +96,7 @@ const SearchResult: React.FC = () => {
       store.dispatch(modifySupport({ searchingBegins: false }, true));
       searchingAlgorithm();
     };
-  }, [words, support.searchData, support.searchingBegins]);
+  }, [words, support.searchData, support.sems, support.searchingBegins]);
 
   // Searching possible algoriuth 
 
