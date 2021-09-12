@@ -1,14 +1,16 @@
-import cookies from 'js-cookie';
-import axios from 'axios'
-import { WordyEvent } from './type/wordyEventType';
-import { pathFinder } from './type/wordyEventType';
-// Redux
-import store from './redux/store';
 // types
+import { WordyEvent, pathFinder } from './type/wordyEventType';
 import { AvailableCookies } from './type/availableType';
 import { EventType } from './type/wordyEventType';
-import { setSnackbar } from './redux/actions';
 import { Word } from './types';
+// Library
+import cookies from 'js-cookie';
+import axios from 'axios'
+// Redux
+import store from './redux/store';
+// Redux Action
+import { setSnackbar } from './redux/actions';
+
 
 // event Thrower
 export const throwEvent = async (eventType: EventType, requesterInputData?: any, tempAccessToken?: string) => {
@@ -66,6 +68,9 @@ type Condition = {
   enableExamplesearch?: boolean;
 };
 
+
+
+
 export const wordSearchingAlgorithm = (searchData: string, words: Word[], condition: Condition): Word[] => {
   const regex = new RegExp(`.*${searchData}.*`);
 
@@ -77,4 +82,4 @@ export const wordSearchingAlgorithm = (searchData: string, words: Word[], condit
 
     return found;
   })
-};
+}

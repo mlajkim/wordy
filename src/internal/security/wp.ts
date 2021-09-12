@@ -157,4 +157,24 @@ export const policyGrabber = (wpWrn?: AvailableWpWrn) => {
       // by default it is only available to the owner
       return PREDEFINED_ONLY_OWNER;
   }
-}
+};
+
+
+// This code is built by Yikumi
+// For the same name of function but diferent argument type
+
+/*
+
+type KmsReturningValue = "Encrypt" | "Decrpyt"
+function kmsService(serviceType: "Encrypt", encryptedDek:string):any;
+function kmsService(serviceType: "Decrpyt"): KmsReturningValue;
+function kmsService (serviceType: KmsReturningValue, encryptedDek?: string):any{
+  if(serviceType === "Encrypt") {
+      return serviceType + encryptedDek;
+    } else if (serviceType === "Decrpyt") {
+      return serviceType;
+  }
+};
+
+
+*/

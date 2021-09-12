@@ -4,7 +4,7 @@
 
 // Type
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
-  OkrContainerPure
+  OkrContainerPure, WordPure
 } from '../type/resourceType';
 import { 
   AvailableWpWrn,
@@ -15,10 +15,20 @@ import {
 // User service
 // ===============
 
-// word:detectLanguge
+// word:GET_WORD (Sep 9, 2021)
+export type WordGetWordInput = { sem: number };
+export type WordGetWordPayload = (ResourceId & WordPure)[];
+
+
+// word:DETECT_LANGUAGE
 export type wordDetectLanguagePayload = { language: string, isReliable: boolean, confidence: number }[];
 
-// user:createUser 
+
+// ===============
+// User service
+// ===============
+
+// user:CREATE_USER 
 export type UserCreateUserInput = {
   federalProvider: FederalProvider;
   validatingToken: string;

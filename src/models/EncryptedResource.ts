@@ -24,6 +24,8 @@ const encryptedResource: Record<keyof Resource, any> =   {
 // Finally export as a schema
 const encryptedResourceSchema = new Schema(encryptedResource);
 
+// Word
+export const WordModel = mongoose.model(`${ENCRYPTED}word`, encryptedResourceSchema);
 // Path importing
 export const UserModel = mongoose.model(`${ENCRYPTED}user`, encryptedResourceSchema);
 export const LogModel = mongoose.model(`${ENCRYPTED}log`, encryptedResourceSchema);

@@ -3,7 +3,8 @@
 
 
 export type HttpOnlyCookie = 'WordyAccessToken';
-export type AddableLn = "en" | "ko" | "ja"; // newer type, Aug 15, 2021 
+export type AddableLn = "en" | "ko" | "ja" | "zh";
+export type DisplayableLn = "en" | "ko" | "ja"; // newer type, Aug 15, 2021 
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
 export type FederalProvider = 'anonymous' | 'google';
 export type EncryptedDek = string;
@@ -22,7 +23,7 @@ export type JwtData = {
   wrn: Wrn,
   federalProvider: FederalProvider
   federalId: string;
-  ln: AddableLn;
+  ln: DisplayableLn;
   adminName?: string;
   iat?: number, // iniated at
   exp?: number, //validated unitl

@@ -1,18 +1,20 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // Type
 import { State, Word } from '../../types';
+// import { ResourceId, WordPure } from '../../type/resourceType';
+
 // Translation
 import tr from './search_result.tr.json';
 import trYearChip from '../../pages/list/year_chip.tr.json';
 // Lambda
-import { wordSearchingAlgorithm } from '../../frontendWambda';
+import {  wordSearchingAlgorithm } from '../../frontendWambda';
 // Theme
 import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Action
-import { getWords } from '../../redux/actions/wordsAction';
+// import { getWords } from '../../redux/actions/wordsAction';
 import { modifySupport } from '../../redux/actions/supportAction';
 // Material UI
 import Typography from '@material-ui/core/Typography';
@@ -24,6 +26,8 @@ import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Components
 import WordCard from '../word_card/WordCard';
+// import { WordGetWordPayload } from '../../type/payloadType';
+
 const ADDING_MORE_WORDS_AMOUNT = 50;
 const DEFAULT_MORE_WORDS_AMOUNT = 50;
 const SEARCH_BEGINS_TERM_IN_SEC = 0.2;
@@ -31,7 +35,7 @@ const enableWordSearch = true;
 const enableMeaningSearch = true;
 const enableExamplesearch = true;
 // customizing
-const USER_SEARCH_ONLY_THIS_YEAR = [213, 212, 211];
+// const USER_SEARCH_ONLY_THIS_YEAR = [213, 212, 211];
 
 const SearchResult: React.FC = () => {
   // Redux states
@@ -47,7 +51,6 @@ const SearchResult: React.FC = () => {
   useEffect(() => {
     const searchingAlgorithm = () => {
       const searchedWord: Word[] = [];
-      const regex = new RegExp(`.*${support.searchData}.*`);
       const alreadyDownloadedSems: number[] = [];
 
       words.forEach(wordChunk => {
@@ -58,37 +61,100 @@ const SearchResult: React.FC = () => {
         searchedWord.push(...wordSearchingAlgorithm(support.searchData, wordChunk, {
           enableWordSearch, enableMeaningSearch, enableExamplesearch
         }));
-        
+
       });
 
       // Apply found one
       setMatchingWord(searchedWord);
-      
+
+      /**
+       * 
+       * Written on Sep 13, 2021 
+       * The code below is actually written to download words when necessary.
+       * hopefully, 
+       */
+
+      /*
       // get the not downloaded semseters
       const notDownloadedSems: number[] = support.sems.filter(
         sem => !alreadyDownloadedSems.includes(sem) && USER_SEARCH_ONLY_THIS_YEAR.findIndex(el => el === sem) !== -1
       );
 
       // Download from the semester 
-
-      
-
       for (const undownloadeSem of notDownloadedSems) {
+        let forLoopFlag = false;
+        // download the data and get from it
+        throwEvent("word:getWord", { sem: undownloadeSem })
+        .then(res => {
+          // Validation
+          if (res.serverResponse !== "Accepted") forLoopFlag = true;
+          
+          if (res.serverResponse === "Accepted") {
+            const foundWordChunk = res.payload as WordGetWordPayload;
+  
+            // converted
+            const converted: Word[] = foundWordChunk.map(found => {
+              const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
+              return {
+                _id: legacyId,
+                ownerID: legacyOwnerId,
+                order: objectOrder ? objectOrder : 0, 
+                dateAdded: dateAdded ? dateAdded : 0, 
+                // Shared (the same)
+                isFavorite, sem, language, tag, word, pronun, meaning, example,
+                // Unused, but defined
+                lastReviewed: 0,
+                reviewdOn: [0], 
+                step: 0,
+                seederID: "", 
+                packageID: "", 
+                isPublic: false,
+                
+              }
+            })
+
+            searchedWord.push(...wordSearchingAlgorithm(support.searchData, converted, {
+              enableWordSearch, enableMeaningSearch, enableExamplesearch
+            }));
+          }
+        }); // end of throwEvent
+        
+        // break out of loop, if flag is on 
+        // Usually used for server not responding.
+        if (forLoopFlag) break;
+
         // download data.
-        store.dispatch(getWords(undownloadeSem));
-        const foundWords = words[words.length - 1].map(word => word);
-        searchedWord.push(...foundWords);
-      }
+        // store.dispatch(getWords(undownloadeSem));
+        
+        // get the data 
+        const foundWords = words.find(wordChunk => wordChunk[0].sem === undownloadeSem)
+        console.log(words);
+        if (typeof foundWords === 'undefined') break;
 
-      
+        console.log(foundWords);
 
+        // apply pushing
+        searchedWord.push(...wordSearchingAlgorithm(support.searchData, foundWords, {
+          enableWordSearch, enableMeaningSearch, enableExamplesearch
+        }));
+        
+      };
+     
       // Apply found one
       setMatchingWord(searchedWord);
-      
+
+      */
 
       // Finally turn off
       setSeraching(false);
-    };
+    }; // end of searchingAlgorithm()
+
+    // Make sure that certain character is not acceptable
+    // not allowing following
+    // [, ], \, +, ?, *, -
+    // This does not technically like .. tell the user that it should not be provided
+    // ideally, if you input such unrequired data, we should put \this kind of escape character for them.
+    support.searchData = support.searchData.replace(/[$&+,:;=?[\]@#|{}'<>.^*()%!-/]/g, "");
 
     // Runs the searching, only when it is admited.
     if (support.searchingBegins) {
@@ -96,7 +162,7 @@ const SearchResult: React.FC = () => {
       store.dispatch(modifySupport({ searchingBegins: false }, true));
       searchingAlgorithm();
     };
-  }, [words, support.searchData, support.sems, support.searchingBegins]);
+  }, [words, support]);
 
   // Searching possible algoriuth 
 

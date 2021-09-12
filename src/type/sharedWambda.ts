@@ -1,12 +1,12 @@
 // Types
 import { WordyEvent } from './wordyEventType';
-import { FederalProvider, AddableLn } from './availableType';
+import { FederalProvider, DisplayableLn } from './availableType';
 import { AddableLanguage } from './generalType';
 // External
 import moment from 'moment';
 
-// language selector
-export const sln = (RE: WordyEvent): AddableLn => {
+// language selector (sln = selcet language)
+export const sln = (RE: WordyEvent): DisplayableLn => {
   if (!RE.requesterInfo) return "en";
   return RE.requesterInfo.ln ? RE.requesterInfo.ln : "en";
 }
