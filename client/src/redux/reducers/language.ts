@@ -1,8 +1,12 @@
-import * as actions from '../actionTypes';
+// Type
+import { SET_LANGUAGE } from '../actionTypes';
+import { DisplayableLn } from '../../type/availableType';
 
-const langauge = (state = 'ko', action: any) => {
+const INITIAL_STATE: DisplayableLn = 'en'; 
+
+const langauge = (state = INITIAL_STATE, action: any) => {
   switch(action.type) {
-    case actions.SET_LANGUAGE:
+    case SET_LANGUAGE:
       return action.payload.toWhat;
       
     default:

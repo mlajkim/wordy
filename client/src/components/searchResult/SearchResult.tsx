@@ -53,6 +53,7 @@ const SearchResult: React.FC = () => {
     // [, ], \, +, ?, *, -
     // This does not technically like .. tell the user that it should not be provided
     // ideally, if you input such unrequired data, we should put \this kind of escape character for them.
+    // FYI, when you add character in []you do not need to esacpe. and therefore, only escape will be \]
     support.searchData = support.searchData.replace(/[$&+,:;=?[\]@#|{}'<>.^*()%!-/]/g, "");
 
     // Algorithm
@@ -79,10 +80,6 @@ const SearchResult: React.FC = () => {
       : support.sems.filter(
         sem => !alreadyDownloadedSems.includes(sem) && USER_SEARCH_ONLY_THIS_YEAR.findIndex(el => el === sem) !== -1
       );
-
-      console.log(notDownloadedSems);
-
-
 
       // Download from the semester 
       for (const undownloadeSem of notDownloadedSems) {
