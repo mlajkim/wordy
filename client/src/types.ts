@@ -1,6 +1,6 @@
-import { AddableLanguage } from './type/generalType';
 import { AvailableCookies } from './type/availableType';
 import { KeepStyleBtnProperty } from'./frontendTypes';
+import { LegacyPureWord } from './type/legacyType';
 
 export type State = {
   okrLoading: OkrLoading;
@@ -104,28 +104,7 @@ export type AddableLang = 'ko' | 'en' | 'ja' | 'zh';
 // 翻訳されてる言語
 export type Language = 'en' | 'ko' | 'ja';
 
-export type Word = {
-  _id: string,
-  ownerID: string,
-  order: number, 
-  dateAdded: number, 
-  // reviews
-  lastReviewed: number,
-  reviewdOn: number[], 
-  step: number,
-  // others
-  seederID: string, 
-  packageID: string, 
-  isFavorite: boolean,
-  sem: number,
-  language: AddableLanguage,
-  tag: string[],
-  word: string,
-  pronun: string,
-  meaning: string,
-  example: string,
-  isPublic: boolean,
-}
+export type Word = LegacyPureWord;
 
 export type GoogleRes = {
   googleId: string;

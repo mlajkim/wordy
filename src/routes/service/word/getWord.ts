@@ -16,12 +16,14 @@ import express, {  Request, Response } from 'express';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { WordGetWordInput, WordGetWordPayload } from '../../../type/payloadType';
+import { LegacyPureWord } from '../../../type/legacyType';
 // import { Wrn } from '../../../type/availableType';
 import { Resource, ResourceId, WordPure } from '../../../type/resourceType';
 // Lambda
 import { intoPayload } from '../../../internal/compute/backendWambda';
 // Model
 import { WordModel } from '../../../models/EncryptedResource';
+import LegacyWordModel from '../../../models/Words';
 // mdl
 import * as OTM from '../../middleware/onlyToMdl'
 // Gateway
@@ -37,8 +39,7 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent;
 
   // Data validation
-  const { sem } = RE.requesterInputData as WordGetWordInput;
-  console.log(sem);
+  const { sem, legacyMongoId } = RE.requesterInputData as WordGetWordInput;
 
   // Find the word with the sem data from encrypted daat (TEMP)
   // This is the newest version
@@ -61,6 +62,29 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       decrypted.push(decryptedRes);
     };
   };
+
+  // Get the legacy word data
+  const legacyWords = await LegacyWordModel.find({ ownerID: legacyMongoId, sem }) as LegacyPureWord[];
+  const converted = legacyWords.map(foundWord => {
+    const { dateAdded, order, isFavorite, sem, language, tag, word, pronun, meaning, example, _id, ownerID } = foundWord;
+
+    const convertedWord: ResourceId & WordPure = {
+      wrn: `wrn::word:${sem}:mdb:${_id}:`,
+      ownerWrn: RE.requesterWrn!,
+      objectOrder: order,
+      // might add dateAdded;
+      resoureAvailability: "Visible",
+      dateAdded, isFavorite, sem, language, tag, word, pronun, meaning, example,
+      // legacy
+      legacyOwnerId: ownerID,
+      legacyId: _id,
+    };
+
+    return convertedWord;
+  });
+
+  // Push the found legacy data
+  decrypted.push(...converted);
 
   // Apply found payload
   RE.payload = decrypted;

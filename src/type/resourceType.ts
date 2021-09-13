@@ -3,7 +3,7 @@ import {
   AvailableCmkWrn, 
   EncryptionMethod, 
   EncryptedDek, Wrn, AvailableWpWrn,
-  OkrObjectType, AddableLn
+  OkrObjectType, AddableLn, AssignedIdentity
 } from './availableType';
 
 export type Resource = {
@@ -26,7 +26,7 @@ export type Resource = {
 
 export type ResourceId = {
   wrn: Wrn;
-  ownerWrn: Wrn;
+  ownerWrn: Wrn | AssignedIdentity;
   dateAdded?: number;
   // basic info
   objectOrder?: number;

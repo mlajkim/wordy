@@ -16,7 +16,7 @@ import {
 // ===============
 
 // word:GET_WORD (Sep 9, 2021)
-export type WordGetWordInput = { sem: number };
+export type WordGetWordInput = { sem: number, legacyMongoId: string };
 export type WordGetWordPayload = (ResourceId & WordPure)[];
 
 
