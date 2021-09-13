@@ -4,8 +4,8 @@ import { UPDATE_SUPPORT } from '../actions/supportAction';
 
 
 const initialState: Support = {
-  version: 'v0.5.0',
-  isBeta: false,
+  version: 'v0.5.1',
+  isBeta: true,
   versionDate: 'Sep 13, 2021',
   status: null,
   addWordLangPref: 'en', // user's prefrenece of adding language

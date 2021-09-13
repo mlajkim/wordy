@@ -40,9 +40,11 @@ const SearchResult: React.FC = () => {
   // Redux states
   const { support, words, language, user } = useSelector((state: State) => state);
   const ln = language;
-  const [ isSearching, setSeraching ] = useState<boolean>(true); 
   const [ matchingWord, setMatchingWord ] = useState<Word[]>([]);
   const [ wordCardsMax, setWordCardsMax ] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
+  // Loading
+  const [ isSearching, setSeraching ] = useState<boolean>(true); 
+  const [ stillDownloading, setStillDownloading ] = useState<boolean>(true);
   // Searching enabled
   const [ lastSearch , setLastSearch ] = useState<string>("");
 
@@ -73,12 +75,10 @@ const SearchResult: React.FC = () => {
 
       // Apply found one
       setMatchingWord(searchedWord);
+      setSeraching(false); // This could be happen because you can just show them the list!
 
       // if user does not prefer to download all those data, it won't progress.
-      if (support.searchOnlyDownloaded) {
-        setSeraching(false);
-        return;
-      };
+      if (support.searchOnlyDownloaded) return;
 
       // get the not downloaded semseters
       const notDownloadedSems: number[] = USER_SEARCH_ALLOW_ALL
@@ -130,7 +130,7 @@ const SearchResult: React.FC = () => {
       }; // End of For Loop (const undownloadeSem of notDownloadedSems)
 
       // Finally turn off
-      setSeraching(false);
+      setStillDownloading(false);
 
     }; // end of searchingAlgorithm()
 
@@ -178,6 +178,7 @@ const SearchResult: React.FC = () => {
   const RenderSerachResult = matchingWord.length > 0
   ? (
     <Fragment>
+      { !isSearching && stillDownloading && <LoadingFbStyle />}
       <Typography style={{ paddingTop: 10, fontSize: `15px` }}>
         {tr.thisIsTheResultOf[ln]}
         <b>{support.searchData}</b>

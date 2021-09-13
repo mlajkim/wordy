@@ -40,8 +40,6 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Data validation
   const { sem, legacyMongoId } = RE.requesterInputData as WordGetWordInput;
-  // test
-  console.log(sem);
   
   // Find the word with the sem data from encrypted daat (TEMP)
   // This is the newest version
