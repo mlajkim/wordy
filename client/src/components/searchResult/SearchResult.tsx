@@ -1,20 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react';
 // Type
 import { State, Word } from '../../types';
-// import { ResourceId, WordPure } from '../../type/resourceType';
-
 // Translation
 import tr from './search_result.tr.json';
 import trYearChip from '../../pages/list/year_chip.tr.json';
 // Lambda
-import {  wordSearchingAlgorithm } from '../../frontendWambda';
+import { throwEvent, wordSearchingAlgorithm } from '../../frontendWambda';
 // Theme
 import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Action
-// import { getWords } from '../../redux/actions/wordsAction';
 import { modifySupport } from '../../redux/actions/supportAction';
 // Material UI
 import Typography from '@material-ui/core/Typography';
@@ -26,7 +23,7 @@ import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Components
 import WordCard from '../word_card/WordCard';
-// import { WordGetWordPayload } from '../../type/payloadType';
+import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType';
 
 const ADDING_MORE_WORDS_AMOUNT = 50;
 const DEFAULT_MORE_WORDS_AMOUNT = 50;
@@ -35,11 +32,11 @@ const enableWordSearch = true;
 const enableMeaningSearch = true;
 const enableExamplesearch = true;
 // customizing
-// const USER_SEARCH_ONLY_THIS_YEAR = [213, 212, 211];
+const USER_SEARCH_ONLY_THIS_YEAR = [213, 212, 211];
 
 const SearchResult: React.FC = () => {
   // Redux states
-  const { support, words, language } = useSelector((state: State) => state);
+  const { support, words, language, user } = useSelector((state: State) => state);
   const ln = language;
   const [ isSearching, setSeraching ] = useState<boolean>(true); 
   const [ matchingWord, setMatchingWord ] = useState<Word[]>([]);
@@ -49,7 +46,15 @@ const SearchResult: React.FC = () => {
 
   // Search Algorithm (Forntend)
   useEffect(() => {
-    const searchingAlgorithm = () => {
+    // Make sure that certain character is not acceptable
+    // not allowing following
+    // [, ], \, +, ?, *, -
+    // This does not technically like .. tell the user that it should not be provided
+    // ideally, if you input such unrequired data, we should put \this kind of escape character for them.
+    support.searchData = support.searchData.replace(/[$&+,:;=?[\]@#|{}'<>.^*()%!-/]/g, "");
+
+    // Algorithm
+    const searchingAlgorithm = async () => {
       const searchedWord: Word[] = [];
       const alreadyDownloadedSems: number[] = [];
 
@@ -61,108 +66,69 @@ const SearchResult: React.FC = () => {
         searchedWord.push(...wordSearchingAlgorithm(support.searchData, wordChunk, {
           enableWordSearch, enableMeaningSearch, enableExamplesearch
         }));
-
       });
 
       // Apply found one
       setMatchingWord(searchedWord);
 
-      /**
-       * 
-       * Written on Sep 13, 2021 
-       * The code below is actually written to download words when necessary.
-       * hopefully, 
-       */
-
-      /*
       // get the not downloaded semseters
       const notDownloadedSems: number[] = support.sems.filter(
         sem => !alreadyDownloadedSems.includes(sem) && USER_SEARCH_ONLY_THIS_YEAR.findIndex(el => el === sem) !== -1
       );
 
+
       // Download from the semester 
       for (const undownloadeSem of notDownloadedSems) {
-        let forLoopFlag = false;
         // download the data and get from it
-        throwEvent("word:getWord", { sem: undownloadeSem })
+        const input: WordGetWordInput = { sem: undownloadeSem, legacyMongoId: user.ID! }
+        await throwEvent("word:getWord", input)
         .then(res => {
-          // Validation
-          if (res.serverResponse !== "Accepted") forLoopFlag = true;
+          if (res.serverResponse !== "Accepted") return;
           
-          if (res.serverResponse === "Accepted") {
-            const foundWordChunk = res.payload as WordGetWordPayload;
-  
-            // converted
-            const converted: Word[] = foundWordChunk.map(found => {
-              const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
-              return {
-                _id: legacyId,
-                ownerID: legacyOwnerId,
-                order: objectOrder ? objectOrder : 0, 
-                dateAdded: dateAdded ? dateAdded : 0, 
-                // Shared (the same)
-                isFavorite, sem, language, tag, word, pronun, meaning, example,
-                // Unused, but defined
-                lastReviewed: 0,
-                reviewdOn: [0], 
-                step: 0,
-                seederID: "", 
-                packageID: "", 
-                isPublic: false,
-                
-              }
-            })
+          const foundWordChunk = res.payload as WordGetWordPayload;
 
-            searchedWord.push(...wordSearchingAlgorithm(support.searchData, converted, {
-              enableWordSearch, enableMeaningSearch, enableExamplesearch
-            }));
-          }
+          // converted
+          const converted: Word[] = foundWordChunk.map(found => {
+            const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
+            return {
+              _id: legacyId,
+              ownerID: legacyOwnerId,
+              order: objectOrder ? objectOrder : 0, 
+              dateAdded: dateAdded ? dateAdded : 0, 
+              // Shared (the same)
+              isFavorite, sem, language, tag, word, pronun, meaning, example,
+              // Unused, but defined
+              lastReviewed: 0,
+              reviewdOn: [0], 
+              step: 0,
+              seederID: "", 
+              packageID: "", 
+              isPublic: false,
+            }
+          });
+
+          searchedWord.push(...wordSearchingAlgorithm(support.searchData, converted, {
+            enableWordSearch, enableMeaningSearch, enableExamplesearch
+          }));
+          
+          setMatchingWord(searchedWord);
         }); // end of throwEvent
         
-        // break out of loop, if flag is on 
-        // Usually used for server not responding.
-        if (forLoopFlag) break;
-
-        // download data.
-        // store.dispatch(getWords(undownloadeSem));
-        
-        // get the data 
-        const foundWords = words.find(wordChunk => wordChunk[0].sem === undownloadeSem)
-        console.log(words);
-        if (typeof foundWords === 'undefined') break;
-
-        console.log(foundWords);
-
-        // apply pushing
-        searchedWord.push(...wordSearchingAlgorithm(support.searchData, foundWords, {
-          enableWordSearch, enableMeaningSearch, enableExamplesearch
-        }));
-        
-      };
-     
-      // Apply found one
-      setMatchingWord(searchedWord);
-
-      */
+      }; // End of For Loop (const undownloadeSem of notDownloadedSems)
 
       // Finally turn off
       setSeraching(false);
+
     }; // end of searchingAlgorithm()
 
-    // Make sure that certain character is not acceptable
-    // not allowing following
-    // [, ], \, +, ?, *, -
-    // This does not technically like .. tell the user that it should not be provided
-    // ideally, if you input such unrequired data, we should put \this kind of escape character for them.
-    support.searchData = support.searchData.replace(/[$&+,:;=?[\]@#|{}'<>.^*()%!-/]/g, "");
 
     // Runs the searching, only when it is admited.
     if (support.searchingBegins) {
-      setLastSearch(support.searchData)
+      setLastSearch(support.searchData);
       store.dispatch(modifySupport({ searchingBegins: false }, true));
       searchingAlgorithm();
     };
-  }, [words, support]);
+  }, [words, support, user.ID]);
 
   // Searching possible algoriuth 
 

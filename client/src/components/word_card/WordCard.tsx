@@ -22,7 +22,8 @@ import StarReviewIocn from '@material-ui/icons/PlayArrow';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Actions
-import {setDialog} from '../../redux/actions';
+import { modifySupport } from '../../redux/actions/supportAction';
+import { setDialog } from '../../redux/actions';
 import { modifyWords } from '../../redux/actions/wordsAction';
 import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
 
@@ -48,6 +49,7 @@ const WordCard: React.FC<Props> = ({word}) => {
   const handleToolClick = (type: Type) => {
     switch(type) {
       case 'like':
+        store.dispatch(modifySupport({ searchingBegins: true }, true));
         store.dispatch(modifyWords(word.sem, [{wordID: word._id, payload: {isFavorite: !word.isFavorite}}]));
         break;
 

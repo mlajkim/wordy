@@ -21,6 +21,7 @@ import TextField from '@material-ui/core/TextField';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Actions
+import { modifySupport } from '../../redux/actions/supportAction';
 import { offDialog, setSnackbar } from '../../redux/actions';
 import { modifyWords } from '../../redux/actions/wordsAction';
 // Material UI
@@ -49,6 +50,7 @@ export default function EditDialog() {
 
   // Methods
   const handleSave = () => {
+    store.dispatch(modifySupport({ searchingBegins: true }, true));
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.editedMessage[ln], 'info'));
     store.dispatch(modifyWords(prevWord.sem, [{wordID: prevWord._id, payload: {word, pronun, meaning, example, tag: tags, language: editLanguage}}]));

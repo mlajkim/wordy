@@ -10,11 +10,13 @@ import { State } from '../../types';
 import tr from './confirm_delete.tr.json';
 // Redux
 import store from '../../redux/store';
-import {deleteWords} from '../../redux/actions/wordsAction';
-import {offDialog, setSnackbar} from '../../redux/actions';
-import {useSelector} from 'react-redux';
+import { deleteWords } from '../../redux/actions/wordsAction';
+// Redux Action
+import { modifySupport } from '../../redux/actions/supportAction';
+import { offDialog, setSnackbar } from '../../redux/actions';
+import { useSelector } from 'react-redux';
 
-type CustomPayloadType = { sem: number, IDs: {ID: string}[] }
+type CustomPayloadType = { sem: number, IDs: {ID: string}[] } 
 
 const  ConfirmDelete:React.FC= () => {
   // Redux States
@@ -24,6 +26,7 @@ const  ConfirmDelete:React.FC= () => {
 
   // Methods
   const handleDelete = () => {
+    store.dispatch(modifySupport({ searchingBegins: true }, true));
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.deletedMessage[ln]));
     store.dispatch(deleteWords(sem, IDs));
