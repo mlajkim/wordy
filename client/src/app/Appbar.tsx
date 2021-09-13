@@ -133,7 +133,7 @@ const Appbar = () => {
                 </Fragment>
              )
           }
-          <SearchBar />
+          { user.isSignedIn && <SearchBar /> }
           {user.isSignedIn && 
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages"
               onClick={() => handleAddWordClick()}>
