@@ -12,6 +12,7 @@ import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Action
+import { setWords } from '../../redux/actions/wordsAction';
 import { modifySupport } from '../../redux/actions/supportAction';
 // Material UI
 import Typography from '@material-ui/core/Typography';
@@ -32,7 +33,8 @@ const enableWordSearch = true;
 const enableMeaningSearch = true;
 const enableExamplesearch = true;
 // customizing
-const USER_SEARCH_ONLY_THIS_YEAR = [213, 212, 211];
+const USER_SEARCH_ALLOW_ALL = true;
+const USER_SEARCH_ONLY_THIS_YEAR = [213];
 
 const SearchResult: React.FC = () => {
   // Redux states
@@ -72,9 +74,14 @@ const SearchResult: React.FC = () => {
       setMatchingWord(searchedWord);
 
       // get the not downloaded semseters
-      const notDownloadedSems: number[] = support.sems.filter(
+      const notDownloadedSems: number[] = USER_SEARCH_ALLOW_ALL
+      ? support.sems.filter(sem => !alreadyDownloadedSems.includes(sem)) // just do all
+      : support.sems.filter(
         sem => !alreadyDownloadedSems.includes(sem) && USER_SEARCH_ONLY_THIS_YEAR.findIndex(el => el === sem) !== -1
       );
+
+      console.log(notDownloadedSems);
+
 
 
       // Download from the semester 
@@ -106,6 +113,9 @@ const SearchResult: React.FC = () => {
               isPublic: false,
             }
           });
+
+          // Frontend...?
+          store.dispatch(setWords(converted));
 
           searchedWord.push(...wordSearchingAlgorithm(support.searchData, converted, {
             enableWordSearch, enableMeaningSearch, enableExamplesearch
@@ -168,7 +178,11 @@ const SearchResult: React.FC = () => {
         {`${tr.found[ln]} ${matchingWord.length} ${tr.resultMeasurement[ln]}`}
       </Typography>
       <Grid style={{ margin: 8}}>
-        { matchingWord.slice(0, wordCardsMax).map(word => <WordCard word={word} key={word._id} />) }
+        { matchingWord.slice(0, wordCardsMax)
+        .sort((a, b) => b.order - a.order) // Second show by the order number
+        .sort((a, b) => b.sem - a.sem) // First show the latest 
+        .map(word => <WordCard word={word} key={word._id} />)
+        }
       </Grid>
       { wordCardsMax < matchingWord.length && RenderMoreButton }
       <Tooltip title={trYearChip.toTopOfPage[ln]} placement="bottom">
