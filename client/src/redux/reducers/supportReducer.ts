@@ -22,6 +22,8 @@ const initialState: Support = {
   // personal setting
   extendedSearchBar: false,
   isYearQuadrantEnabled: false,
+  // Search pref
+  searchOnlyDownloaded: true,
   // Search Data
   searchData: "",
   searchingBegins: false,

@@ -81,6 +81,13 @@ const SettingDialog: React.FC = () => {
       label: tr.customizeSemester[ln],
       onChange: () => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }))
     },
+    // SEARCH SETTING
+    {
+      value: 'searchOnlyDownloaded',
+      checked: support.searchOnlyDownloaded,
+      label: tr.searchOnlyDownloaded[ln],
+      onChange: () => store.dispatch(modifySupport({ searchOnlyDownloaded: !support.searchOnlyDownloaded }))
+    },
     // From the word list setting
     {
       value: 'setDisplayTypeWordCard',
@@ -135,9 +142,15 @@ const SettingDialog: React.FC = () => {
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
+                {tr.searchSetting[ln]}
+            </Typography>
+            { DrawCheckbox.slice(2, 3) }
+          </FormGroup>
+          <FormGroup style={{ marginTop: 15}}>
+            <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
                 {tr.listSetting[ln]}
             </Typography>
-            { DrawCheckbox.slice(2) }
+            { DrawCheckbox.slice(3) }
           </FormGroup>
         </DialogContent>
       </Dialog>

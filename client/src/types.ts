@@ -82,6 +82,8 @@ export type Support = {
   // Personal Setting
   extendedSearchBar: boolean;
   isYearQuadrantEnabled: boolean;
+  // Search Setting
+  searchOnlyDownloaded: boolean; // if truned in, it only downloads 
   // Search Data
   searchData: string;
   searchingBegins: boolean;

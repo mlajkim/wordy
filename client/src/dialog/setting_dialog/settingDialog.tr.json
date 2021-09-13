@@ -24,6 +24,11 @@
     "ko": "리스트 설정",
     "ja": "リスト設定"
   },
+  "searchSetting": {
+    "en": "Search Setting",
+    "ko": "검색 설정",
+    "ja": "検索設定"
+  },
   "setDisplayTypeWordCard": {
     "en": "Enable wordcard style",
     "ko": "워드카드 사용",
@@ -38,5 +43,10 @@
     "en": "Words in a descending order",
     "ko": "단어를 최근순으로 정렬",
     "ja": "単語を最新順で並べる"
+  },
+  "searchOnlyDownloaded": {
+    "en": "Search only within already-downloaded data (Data Saving)",
+    "ko": "이미 다운로드 되어있는 단어에서만 검색 (데이터 절약)",
+    "ja": "すでにダウンロードされたデータのみ検索 (データ節約)"
   }
 }

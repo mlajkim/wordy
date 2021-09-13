@@ -28,6 +28,11 @@
     "en": " - did not match any documents.",
     "ko": " 와(과) 일치하는 검색결과가 없습니다.",
     "ja": " に一致する情報は見つかりませんでした。"
+  },
+  "currentlyShowingOnlyDownloadedSem": {
+    "en": "Only showing downloaded sem",
+    "ko": "현재 다운로드 범위에서의 결과입니다",
+    "ja": "ダウンロードされた範囲での検索結果です"
   }
   
 }

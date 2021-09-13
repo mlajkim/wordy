@@ -74,6 +74,12 @@ const SearchResult: React.FC = () => {
       // Apply found one
       setMatchingWord(searchedWord);
 
+      // if user does not prefer to download all those data, it won't progress.
+      if (support.searchOnlyDownloaded) {
+        setSeraching(false);
+        return;
+      };
+
       // get the not downloaded semseters
       const notDownloadedSems: number[] = USER_SEARCH_ALLOW_ALL
       ? support.sems.filter(sem => !alreadyDownloadedSems.includes(sem)) // just do all
@@ -155,6 +161,12 @@ const SearchResult: React.FC = () => {
     setWordCardsMax(wordCardsMax + ADDING_MORE_WORDS_AMOUNT);
   };
 
+  const RenderWarningOnlyDownloaded = support.searchOnlyDownloaded && (
+    <Typography style={{ fontSize: 11, color: 'gray', paddingTop: 10 }}>
+      {support.searchOnlyDownloaded && tr.currentlyShowingOnlyDownloadedSem[ln] }
+    </Typography>
+  )
+
   const RenderMoreButton = matchingWord.length > DEFAULT_MORE_WORDS_AMOUNT && (
     <Tooltip title={trYearChip.expandMore[ln]} placement="bottom">
       <IconButton className={"ShowMoreButton"} color="inherit" aria-label="more" onClick={() => handleMoreClick()}>
@@ -174,6 +186,7 @@ const SearchResult: React.FC = () => {
       <Typography style={{ paddingTop: 10 }}>
         {`${tr.found[ln]} ${matchingWord.length} ${tr.resultMeasurement[ln]}`}
       </Typography>
+      { RenderWarningOnlyDownloaded }
       <Grid style={{ margin: 8}}>
         { matchingWord.slice(0, wordCardsMax)
         .sort((a, b) => b.order - a.order) // Second show by the order number
@@ -190,9 +203,12 @@ const SearchResult: React.FC = () => {
     </Fragment>
   )
   : (
-    <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, minHeight: '30vh' }}>
-      {`${tr.yourSearch[ln]}`}<b>{`${support.searchData}`}</b>{`${tr.notFound[ln]}`}
-    </Typography>
+    <Fragment>
+      <Typography component="div" style={{ backgroundColor: support.isDarkMode ? listDark : listLight, paddingTop: 10 }}>
+        {`${tr.yourSearch[ln]}`}<b>{`${support.searchData}`}</b>{`${tr.notFound[ln]}`}
+      </Typography>
+      { RenderWarningOnlyDownloaded }
+    </Fragment>
   );
   
   return (
