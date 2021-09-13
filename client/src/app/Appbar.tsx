@@ -153,13 +153,11 @@ const Appbar = () => {
                     </Tooltip>
                 }
               </IconButton>
-              <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
-              <TranslateIcon fontSize="small" />
-            </IconButton>
             </Fragment>
           }
-          
-          
+          <IconButton className={"languageButton"} color="inherit" aria-label="language" onClick={(e) => handleClick(e)}>
+            <TranslateIcon fontSize="small" />
+          </IconButton>
           <Menu
             id="simple-menu"
             anchorEl={menu}
