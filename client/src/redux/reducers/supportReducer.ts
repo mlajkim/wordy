@@ -20,6 +20,7 @@ const initialState: Support = {
   recommandedTags: [],
   isDarkMode: false, // dark mode off by default.
   // personal setting
+  displayingLnUserPref: ['en', 'zh', 'ja', 'ko'], // The order is from the size of the langauge
   extendedSearchBar: false,
   isYearQuadrantEnabled: false,
   // Search pref

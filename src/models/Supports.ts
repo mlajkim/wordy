@@ -17,6 +17,7 @@ const supportSchema = new Schema({
   isDarkMode: Boolean,
   // Search Preference
   searchOnlyDownloaded: Boolean,
+  displayingLnUserPref: String,
 });
 
 export default mongoose.model('supports', supportSchema); 

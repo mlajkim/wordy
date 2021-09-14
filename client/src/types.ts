@@ -82,6 +82,7 @@ export type Support = {
   // Personal Setting
   extendedSearchBar: boolean;
   isYearQuadrantEnabled: boolean;
+  displayingLnUserPref: AddableLang[];
   // Search Setting
   searchOnlyDownloaded: boolean; // if truned in, it only downloads 
   // Search Data
@@ -104,6 +105,7 @@ export type NewWordAddingType = 'one' | 'mass';
 // 追加できる言語
 export type AddableLang = 'ko' | 'en' | 'ja' | 'zh';
 // 翻訳されてる言語
+export type DisplayingLn = Language;
 export type Language = 'en' | 'ko' | 'ja';
 
 export type Word = LegacyPureWord;

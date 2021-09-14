@@ -9,7 +9,7 @@ import { graphqlHTTP } from 'express-graphql';
 import schema from './routes/graphql';
 // Routers
 import api from './routes/api';
-import apigateway from './routes/apigateway'
+import apigateway from './routes/apigateway';
 
 const app = express();
 const PORT = process.env.PORT || 80;
@@ -26,7 +26,7 @@ app.use('/api', api); //REST API
 app.use('/apigateway', apigateway); //REST API
 app.use('/graphql', graphqlHTTP({ schema, graphiql: true }));  //GraphQL
 app.get('*', (_req: Request, res: Response) => {
-  res.sendFile('index.html', {root: path.join(__dirname, '../client/build/')});
+  res.sendFile('index.html', { root: path.join(__dirname, '../client/build/') });
 });
 
 // 2020-2021 OPTION
@@ -55,13 +55,17 @@ console.log(`${new Date().toString()}`);
 console.log("*********************************************************");
 console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
+// This is pretty interesting approach as if arugment is not specifically defined 'dev'
+// The server will be consdering the 443 protocol (production)
+// This data is also used for other apigateway to act differetnly, such as connect to DB 
 export const IS_DEV_MODE = process.argv[2] === 'dev';
-if(IS_DEV_MODE) {
+
+if (IS_DEV_MODE) {
   app.listen(PORT, () => {
     console.log(`DEVELOPMENT NON-SECURED SERVER running at PORT ${PORT}`);
   })
 } else {
-  // Begin the express server
+  // ****** RUNS HTTPS PRODUCTION SERVER ******
   https.createServer(option, app).listen(PORTHTTPS, () => {
     console.log(`ACTUAL SERVER running at PORT ${PORTHTTPS} (HTTPS)`);
   })
