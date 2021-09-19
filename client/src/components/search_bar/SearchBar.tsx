@@ -1,6 +1,7 @@
 import React, { Fragment, useLayoutEffect, useState } from 'react';
 // Type
 import { State } from '../../types';
+import { SEARCH_BAR_ID } from '../../type/predefined';
 // Translation
 import tr from './search_bar.tr.json';
 // Appbar
@@ -112,7 +113,7 @@ const SearchBar: React.FC = () => {
     setCancelSearchVisibility(true);
     store.dispatch(modifySupport({ extendedSearchBar: true }, true));
   };
-
+  
   const hdlCancelSearchIcon = () => {
     store.dispatch(modifySupport({ searchData: "" }, true));
     store.dispatch(modifySupport({ extendedSearchBar: false }, true));
@@ -128,6 +129,7 @@ const SearchBar: React.FC = () => {
                 <SearchIcon />
               </div>
               <InputBase
+                id={SEARCH_BAR_ID}
                 placeholder={tr.search[ln]}
                 onChange={(e) => hdlSerachInputChange(e.target.value)}
                 value={support.searchData}

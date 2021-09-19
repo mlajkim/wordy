@@ -1,7 +1,6 @@
 // Commented on Aug 8, 2021
 // This type is valid
 
-
 export type HttpOnlyCookie = 'WordyAccessToken';
 export type AddableLn = "en" | "ko" | "ja" | "zh";
 export type DisplayableLn = "en" | "ko" | "ja"; // newer type, Aug 15, 2021 

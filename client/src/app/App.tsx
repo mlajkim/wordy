@@ -3,6 +3,7 @@ import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Types
 import { State } from '../types';
+import { SEARCH_BAR_ID } from '../type/predefined';
 // Component
 import AppbarNotice from './AppbarNotice';
 import Appbar from './Appbar';
@@ -29,7 +30,8 @@ import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 
 
 const keyMap = {  
-  OPEN_ADDER: [shortcut.CMD_ENTER.mac.hotKey, shortcut.CMD_ENTER.windows.hotKey]
+  OPEN_ADDER: [shortcut.CMD_ENTER.mac.hotKey, shortcut.CMD_ENTER.windows.hotKey],
+  BEGIN_SEARCH: [shortcut.CMD_SHIFT_S.mac.hotKey, shortcut.CMD_SHIFT_S.windows.hotKey],
 };
 
 const App: React.FC = () => {
@@ -62,6 +64,12 @@ const App: React.FC = () => {
           if (support.newWordAddingType === 'one') store.dispatch(setDialog('AddWordsDialog'));
           else store.dispatch(setDialog('MassWordsDialog'));
         }
+      },
+      BEGIN_SEARCH: () => {
+        // Slight logical bug as new html is generated but it fails to find the search bar id. (if you hit the command again, it works)
+        // if (!support.extendedSearchBar) store.dispatch(modifySupport({ extendedSearchBar: true }, true));
+        const foundSearchBar = document.getElementById(SEARCH_BAR_ID);
+        if (foundSearchBar) foundSearchBar.focus();
       }
     };
 
