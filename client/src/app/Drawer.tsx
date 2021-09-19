@@ -1,16 +1,18 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+// Tr
+import * as tr from './drawer.tr.json'
+import menuTr from '../components/menu/menu.tr.json';
+import { State } from '../types';
+import appbarTr from '../app/appbar.tr.json';
+// MUI
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// Translation
-import * as tr from './drawer.tr.json'
-import menuTr from '../components/menu/menu.tr.json';
-import { State } from '../types';
-import appbarTr from '../app/appbar.tr.json';
-// Icons
+import Typography from '@material-ui/core/Typography';
+// MUI Icons
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ReviewIcon from '@material-ui/icons/ImportContacts';
@@ -89,17 +91,24 @@ const DrawerComponent = (props: any) => {
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary={appbarTr.setting[ln]} />
           </ListItem>
-          {
+          {/*
+            This used to be served as admin only feature, but decided not to use.
             support.status === 'admin' &&
             (
               <ListItem button >
                 <ListItemText style={{fontSize: 4}} primary={`Admin (Not visible)`} onClick={() => handleChangePage('admin')} />
               </ListItem>
             )
-          }
+            */}
           <ListItem disabled >
-            <ListItemText style={{fontSize: 4}} primary={`Beta ${support.version} (${support.versionDate})`} />
+            <ListItemText style={{ fontSize: 4 }} primary={`Beta ${support.version} (${support.versionDate})`} />
           </ListItem>
+          <ListItem disabled >
+            <Typography style={{ fontSize: 10}}>
+              <i>{`Developed and maintained by AJ`}</i>
+            </Typography>
+          </ListItem>
+          
         </Drawer>
       </React.Fragment>
     </div>
