@@ -72,13 +72,13 @@ type Condition = {
 
 
 export const wordSearchingAlgorithm = (searchData: string, words: Word[], condition: Condition): Word[] => {
-  const regex = new RegExp(`.*${searchData}.*`);
+  const regex = new RegExp(`.*${searchData.toLowerCase()}.*`);
 
   return words.filter(word => {
     let found = false;
-    if (!found && condition.enableWordSearch && regex.exec(word.word) !== null) found = true;
-    if (!found && condition.enableMeaningSearch && regex.exec(word.meaning) !== null) found = true;
-    if (!found && condition.enableExamplesearch && regex.exec(word.example) !== null) found = true;
+    if (!found && condition.enableWordSearch && word.word && regex.exec(word.word.toLowerCase()) !== null) found = true;
+    if (!found && condition.enableMeaningSearch && word.meaning && regex.exec(word.meaning.toLowerCase()) !== null) found = true;
+    if (!found && condition.enableExamplesearch && word.example && regex.exec(word.example.toLowerCase()) !== null) found = true;
 
     return found;
   })
