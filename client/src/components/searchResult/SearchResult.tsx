@@ -5,7 +5,7 @@ import { State, Word } from '../../types';
 import tr from './search_result.tr.json';
 import trYearChip from '../../pages/list/year_chip.tr.json';
 // Lambda
-import { throwEvent, wordSearchingAlgorithm } from '../../frontendWambda';
+import { throwEvent, wordSearchingAlgorithm, convertWordsIntoLegacy } from '../../frontendWambda';
 // Theme
 import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
 // Redux
@@ -99,24 +99,7 @@ const SearchResult: React.FC = () => {
           const foundWordChunk = res.payload as WordGetWordPayload;
 
           // converted
-          const converted: Word[] = foundWordChunk.map(found => {
-            const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
-            return {
-              _id: legacyId,
-              ownerID: legacyOwnerId,
-              order: objectOrder ? objectOrder : 0, 
-              dateAdded: dateAdded ? dateAdded : 0, 
-              // Shared (the same)
-              isFavorite, sem, language, tag, word, pronun, meaning, example,
-              // Unused, but defined
-              lastReviewed: 0,
-              reviewdOn: [0], 
-              step: 0,
-              seederID: "", 
-              packageID: "", 
-              isPublic: false,
-            }
-          });
+          const converted: Word[] = convertWordsIntoLegacy(foundWordChunk);
 
           // Frontend...?
           store.dispatch(setWords(converted));

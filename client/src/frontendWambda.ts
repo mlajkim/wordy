@@ -2,6 +2,7 @@
 import { WordyEvent, pathFinder } from './type/wordyEventType';
 import { AvailableCookies } from './type/availableType';
 import { EventType } from './type/wordyEventType';
+import { ResourceId, WordPure } from './type/resourceType';
 import { Word } from './types';
 // Library
 import cookies from 'js-cookie';
@@ -82,4 +83,26 @@ export const wordSearchingAlgorithm = (searchData: string, words: Word[], condit
 
     return found;
   })
+}
+
+// Sep 21, 2021 
+export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
+  return words.map(found => {
+    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
+    return {
+      _id: legacyId,
+      ownerID: legacyOwnerId,
+      order: objectOrder ? objectOrder : 0, 
+      dateAdded: dateAdded ? dateAdded : 0, 
+      // Shared (the same)
+      isFavorite, sem, language, tag, word, pronun, meaning, example,
+      // Unused, but defined
+      lastReviewed: 0,
+      reviewdOn: [0], 
+      step: 0,
+      seederID: "", 
+      packageID: "", 
+      isPublic: false,
+    }
+  });
 }
