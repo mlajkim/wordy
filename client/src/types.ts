@@ -87,6 +87,7 @@ export type Support = {
   searchOnlyDownloaded: boolean; // if truned in, it only downloads 
   // Search Data
   searchData: string;
+  searchLoading: boolean;
   searchingBegins: boolean;
   // Reviews
   mixedSem: number;

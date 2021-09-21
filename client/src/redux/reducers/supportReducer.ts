@@ -27,6 +27,7 @@ const initialState: Support = {
   searchOnlyDownloaded: true,
   // Search Data
   searchData: "",
+  searchLoading: false,
   searchingBegins: false,
 // reviewss
   mixedSem: 0,

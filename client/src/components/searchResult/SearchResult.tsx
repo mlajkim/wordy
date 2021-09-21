@@ -42,9 +42,6 @@ const SearchResult: React.FC = () => {
   const ln = language;
   const [ matchingWord, setMatchingWord ] = useState<Word[]>([]);
   const [ wordCardsMax, setWordCardsMax ] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
-  // Loading
-  const [ isSearching, setSeraching ] = useState<boolean>(true); 
-  const [ stillDownloading, setStillDownloading ] = useState<boolean>(true);
   // Searching enabled
   const [ lastSearch , setLastSearch ] = useState<string>("");
 
@@ -61,6 +58,8 @@ const SearchResult: React.FC = () => {
 
     // Algorithm
     const searchingAlgorithm = async () => {
+      store.dispatch(modifySupport({ searchLoading: true }, true));
+
       const searchedWord: Word[] = [];
       const alreadyDownloadedSems: number[] = [];
 
@@ -76,7 +75,7 @@ const SearchResult: React.FC = () => {
 
       // Apply found one
       setMatchingWord(searchedWord);
-      setSeraching(false); // This could be happen because you can just show them the list!
+      store.dispatch(modifySupport({ searchLoading: false }, true));
 
       // if user does not prefer to download all those data, it won't progress.
       if (support.searchOnlyDownloaded) return;
@@ -114,7 +113,7 @@ const SearchResult: React.FC = () => {
       }; // End of For Loop (const undownloadeSem of notDownloadedSems)
 
       // Finally turn off
-      setStillDownloading(false);
+      store.dispatch(modifySupport({ searchLoading: false }, true));
 
     }; // end of searchingAlgorithm()
 
@@ -162,7 +161,6 @@ const SearchResult: React.FC = () => {
   const RenderSerachResult = matchingWord.length > 0
   ? (
     <Fragment>
-      { !isSearching && stillDownloading && <LoadingFbStyle />}
       <Typography style={{ paddingTop: 10, fontSize: `15px` }}>
         {tr.thisIsTheResultOf[ln]}
         <b>{support.searchData}</b>
@@ -198,12 +196,8 @@ const SearchResult: React.FC = () => {
   
   return (
     <Fragment>
-      <Typography>
-        {`${isSearching}`} <br />
-        {`${stillDownloading}`}
-      </Typography>
-      { isSearching === true && <LoadingFbStyle />}
-      { isSearching === false && RenderSerachResult }
+      { support.searchLoading && <LoadingFbStyle />}
+      { RenderSerachResult }
     </Fragment>
   )
 };
