@@ -48,6 +48,7 @@ const ShortcutContents: React.FC = () => {
 
 
   const rows = [
+    { explain: tr.beginSearch[ln] , hotkey: shortcut.CMD_SHIFT_S.mac.userFriendly },
     { explain: tr.addWords[ln] , hotkey: shortcut.CMD_ENTER.mac.userFriendly },
     { explain: tr.openDialog[ln] , hotkey: shortcut.CMD_ENTER.mac.userFriendly },
     { explain: tr.closeDialog[ln] , hotkey: shortcut.ESC.general.userFriendly }

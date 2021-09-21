@@ -75,10 +75,13 @@ const SearchResult: React.FC = () => {
 
       // Apply found one
       setMatchingWord(searchedWord);
-      store.dispatch(modifySupport({ searchLoading: false }, true));
+      
 
       // if user does not prefer to download all those data, it won't progress.
-      if (support.searchOnlyDownloaded) return;
+      if (support.searchOnlyDownloaded) {
+        store.dispatch(modifySupport({ searchLoading: false }, true));
+        return;
+      }
 
       // get the not downloaded semseters
       const notDownloadedSems: number[] = USER_SEARCH_ALLOW_ALL
@@ -114,7 +117,6 @@ const SearchResult: React.FC = () => {
 
       // Finally turn off
       store.dispatch(modifySupport({ searchLoading: false }, true));
-
     }; // end of searchingAlgorithm()
 
 

@@ -4,6 +4,11 @@
     "en": "Type",
     "ja": "タイプ"
   },
+  "beginSearch": {
+    "ko": "서치를 시작합니다",
+    "en": "Begin searching",
+    "ja": "検索を開始します"
+  },
   "addWords": {
     "ko": "단어를 추가합니다",
     "en": "Complete add words",
