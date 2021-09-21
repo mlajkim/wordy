@@ -130,6 +130,7 @@ const SearchBar: React.FC = () => {
               </div>
               <InputBase
                 id={SEARCH_BAR_ID}
+                autoComplete={"off"}
                 placeholder={tr.search[ln]}
                 onChange={(e) => hdlSerachInputChange(e.target.value)}
                 value={support.searchData}

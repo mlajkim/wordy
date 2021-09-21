@@ -56,6 +56,7 @@ const SearchResult: React.FC = () => {
     // This does not technically like .. tell the user that it should not be provided
     // ideally, if you input such unrequired data, we should put \this kind of escape character for them.
     // FYI, when you add character in []you do not need to esacpe. and therefore, only escape will be \]
+    // This actually does not change the redux state, but it is used for temporary usage, it seems.
     support.searchData = support.searchData.replace(/[$&+,:;=?[\]@#|{}'<>.^*()%!-/]/g, "");
 
     // Algorithm
@@ -214,6 +215,10 @@ const SearchResult: React.FC = () => {
   
   return (
     <Fragment>
+      <Typography>
+        {`${isSearching}`} <br />
+        {`${stillDownloading}`}
+      </Typography>
       { isSearching === true && <LoadingFbStyle />}
       { isSearching === false && RenderSerachResult }
     </Fragment>
