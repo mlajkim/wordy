@@ -40,16 +40,15 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
         store.dispatch(modifySupport({ addWordLangPref: detectedLanguage }))
       };
     };
-  }, [detectApi, detectedLanguage]) 
+  }, [detectApi, detectedLanguage])
 
-  const handleLanguageSelectionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleClickLang = () => {
     setEndUserChosen(true);
-    if (typeof setDetectApi === 'function') setDetectApi("disabled"); // no longer 
-    store.dispatch(modifySupport({ addWordLangPref: event.target.value as string }));
-  };
+    if (typeof setDetectApi === 'function') setDetectApi("disabled"); // no longer API working
+  }
 
   const menuItems = ADDABLE_LANGUAGES_LIST.map(lang => (
-    <MenuItem key={lang} value={lang}>{languageCodeIntoUserFriendlyFormat(lang)}</MenuItem>
+    <MenuItem onClick={() => handleClickLang()} key={lang} value={lang}>{languageCodeIntoUserFriendlyFormat(lang)}</MenuItem>
   ));
 
   return (
@@ -63,7 +62,7 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         value={support.addWordLangPref}
-        onChange={(e) => handleLanguageSelectionChange(e)}
+        onChange={(e) => store.dispatch(modifySupport({ addWordLangPref: e.target.value as string }))}
       >
         {menuItems}
       </Select>

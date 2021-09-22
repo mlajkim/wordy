@@ -126,7 +126,7 @@ const MassWords = () => {
   };
 
   // ...Method
-  const hldAddingMassWords = () => {
+  const hdlAddMassWords = () => {
     // Data validation (cannot be empty)
     if (massData.length === 0) 
       return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'));
@@ -210,8 +210,8 @@ const MassWords = () => {
             autoFocus
             autoComplete={"off"}
             onKeyDown={(event) => {
-              if (shortcut.CMD_ENTER.mac.textField(event)) hldAddingMassWords();
-              else if (shortcut.CMD_ENTER.windows.textField(event)) hldAddingMassWords(); // if you mix with the mac key, it somehow receives two enters
+              if (shortcut.CMD_ENTER.mac.textField(event)) hdlAddMassWords();
+              else if (shortcut.CMD_ENTER.windows.textField(event)) hdlAddMassWords(); // if you mix with the mac key, it somehow receives two enters
               else if (shortcut.ESC.general.textField(event)) cancelAddingMassWords();
             }}
           />
@@ -220,7 +220,7 @@ const MassWords = () => {
           <Button onClick={() => cancelAddingMassWords()} color="secondary">
             {trAddWord.btnCancel[ln]}
           </Button>
-          <Button onClick={() => hldAddingMassWords()} color="primary" variant="contained">
+          <Button onClick={() => hdlAddMassWords()} color="primary" variant="contained">
             {trAddWord.btnOkay[ln]}
           </Button>
         </DialogActions>
