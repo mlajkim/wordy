@@ -184,6 +184,11 @@
   resolved "https://registry.yarnpkg.com/@types/geoip-lite/-/geoip-lite-1.4.1.tgz#2c0d787fb14b2463b244baca1f3b9023fba3c49b"
   integrity sha512-qHH5eF3rL1wwqpzdsgMdgskfdWXxxQvJb9POJ66NK7/1l3QXsqHLpIheh9OmhtqZ2CF7AmN0sA2R4PgW8JSm7w==
 
+"@types/glob-parent@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@types/glob-parent/-/glob-parent-5.1.1.tgz#eb83d64824374495437b450d45e24ec53a7ce844"
+  integrity sha512-r2rwLjU4mYJmX3S81d8KxCboZOGPVEN5hvtYKzQ0aFNRhYir3DIVf8Hlznr65Wk748swi6hhccsDo3MyydHb2A==
+
 "@types/jsonwebtoken@^8.5.1":
   version "8.5.5"
   resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.5.tgz#da5f2f4baee88f052ef3e4db4c1a0afb46cff22c"
@@ -1180,6 +1185,13 @@ glob-parent@5.1.1:
   dependencies:
     is-glob "^4.0.1"
 
+glob-parent@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-6.0.1.tgz#42054f685eb6a44e7a7d189a96efa40a54971aa7"
+  integrity sha512-kEVjS71mQazDBHKcsq4E9u/vUzaLcw1A8EtUeydawvIWQCJM0qQ08G1H7/XTjFUulla6XQiDOG6MXSaG0HDKog==
+  dependencies:
+    is-glob "^4.0.1"
+
 glob-parent@~5.1.0, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -1961,6 +1973,11 @@ mpath@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.8.3.tgz#828ac0d187f7f42674839d74921970979abbdd8f"
   integrity sha512-eb9rRvhDltXVNL6Fxd2zM9D4vKBxjVVQNLNijlj7uoXUy19zNDsIif5zR+pWmPCWNKwAtqyo4JveQm4nfD5+eA==
+
+mpath@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.8.4.tgz#6b566d9581621d9e931dd3b142ed3618e7599313"
+  integrity sha512-DTxNZomBcTWlrMW76jy1wvV37X/cNNxPW1y2Jzd4DZkAaC5ZGsm8bfGfNOthcDuRJujXLqiuS6o3Tpy0JEoh7g==
 
 mquery@3.2.5:
   version "3.2.5"
