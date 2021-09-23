@@ -2,21 +2,21 @@
   "listSetting": {
     "en": "List setting",
     "ko": "리스트 설정",
-    "ja": "リスト設定"
+    "ja": "リスト"
   },
   "searchSetting": {
     "en": "Search Setting",
     "ko": "검색 설정",
-    "ja": "検索設定"
+    "ja": "検索"
   },
   "addingWordSetting": {
     "en": "Adding Words Setting",
     "ko": "단어 추가 설정",
-    "ja": "単語追加設定"
+    "ja": "単語追加"
   },
   "basicSetting": {
     "en": "Basic setting",
     "ko": "기본 설정",
-    "ja": "基本設定"
+    "ja": "基本"
   }
 }

@@ -30,9 +30,9 @@
     "ja": "単語を最新順で並べる"
   },
   "searchOnlyDownloaded": {
-    "en": "Search only within already-downloaded data (Data Saving)",
-    "ko": "이미 다운로드 되어있는 단어에서만 검색 (데이터 절약)",
-    "ja": "すでにダウンロードされたデータのみ検索 (データ節約)"
+    "en": "Search only within downloaded data (Data Saving)",
+    "ko": "다운로드 되어있는 단어에서만 검색 (데이터 절약)",
+    "ja": "ダウンロードされたデータのみ検索 (データ節約)"
   },
   "languageDetectionEnabled": {
     "en": "Enable Language Detecting API",
