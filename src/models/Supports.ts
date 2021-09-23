@@ -18,6 +18,7 @@ const supportSchema = new Schema({
   // Search Preference
   searchOnlyDownloaded: Boolean,
   displayingLnUserPref: String,
+  languageDetectionEnabled: Boolean,
 });
 
 export default mongoose.model('supports', supportSchema); 

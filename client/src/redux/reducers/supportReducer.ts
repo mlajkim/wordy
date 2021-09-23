@@ -23,6 +23,7 @@ const initialState: Support = {
   displayingLnUserPref: ['en', 'zh', 'ja', 'ko'], // The order is from the size of the langauge
   extendedSearchBar: false,
   isYearQuadrantEnabled: false,
+  languageDetectionEnabled: true,
   // Search pref
   searchOnlyDownloaded: true,
   // Search Data

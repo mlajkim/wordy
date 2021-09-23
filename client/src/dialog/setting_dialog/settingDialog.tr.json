@@ -29,6 +29,11 @@
     "ko": "검색 설정",
     "ja": "検索設定"
   },
+  "addingWordSetting": {
+    "en": "Adding Words Setting",
+    "ko": "단어 추가 설정",
+    "ja": "単語追加設定"
+  },
   "setDisplayTypeWordCard": {
     "en": "Enable wordcard style",
     "ko": "워드카드 사용",
@@ -48,5 +53,10 @@
     "en": "Search only within already-downloaded data (Data Saving)",
     "ko": "이미 다운로드 되어있는 단어에서만 검색 (데이터 절약)",
     "ja": "すでにダウンロードされたデータのみ検索 (データ節約)"
+  },
+  "languageDetectionEnabled": {
+    "en": "Enable Language Detecting API",
+    "ko": "언어 판별 API를 사용",
+    "ja": "言語判別APIを有効にする"
   }
 }

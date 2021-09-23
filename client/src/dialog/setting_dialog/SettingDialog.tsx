@@ -88,6 +88,13 @@ const SettingDialog: React.FC = () => {
       label: tr.searchOnlyDownloaded[ln],
       onChange: () => store.dispatch(modifySupport({ searchOnlyDownloaded: !support.searchOnlyDownloaded }))
     },
+    // For Adding Word
+    {
+      value: 'setDisplayTypeWordCard',
+      checked: support.languageDetectionEnabled,
+      label: tr.languageDetectionEnabled[ln],
+      onChange: () => store.dispatch(modifySupport({ languageDetectionEnabled: !support.languageDetectionEnabled }))
+    },
     // From the word list setting
     {
       value: 'setDisplayTypeWordCard',
@@ -148,9 +155,15 @@ const SettingDialog: React.FC = () => {
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
+                {tr.addingWordSetting[ln]}
+            </Typography>
+            { DrawCheckbox.slice(3, 4) }
+          </FormGroup>
+          <FormGroup style={{ marginTop: 15}}>
+            <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
                 {tr.listSetting[ln]}
             </Typography>
-            { DrawCheckbox.slice(3) }
+            { DrawCheckbox.slice(4) }
           </FormGroup>
         </DialogContent>
       </Dialog>

@@ -106,7 +106,7 @@ const MassWords = () => {
     const userInput = e.target.value;
 
     // detect language algorithm
-    if (detectApi === 'enabled' && userInput !== '') {
+    if (support.languageDetectionEnabled && detectApi === 'enabled' && userInput !== '') {
       setDetectTimer(runAfter(DETECT_LANGUAGE_TIMER));
       setEnableDetect(true)
     };
