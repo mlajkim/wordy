@@ -34,7 +34,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';
-import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
+import { modifyNewWordAddingType, modifySupport } from '../../redux/actions/supportAction';
 // Redux Actions
 import { offDialog, setSnackbar } from '../../redux/actions';
 import { postWords } from '../../redux/actions/wordsAction';
@@ -77,6 +77,7 @@ const MassWords = () => {
       throwEvent("word:detectLanguage", targetInput)
         .then(res => {
           if (res.serverResponse === 'Denied') {
+            store.dispatch(modifySupport({ languageDetectionEnabled: false }));
             setDetectApi("disabled");
             setEnableDetect(false);
           } else {

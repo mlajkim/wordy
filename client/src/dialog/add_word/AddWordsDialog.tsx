@@ -5,6 +5,9 @@ import AvailableLangs from '../../components/available_langs/AvailableLangs';
 import { wordDetectLanguagePayload } from '../../type/payloadType';
 import { throwEvent } from '../../frontendWambda';
 import { runAfter, now } from '../../type/sharedWambda';
+import { State } from '../../types';
+// Translation
+import tr from './add_words_dialog.tr.json';
 // imported constant data
 import { DETECT_LANGUAGE_TIMER } from '../mass_words/MassWords';
 // Material UI
@@ -15,20 +18,20 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+// Components
+import TagsList from '../../components/tags_list/TagsList';
 // hotkey
 import shortcut from '../../shortcut';
 // Icons
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
-// Translation
-import tr from './add_words_dialog.tr.json';
-import { State } from '../../types';
 // Redux
 import store from '../../redux/store';
+import { useSelector } from 'react-redux';
+// Redux Action
 import { offDialog, setSnackbar } from '../../redux/actions';
 import { modifyNewWordAddingType } from '../../redux/actions/supportAction';
-import { useSelector } from 'react-redux';
-import {postWords} from '../../redux/actions/wordsAction';
-import TagsList from '../../components/tags_list/TagsList';
+import { postWords } from '../../redux/actions/wordsAction';
+import { modifySupport } from '../../redux/actions/supportAction';
 
 const AddWordsDialog: React.FC = () => {
   // Redux states
@@ -56,6 +59,7 @@ const AddWordsDialog: React.FC = () => {
         .then(res => {
           if (res.serverResponse === 'Denied') {
             setDetectApi("disabled");
+            store.dispatch(modifySupport({ languageDetectionEnabled: false }));
             setEnableDetect(false);
           } else {
             // now detection happens!
