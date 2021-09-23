@@ -3,6 +3,7 @@ import React from 'react';
 import { State } from '../../types';
 // Translate
 import tr from './settingDialog.tr.json'
+import trListName from './settingDialogListName.tr.json'
 import trAppbar from '../../app/appbar.tr.json'
 // Material UI core
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
@@ -143,25 +144,25 @@ const SettingDialog: React.FC = () => {
         <DialogContent dividers >
           <FormGroup>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
-              {tr.basicSetting[ln]}
+              {trListName.basicSetting[ln]}
             </Typography>
             { DrawCheckbox.slice(0, 2) }
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
-                {tr.searchSetting[ln]}
+                {trListName.searchSetting[ln]}
             </Typography>
             { DrawCheckbox.slice(2, 3) }
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
-                {tr.addingWordSetting[ln]}
+                {trListName.addingWordSetting[ln]}
             </Typography>
             { DrawCheckbox.slice(3, 4) }
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
-                {tr.listSetting[ln]}
+                {trListName.listSetting[ln]}
             </Typography>
             { DrawCheckbox.slice(4) }
           </FormGroup>
