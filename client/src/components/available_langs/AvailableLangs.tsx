@@ -68,7 +68,7 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
       </Select>
       { endUserChosen && 
         <Tooltip title={tr.help[ln]} placement="right" style={{ marginLeft: 5 }}>
-          <CheckIcon />
+          <CheckIcon fontSize="small" style={{ marginTop: 5 }}/>
         </Tooltip>}
       { !endUserChosen && enableDetect && detectApi === 'enabled' && <LoadingFbStyle />}
     </div>
