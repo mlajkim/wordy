@@ -10,6 +10,9 @@ import { User } from 'src/typesBackEnd';
 // json
 import response from '../../../../responseStandard.json';
 
+// ! just lettig you know, this v4 route is deprecated
+// ! Yet also, remember, that I was able to build better apigateway, thanks to this.
+
 v4SignIn.use(connectToMongoDB); // Connect to DB
 
 // Chcek if the user himself or herself exsits in our cloud
