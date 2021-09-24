@@ -170,7 +170,7 @@ const SearchResult: React.FC = () => {
         { matchingWord.slice(0, wordCardsMax)
         .sort((a, b) => b.order - a.order) // Second show by the order number
         .sort((a, b) => b.sem - a.sem) // First show the latest 
-        .map(word => <WordCard word={word} key={word._id} />)
+        .map(word => <WordCard word={word} key={word._id} highlighted={support.searchData} />)
         }
       </Grid>
       { wordCardsMax < matchingWord.length && RenderMoreButton }

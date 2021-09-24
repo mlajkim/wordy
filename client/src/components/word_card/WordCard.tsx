@@ -3,6 +3,7 @@ import React from 'react';
 import { State, Word } from '../../types';
 import { convertSem } from '../../utils';
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
 // Material UI
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -25,12 +26,11 @@ import { useSelector } from 'react-redux';
 import { modifySupport } from '../../redux/actions/supportAction';
 import { setDialog } from '../../redux/actions';
 import { modifyWords } from '../../redux/actions/wordsAction';
-import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
 
-type Props = { word: Word };
+type Props = { word: Word, highlighted?: string };
 // @ MAIN
-const WordCard: React.FC<Props> = ({word}) => {
-  const { support} = useSelector((state: State) => state);
+const WordCard: React.FC<Props> = ({ word, highlighted }) => {
+  const { support } = useSelector((state: State) => state);
   // Component states
   const [open, setOpen] = React.useState(false);
 
@@ -64,13 +64,20 @@ const WordCard: React.FC<Props> = ({word}) => {
       default:
         return
     }
-  }
+  };
+
+  const highlighter = highlighted ? highlighted : false
+  const wordSplited = highlighter && word.word ? word.word.indexOf(highlighter) !== -1 ? word.word.split(highlighter) : false : false
+  const meaningSplited = highlighter && word.meaning ? word.meaning.indexOf(highlighter) !== -1 ? word.meaning.split(highlighter) : false : false
+  const exampleSplited = highlighter && word.example ? word.example.indexOf(highlighter) !== -1 ? word.example.split(highlighter) : false : false
+
   // Render Tags
   const tags = word.tag.length === 0
     ? null
     : word.tag.map(tag => (
       <Chip key={tag} label={`#${tag}`} variant="outlined" size="small" />
     ));
+
   // Return
   return (
     <Card style={{width: '100%', marginBottom: 10, 
@@ -82,16 +89,25 @@ const WordCard: React.FC<Props> = ({word}) => {
           {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}
         </Typography>
         <Typography variant="h5" component="h2">
-          {word.word}
+          {!wordSplited && word.word}
+          {wordSplited && wordSplited[0]}
+          {wordSplited && <span style={{ backgroundColor: "yellow", color: fontLight }}>{highlighted}</span>}
+          {wordSplited && wordSplited[1]}
         </Typography>
         <Typography >
           {word.pronun}
         </Typography>
         <Typography variant="body2" component="p">
-          <span style={{margin: 3}}>{word.meaning}</span>
+          {!meaningSplited && word.meaning}
+          {meaningSplited && meaningSplited[0]}
+          {meaningSplited && <span style={{ backgroundColor: "yellow", color: fontLight }}>{highlighted}</span>}
+          {meaningSplited && meaningSplited[1]}
         </Typography>
         <Typography variant="body2" component="h4" >
-          {word.example && `"${word.example}"`}
+          {!exampleSplited && word.example}
+          {exampleSplited && exampleSplited[0]}
+          {exampleSplited && <span style={{ backgroundColor: "yellow", color: fontLight }}>{highlighted}</span>}
+          {exampleSplited && exampleSplited[1]}
         </Typography>
       </CardContent>
       <Chip label={`#${languageCodeIntoUserFriendlyFormat(word.language)}`} variant="outlined" size="small" />
