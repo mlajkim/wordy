@@ -98,6 +98,8 @@ const SearchResult: React.FC = () => {
           const converted: Word[] = convertWordsIntoLegacy(foundWordChunk);
 
           // Frontend...?
+          // ! Not the best code, but it stops to save into word!
+          if (words.findIndex(wordChunk => wordChunk[0].sem === converted[0].sem) !== -1) return;
           store.dispatch(setWords(converted));
 
           searchedWord.push(...wordSearchingAlgorithm(support.searchData, converted, {
