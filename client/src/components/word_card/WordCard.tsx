@@ -66,7 +66,7 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
     }
   };
 
-  const highlighter = highlighted ? highlighted : false
+  const highlighter = support.highlightSearched ? highlighted ? highlighted : false : false
   const wordSplited = highlighter && word.word ? word.word.indexOf(highlighter) !== -1 ? word.word.split(highlighter) : false : false
   const meaningSplited = highlighter && word.meaning ? word.meaning.indexOf(highlighter) !== -1 ? word.meaning.split(highlighter) : false : false
   const exampleSplited = highlighter && word.example ? word.example.indexOf(highlighter) !== -1 ? word.example.split(highlighter) : false : false
