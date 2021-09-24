@@ -24,6 +24,7 @@ const initialState: Support = {
   extendedSearchBar: false,
   isYearQuadrantEnabled: false,
   languageDetectionEnabled: true,
+  highlightSearched: true,
   // Search pref
   searchOnlyDownloaded: true,
   // Search Data

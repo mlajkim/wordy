@@ -84,6 +84,7 @@ export type Support = {
   isYearQuadrantEnabled: boolean;
   displayingLnUserPref: AddableLang[];
   languageDetectionEnabled: boolean;
+  highlightSearched: boolean;
   // Search Setting
   searchOnlyDownloaded: boolean; // if truned in, it only downloads 
   // Search Data

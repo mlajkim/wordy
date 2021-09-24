@@ -34,6 +34,11 @@
     "ko": "다운로드 되어있는 단어에서만 검색 (데이터 절약)",
     "ja": "ダウンロードされたデータのみ検索 (データ節約)"
   },
+  "highlightSearched": {
+    "en": "Highlight searched data",
+    "ko": "검색 결과를 형광팬으로 표시",
+    "ja": "検索結果をハイライトで表示"
+  },
   "languageDetectionEnabled": {
     "en": "Enable Language Detecting API",
     "ko": "언어 판별 API를 사용",

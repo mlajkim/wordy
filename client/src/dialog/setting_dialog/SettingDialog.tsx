@@ -89,6 +89,12 @@ const SettingDialog: React.FC = () => {
       label: tr.searchOnlyDownloaded[ln],
       onChange: () => store.dispatch(modifySupport({ searchOnlyDownloaded: !support.searchOnlyDownloaded }))
     },
+    {
+      value: 'highlightSearched',
+      checked: support.highlightSearched,
+      label: tr.highlightSearched[ln],
+      onChange: () => store.dispatch(modifySupport({ highlightSearched: !support.highlightSearched }))
+    },
     // For Adding Word
     {
       value: 'setDisplayTypeWordCard',
@@ -152,19 +158,19 @@ const SettingDialog: React.FC = () => {
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
                 {trListName.searchSetting[ln]}
             </Typography>
-            { DrawCheckbox.slice(2, 3) }
+            { DrawCheckbox.slice(2, 4) }
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
                 {trListName.addingWordSetting[ln]}
             </Typography>
-            { DrawCheckbox.slice(3, 4) }
+            { DrawCheckbox.slice(4, 5) }
           </FormGroup>
           <FormGroup style={{ marginTop: 15}}>
             <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
                 {trListName.listSetting[ln]}
             </Typography>
-            { DrawCheckbox.slice(4) }
+            { DrawCheckbox.slice(5) }
           </FormGroup>
         </DialogContent>
       </Dialog>
