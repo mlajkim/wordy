@@ -1,19 +1,18 @@
 // Mains import
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useBeforeunload } from 'react-beforeunload';
 import ParsingAPI from './ParsingAPI';
-// helpers import
+// Type
+import { State } from '../../types';
+import { wordDetectLanguagePayload } from '../../type/payloadType';
+// Lambda
 import { runAfter, now } from '../../type/sharedWambda';
 import { throwEvent } from '../../frontendWambda';
 import * as API from '../../API';
 import parsingMechanism from './ParsingAPI';
 import { format_into_sem, today } from '../../utils'
-// Type
-import { State } from '../../types';
-import { wordDetectLanguagePayload } from '../../type/payloadType';
-// Shorcut
-import shortcut from '../../shortcut';
 // Components
+import shortcut from '../../shortcut';
 import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Translation
 import tr from './mass_words.tr.json';
@@ -45,7 +44,7 @@ const VALID_YEAR_FROM = 2000;
 const VALID_YEAR_TO = 2999;
 export const DETECT_LANGUAGE_TIMER = 0.6; // seconds
 
-const MassWords = () => {
+const MassWords: React.FC = () => {
   // Redux states
   const { language, support } = useSelector((state: State) => state);
   const ln = language;
@@ -116,7 +115,7 @@ const MassWords = () => {
     setCount(userInput.length); // visibile to end-user
 
     // I see, this change makes the length cannot exceed the limitatin
-    if(LETTERS_LIMITATION < userInput.length) setMaxError(true);
+    if (LETTERS_LIMITATION < userInput.length) setMaxError(true);
     else setMaxError(false);
   };
 
@@ -134,9 +133,9 @@ const MassWords = () => {
     let chosenYear, chosenSem = '';
     
     // if year and semester has given
-    if(year !== '' || sem !== '') {
+    if (year !== '' || sem !== '') {
       // Data validation check.
-      if(!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
+      if (!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
         store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
         return;
       };
@@ -187,21 +186,17 @@ const MassWords = () => {
             detectedLanguage={detectedLanguage} 
             detectApi={detectApi}
           />
-          {
-            support.isYearQuadrantEnabled
-              ? (
-                <Fragment>
-                  <TextField margin="dense" label={trAddWord.year[ln]} 
-                    fullWidth value={year} 
-                    onChange={(e) => setYear(e.target.value)}
-                  />
-                  <TextField margin="dense" label={trAddWord.sem[ln]}  
-                    fullWidth value={sem}
-                    onChange={(e) => setSem(e.target.value)}
-                  />
-                </Fragment>
-              )
-              : null
+          {support.isYearQuadrantEnabled &&
+            <Fragment>
+              <TextField margin="dense" label={trAddWord.year[ln]} 
+                fullWidth value={year} 
+                onChange={(e) => setYear(e.target.value)}
+              />
+              <TextField margin="dense" label={trAddWord.sem[ln]}  
+                fullWidth value={sem}
+                onChange={(e) => setSem(e.target.value)}
+              />
+            </Fragment>
           }
           <TagsList tags={tags} setTags={setTags} />
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
