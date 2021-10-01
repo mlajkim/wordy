@@ -1,45 +1,47 @@
-import React, { useState, useLayoutEffect, Fragment } from 'react';
-import {useGoogleLogout} from 'react-google-login'
+import React, { useState, useLayoutEffect, Fragment, FC } from 'react';
+import { useGoogleLogout } from 'react-google-login'
 import Cookie from 'js-cookie';
-// shared import
+// Type
 import { languageCodeIntoUserFriendlyFormat } from '../type/sharedWambda';
-// Theme
 import { appbarLight, appbarDark, appbarDevMode } from '../theme';
-// Material UI
+import Menu from '@material-ui/core/Menu';
+import { GOOGLE_CLIENT_ID } from '../type/predefined';
+// Lambda
+import { throwEvent } from '../frontendWambda';
+// Component
+import SearchBar from '../components/search_bar/SearchBar';
+// MUI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import tr from './appbar.tr.json'
 import { State, Language } from '../types';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Drawer from './Drawer';
 import Avatar from '@material-ui/core/Avatar';
 import * as API from '../API';
 import Tooltip from '@material-ui/core/Tooltip';
+// MUI Icons
+import MenuIcon from '@material-ui/icons/Menu';
+import TranslateIcon from '@material-ui/icons/Translate';
+import AddIcon from '@material-ui/icons/Add';
+import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
+import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
 // Style
 import MUIStyle from '../styles/MUIStyle';
 // Redux
 import store from '../redux/store';
 import { useSelector } from 'react-redux';
 // Redux Actions
-import { setDialog, setLanguage, setPage, offDialog, setSnackbar, setOkrReloadOn } from '../redux/actions';
+import { 
+  setDialog, setLanguage, setPage, offDialog, setSnackbar, setOkrReloadOn 
+} from '../redux/actions';
 import { getSupport,switchDarkLightMode } from '../redux/actions/supportAction';
 import { updateUser } from '../redux/actions/userAction';
-// Icons
-import MenuIcon from '@material-ui/icons/Menu';
-import TranslateIcon from '@material-ui/icons/Translate';
-import AddIcon from '@material-ui/icons/Add';
-import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
-import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
-// Credetnial
-import { GOOGLE_CLIENT_ID } from '../type/predefined';
-import { throwEvent } from '../frontendWambda';
-// Component
-import SearchBar from '../components/search_bar/SearchBar';
 
-const Appbar = () => {
+
+const Appbar: FC = () => {
   const classes = MUIStyle();
   const {language, user, support} = useSelector((state: State) => state);
   const ln = language;
