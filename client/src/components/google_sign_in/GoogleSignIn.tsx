@@ -11,7 +11,7 @@ import tr from './google_sign_in.tr.json'
 import { GoogleRes } from '../../types';
 import { GoogleLogin } from 'react-google-login';
 // Credential
-import { GOOGLE_CLIENT_ID } from '../../credential';
+import { GOOGLE_CLIENT_ID } from '../../type/predefined';
 // Redux
 import store from '../../redux/store';
 import { useSelector } from 'react-redux';

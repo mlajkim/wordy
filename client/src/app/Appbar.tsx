@@ -34,7 +34,7 @@ import AddIcon from '@material-ui/icons/Add';
 import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
 import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
 // Credetnial
-import { GOOGLE_CLIENT_ID } from '../credential';
+import { GOOGLE_CLIENT_ID } from '../type/predefined';
 import { throwEvent } from '../frontendWambda';
 // Component
 import SearchBar from '../components/search_bar/SearchBar';
