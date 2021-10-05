@@ -1,16 +1,18 @@
 // types
-import { WordyEvent, pathFinder } from './type/wordyEventType';
-import { AvailableCookies } from './type/availableType';
-import { EventType } from './type/wordyEventType';
-import { ResourceId, WordPure } from './type/resourceType';
-import { WordsChunk, Word, SpecialTag } from './types';
+import { WordyEvent, pathFinder } from './type/wordyEventType'
+import { AvailableCookies } from './type/availableType'
+import { EventType } from './type/wordyEventType'
+import { ResourceId, WordPure } from './type/resourceType'
+import { WordsChunk, Word, SpecialTag } from './types'
+import { checkIfThisDay } from './utils'
 // Library
-import cookies from 'js-cookie';
+import cookies from 'js-cookie'
 import axios from 'axios'
+import moment from 'moment'
 // Redux
-import store from './redux/store';
+import store from './redux/store'
 // Redux Action
-import { setSnackbar } from './redux/actions';
+import { setSnackbar } from './redux/actions'
 
 
 // event Thrower
@@ -108,12 +110,45 @@ export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[]
 }
 
 // Oct 5, 2021
+const displayingDate: { displayingName: SpecialTag, days: number }[] = [
+  { displayingName: 'today', days: 0 },
+  { displayingName: 'yesterday', days: -1 },
+  { displayingName: 'fourDays', days: -4 },
+  { displayingName: 'weekAgo', days: -7 },
+  { displayingName: 'twoWeeksAgo', days: -14 },
+  { displayingName: 'threeWeeksAgo', days: -21 },
+  { displayingName: 'monthAgo', days: -30 },
+]
+
+const getDayOff = (dateAdded: number): number => {
+  const oneDayValue = 1000 * 60 * 60 * 24
+
+  const passedTime = moment(dateAdded).valueOf() - moment().valueOf()
+  return Math.ceil(passedTime / oneDayValue) 
+
+}
+
 export const filteredSpecialTag = (wordChunk: WordsChunk | undefined): SpecialTag[] => {
   if (typeof wordChunk === 'undefined') return []
+  
+  // Setting
+  const CUT_OFF_UNTIL = -30
 
-
-  // 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'threeWeeksAgo', 'monthAgo'
-
-  // for now
-  return ['today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'threeWeeksAgo', 'monthAgo']
+  // unique array with getDayoff
+  return [...new Set(wordChunk.map(word => getDayOff(word.dateAdded)))]
+  .sort((a, b) => b - a)
+  .filter(el => el >= CUT_OFF_UNTIL)
+  .map(uniqueDate => {
+    switch (uniqueDate) {
+      case 0: return 'today'
+      case -1: return 'yesterday'
+      case -4: return 'fourDays'
+      case -7: return 'weekAgo'
+      case -14: return 'twoWeeksAgo'
+      case -21: return 'threeWeeksAgo'
+      case -31: return 'monthAgo'
+      default: return 'NotCatagorized'
+    }
+  }) 
+  .filter(el => el !== "NotCatagorized") as SpecialTag[]
 }
