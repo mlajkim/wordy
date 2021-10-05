@@ -7,8 +7,19 @@ export type DisplayableLn = "en" | "ko" | "ja"; // newer type, Aug 15, 2021
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
 export type FederalProvider = 'anonymous' | 'google';
 export type EncryptedDek = string;
+
+// ==============
+// WRN (Oct 1, 2021)
+// ==============
 export type Wrn = `wrn::${string}:${string}:${WrnDatabase}:${string}:${string}`;
-export type WrnDatabase = 'mdb' | 'internal'
+export type WrnDatabase = 'mdb' | 'internal' | AwsTokyoS3
+
+// ==============
+// AWS Region Code (Oct 1, 2021)　
+// ==============
+type AwsTokyoS3 = 'ap-northeast-1-s3' 
+
+
 // gateway is used for returning W.E
 export type Gateway = 
   "iamGateway" | 
@@ -37,7 +48,7 @@ export type AvailableWpWrn =
   "wrn::wp:pre_defined:backend:only_to_group_members:210811" |
   "wrn::wp:pre_defined:backend:only_to_wordy_member:210811" |
   "wrn::wp:pre_defined:backend:only_to_admin:210811" |
-"wrn::wp:pre_defined:backend:dangerously_public:210811";
+  "wrn::wp:pre_defined:backend:dangerously_public:210811";
 
 // identity
 export type AssignedIdentity = 

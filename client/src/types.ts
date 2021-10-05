@@ -163,3 +163,5 @@ export type NewPlayer = {
   nickName: string,
   
 };
+
+export type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'threeWeeksAgo' | 'monthAgo';

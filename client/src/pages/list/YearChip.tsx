@@ -1,38 +1,38 @@
-// Main & Types
-import React, {Fragment, useState, useEffect} from 'react';
-import {convertSem, checkIfToday, checkIfThisDay} from '../../utils';
-import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+import { Fragment, useState, useEffect, FC } from 'react'
 // Type
-import { State, WordsChunk } from '../../types';
-// Theme
-import { buttonLight, buttonDark } from '../../theme';
-// Components
-import WordCard from '../../components/word_card/WordCard';
-import ListSetting from './ListSetting';
-import WordList from '../../components/word_list/WordList';
-import SearchResult from '../../components/searchResult/SearchResult';
-// Material UI
-import Tooltip from '@material-ui/core/Tooltip';
-import Chip from '@material-ui/core/Chip';
-import Grid from '@material-ui/core/Grid'
-import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-// Icons
-import DoneIcon from '@material-ui/icons/Done';
-import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {convertSem, checkIfToday, checkIfThisDay} from '../../utils'
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
+import { State, WordsChunk, SpecialTag } from '../../types'
+import { buttonLight, buttonDark } from '../../theme'
+// Library
+import { filteredSpecialTag } from '../../frontendWambda'
 // Translation
-import tr from './year_chip.tr.json';
+import tr from './year_chip.tr.json'
+// Components
+import WordCard from '../../components/word_card/WordCard'
+import ListSetting from './ListSetting'
+import WordList from '../../components/word_list/WordList'
+import SearchResult from '../../components/searchResult/SearchResult'
+// MUI
+import Tooltip from '@material-ui/core/Tooltip'
+import Chip from '@material-ui/core/Chip'
+import Grid from '@material-ui/core/Grid'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import IconButton from '@material-ui/core/IconButton'
+// MUI Icons
+import DoneIcon from '@material-ui/icons/Done'
+import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // Redux
-import store from '../../redux/store';
-import {useSelector} from 'react-redux';
-import {getWords} from '../../redux/actions/wordsAction';
+import store from '../../redux/store'
+// Redux action
+import { useSelector } from 'react-redux'
+import { getWords } from '../../redux/actions/wordsAction'
 
-type SpecialTag = '' | 'all' | 'favorite' | 'today' | 'fourDays' | 'yesterday' | 'weekAgo' | 'twoWeeksAgo' | 'threeWeeksAgo' | 'monthAgo';
 const ADDING_MORE_WORDS_AMOUNT = 50;
 const DEFAULT_MORE_WORDS_AMOUNT = 50;
 // @ MAIN
-const YearChip = () => {
+const YearChip: FC = () => {
   // Redux states
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
@@ -138,7 +138,8 @@ const YearChip = () => {
     })
   }
   // Special Tag Rendering
-  const specialTagsList: SpecialTag[] = ['all', 'favorite' , 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'threeWeeksAgo', 'monthAgo' ];
+  // ! HERE IT RENDERS THE SPECIAL TAG
+  const specialTagsList: SpecialTag[] = ['all', 'favorite' , ...filteredSpecialTag(filterTargetWords) ];
   const totalWordsCount = typeof hasFound === 'undefined' ? '' : ` (${hasFound?.length})`; // Shows nothing when loading, else show the number of counts.
   const renderSpecialTags = specialTagsList.map(specialTag => {
     // if special tag is all, then I would like to add a number of words

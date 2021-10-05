@@ -3,7 +3,7 @@ import { WordyEvent, pathFinder } from './type/wordyEventType';
 import { AvailableCookies } from './type/availableType';
 import { EventType } from './type/wordyEventType';
 import { ResourceId, WordPure } from './type/resourceType';
-import { Word } from './types';
+import { WordsChunk, Word, SpecialTag } from './types';
 // Library
 import cookies from 'js-cookie';
 import axios from 'axios'
@@ -105,4 +105,15 @@ export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[]
       isPublic: false,
     }
   });
+}
+
+// Oct 5, 2021
+export const filteredSpecialTag = (wordChunk: WordsChunk | undefined): SpecialTag[] => {
+  if (typeof wordChunk === 'undefined') return []
+
+
+  // 'today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'threeWeeksAgo', 'monthAgo'
+
+  // for now
+  return ['today', 'yesterday', 'fourDays', 'weekAgo', 'twoWeeksAgo', 'threeWeeksAgo', 'monthAgo']
 }
