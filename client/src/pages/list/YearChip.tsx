@@ -31,6 +31,7 @@ import { getWords } from '../../redux/actions/wordsAction'
 
 const ADDING_MORE_WORDS_AMOUNT = 50;
 const DEFAULT_MORE_WORDS_AMOUNT = 50;
+const RENDERING_YEAR_CHIP_LIMIT = 3
 // @ MAIN
 const YearChip: FC = () => {
   // Redux states
@@ -167,7 +168,8 @@ const YearChip: FC = () => {
     </Tooltip>
   )
 
-  const renderingSems = expandedYearChip ? support.sems : onlyBiggestThree(support.sems)
+  const renderingSems = support.sems.length > RENDERING_YEAR_CHIP_LIMIT
+    ? (expandedYearChip ? support.sems : onlyBiggestThree(support.sems)) : support.sems
 
   const RenderSearchResult = support.searchData !== "" && <SearchResult />
   const RenderWordList = support.searchData === "" && (
@@ -176,12 +178,14 @@ const YearChip: FC = () => {
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
         {support.sems.length !== 0 &&
           <Fragment>
-            <Chip 
+            {support.sems.length > RENDERING_YEAR_CHIP_LIMIT &&
+              <Chip 
               clickable
-              label={expandedYearChip ? `Back` : `...`}
+              label={expandedYearChip ? `${tr.closeExtendedYearChip[ln]}` : `...`}
               onClick={() => expandYearChip(!expandedYearChip)}
               color={'default'}
             />
+            }
             {
               renderingSems
               .sort((a, b) => support.yearOrderPref === 'desc' ? b - a : a - b)

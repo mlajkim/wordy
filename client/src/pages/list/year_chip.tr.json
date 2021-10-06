@@ -74,6 +74,11 @@
     "en": "Load more words",
     "ja": "もっと"
   },
+  "closeExtendedYearChip": {
+    "ko": "뒤로",
+    "en": "Back",
+    "ja": "前に"
+  },
   "": {
     "ko": "DUMMY",
     "en": "DO NOT",
