@@ -79,6 +79,8 @@ export type Support = {
   yearOrderPref: AscDescType,
   wordDisplayPref: 'wordcard' | 'list';
   isDarkMode: boolean;
+  // ! Version related
+  lastReadVersion: string
   // Personal Setting
   extendedSearchBar: boolean;
   isYearQuadrantEnabled: boolean;

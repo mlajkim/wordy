@@ -15,6 +15,8 @@ const supportSchema = new Schema({
   yearOrderPref: String, // asc or desc
   wordDisplayPref: String, // wordcard or list (or others even)
   isDarkMode: Boolean,
+  // ! Version related
+  lastReadVersion: String,
   // Search Preference
   searchOnlyDownloaded: Boolean,
   displayingLnUserPref: String,
