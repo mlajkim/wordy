@@ -105,7 +105,7 @@ const DrawerComponent = (props: any) => {
           </ListItem>
           <ListItem disabled >
             <Typography style={{ fontSize: 10}}>
-              <i>{`Developed and maintained by AJ`}</i>
+              <i>{`Developed and maintained by AJ Kim`}</i>
             </Typography>
           </ListItem>
           

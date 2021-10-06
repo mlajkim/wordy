@@ -5,7 +5,7 @@ import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
 import { State, WordsChunk, SpecialTag } from '../../types'
 import { buttonLight, buttonDark } from '../../theme'
 // Library
-import { filteredSpecialTag } from '../../frontendWambda'
+import { filteredSpecialTag, onlyBiggestThree } from '../../frontendWambda'
 // Translation
 import tr from './year_chip.tr.json'
 // Components
@@ -37,12 +37,13 @@ const YearChip: FC = () => {
   const {language, support, words} = useSelector((state: State) => state);
   const ln = language;
   // Component state
-  const [selectedSem, setSelectedSem] = useState<number>(0);
-  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>();
-  const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([]);
-  const [normalTags, setNormalTags] = useState<string[]>([]);
-  const [downloadedSems, setDownloadedSems] = useState<number[]>([]);
-  const [wordCardsMax, setWordCardsMax] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
+  const [selectedSem, setSelectedSem] = useState<number>(0)
+  const [selectedSpecialTag, setSelectedSpecialTag] = useState<SpecialTag>()
+  const [selectedNormalTags, setSelectedNormalTags] = useState<string[]>([])
+  const [normalTags, setNormalTags] = useState<string[]>([])
+  const [downloadedSems, setDownloadedSems] = useState<number[]>([])
+  const [wordCardsMax, setWordCardsMax] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT)
+  const [expandedYearChip, expandYearChip] = useState(false)
   // Effect
   useEffect(() => {
     if (support.sems.findIndex(sem => sem === selectedSem) === -1)
@@ -164,31 +165,40 @@ const YearChip: FC = () => {
         <ExpandMoreIcon fontSize="small" style={{ color: support.isDarkMode ? buttonLight : buttonDark }} />
       </IconButton>
     </Tooltip>
-  );
+  )
+
+  const renderingSems = expandedYearChip ? support.sems : onlyBiggestThree(support.sems)
 
   const RenderSearchResult = support.searchData !== "" && <SearchResult />
   const RenderWordList = support.searchData === "" && (
     <Fragment>
       <ListSetting selectedSem={selectedSem} />
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
-        {support.sems.length === 0 
-          ? null
-          : (
-            support.sems
-            .sort((a, b) => support.yearOrderPref === 'desc' ? b - a : a - b)
-            .map((sem: number) => (
-              <Chip 
-                key={sem} 
-                clickable
-                label={`${convertSem(sem).year}${tr.year[ln]} ${convertSem(sem).sem}${tr.sem[ln]}`}
-                onDelete={downloadedSems.find(datus => datus === sem) ? () => handleSemChipClick(sem) : undefined}
-                deleteIcon={<DoneIcon style={{ fontSize: 16 }}/>} 
-                onClick={() => handleSemChipClick(sem)}
-                color={(sem === selectedSem) ? 'primary' : 'default'}
-              />
-            ))
-            
-          )
+        {support.sems.length !== 0 &&
+          <Fragment>
+            <Chip 
+              clickable
+              label={expandedYearChip ? `Back` : `...`}
+              onClick={() => expandYearChip(!expandedYearChip)}
+              color={'default'}
+            />
+            {
+              renderingSems
+              .sort((a, b) => support.yearOrderPref === 'desc' ? b - a : a - b)
+              .map((sem: number) => (
+                  <Chip 
+                    key={sem} 
+                    clickable
+                    label={`${convertSem(sem).year}${tr.year[ln]} ${convertSem(sem).sem}${tr.sem[ln]}`}
+                    onDelete={downloadedSems.find(datus => datus === sem) ? () => handleSemChipClick(sem) : undefined}
+                    deleteIcon={<DoneIcon style={{ fontSize: 16 }}/>} 
+                    onClick={() => handleSemChipClick(sem)}
+                    color={(sem === selectedSem) ? 'primary' : 'default'}
+                  />
+                )
+              )
+            }
+          </Fragment>
         }
       </Grid>
       <Grid style={{textAlign: 'center', margin: 8}}>

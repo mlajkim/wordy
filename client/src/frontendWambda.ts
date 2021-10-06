@@ -152,3 +152,6 @@ export const filteredSpecialTag = (wordChunk: WordsChunk | undefined): SpecialTa
   }) 
   .filter(el => el !== "NotCatagorized") as SpecialTag[]
 }
+
+// Oct 5, 2021
+export const onlyBiggestThree = (sems: number[]): number[] => sems.sort((a,b)=>b-a).slice(0, 3)
