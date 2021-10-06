@@ -2,7 +2,7 @@
   "welcome": {
     "ko": "환영합니다!",
     "en": "Welcome to Wordy-cloud!",
-    "ja": "Wordy-cloudにようこそ！"
+    "ja": "Wordy-cloudへようこそ！"
   },
   "welcomeBackToWordyCloud": {
     "ko": "Wordy-cloud에 다시 와주셔서 진심으로 감사합니다!",
@@ -12,7 +12,7 @@
   "hereIsTheReleaseNoteFront": {
     "ko": "Wordy ",
     "en": "Here is the release note for ",
-    "ja": "Wordy"
+    "ja": "Wordy "
   },
   "hereIsTheReleaseNoteBack": {
     "ko": " 업데이트 내용입니다.",

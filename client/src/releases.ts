@@ -15,7 +15,29 @@ const RELEASES: Release[] = [
     minorUpdates: [
       
     ]
-  }
+  },
+  {
+    version: "v0.5.1",
+    date: "Sep 24, 2021",
+    majorUpdates: [
+      "Blah",
+      "BLah",
+    ],
+    minorUpdates: [
+      
+    ]
+  },
+  {
+    version: "v0.5.0",
+    date: "Sep 13, 2021",
+    majorUpdates: [
+      "Introduce \"Search\": You can now search your data on the Appbar",
+      "BLah",
+    ],
+    minorUpdates: [
+      
+    ]
+  },
 ]
 
 export default RELEASES;

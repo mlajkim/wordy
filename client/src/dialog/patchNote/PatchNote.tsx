@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 // Type
 import { State } from '../../types'
+import RELEASES from '../../releases'
 // Translate
 import tr from './patchNote.tr.json'
 // Material UI core
@@ -61,25 +62,44 @@ const DialogContent = withStyles((theme: Theme) => ({
 
 const SettingDialog: React.FC = () => {
   // Redux states
-  const { language, support } = useSelector((state: State) => state);
-  const ln = language;
+  const { language, support } = useSelector((state: State) => state)
+  const ln = language
+  const [isUserNew, setUserNew] = useState(false)
+  const [isUserLongTimeNoSee, setUserLongTimeNoSee] = useState(false)
 
   useEffect(() => {
     // ! Run once
-    
-  }, [])
+    const idx = RELEASES.findIndex(release => release.version === support.lastReadVersion)
+    if (idx === -1) setUserNew(true)
+    else if (idx >= 2) setUserLongTimeNoSee(true)
+  }, [support.lastReadVersion])
 
   return (
     <div>
       <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
         <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
           {tr.welcome[ln]}
-          <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
-            {tr.welcomeBackToWordyCloud[ln]}
-          </Typography>
-          <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>
-            {tr.hereIsTheReleaseNoteFront[ln] + support.version + tr.hereIsTheReleaseNoteBack[ln]}
-          </Typography>
+          {
+            isUserNew ?
+            (
+              <Fragment>
+                <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
+                  Welcome to wordy! you will be multilanguar soon!
+                </Typography>
+              </Fragment>
+            )
+            : (
+              <Fragment>
+                  <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
+                    {isUserLongTimeNoSee ? "hi" : tr.welcomeBackToWordyCloud[ln]}
+                  </Typography>
+                  <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>
+                    {tr.hereIsTheReleaseNoteFront[ln] + support.version + tr.hereIsTheReleaseNoteBack[ln]}
+                  </Typography>
+              </Fragment>
+            )
+          }
+          
         </DialogTitle>
         <DialogContent dividers >
           <FormGroup>

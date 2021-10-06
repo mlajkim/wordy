@@ -64,7 +64,7 @@ export type SnackbarState = {
 }
 
 export type Support = {
-  version: string;
+  version: `v${string}`;
   isBeta: boolean;
   versionDate: string;
   addWordLangPref: AddableLang;
