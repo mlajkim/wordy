@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 import { State } from '../types';
 // Dialogs
+import PatchNote from '../dialog/patchNote/PatchNote'
 import LoginDialog from '../dialog/login_dialog/LoginDialog';
 import WarningDialog from '../dialog/warning/WarningDialog';
 import AddWordsDialog from '../dialog/add_word/AddWordsDialog';
@@ -20,6 +21,9 @@ const Dialog = () => {
   const {dialog} = useSelector((state: State) => state);
 
   switch(dialog.type) {
+    case 'PatchNote':
+      return <PatchNote />
+
     case 'EditOkrObject':
       return <EditOkrObjectDialog />
 

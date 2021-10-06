@@ -54,7 +54,7 @@ export type DialogType = 'LoginDialog' | 'SignUpDialog' | 'AddWordsDialog' | 'Ed
   // okr below
   'EditOkrObject' |
   'GroupDialog' |
-  'CreateOkrObject';
+  'CreateOkrObject' | "PatchNote";
 
 export type SnackbarState = {
   isOpen: boolean,

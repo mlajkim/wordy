@@ -35,7 +35,7 @@ const keyMap = {
 };
 
 const App: React.FC = () => {
-  const { support, dialog } = useSelector((state: State) => state);
+  const { support, dialog, user } = useSelector((state: State) => state);
 
   useEffect(() => {
     // Check the dark API token exists, if yes, apply.
@@ -54,8 +54,17 @@ const App: React.FC = () => {
     };
 
     // Latest apigateway structure
-    appRunOnceLogic();
+    appRunOnceLogic()
   }, []);
+
+  // ! PatchNote
+  useEffect(() => {
+    if (!user.isSignedIn || support.lastReadVersion === support.version) return
+
+    // ! Dialog
+    store.dispatch(setDialog("PatchNote"))
+    
+  }, [user.isSignedIn])
 
     // Hotkey
     const hdlHotkey = {
