@@ -17,7 +17,8 @@
   "languageChanged": {
     "ko": "변경되었습니다",
     "en": "Language Changed",
-    "ja": "変更しました"
+    "ja": "変更しました",
+    "zh": "改变了"
   },
   "toDarkMode": {
     "ko": "어두운 테마로 변경",

@@ -4,7 +4,7 @@ import { AvailableCookies } from './type/availableType'
 import { EventType } from './type/wordyEventType'
 import { ResourceId, WordPure } from './type/resourceType'
 import { WordsChunk, Word, SpecialTag } from './types'
-import { checkIfThisDay } from './utils'
+import { AddableLanguage } from './type/generalType'
 // Library
 import cookies from 'js-cookie'
 import axios from 'axios'
@@ -144,3 +144,16 @@ export const filteredSpecialTag = (wordChunk: WordsChunk | undefined): SpecialTa
 
 // Oct 5, 2021
 export const onlyBiggestThree = (sems: number[]): number[] => sems.sort((a,b)=>b-a).slice(0, 3)
+
+// ! October, 2021 
+export const orderFirst = (
+  orderThisFirst: AddableLanguage, array: AddableLanguage[]
+): AddableLanguage[] => {
+  const index = array.findIndex(el => el === orderThisFirst)
+
+  if (index === -1) return [orderThisFirst, ...array]
+  
+  const newArray = array.slice()
+  newArray.splice(index, 1)
+  return [orderThisFirst, ...newArray]
+}

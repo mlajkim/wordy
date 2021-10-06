@@ -1,44 +1,47 @@
-import React, { useState, useLayoutEffect, Fragment, FC } from 'react';
+import React, { useState, useLayoutEffect, Fragment, FC } from 'react'
 import { useGoogleLogout } from 'react-google-login'
-import Cookie from 'js-cookie';
+import Cookie from 'js-cookie'
 // Type
-import { languageCodeIntoUserFriendlyFormat } from '../type/sharedWambda';
-import { appbarLight, appbarDark, appbarDevMode } from '../theme';
-import Menu from '@material-ui/core/Menu';
-import { GOOGLE_CLIENT_ID } from '../type/predefined';
+import { State } from '../types'
+import { languageCodeIntoUserFriendlyFormat } from '../type/sharedWambda'
+import { appbarLight, appbarDark, appbarDevMode } from '../theme'
+import Menu from '@material-ui/core/Menu'
+import { ADDABLE_LANGUAGES_LIST, AddableLanguage } from '../type/generalType'
+import { GOOGLE_CLIENT_ID } from '../type/predefined'
+import { orderFirst } from '../frontendWambda'
 // Lambda
-import { throwEvent } from '../frontendWambda';
-// Component
-import SearchBar from '../components/search_bar/SearchBar';
-// MUI
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import { throwEvent } from '../frontendWambda'
+// Translation
 import tr from './appbar.tr.json'
-import { State, Language } from '../types';
-import MenuItem from '@material-ui/core/MenuItem';
-import Drawer from './Drawer';
-import Avatar from '@material-ui/core/Avatar';
-import * as API from '../API';
-import Tooltip from '@material-ui/core/Tooltip';
+// Component
+import SearchBar from '../components/search_bar/SearchBar'
+// MUI
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import MenuItem from '@material-ui/core/MenuItem'
+import Drawer from './Drawer'
+import Avatar from '@material-ui/core/Avatar'
+import * as API from '../API'
+import Tooltip from '@material-ui/core/Tooltip'
 // MUI Icons
-import MenuIcon from '@material-ui/icons/Menu';
-import TranslateIcon from '@material-ui/icons/Translate';
-import AddIcon from '@material-ui/icons/Add';
-import LightModeIcon from '@material-ui/icons/WbSunny'; // Light mode On
-import DarkModeIcon from '@material-ui/icons/Brightness2'; // Dark mode On
+import MenuIcon from '@material-ui/icons/Menu'
+import TranslateIcon from '@material-ui/icons/Translate'
+import AddIcon from '@material-ui/icons/Add'
+import LightModeIcon from '@material-ui/icons/WbSunny' // Light mode On
+import DarkModeIcon from '@material-ui/icons/Brightness2' // Dark mode On
 // Style
-import MUIStyle from '../styles/MUIStyle';
+import MUIStyle from '../styles/MUIStyle'
 // Redux
-import store from '../redux/store';
-import { useSelector } from 'react-redux';
+import store from '../redux/store'
+import { useSelector } from 'react-redux'
 // Redux Actions
 import { 
   setDialog, setLanguage, setPage, offDialog, setSnackbar, setOkrReloadOn 
-} from '../redux/actions';
-import { getSupport,switchDarkLightMode } from '../redux/actions/supportAction';
-import { updateUser } from '../redux/actions/userAction';
+} from '../redux/actions'
+import { getSupport,switchDarkLightMode } from '../redux/actions/supportAction'
+import { updateUser } from '../redux/actions/userAction'
 
 
 const Appbar: FC = () => {
@@ -69,13 +72,17 @@ const Appbar: FC = () => {
     else store.dispatch(setDialog('MassWordsDialog'));
   };
 
-  const handleLanguageChange = (ln: Language) => {
-    store.dispatch(setSnackbar(tr.languageChanged[ln]))
-    store.dispatch(setLanguage(ln));
-    const accessToken = Cookie.get('login');
-    const payload = {languagePreference: ln};
-    API.handleUserChangeDB(accessToken as string, payload);
-    openMenu(null);
+  const handleLanguageChange = (lang: AddableLanguage) => {
+    // handle disabled language
+    if (lang === 'zh') return
+
+    // Algorithm
+    store.dispatch(setSnackbar(tr.languageChanged[lang]))
+    store.dispatch(setLanguage(lang))
+    const accessToken = Cookie.get('login')
+    const payload = { languagePreference: lang }
+    API.handleUserChangeDB(accessToken as string, payload)
+    openMenu(null)
   }
 
   // hdlSettingClick
@@ -114,6 +121,12 @@ const Appbar: FC = () => {
     onFailure: () => {store.dispatch(setSnackbar('[ERROR] Logout failure', 'warning'))},
     clientId: GOOGLE_CLIENT_ID
   });
+
+  const DrawLanguageMenuItem = orderFirst(ln, ADDABLE_LANGUAGES_LIST).map(lang => (
+    <MenuItem onClick={() => handleLanguageChange(lang)} disabled={lang === 'zh'} key={lang}>
+      {languageCodeIntoUserFriendlyFormat(lang)}
+    </MenuItem>
+  ))
   
   return (
     <div className={classes.root}>
@@ -167,10 +180,7 @@ const Appbar: FC = () => {
             open={Boolean(menu)}
             onClose={() => openMenu(null)}
           >
-            <MenuItem onClick={() => handleLanguageChange('ko')}>{languageCodeIntoUserFriendlyFormat('ko')}</MenuItem>
-            <MenuItem onClick={() => handleLanguageChange('en')}>{languageCodeIntoUserFriendlyFormat('en')}</MenuItem>
-            <MenuItem onClick={() => handleLanguageChange('ja')}>{languageCodeIntoUserFriendlyFormat('ja')}</MenuItem>
-            <MenuItem disabled onClick={() => handleLanguageChange('en')}>{languageCodeIntoUserFriendlyFormat('zh')}</MenuItem>
+            { DrawLanguageMenuItem }
           </Menu>
           <IconButton size="small" color="inherit" onClick={(e) => handleProfileMenu(e)}>
             <Avatar alt={user.firstName} src={user.imageUrl} />

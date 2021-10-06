@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { State } from '../../types';
-import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
-import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+import React, { useEffect, useState } from 'react'
+import { State } from '../../types'
+import { ADDABLE_LANGUAGES_LIST } from '../../type/generalType'
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
+import { orderFirst } from '../../frontendWambda'
 // Component 
-import LoadingFbStyle from '../../components/loading_fbstyle/LoadingFbStyle';
+import LoadingFbStyle from '../../components/loading_fbstyle/LoadingFbStyle'
 // Translation
-import tr from './available_langs.tr.json';
-// Material UI
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Tooltip from '@material-ui/core/Tooltip';
-// Material UI icon
-import CheckIcon from '@material-ui/icons/Check';
+import tr from './available_langs.tr.json'
+// MUI
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
+import Tooltip from '@material-ui/core/Tooltip'
+// MUI icon
+import CheckIcon from '@material-ui/icons/Check'
 // Redux
-import store from '../../redux/store';
-import { useSelector } from 'react-redux';
+import store from '../../redux/store'
+import { useSelector } from 'react-redux'
 // Redux Actions
-import { modifySupport } from '../../redux/actions/supportAction';
+import { modifySupport } from '../../redux/actions/supportAction'
 
 type Props = {
-  setDetectApi?: React.Dispatch<React.SetStateAction<"enabled" | "disabled">>;
-  detectApi?: "enabled" | "disabled";
-  detectedLanguage?: string;
-  enableDetect?: boolean;
+  setDetectApi?: React.Dispatch<React.SetStateAction<"enabled" | "disabled">>
+  detectApi?: "enabled" | "disabled"
+  detectedLanguage?: string
+  enableDetect?: boolean
 };
 
 const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLanguage, enableDetect }) => {
@@ -47,9 +48,16 @@ const AvailableLangs: React.FC<Props> = ({ setDetectApi, detectApi, detectedLang
     if (typeof setDetectApi === 'function') setDetectApi("disabled"); // no longer API working
   }
 
-  const menuItems = ADDABLE_LANGUAGES_LIST.map(lang => (
-    <MenuItem onClick={() => handleClickLang()} key={lang} value={lang}>{languageCodeIntoUserFriendlyFormat(lang)}</MenuItem>
-  ));
+  const menuItems = orderFirst(ln, ADDABLE_LANGUAGES_LIST)
+  .map(lang => (
+    <MenuItem 
+      onClick={() => handleClickLang()} 
+      key={lang} 
+      value={lang}
+    >
+      {languageCodeIntoUserFriendlyFormat(lang)}
+    </MenuItem>
+  ))
 
   return (
     <div style={{ display: 'inline-flex' }}>
