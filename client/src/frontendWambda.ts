@@ -109,22 +109,11 @@ export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[]
   });
 }
 
-// Oct 5, 2021
-const displayingDate: { displayingName: SpecialTag, days: number }[] = [
-  { displayingName: 'today', days: 0 },
-  { displayingName: 'yesterday', days: -1 },
-  { displayingName: 'fourDays', days: -4 },
-  { displayingName: 'weekAgo', days: -7 },
-  { displayingName: 'twoWeeksAgo', days: -14 },
-  { displayingName: 'threeWeeksAgo', days: -21 },
-  { displayingName: 'monthAgo', days: -30 },
-]
-
 const getDayOff = (dateAdded: number): number => {
   const oneDayValue = 1000 * 60 * 60 * 24
-
-  const passedTime = moment(dateAdded).valueOf() - moment().valueOf()
-  return Math.ceil(passedTime / oneDayValue) 
+  
+  const passedTime = moment(dateAdded).valueOf() - moment().startOf('day').valueOf() - 1
+  return Math.floor(passedTime / oneDayValue) 
 
 }
 
