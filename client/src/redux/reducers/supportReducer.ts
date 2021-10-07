@@ -1,12 +1,13 @@
-import { Support } from '../../types';
+import { Support } from '../../types'
+import RELEASES from '../../releases'
 // Redux Action
 import { UPDATE_SUPPORT } from '../actions/supportAction';
 
 
 const initialState: Support = {
-  version: 'v0.5.3',
-  isBeta: true,
-  versionDate: 'Oct ?, 2021',
+  version: RELEASES[0].version,
+  isBeta: !RELEASES[0].isFinished,
+  versionDate: RELEASES[0].date,
   status: null,
   addWordLangPref: 'en', // user's prefrenece of adding language
   newWordAddingType: 'mass', // old support
