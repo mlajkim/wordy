@@ -90,7 +90,7 @@ const PatchNote: React.FC = () => {
         {patchNoteState === "latest" ? "hi" : tr.welcomeBackToWordyCloud[ln]}
       </Typography>
       <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>
-        {tr.hereIsTheReleaseNoteFront[ln] + support.version + tr.hereIsTheReleaseNoteBack[ln]}
+        {tr.hereIsTheReleaseNoteFront[ln] + `${support.lastReadVersion} => ${support.version}` + tr.hereIsTheReleaseNoteBack[ln]}
       </Typography>
   </Fragment>
   )
