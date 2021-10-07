@@ -12,6 +12,7 @@ import trAppbar from '../../app/appbar.tr.json'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 // MUI Icons
+import SurfingIcon from '@mui/icons-material/Surfing'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import CloudDoneIcon from '@material-ui/icons/CloudDoneOutlined'
 import CheckIcon from '@material-ui/icons/Check'
@@ -116,7 +117,7 @@ const ListSetting: FC<Props> = ({ selectedSem, handleSemChipClick }) => {
         <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => hdlRandomSem()}>
         {
           <Tooltip title={tr.randomlyChooseSem[ln]} placement="bottom">
-            <CasinoIcon />
+            <SurfingIcon />
           </Tooltip> 
         }
       </IconButton>
