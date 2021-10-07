@@ -33,6 +33,21 @@
     "en": "Only showing downloaded quarter",
     "ko": "현재 다운로드 범위에서의 결과입니다",
     "ja": "ダウンロードされた範囲での検索結果です"
+  },
+  "searchingAtFront": {
+    "en": "Searching at ",
+    "ko": "",
+    "ja": ""
+  },
+  "searchingAtRear": {
+    "en": "..",
+    "ko": "에서 찾는중..",
+    "ja": "で検索中.."
+  },
+  "cancelSearch": {
+    "en": "Cancel downloading",
+    "ko": "탐색 중지",
+    "ja": "ダウンロード中止"
   }
   
 }

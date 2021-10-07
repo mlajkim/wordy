@@ -6,6 +6,7 @@ import tr from './search_result.tr.json';
 import trYearChip from '../../pages/list/year_chip.tr.json';
 // Lambda
 import { throwEvent, wordSearchingAlgorithm, convertWordsIntoLegacy } from '../../frontendWambda';
+import { convertSem } from '../../utils'
 // Theme
 import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
 // Redux
@@ -20,6 +21,7 @@ import Grid from '@material-ui/core/Grid';
 import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle';
 import { Tooltip, IconButton } from '@material-ui/core';
 // MUI Icon
+import Button from '@mui/material/Button';
 import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Components
@@ -38,12 +40,14 @@ const USER_SEARCH_ONLY_THIS_YEAR = [213];
 
 const SearchResult: React.FC = () => {
   // Redux states
-  const { support, words, language, user } = useSelector((state: State) => state);
-  const ln = language;
-  const [ matchingWord, setMatchingWord ] = useState<Word[]>([]);
-  const [ wordCardsMax, setWordCardsMax ] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT);
+  const { support, words, language, user } = useSelector((state: State) => state)
+  const ln = language
+  const [ matchingWord, setMatchingWord ] = useState<Word[]>([])
+  const [ wordCardsMax, setWordCardsMax ] = useState<number>(DEFAULT_MORE_WORDS_AMOUNT)
   // Searching enabled
-  const [ lastSearch , setLastSearch ] = useState<string>("");
+  const [ lastSearch , setLastSearch ] = useState<string>("")
+  const [ downloadingAt, setDownloadingAt ] = useState<number>(0)
+  const [ cancelSearch, setCancelSearch ] = useState(false)
 
   // Search Algorithm (Forntend)
   useEffect(() => {
@@ -52,6 +56,7 @@ const SearchResult: React.FC = () => {
 
     // Algorithm
     const searchingAlgorithm = async () => {
+      setCancelSearch(false) // reset
       store.dispatch(modifySupport({ searchLoading: true }, true));
 
       const searchedWord: Word[] = [];
@@ -77,6 +82,8 @@ const SearchResult: React.FC = () => {
         return;
       }
 
+      setDownloadingAt(0) // For reset
+
       // get the not downloaded semseters
       const notDownloadedSems: number[] = USER_SEARCH_ALLOW_ALL
       ? support.sems.filter(sem => !alreadyDownloadedSems.includes(sem)) // just do all
@@ -86,7 +93,12 @@ const SearchResult: React.FC = () => {
 
       // Download from the semester 
       for (const undownloadeSem of notDownloadedSems) {
+        if (cancelSearch) {
+          setCancelSearch(true)
+          break // cancel search
+        }
         // download the data and get from it
+        setDownloadingAt(undownloadeSem)
         const input: WordGetWordInput = { sem: undownloadeSem, legacyMongoId: user.ID! }
         await throwEvent("word:getWord", input)
         .then(res => {
@@ -194,7 +206,19 @@ const SearchResult: React.FC = () => {
   
   return (
     <Fragment>
-      { support.searchLoading && <LoadingFbStyle />}
+      { support.searchLoading && (
+        <Fragment>
+          <LoadingFbStyle />
+          {downloadingAt !== 0 && 
+            tr.searchingAtFront[ln] + `${convertSem(downloadingAt).year}-${convertSem(downloadingAt).sem}` + tr.searchingAtRear[ln]
+          }
+          <Button 
+            size="small"
+            variant="outlined" color="error" onClick={() => setCancelSearch(true)}>
+            {tr.cancelSearch[ln]}
+          </Button>
+        </Fragment>
+      )}
       { RenderSerachResult }
     </Fragment>
   )
