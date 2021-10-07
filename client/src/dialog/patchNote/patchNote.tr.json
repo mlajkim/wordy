@@ -4,6 +4,11 @@
     "en": "Welcome to Wordy-cloud!",
     "ja": "Wordy-cloudへようこそ！"
   },
+  "newVersionAdded": {
+    "ko": "Wordy-cloud의 새로운 버젼 소식!",
+    "en": "Introducing a new version!",
+    "ja": "新しいWordy-cloudバージョンが公開されました!"
+  },
   "welcomeBackToWordyCloud": {
     "ko": "Wordy-cloud에 다시 와주셔서 진심으로 감사합니다!",
     "en": "Welcome back to Wordy-cloud!",
@@ -17,6 +22,21 @@
   "hereIsTheReleaseNoteBack": {
     "ko": " 업데이트 내용입니다.",
     "en": ".",
-    "ja": "アップてデート内容でございます。"
+    "ja": " アップてデート内容をご紹介いたします。"
+  },
+  "welcomeNewUser": {
+    "ko": "Wordy-cloud에 오신것을 환영합니다",
+    "en": "Welcome to Wordy-cloud",
+    "ja": "Wordy-cloudへようこそ！"
+  },
+  "emailMe": {
+    "ko": "번역오류 등 문의사항이 있으시면 이하의 메일로 연락주십시오",
+    "en": "If you have found any translation error, please email us to the following email",
+    "ja": "翻訳エラまたはご質問がございましたら以下のメールにてご連絡してください。"
+  },
+  "okay": {
+    "ko": "이 버젼에 한해 더이상 표시하지 않음",
+    "en": "No longer show this for this version",
+    "ja": "このバージョンに限り表示しない"
   }
 }

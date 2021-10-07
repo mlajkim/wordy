@@ -3,7 +3,6 @@ type Release = {
   date: `${string}, ${string}`
   isFinished: boolean
   majorUpdates: string[]
-  minorUpdates: string[]
 }
 const RELEASES: Release[] = [
   {
@@ -11,11 +10,9 @@ const RELEASES: Release[] = [
     date: "Oct ?, 2021",
     isFinished: false,
     majorUpdates: [
-      "Blah",
-      "BLah",
-    ],
-    minorUpdates: [
-      
+      "You can now expand/collapse your YearChip, when it has more than three.",
+      "Language has now the order according to its usage and popularity. Your language preference will bring your language to the top",
+      "Now, list only renders that contain (Today, Yesterday ...)"
     ]
   },
   {
@@ -23,11 +20,10 @@ const RELEASES: Release[] = [
     date: "Oct 6, 2021",
     isFinished: true,
     majorUpdates: [
-      "Blah",
-      "BLah",
-    ],
-    minorUpdates: [
-      
+      "Wordy now searches without considering upper/lower case",
+      "You can run 'searching' from command + shift + s (Shortcut added)",
+      "You can now disable auto detection API. It will be disabled, if you do not have enough permission",
+      "Search result will be now highlighted. You can disable this too from setting.",
     ]
   },
   {
@@ -35,11 +31,10 @@ const RELEASES: Release[] = [
     date: "Sep 24, 2021",
     isFinished: true,
     majorUpdates: [
-      "Blah",
-      "BLah",
-    ],
-    minorUpdates: [
-      
+      "Wordy now searches without considering upper/lower case",
+      "You can run 'searching' from command + shift + s (Shortcut added)",
+      "You can now disable auto detection API. It will be disabled, if you do not have enough permission",
+      "Search result will be now highlighted. You can disable this too from setting.",
     ]
   },
   {
@@ -47,11 +42,9 @@ const RELEASES: Release[] = [
     date: "Sep 13, 2021",
     isFinished: true,
     majorUpdates: [
-      "Introduce \"Search\": You can now search your data on the Appbar",
-      "BLah",
-    ],
-    minorUpdates: [
-      
+      "Search feature released. you can now search your word from your database, securely using Wordy Access Token (WAT).",
+      "Added a new search setting (Which is designed to save up your data usage for your phone)",
+      "Appbar now shows and hides icons based on the device size of your screen."
     ]
   },
 ]

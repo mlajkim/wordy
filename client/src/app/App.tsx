@@ -1,32 +1,31 @@
 // eslint-disable-next-line
-import React, {useEffect} from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// Types
-import { State } from '../types';
-import { SEARCH_BAR_ID } from '../type/predefined';
-// Component
-import AppbarNotice from './AppbarNotice';
-import Appbar from './Appbar';
-import * as API from '../API';
-import axios from 'axios';
-import {handleCountryCode} from '../utils';
-// Hotkeys
-import { HotKeys } from "react-hotkeys";
-import shortcut from '../shortcut';
-// Pages
-import Okr from './Okr';
-import Dialog from './Dialog';
-import Page from './Page';
-import Snackbar from './Snackbar';
-import appRunOnceLogic from './AppRunOnceLogic';
-// Redux
-import store from '../redux/store';
-import { useSelector } from 'react-redux';
-// Action
-import { setLanguage, setDialog } from '../redux/actions';
-import { updateSupport } from '../redux/actions/supportAction';
-// Theme
+import React, {useEffect} from 'react'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import axios from 'axios'
+import { HotKeys } from "react-hotkeys"
+// Type
+import { State } from '../types'
+import { SEARCH_BAR_ID } from '../type/predefined'
+import RELEASES from '../releases'
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
+import shortcut from '../shortcut'
+// Component
+import AppbarNotice from './AppbarNotice'
+import Appbar from './Appbar'
+import * as API from '../API'
+import {handleCountryCode} from '../utils'
+// Pages
+import Okr from './Okr'
+import Dialog from './Dialog'
+import Page from './Page'
+import Snackbar from './Snackbar'
+import appRunOnceLogic from './AppRunOnceLogic'
+// Redux
+import store from '../redux/store'
+import { useSelector } from 'react-redux'
+// Redux Action
+import { setLanguage, setDialog } from '../redux/actions'
+import { updateSupport } from '../redux/actions/supportAction'
 
 
 const keyMap = {  
@@ -59,7 +58,7 @@ const App: React.FC = () => {
 
   // ! PatchNote
   useEffect(() => {
-    if (!user.isSignedIn || support.lastReadVersion === support.version) return
+    if (!user.isSignedIn || support.lastReadVersion === RELEASES[RELEASES[0].isFinished ? 0 : 1].version) return
 
     store.dispatch(setDialog("PatchNote"))
     
