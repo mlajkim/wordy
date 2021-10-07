@@ -9,6 +9,7 @@ import { AddableLanguage } from './type/generalType'
 import cookies from 'js-cookie'
 import axios from 'axios'
 import moment from 'moment'
+import { knuthShuffle } from 'knuth-shuffle'
 // Redux
 import store from './redux/store'
 // Redux Action
@@ -157,3 +158,6 @@ export const orderFirst = (
   newArray.splice(index, 1)
   return [orderThisFirst, ...newArray]
 }
+
+// ! October, 2021
+export const shuffleKnuckle = (arr: any[]): any[] => knuthShuffle(arr)

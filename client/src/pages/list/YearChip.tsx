@@ -174,7 +174,7 @@ const YearChip: FC = () => {
   const RenderSearchResult = support.searchData !== "" && <SearchResult />
   const RenderWordList = support.searchData === "" && (
     <Fragment>
-      <ListSetting selectedSem={selectedSem} />
+      <ListSetting selectedSem={selectedSem} handleSemChipClick={handleSemChipClick}/>
       <Grid style={{textAlign: 'center', paddingTop: 50}}>
         {support.sems.length !== 0 &&
           <Fragment>

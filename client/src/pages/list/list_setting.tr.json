@@ -38,5 +38,10 @@
     "ko": "무작위 리스트",
     "en": "Mixed!",
     "ja": "ランドム"
+  },
+  "randomlyChooseSem": {
+    "ko": "무작위로 분기 선택하기",
+    "en": "Randomly choose semester",
+    "ja": "ランドムで分岐を選択"
   }
 }
