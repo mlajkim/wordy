@@ -12,7 +12,8 @@ const RELEASES: Release[] = [
     majorUpdates: [
       "You can now expand/collapse your YearChip, when it has more than three.",
       "Language has now the order according to its usage and popularity. Your language preference will bring your language to the top",
-      "Now, list only renders that contain (Today, Yesterday ...)"
+      "Now, list only renders that contain (Today, Yesterday ...)",
+      "You can now cancel during search"
     ]
   },
   {

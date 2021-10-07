@@ -213,7 +213,7 @@ const SearchResult: React.FC = () => {
             tr.searchingAtFront[ln] + `${convertSem(downloadingAt).year}-${convertSem(downloadingAt).sem}` + tr.searchingAtRear[ln]
           }
           <Button 
-            size="small"
+            size="small" style={{ marginLeft: 4 }}
             variant="outlined" color="error" onClick={() => setCancelSearch(true)}>
             {tr.cancelSearch[ln]}
           </Button>
