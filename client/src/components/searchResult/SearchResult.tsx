@@ -134,7 +134,7 @@ const SearchResult: React.FC = () => {
       store.dispatch(modifySupport({ searchingBegins: false }, true));
       searchingAlgorithm();
     };
-  }, [words, support, user.ID]);
+  }, [words, support, user.ID, cancelSearch]);
 
   // Searching possible algoriuth 
 
