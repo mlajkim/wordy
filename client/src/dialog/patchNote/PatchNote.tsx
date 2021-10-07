@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import moment from 'moment'
 // Type
 import { State } from '../../types'
 import RELEASES from '../../releases'
