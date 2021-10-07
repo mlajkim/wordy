@@ -43,5 +43,15 @@
     "ko": "무작위로 분기 선택하기",
     "en": "Randomly choose semester",
     "ja": "ランドムで分岐を選択"
+  },
+  "mix": {
+    "ko": "무작위로 배열하기",
+    "en": "Mix",
+    "ja": "ランドムで配列"
+  },
+  "backToOrderedList": {
+    "ko": "원래대로",
+    "en": "Back to ordered list",
+    "ja": "元に戻す"
   }
 }

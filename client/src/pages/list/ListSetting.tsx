@@ -127,11 +127,11 @@ const ListSetting: FC<Props> = ({ selectedSem, handleSemChipClick }) => {
           {
             selectedSem === support.mixedSem
               ?
-                <Tooltip title={"Back to normal"} placement="bottom">
+                <Tooltip title={tr.backToOrderedList[ln]} placement="bottom">
                   <ClearAllIcon />
                 </Tooltip>
               : 
-                <Tooltip title={"Mix it"} placement="bottom">
+                <Tooltip title={tr.mix[ln]} placement="bottom">
                   <CasinoIcon />
                 </Tooltip> 
           }
