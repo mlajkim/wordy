@@ -61,9 +61,6 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!user.isSignedIn || support.lastReadVersion === support.version) return
 
-    return // ! REMOVE THIS FOR PATCH 0.5.3
-
-    // ! Dialog
     store.dispatch(setDialog("PatchNote"))
     
   }, [user.isSignedIn, support.lastReadVersion, support.version])

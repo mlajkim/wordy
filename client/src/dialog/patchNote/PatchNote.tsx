@@ -60,52 +60,51 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-const SettingDialog: React.FC = () => {
+const PatchNote: React.FC = () => {
   // Redux states
   const { language, support } = useSelector((state: State) => state)
   const ln = language
-  const [isUserNew, setUserNew] = useState(false)
-  const [isUserLongTimeNoSee, setUserLongTimeNoSee] = useState(false)
+  const [patchNoteState, setPatchNoteState] = useState<"new" | "old" | "latest">("latest")
 
   useEffect(() => {
     // ! Run once
     const idx = RELEASES.findIndex(release => release.version === support.lastReadVersion)
-    if (idx === -1) setUserNew(true)
-    else if (idx >= 2) setUserLongTimeNoSee(true)
+
+    if (support.lastReadVersion === "") setPatchNoteState("new")
+    else if (idx >= 2) setPatchNoteState("old")
+    else setPatchNoteState("latest")
+
   }, [support.lastReadVersion])
+
+  const RenderWelcome = patchNoteState === "new" && (
+    <Fragment>
+      <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
+        Welcome to wordy! you will be multilanguar soon!
+      </Typography>
+    </Fragment>
+  )
+
+  const RenderMember = patchNoteState !== "new" && (
+    <Fragment>
+      <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
+        {patchNoteState === "latest" ? "hi" : tr.welcomeBackToWordyCloud[ln]}
+      </Typography>
+      <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>
+        {tr.hereIsTheReleaseNoteFront[ln] + support.version + tr.hereIsTheReleaseNoteBack[ln]}
+      </Typography>
+  </Fragment>
+  )
 
   return (
     <div>
       <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
         <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
           {tr.welcome[ln]}
-          {
-            isUserNew ?
-            (
-              <Fragment>
-                <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
-                  Welcome to wordy! you will be multilanguar soon!
-                </Typography>
-              </Fragment>
-            )
-            : (
-              <Fragment>
-                  <Typography color="textSecondary" style={{ fontSize: 13, paddingTop: 5 }}>
-                    {isUserLongTimeNoSee ? "hi" : tr.welcomeBackToWordyCloud[ln]}
-                  </Typography>
-                  <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>
-                    {tr.hereIsTheReleaseNoteFront[ln] + support.version + tr.hereIsTheReleaseNoteBack[ln]}
-                  </Typography>
-              </Fragment>
-            )
-          }
-          
+          { RenderWelcome }
+          { RenderMember }
         </DialogTitle>
         <DialogContent dividers >
           <FormGroup>
-            <Typography gutterBottom color="primary" style={{ fontSize: 15 }}>
-              hi
-            </Typography>
           </FormGroup>
         </DialogContent>
       </Dialog>
@@ -113,4 +112,4 @@ const SettingDialog: React.FC = () => {
   );
 };
 
-export default SettingDialog;
+export default PatchNote;
