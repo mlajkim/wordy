@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { FC, useEffect} from 'react'
+import { FC, useEffect, useState} from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import axios from 'axios'
 import { HotKeys } from "react-hotkeys"
@@ -40,6 +40,7 @@ const keyMap = {
 const App: FC = () => {
   const { support, dialog, user, language } = useSelector((state: State) => state);
   const ln = language
+  const [auotoSignInCheckFinished, setAuotoSignInCheckFinished] = useState(false)
 
   useEffect(() => {
     // Check the dark API token exists, if yes, apply.
@@ -59,6 +60,8 @@ const App: FC = () => {
 
     // Latest apigateway structure
     appRunOnceLogic()
+    setAuotoSignInCheckFinished(true)
+    
   }, []);
 
   // ! PatchNote
@@ -85,7 +88,7 @@ const App: FC = () => {
       }
     };
 
-  const RenderOneTap = user.isSignedIn === false && (
+  const RenderOneTap = auotoSignInCheckFinished && user.isSignedIn === false && (
     <GoogleOneTapLogin 
       onError={(error: any) => console.log(error)}
       onSuccess={(response) => {
