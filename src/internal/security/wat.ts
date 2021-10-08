@@ -13,7 +13,8 @@ const NOT_REQUIRING_WAT_EVENTS: EventType[] = [
   "okr:getMyOkr",
   "okr:getOkrObject",
   "okr:getOkrContainer",
-  "wss:signOut"
+  "wss:signOut",
+  "user:googleSignIn",
 ];
 const ADMIN_LIST = [
   {
