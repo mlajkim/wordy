@@ -6,6 +6,14 @@ type Release = {
 }
 const RELEASES: Release[] = [
   {
+    version: "v0.6.0",
+    date: "Oct ?, 2021",
+    isFinished: false,
+    majorUpdates: [
+      ""
+    ]
+  },
+  {
     version: "v0.5.3",
     date: "Oct 8, 2021",
     isFinished: true,
