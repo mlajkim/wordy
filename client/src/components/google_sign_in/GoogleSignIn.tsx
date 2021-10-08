@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import * as API from '../../API';
 // types 
 import { throwEvent } from '../../frontendWambda';
-import { UserCreateUserInput } from '../../type/payloadType';
+import { UserCreateUserInput, UserGoogleSignInInput } from '../../type/payloadType';
 import { Language } from '../../types';
 // Translation
 import tr from './google_sign_in.tr.json'
@@ -22,18 +22,27 @@ type Props = {
   type: 'login' | 'signup';
 }
 
-export const generateAccessToken = async (googleRes: GoogleRes, ln: Language) => {
+export const generateAccessToken = async (googleRes: GoogleRes, ln: Language, isOneTapSignIn?: boolean) => {
   const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
 
   // error handling
   if (error) return;
 
   // newUserApi called
-  const userInput: UserCreateUserInput = {
-    federalProvider: "google", validatingToken: googleRes.tokenId
+  if (isOneTapSignIn) {
+    const input: UserGoogleSignInInput = {
+      googleUniqueId: googleRes.googleId, familyName: googleRes.profileObj.familyName
+    }
+    throwEvent("user:googleSignIn", input)
+  } else {
+    // This method below checks the token
+    const userInput: UserCreateUserInput = {
+      federalProvider: "google", validatingToken: googleRes.tokenId
+    }
+    throwEvent("user:createUser", userInput)
+      .then(() => store.dispatch(setOkrReloadOn()))
   }
-  throwEvent("user:createUser", userInput)
-    .then(() => store.dispatch(setOkrReloadOn()))
+  
 
   API.addToken('login', accessToken, expires);
   API.handleEverySignIn(accessToken, googleRes, ln);

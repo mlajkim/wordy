@@ -51,7 +51,8 @@ type OkrService =
 type UserService = 
   "*" |
   "createUser" |
-  "getUser";
+  "getUser" |
+  "googleSignIn"
   
 type KmsService = 
   "*" |

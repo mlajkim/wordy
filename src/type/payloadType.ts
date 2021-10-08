@@ -28,6 +28,13 @@ export type wordDetectLanguagePayload = { language: string, isReliable: boolean,
 // User service
 // ===============
 
+// user:GOOGLE_SIGN_IN
+export type UserGoogleSignInInput = {
+  googleUniqueId: string
+  familyName: string
+}
+export type UserGoogleSignInPaylod = undefined
+
 // user:CREATE_USER 
 export type UserCreateUserInput = {
   federalProvider: FederalProvider;
