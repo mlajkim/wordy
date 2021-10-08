@@ -105,11 +105,13 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
           />
         </Typography>
         <Typography variant="body2" component="h4" >
-          "<Highlighter 
+          { word.example && "\"" }
+          <Highlighter 
             textToHighlight={word.example} 
             highlightClassName="highlighted"
             searchWords={[targetWord]} autoEscape={true}
-          />"
+          />
+          { word.example && "\"" }
         </Typography>
       </CardContent>
       <Chip label={`#${languageCodeIntoUserFriendlyFormat(word.language)}`} variant="outlined" size="small" />
