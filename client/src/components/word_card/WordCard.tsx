@@ -1,4 +1,6 @@
 import React from 'react';
+import Highlighter from "react-highlight-words"
+import './wordCard.css';
 // Type
 import { State, Word } from '../../types';
 import { convertSem } from '../../utils';
@@ -66,10 +68,7 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
     }
   };
 
-  const highlighter = support.highlightSearched ? highlighted ? highlighted : false : false
-  const wordSplited = highlighter && word.word ? word.word.indexOf(highlighter) !== -1 ? word.word.split(highlighter) : false : false
-  const meaningSplited = highlighter && word.meaning ? word.meaning.indexOf(highlighter) !== -1 ? word.meaning.split(highlighter) : false : false
-  const exampleSplited = highlighter && word.example ? word.example.indexOf(highlighter) !== -1 ? word.example.split(highlighter) : false : false
+  const targetWord = highlighted ? highlighted : ""
 
   // Render Tags
   const tags = word.tag.length === 0
@@ -89,25 +88,28 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
           {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}
         </Typography>
         <Typography variant="h5" component="h2">
-          {!wordSplited && word.word}
-          {wordSplited && wordSplited[0]}
-          {wordSplited && <span style={{ backgroundColor: "yellow", color: fontLight }}>{highlighted}</span>}
-          {wordSplited && wordSplited[1]}
+          <Highlighter 
+            textToHighlight={word.word} 
+            highlightClassName="highlighted"
+            searchWords={[targetWord]} autoEscape={true}
+          />
         </Typography>
         <Typography >
           {word.pronun}
         </Typography>
         <Typography variant="body2" component="p">
-          {!meaningSplited && word.meaning}
-          {meaningSplited && meaningSplited[0]}
-          {meaningSplited && <span style={{ backgroundColor: "yellow", color: fontLight }}>{highlighted}</span>}
-          {meaningSplited && meaningSplited[1]}
+          <Highlighter 
+            textToHighlight={word.meaning} 
+            highlightClassName="highlighted"
+            searchWords={[targetWord]} autoEscape={true}
+          />
         </Typography>
         <Typography variant="body2" component="h4" >
-          {!exampleSplited && word.example}
-          {exampleSplited && exampleSplited[0]}
-          {exampleSplited && <span style={{ backgroundColor: "yellow", color: fontLight }}>{highlighted}</span>}
-          {exampleSplited && exampleSplited[1]}
+          <Highlighter 
+            textToHighlight={word.example} 
+            highlightClassName="highlighted"
+            searchWords={[targetWord]} autoEscape={true}
+          />
         </Typography>
       </CardContent>
       <Chip label={`#${languageCodeIntoUserFriendlyFormat(word.language)}`} variant="outlined" size="small" />
