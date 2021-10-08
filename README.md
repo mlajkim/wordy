@@ -2,8 +2,19 @@
 
 Smartly and quickly add up terminology you've found for today.
 And smartly review them to be special in the peers, like myself.
-My multilingual journey will be yours too.
 
+## Table of contents
+* [Features](#Main Features)
+    * Support for any device
+    * Search your data
+    * Upload photos
+    * Automatic formation
+    * Darkmode
+* [Developer](## Developer)
+* [Tools](### Tools)
+* [Translation](### Translation (Order by its popularity & usage))
+
+## Main Features
 1. Support for any device
 
 2. Search your data
