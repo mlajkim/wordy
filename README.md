@@ -4,15 +4,15 @@ Smartly and quickly add up terminology you've found for today.
 And smartly review them to be special in the peers, like myself.
 
 ## Table of contents
-* [Features](#Main Features)
+* [Features] (# Main Features)
     * Support for any device
     * Search your data
     * Upload photos
     * Automatic formation
     * Darkmode
-* [Developer](## Developer)
-* [Tools](### Tools)
-* [Translation](### Translation (Order by its popularity & usage))
+* [Developer](#Developer)
+* [Tools](#Tools)
+* [Translation](#Translation (Order by its popularity & usage))
 
 ## Main Features
 1. Support for any device
