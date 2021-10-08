@@ -22,28 +22,30 @@ type Props = {
   type: 'login' | 'signup';
 }
 
+export const generateAccessToken = async (googleRes: GoogleRes, ln: Language) => {
+  const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
+
+  // error handling
+  if (error) return;
+
+  // newUserApi called
+  const userInput: UserCreateUserInput = {
+    federalProvider: "google", validatingToken: googleRes.tokenId
+  }
+  throwEvent("user:createUser", userInput)
+    .then(() => store.dispatch(setOkrReloadOn()))
+
+  API.addToken('login', accessToken, expires);
+  API.handleEverySignIn(accessToken, googleRes, ln);
+  store.dispatch(setSnackbar(tr.successfulSignIn[ln]));
+  // if (type === 'login') store.dispatch(setSnackbar(tr.successfulSignIn[ln]));
+  // else if (type === 'signup') store.dispatch(setSnackbar(tr.successfulSignUp[ln]));
+}
+
 const GoogleSignIn: React.FC<Props> = ({type}) => {
   const language = useSelector((state: {language: Language}) => state.language);
   const ln = language;
 
-  const generateAccessToken = async (googleRes: GoogleRes) => {
-    const {error, accessToken, expires} = await API.generateAccessToken(googleRes);
-
-    // error handling
-    if (error) return;
-
-    // newUserApi called
-    const userInput: UserCreateUserInput = {
-      federalProvider: "google", validatingToken: googleRes.tokenId
-    }
-    throwEvent("user:createUser", userInput)
-      .then(() => store.dispatch(setOkrReloadOn()))
-
-    API.addToken('login', accessToken, expires);
-    API.handleEverySignIn(accessToken, googleRes, language);
-    if (type === 'login') store.dispatch(setSnackbar(tr.successfulSignIn[ln]));
-    else if (type === 'signup') store.dispatch(setSnackbar(tr.successfulSignUp[ln]));
-  };
 
   return (
     <Fragment>
@@ -51,7 +53,7 @@ const GoogleSignIn: React.FC<Props> = ({type}) => {
         clientId={GOOGLE_CLIENT_ID}
         buttonText={type === 'login' ? tr.btnTextLogin[ln] : tr.btnTextSignUp[ln]}
         onSuccess={(res: any) => {
-          generateAccessToken(res);
+          generateAccessToken(res, ln);
         }}
         onFailure={(res: any) => console.log(res)}
         cookiePolicy={ 'single_host_origin' }

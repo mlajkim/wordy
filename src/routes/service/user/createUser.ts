@@ -7,7 +7,8 @@ import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { JwtData, Wrn } from '../../../type/availableType';
 import { Resource, UserPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
-import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda';
+import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'
+import { GOOGLE_CLIENT_ID } from '../../../type/predefined'
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl';
 // External Library
@@ -40,7 +41,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const requesterInputData = RE.requesterInputData as UserCreateUserInput;
 
   // Validate it. since we only take google sign in at this point, I can go straight check
-  const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
   const kimGoogleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
   // validating the give token

@@ -1,17 +1,21 @@
 // eslint-disable-next-line
-import React, {useEffect} from 'react'
+import { FC, useEffect} from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import axios from 'axios'
 import { HotKeys } from "react-hotkeys"
+import GoogleOneTapLogin from 'react-google-one-tap-login';
 // Type
 import { State } from '../types'
-import { SEARCH_BAR_ID } from '../type/predefined'
+import { SEARCH_BAR_ID, GOOGLE_CLIENT_ID } from '../type/predefined'
 import RELEASES from '../releases'
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 import shortcut from '../shortcut'
+import { generateAccessToken } from '../components/google_sign_in/GoogleSignIn'
+// Library
+import { cvtOneTapIntoGoogleRes } from '../frontendWambda'
 // Component
 import AppbarNotice from './AppbarNotice'
-import Appbar from './Appbar'
+import Appbar  from './Appbar'
 import * as API from '../API'
 import {handleCountryCode} from '../utils'
 // Pages
@@ -33,8 +37,9 @@ const keyMap = {
   BEGIN_SEARCH: [shortcut.CMD_SHIFT_S.mac.hotKey, shortcut.CMD_SHIFT_S.windows.hotKey],
 };
 
-const App: React.FC = () => {
-  const { support, dialog, user } = useSelector((state: State) => state);
+const App: FC = () => {
+  const { support, dialog, user, language } = useSelector((state: State) => state);
+  const ln = language
 
   useEffect(() => {
     // Check the dark API token exists, if yes, apply.
@@ -80,6 +85,17 @@ const App: React.FC = () => {
       }
     };
 
+  const RenderOneTap = user.isSignedIn === false && (
+    <GoogleOneTapLogin 
+      onError={(error: any) => console.log(error)}
+      onSuccess={(response) => {
+        const converted = cvtOneTapIntoGoogleRes(response)
+        generateAccessToken(converted, ln)
+      }}
+      googleAccountConfigs={{ client_id: GOOGLE_CLIENT_ID }} 
+    />
+  )
+
   return (
     <HotKeys keyMap={keyMap} handlers={hdlHotkey}>
       <div style={{ 
@@ -97,6 +113,7 @@ const App: React.FC = () => {
               <Okr />
             </Route>
             <Route path="">
+              { RenderOneTap }
               <AppbarNotice />
               <Appbar />
               <Snackbar />

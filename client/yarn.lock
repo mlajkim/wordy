@@ -10387,6 +10387,11 @@ react-google-login@^5.1.21:
     "@types/react" "*"
     prop-types "^15.6.0"
 
+react-google-one-tap-login@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/react-google-one-tap-login/-/react-google-one-tap-login-0.0.9.tgz#4d4e7430d74d12e0a79717dcdff7fc8f1f31657d"
+  integrity sha512-j9BHSmtVRJmgfuTtNDvNUUFA69R7OR4Ho58Ais5KauwInmUyQxrXp8NvGW4P1ehQ50Rfz0Bi6xYIM0KaD8Ml5g==
+
 react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"

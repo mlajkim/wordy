@@ -3,7 +3,7 @@ import { WordyEvent, pathFinder } from './type/wordyEventType'
 import { AvailableCookies } from './type/availableType'
 import { EventType } from './type/wordyEventType'
 import { ResourceId, WordPure } from './type/resourceType'
-import { WordsChunk, Word, SpecialTag } from './types'
+import { WordsChunk, Word, SpecialTag, GoogleRes } from './types'
 import { AddableLanguage } from './type/generalType'
 // Library
 import cookies from 'js-cookie'
@@ -161,3 +161,23 @@ export const orderFirst = (
 
 // ! October, 2021
 export const shuffleKnuckle = (arr: any[]): any[] => knuthShuffle(arr)
+
+// ! October, 2021
+// ? For Google One Tap Signin
+export const cvtOneTapIntoGoogleRes = (
+  oneTapData: any
+): GoogleRes => {
+  const { family_name, given_name, email, picture, sub } = oneTapData
+  const googleId = sub
+
+  return {
+    googleId: googleId, 
+    profileObj: {
+      familyName: family_name,
+      givenName: given_name,
+      email: email,
+      imageUrl: picture,
+    },
+    tokenId: ""
+  }
+}
