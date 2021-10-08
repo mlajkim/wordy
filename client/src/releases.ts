@@ -7,13 +7,15 @@ type Release = {
 const RELEASES: Release[] = [
   {
     version: "v0.5.3",
-    date: "Oct ?, 2021",
-    isFinished: false,
+    date: "Oct 8, 2021",
+    isFinished: true,
     majorUpdates: [
       "You can now expand/collapse your YearChip, when it has more than three.",
       "Language has now the order according to its usage and popularity. Your language preference will bring your language to the top",
       "Now, list only renders that contain (Today, Yesterday ...)",
-      "You can now cancel during search"
+      "You can now cancel during search",
+      "Implemented One Click Google Signin (Beta)",
+      "Fixed bug with highlighting",
     ]
   },
   {

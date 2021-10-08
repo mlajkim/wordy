@@ -130,7 +130,7 @@ const PatchNote: React.FC = () => {
     <div>
       { isVisible &&
         (
-          <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
+          <Dialog aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
             <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
               {tr.welcome[ln]}
               { RenderMember }

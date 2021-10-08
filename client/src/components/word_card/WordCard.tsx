@@ -68,7 +68,7 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
     }
   };
 
-  const targetWord = highlighted ? highlighted : ""
+  const targetWord = highlighted ? support.highlightSearched ? highlighted : "" : "" 
 
   // Render Tags
   const tags = word.tag.length === 0
