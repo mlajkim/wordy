@@ -63,8 +63,7 @@ type WordSerivce =
   "*" | //all
   "postWords" |
   "getWord" |
-  "detectLanguage" |
-  "postWord"
+  "detectLanguage"
 
 
 export const pathFinder = (eventType: EventType): string => {

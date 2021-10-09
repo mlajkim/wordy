@@ -91,14 +91,14 @@ export const wordSearchingAlgorithm = (searchData: string, words: Word[], condit
 // Sep 21, 2021 
 export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
   return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
+    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
     return {
       _id: legacyId,
       ownerID: legacyOwnerId,
       order: objectOrder ? objectOrder : 0, 
       dateAdded: dateAdded ? dateAdded : 0, 
       // Shared (the same)
-      isFavorite, sem, language, tag, word, pronun, meaning, example,
+      isFavorite, sem, language, tag: tags, word, pronun, meaning, example,
       // Unused, but defined
       lastReviewed: 0,
       reviewdOn: [0], 

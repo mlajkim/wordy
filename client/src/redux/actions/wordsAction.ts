@@ -1,6 +1,8 @@
 // Types
-import { WordsChunk } from '../../types';
+import { WordsChunk } from '../../types'
+import { NewlyModifyWords } from '../reduxType'
 // Actions
+export const NEWLY_ALTER_WORD_DATA = "[Newly] Words Data"
 export const UPDATE_WORDS="[WORDS] Update";
 export const POST_WORDS = "[WORDS] Post";
 export const GET_WORDS = '[WORDS] Get'
@@ -10,6 +12,14 @@ export const MODIFY_WORDS = "[WORDS] Modify";
 export const DELETE_WORDS = "[WORDS] Delete";
 export const SYNC_WORDS = "[WORDS] Sync";
 export const MIX_ARRAY = "[WORDS] Mixed one sem array"
+
+// ! APIGATEWAY October, 2021
+export const newlyModifyWords = ({ type, data }: NewlyModifyWords) => {
+  return {
+    type: NEWLY_ALTER_WORD_DATA,
+    payload: { type , data }
+  }
+}
 
 // Ultimate
 export const updateWords = (data: any) => {

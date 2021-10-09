@@ -4,7 +4,7 @@
 
 // Type
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
-  OkrContainerPure, WordPure
+  OkrContainerPure, WordPure, WordPureBasic
 } from '../type/resourceType'
 import { 
   AvailableWpWrn,
@@ -17,12 +17,12 @@ import Wrn from './wrn'
 // ===============
 
 // word:POST_WORDS
-export type WordPostWordsInput = WordPure[]
-export type WordPostWordsPayload = undefined
+export type WordPostWordsInput = WordPureBasic[]
+export type WordPostWordsPayload = (ResourceId & WordPure)[]
 
 // word:GET_WORD (Sep 9, 2021)
-export type WordGetWordInput = { sem: number, legacyMongoId: string };
-export type WordGetWordPayload = (ResourceId & WordPure)[];
+export type WordGetWordInput = { sem: number, legacyMongoId: string }
+export type WordGetWordPayload = (ResourceId & WordPure)[]
 
 
 // word:DETECT_LANGUAGE

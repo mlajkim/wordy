@@ -40,6 +40,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   let errorFound = false
 
+  // ! I NEED TO ALTER SOME DATA, 
+
   pureWordArr
     .map(pureWord => {
       // ! 1) Encrypt all given data

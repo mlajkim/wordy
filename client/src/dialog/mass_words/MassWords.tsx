@@ -4,7 +4,7 @@ import { useBeforeunload } from 'react-beforeunload';
 import ParsingAPI from './ParsingAPI';
 // Type
 import { State } from '../../types';
-import { wordDetectLanguagePayload } from '../../type/payloadType';
+import { wordDetectLanguagePayload, WordPostWordsInput, WordPostWordsPayload } from '../../type/payloadType';
 // Lambda
 import { runAfter, now } from '../../type/sharedWambda';
 import { throwEvent } from '../../frontendWambda';
@@ -37,7 +37,7 @@ import { useSelector } from 'react-redux';
 import { modifyNewWordAddingType, modifySupport } from '../../redux/actions/supportAction';
 // Redux Actions
 import { offDialog, setSnackbar } from '../../redux/actions';
-import { postWords } from '../../redux/actions/wordsAction';
+import { newlyModifyWords } from '../../redux/actions/wordsAction';
 import TagsList from '../../components/tags_list/TagsList';
 // Declarations
 const LETTERS_LIMITATION = 8000 // was able to handle 8,750
@@ -158,12 +158,37 @@ const MassWords: React.FC = () => {
       store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5))
       return
     }
+    
+    // ! 6) Parse data
+    const parsedData = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
+    // Somehow convert here to 
+    const payload: WordPostWordsInput = parsedData.map(eachWord => {
+      const { sem, tag, word, pronun, meaning, example } = eachWord
+      return {
+        sem, word, 
+        pronun: pronun ? pronun : "", 
+        meaning: meaning ? meaning : "", 
+        example: example ? example : "",
+        language: support.addWordLangPref, tags: tag ? tag : []
+      }
+    })
 
-    // ! 6) Parse & Add data
-    store.dispatch(offDialog())
-    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
-    store.dispatch(postWords(data))
-    store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
+    // ! 7) Throw Event
+    throwEvent("word:postWords", payload)
+      .then(RE => {
+        // !) 6) Server denied the request
+        if (RE.serverResponse !== 'Accepted') return
+
+        // ! 7) Apply frontend
+        store.dispatch(newlyModifyWords({
+          type: "create", data: RE.payload as WordPostWordsPayload
+        })) 
+        store.dispatch(offDialog())
+        store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
+      })
+
+    
+
   }
 
   // Return

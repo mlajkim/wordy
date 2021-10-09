@@ -70,7 +70,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       objectOrder: order,
       // might add dateAdded;
       resoureAvailability: "Visible",
-      dateAdded, isFavorite, sem, language, tag, word, pronun, meaning, example,
+      dateAdded, isFavorite, sem, language, tags: tag, word, pronun, meaning, example,
       // legacy
       legacyOwnerId: ownerID,
       legacyId: _id,

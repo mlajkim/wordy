@@ -1,13 +1,16 @@
 // types
-import { WordsChunk, Word, State } from '../../types';
+import { WordsChunk, Word, State } from '../../types'
+import { NewlyModifyWords } from '../reduxType'
 // libraries
 import { knuthShuffle } from 'knuth-shuffle';
 // actions
+import * as WORDS_ACTION from '../actions/wordsAction'
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS, MIX_ARRAY} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem, getSupport} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
 import { getWords, setWords, savingHelper } from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
+import { convertWordsIntoLegacy } from '../../frontendWambda';
 
 const validate = (payload: WordsChunk): boolean => {
   // This validation requires every payload of words has to have the same sem value. 
@@ -15,6 +18,24 @@ const validate = (payload: WordsChunk): boolean => {
   const STANDARD_SEM = payload[0].sem;
   const result = payload.filter((word: Word) => word.sem !== STANDARD_SEM);
   return result.length === 0 ? true : false;
+}
+
+// ! October, 2021
+// ! NOW, THIS ONLY APPLIES TO MINIMAL AMMOUNT, ONLY FRONT END
+export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === WORDS_ACTION.newlyModifyWords) {
+    const { type, data } = action.payload as NewlyModifyWords
+
+    // ! Currently only supports CREATE
+    if (type === 'create') {
+      savingHelper(convertWordsIntoLegacy(data))
+      // dispatch(modifySupport({ newWordCnt })); // not required as server will modify for you
+      dispatch(addSemNoDup(data[0].sem));
+    }
+
+  }
 }
 
 // Middlewares
@@ -204,4 +225,15 @@ export const mixWordsMdl = ({dispatch, getState} : any) => (next: any) => (actio
   };
 };
 
-export const wordsMdl = [getWordsMdl, setWordsMdl, postWordsMdl, modifyWordsMdl, deleteWordsMdl, savingHelperMdl, syncWordsMdl, mixWordsMdl]; 
+export const wordsMdl = [
+  newlyModifyWordsMdl, 
+  getWordsMdl, 
+  setWordsMdl, 
+  postWordsMdl, 
+  modifyWordsMdl, 
+  deleteWordsMdl, 
+  savingHelperMdl, 
+  syncWordsMdl, 
+  mixWordsMdl, 
+  newlyModifyWordsMdl
+]
