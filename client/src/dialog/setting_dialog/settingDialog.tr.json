@@ -7,12 +7,12 @@
   "customizeSemesterFront": {
     "en": "Customize Semester",
     "ko": "연도 맞춤화",
-    "ja": "年度変更を可能に"
+    "ja": "年度変更を"
   },
   "customizeSemesterRear": {
     "en": "",
     "ko": "하기",
-    "ja": "する"
+    "ja": "を有効にする"
   },
   "enableDarkmode": {
     "en": "Enable dark theme",
