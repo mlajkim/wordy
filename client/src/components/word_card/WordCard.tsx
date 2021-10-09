@@ -38,8 +38,8 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
 
   const tools = [
     // the disabled button is only temporary and will be deleted.
-    { type: 'edit', icon: <EditIcon />, disabled: false},
-    { type: 'delete', icon: <DeleteIcon />, disabled: false},
+    { type: 'edit', icon: <EditIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>, disabled: false},
+    { type: 'delete', icon: <DeleteIcon style={{ color: support.isDarkMode ? fontDark : fontLight }} />, disabled: false},
     { type: 'stat', icon: <StatIcon />, disabled: true},
     { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
   ];
@@ -124,8 +124,8 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
           }
         </IconButton>
         {!open && (
-          <IconButton onClick={() => setOpen(!open)}size="small" color="inherit" >
-            <ArrowRightIcon />
+          <IconButton onClick={() => setOpen(!open)}size="small" >
+            <ArrowRightIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>
           </IconButton>
         )}
         { open &&
