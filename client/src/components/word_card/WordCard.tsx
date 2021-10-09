@@ -1,40 +1,44 @@
-import React from 'react';
+import { FC, useState } from 'react'
 import Highlighter from "react-highlight-words"
-import './wordCard.css';
+import './wordCard.css'
 // Type
-import { State, Word } from '../../types';
-import { convertSem } from '../../utils';
-import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
-import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme';
-// Material UI
+import { State, Word } from '../../types'
+import { convertSem } from '../../utils'
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
+import { fontDark, fontLight, wordCardDark, wordCardLight, unencryptedButtonDark, unencryptedButtonLight } from '../../theme'
+// Tranlsation
+import trEncryptedWordCard from '../secured_wordcard/encrypted_word_card.tr.json'
+// MUI
+import Tooltip from '@mui/material/Tooltip'
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
 import Chip from '@material-ui/core/Chip';
 // Icons
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import StatIcon from '@material-ui/icons/Equalizer';
-import StarReviewIocn from '@material-ui/icons/PlayArrow';
+import LockOpenIcon from '@mui/icons-material/LockOpen'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
+import ArrowRightIcon from '@material-ui/icons/ArrowRight'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
+import StatIcon from '@material-ui/icons/Equalizer'
+import StarReviewIocn from '@material-ui/icons/PlayArrow'
 // Redux
-import store from '../../redux/store';
-import { useSelector } from 'react-redux';
+import store from '../../redux/store'
+import { useSelector } from 'react-redux'
 // Redux Actions
-import { modifySupport } from '../../redux/actions/supportAction';
-import { setDialog } from '../../redux/actions';
-import { modifyWords } from '../../redux/actions/wordsAction';
+import { modifySupport } from '../../redux/actions/supportAction'
+import { setDialog } from '../../redux/actions'
+import { modifyWords } from '../../redux/actions/wordsAction'
 
 type Props = { word: Word, highlighted?: string };
 // @ MAIN
-const WordCard: React.FC<Props> = ({ word, highlighted }) => {
-  const { support } = useSelector((state: State) => state);
-  // Component states
-  const [open, setOpen] = React.useState(false);
+const WordCard: FC <Props> = ({ word, highlighted }) => {
+  const { support, language } = useSelector((state: State) => state)
+  const ln = language
+  const [open, setOpen] = useState(false)
 
   const tools = [
     // the disabled button is only temporary and will be deleted.
@@ -123,6 +127,9 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
             : <FavoriteBorderIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>
           }
         </IconButton>
+        <Tooltip title={trEncryptedWordCard.notEncrypted[ln]} placement="top">  
+          <LockOpenIcon style={{ color: support.isDarkMode ? unencryptedButtonDark : unencryptedButtonLight }}/>
+        </Tooltip>
         {!open && (
           <IconButton onClick={() => setOpen(!open)}size="small" >
             <ArrowRightIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>

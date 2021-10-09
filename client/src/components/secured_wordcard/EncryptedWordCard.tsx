@@ -9,7 +9,9 @@
  import { State, Word } from '../../types'
  import { convertSem } from '../../utils'
  import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
- import { fontDark, fontLight, wordCardDark, wordCardLight, encryptedButtonLight, encryptedButtonDark } from '../../theme'
+ import { 
+   fontDark, fontLight, wordCardDark, wordCardLight, encryptedButtonLight, encryptedButtonDark,
+   unencryptedButtonDark, unencryptedButtonLight } from '../../theme'
  import tr from './encrypted_word_card.tr.json'
  // Material UI
  import Tooltip from '@mui/material/Tooltip'
@@ -19,8 +21,9 @@
  import Typography from '@material-ui/core/Typography'
  import IconButton from '@material-ui/core/IconButton'
  import Chip from '@material-ui/core/Chip'
- import EncryptedIcon from '@mui/icons-material/Lock'
  // Icons
+ import EncryptedIcon from '@mui/icons-material/Check'
+ import LockOpenIcon from '@mui/icons-material/LockOpen';
  import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
  import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
  import ArrowRightIcon from '@material-ui/icons/ArrowRight'
@@ -130,9 +133,14 @@
              : <FavoriteBorderIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>
            }
          </IconButton>
-        <Tooltip title={tr.thisDataIsEncrypted[ln]} placement="top">  
-          <EncryptedIcon style={{ color: support.isDarkMode ? encryptedButtonDark : encryptedButtonLight }}/>
-        </Tooltip>
+        {word.isEncrypted
+          ? <Tooltip title={tr.thisDataIsEncrypted[ln]} placement="top">  
+              <EncryptedIcon style={{ color: support.isDarkMode ? encryptedButtonDark : encryptedButtonLight }}/>
+            </Tooltip>
+          : <Tooltip title={tr.notEncrypted[ln]} placement="top">  
+              <LockOpenIcon style={{ color: support.isDarkMode ? unencryptedButtonDark : unencryptedButtonLight }}/>
+            </Tooltip>
+        }
          {!open && (
            <IconButton onClick={() => setOpen(!open)}size="small" color="inherit" >
              <ArrowRightIcon />

@@ -1,32 +1,33 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react'
 // Type
-import { State, Word } from '../../types';
+import { State, Word } from '../../types'
 // Translation
-import tr from './search_result.tr.json';
-import trYearChip from '../../pages/list/year_chip.tr.json';
+import tr from './search_result.tr.json'
+import trYearChip from '../../pages/list/year_chip.tr.json'
 // Lambda
-import { throwEvent, wordSearchingAlgorithm, convertWordsIntoLegacy } from '../../frontendWambda';
+import { throwEvent, wordSearchingAlgorithm, convertWordsIntoLegacy } from '../../frontendWambda'
 import { convertSem } from '../../utils'
 // Theme
-import { listDark, listLight, buttonLight, buttonDark } from '../../theme';
+import { listDark, listLight, buttonLight, buttonDark } from '../../theme'
 // Redux
-import store from '../../redux/store';
-import { useSelector } from 'react-redux';
+import store from '../../redux/store'
+import { useSelector } from 'react-redux'
 // Redux Action
-import { setWords } from '../../redux/actions/wordsAction';
-import { modifySupport } from '../../redux/actions/supportAction';
+import { setWords } from '../../redux/actions/wordsAction'
+import { modifySupport } from '../../redux/actions/supportAction'
 // Material UI
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle';
-import { Tooltip, IconButton } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle'
+import { Tooltip, IconButton } from '@material-ui/core'
 // MUI Icon
-import Button from '@mui/material/Button';
-import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@mui/material/Button'
+import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // Components
-import WordCard from '../word_card/WordCard';
-import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType';
+import WordCard from '../word_card/WordCard'
+import EncryptedWordCard from '../secured_wordcard/EncryptedWordCard'
+import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType'
 
 const ADDING_MORE_WORDS_AMOUNT = 50;
 const DEFAULT_MORE_WORDS_AMOUNT = 50;
@@ -38,7 +39,7 @@ const enableExamplesearch = true;
 const USER_SEARCH_ALLOW_ALL = true;
 const USER_SEARCH_ONLY_THIS_YEAR = [213];
 
-const SearchResult: React.FC = () => {
+const SearchResult: FC = () => {
   // Redux states
   const { support, words, language, user } = useSelector((state: State) => state)
   const ln = language
@@ -184,7 +185,10 @@ const SearchResult: React.FC = () => {
         { matchingWord.slice(0, wordCardsMax)
         .sort((a, b) => b.order - a.order) // Second show by the order number
         .sort((a, b) => b.sem - a.sem) // First show the latest 
-        .map(word => <WordCard word={word} key={word._id} highlighted={support.searchData} />)
+        .map(word => word.isEncrypted
+          ? <EncryptedWordCard word={word} key={word._id} highlighted={support.searchData} />
+          : <WordCard word={word} key={word._id} highlighted={support.searchData}/>
+        )
         }
       </Grid>
       { wordCardsMax < matchingWord.length && RenderMoreButton }
