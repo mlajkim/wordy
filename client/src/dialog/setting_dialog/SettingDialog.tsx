@@ -140,7 +140,7 @@ const SettingDialog: React.FC = () => {
 
   return (
     <div>
-      <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="xs" fullWidth>
+      <Dialog onClose={() => store.dispatch(offDialog())} aria-labelledby="customized-dialog-title" open maxWidth="sm" fullWidth>
         <DialogTitle id="customized-dialog-title" onClose={() => store.dispatch(offDialog())}>
           {trAppbar.setting[ln]}
           <Typography gutterBottom color="textSecondary" style={{ fontSize: 13 }}>

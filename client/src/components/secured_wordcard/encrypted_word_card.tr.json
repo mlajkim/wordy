@@ -5,7 +5,7 @@
     "ja": "このデータは安全に暗号化されています"
   },
   "notEncrypted": {
-    "en": "This data is dangerously public. Click to encrypt.",
+    "en": "This data is dangerously unencrypted. Click to encrypt.",
     "ko": "이 데이터는 암호화되어 있지 않습니다. 클릭해서 암호화 하실 수 있습니다",
     "ja": "このデータは安全に暗号化されていません。クリックし暗号化可能です"
   }
