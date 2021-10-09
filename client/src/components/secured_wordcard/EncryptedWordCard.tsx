@@ -4,7 +4,7 @@
  */
  import { FC, useState } from 'react'
  import Highlighter from "react-highlight-words"
- import '../word_card/wordCard.css'
+ import './wordCard.css'
  // Type
  import { State, Word } from '../../types'
  import { convertSem } from '../../utils'
