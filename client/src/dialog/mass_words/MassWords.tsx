@@ -139,31 +139,32 @@ const MassWords: React.FC = () => {
       return
     }
     
-    // ! 3) Error check: if data is empty
+    // ! 4) Error check: if data is empty
     if (year !== '' || sem !== '') {
       // Data validation check.
       if (!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
         store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
-        return;
-      };
-      chosenYear = year;
-      chosenSem = sem;
+        return
+      }
+      chosenYear = year
+      chosenSem = sem
     } else {
-      chosenYear = today().year.toString();
-      chosenSem = today().sem.toString();
-    };
+      chosenYear = today().year.toString() // automatically given the current time
+      chosenSem = today().sem.toString() // automatically given the current time
+    }
 
-    // length validator
+    // ! 5) Error check: if given data is too long
     if (massData.length > LETTERS_LIMITATION) {
-      store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5));
-      return;
-    };
+      store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5))
+      return
+    }
 
-    store.dispatch(offDialog());
-    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags);
-    store.dispatch(postWords(data));
-    store.dispatch(setSnackbar(trAddWord.successAddWord[ln]));
-  };
+    // ! 6) Parse & Add data
+    store.dispatch(offDialog())
+    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
+    store.dispatch(postWords(data))
+    store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
+  }
 
   // Return
   return (
