@@ -1,6 +1,9 @@
 import { AddableLanguage } from './generalType';
 
 export type LegacyPureWord = {
+  // ! This will  be used to define if the data is encrypted or not!
+  isEncrypted?: boolean
+  // ! Legacy below
   _id: string,
   ownerID: string,
   order: number, 

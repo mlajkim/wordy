@@ -37,10 +37,12 @@ word.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
 
 word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent;
+  const returningDecryptedData: WordGetWordPayload = [];
 
   // Data validation
   const { sem, legacyMongoId } = RE.requesterInputData as WordGetWordInput;
-  
+
+  // ! 1) GET Encrypted Word Data
   // Find the word with the sem data from encrypted daat (TEMP)
   // This is the newest version
   const wrnWithoutPrivateId = `wrn::word:${sem}:mdb:`
@@ -55,20 +57,21 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   }
 
   // handle apigateway data (Decrpyt)
-  const decrypted: WordGetWordPayload = [];
   if (encryptedWordResource !== null) {
     for (const eachRes of encryptedWordResource) {
       const decryptedRes = intoPayload(eachRes, RE) as ResourceId & WordPure;
-      decrypted.push(decryptedRes);
+      returningDecryptedData.push(decryptedRes);
     };
   };
 
+  // ! 2) GET Legacy Word & CONVERT INTO NEWLY FORMAT 
   // Get the legacy word data
   const legacyWords = await LegacyWordModel.find({ ownerID: legacyMongoId, sem }) as LegacyPureWord[];
   const converted = legacyWords.map(foundWord => {
     const { dateAdded, order, isFavorite, sem, language, tag, word, pronun, meaning, example, _id, ownerID } = foundWord;
 
-    const convertedWord: ResourceId & WordPure = {
+    return {
+      imageWrn: [], // legacy word does not have imageWnr
       wrn: `wrn::word:${sem}:mdb:${_id}:`,
       ownerWrn: RE.requesterWrn!,
       objectOrder: order,
@@ -78,20 +81,15 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
       // legacy
       legacyOwnerId: ownerID,
       legacyId: _id,
-    };
-
-    return convertedWord;
+    } as ResourceId & WordPure
   });
 
-  // Push the found legacy data
-  decrypted.push(...converted);
-
-  // Apply found payload
-  RE.payload = decrypted;
-
+  // ! 3) RETURN
   // Successful API call 
-  const sending = ctGateway(RE, "Accepted");
-  return res.status(sending.status!).send(sending);
+  returningDecryptedData.push(...converted); // Push the found legacy data
+  RE.payload = returningDecryptedData; // Apply found payload
+  const sending = ctGateway(RE, "Accepted")
+  return res.status(sending.status!).send(sending)
 });
 
 export default word;

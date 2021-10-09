@@ -61,6 +61,8 @@ export type PureResource = ResourceId & (
 // =============
 
 export type WordPure = {
+  // ! NEW, image Wrn
+  imageWrn: Wrn[]
   // data
   isFavorite: boolean,
   sem: number,
