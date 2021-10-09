@@ -47,12 +47,12 @@
    const [ open, setOpen ] = useState(false)
  
    const tools = [
-     // the disabled button is only temporary and will be deleted.
-     { type: 'edit', icon: <EditIcon />, disabled: false},
-     { type: 'delete', icon: <DeleteIcon />, disabled: false},
-     { type: 'stat', icon: <StatIcon />, disabled: true},
-     { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
-   ]
+    // the disabled button is only temporary and will be deleted.
+    { type: 'edit', icon: <EditIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>, disabled: false},
+    { type: 'delete', icon: <DeleteIcon style={{ color: support.isDarkMode ? fontDark : fontLight }} />, disabled: false},
+    { type: 'stat', icon: <StatIcon />, disabled: true},
+    { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
+  ];
    
    // temporary
  

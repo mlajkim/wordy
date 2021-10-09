@@ -10,12 +10,12 @@ import { fontDark, fontLight, wordCardDark, wordCardLight, unencryptedButtonDark
 import trEncryptedWordCard from '../secured_wordcard/encrypted_word_card.tr.json'
 // MUI
 import Tooltip from '@mui/material/Tooltip'
-import Card from '@material-ui/core/Card';
+import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import Chip from '@material-ui/core/Chip';
+import Chip from '@material-ui/core/Chip'
 // Icons
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
@@ -138,7 +138,7 @@ const WordCard: FC <Props> = ({ word, highlighted }) => {
         { open &&
           tools.map(tool => (
             // the disabled button is only temporary and will be deleted.
-            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type as Type)}>
+            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" onClick={() => handleToolClick(tool.type as Type)}>
               {tool.icon}
             </IconButton>
           ))

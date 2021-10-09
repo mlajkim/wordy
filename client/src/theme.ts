@@ -19,18 +19,18 @@ export const buttonColorHover = "#BDFBA3";
  * Just realized that fontLight should be #FFF for better readaiblity.
  * Yet since this is already depedent on many application I will ignore for now. 
  */
+ export const fontDark = WHITE;
 export const fontLight = BLACK;
-export const fontDark = WHITE;
 
 export const buttonLight = BLACK;
 export const buttonDark = "#B5B5B5"; // #FFF is too standing
 
 // ! October, 2021
+export const encryptedButtonDark = "#87CF8D"
 export const encryptedButtonLight = "#17D117"
-export const encryptedButtonDark = "#4D754D"
 
 // ! October, 2021
-export const unencryptedButtonDark = "#BC3C14"
+export const unencryptedButtonDark = "#EE3636"
 export const unencryptedButtonLight = "#FF4E17"
 
 
