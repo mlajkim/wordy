@@ -89,7 +89,7 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
         </Typography>
         <Typography variant="h5" component="h2">
           <Highlighter 
-            textToHighlight={word.word} 
+            textToHighlight={word.word ? word.word : ""} 
             highlightClassName="highlighted"
             searchWords={[targetWord]} autoEscape={true}
           />
@@ -99,7 +99,7 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
         </Typography>
         <Typography variant="body2" component="p">
           <Highlighter 
-            textToHighlight={word.meaning} 
+            textToHighlight={word.meaning ? word.meaning : ""} 
             highlightClassName="highlighted"
             searchWords={[targetWord]} autoEscape={true}
           />
@@ -107,7 +107,7 @@ const WordCard: React.FC<Props> = ({ word, highlighted }) => {
         <Typography variant="body2" component="h4" >
           { word.example && "\"" }
           <Highlighter 
-            textToHighlight={word.example} 
+            textToHighlight={word.example ? word.example : ""} 
             highlightClassName="highlighted"
             searchWords={[targetWord]} autoEscape={true}
           />
