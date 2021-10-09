@@ -28,6 +28,10 @@ export const fontDark = '#ffffff';
 export const buttonLight = "#B5B5B5"; // #FFF is too standing
 export const buttonDark = "#000000";
 
+// ! October, 2021
+export const encryptedButtonLight = "#17D117"
+export const encryptedButtonDark = "#4D754D"
+
 
 // Appbar
 export const appbarLight = '#ccff99';

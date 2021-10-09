@@ -9,7 +9,7 @@
  import { State, Word } from '../../types'
  import { convertSem } from '../../utils'
  import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
- import { fontDark, fontLight, wordCardDark, wordCardLight, buttonLight, buttonDark } from '../../theme'
+ import { fontDark, fontLight, wordCardDark, wordCardLight, encryptedButtonLight, encryptedButtonDark } from '../../theme'
  import tr from './encrypted_word_card.tr.json'
  // Material UI
  import Tooltip from '@mui/material/Tooltip'
@@ -131,7 +131,7 @@
            }
          </IconButton>
         <Tooltip title={tr.thisDataIsEncrypted[ln]} placement="top">  
-          <EncryptedIcon style={{ color: support.isDarkMode ? buttonLight : buttonDark }}/>
+          <EncryptedIcon style={{ color: support.isDarkMode ? encryptedButtonDark : encryptedButtonLight }}/>
         </Tooltip>
          {!open && (
            <IconButton onClick={() => setOpen(!open)}size="small" color="inherit" >
