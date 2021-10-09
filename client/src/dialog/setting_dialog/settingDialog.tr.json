@@ -4,10 +4,15 @@
     "ko": "자동 저장됩니다",
     "ja": "自動セイブされます"
   },
-  "customizeSemester": {
+  "customizeSemesterFront": {
     "en": "Customize Semester",
-    "ko": "연도 맞춤화하기",
-    "ja": "年度変更を可能にする"
+    "ko": "연도 맞춤화",
+    "ja": "年度変更を可能に"
+  },
+  "customizeSemesterRear": {
+    "en": "",
+    "ko": "하기",
+    "ja": "する"
   },
   "enableDarkmode": {
     "en": "Enable dark theme",

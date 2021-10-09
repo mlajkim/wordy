@@ -17,6 +17,7 @@ import AvailableLangs from '../../components/available_langs/AvailableLangs';
 // Translation
 import tr from './mass_words.tr.json';
 import trAddWord from '../add_word/add_words_dialog.tr.json';
+import trSetting from '../setting_dialog/settingDialog.tr.json'
 // MUI
 import IconButton from '@material-ui/core/IconButton';  
 import Button from '@material-ui/core/Button';
@@ -127,12 +128,18 @@ const MassWords: React.FC = () => {
 
   // ...Method
   const hdlAddMassWords = () => {
-    // Data validation (cannot be empty)
+    // ! 1) Error check: if data is empty
     if (massData.length === 0) 
       return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'));
-    let chosenYear, chosenSem = '';
+    let chosenYear, chosenSem = ''
+
+    // ! 2) Error check: If YQ is enabled, but given data is empty..
+    if (support.isYearQuadrantEnabled && (year === '' || sem === '')) {
+      store.dispatch(setSnackbar(`${tr.mustFillYearOrSemFront[ln]}${trSetting.customizeSemesterFront[ln]}${tr.mustFillYearOrSemRear[ln]}`, 'warning'))
+      return
+    }
     
-    // if year and semester has given
+    // ! 3) Error check: if data is empty
     if (year !== '' || sem !== '') {
       // Data validation check.
       if (!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {

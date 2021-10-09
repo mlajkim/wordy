@@ -79,7 +79,7 @@ const SettingDialog: React.FC = () => {
     {
       value: 'isYearQuadrantEnabled',
       checked: support.isYearQuadrantEnabled,
-      label: tr.customizeSemester[ln],
+      label: tr.customizeSemesterFront[ln] + tr.customizeSemesterRear[ln],
       onChange: () => store.dispatch(modifySupport({ isYearQuadrantEnabled: !support.isYearQuadrantEnabled }))
     },
     // SEARCH SETTING

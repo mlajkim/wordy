@@ -38,5 +38,15 @@
     "ko": "데이터가 한계치를 초과했습니다",
     "en": "The length of input data has exceeded the limit",
     "ja": "データ量が限界を超えました"
+  },
+  "mustFillYearOrSemFront": {
+    "ko": "",
+    "en": "Since you've activated ",
+    "ja": ""
+  },
+  "mustFillYearOrSemRear": {
+    "ko": "를 유효화 하셨으므로, 연도 및 분기 입력이 필수입니다",
+    "en": ", you must fill out year and semester",
+    "ja": "を有効にした上、年度及び分岐の入力が必要です"
   }
 }

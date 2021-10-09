@@ -52,7 +52,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         .catch(() => errorFound = true)
     })
 
-  // ! 4) Error handling
+  // ! 3) Error handling
   if (errorFound) {
     const sending = ctGateway(RE, "Denied");
   return res.status(sending.status!).send(sending)
