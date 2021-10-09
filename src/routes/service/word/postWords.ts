@@ -12,11 +12,12 @@
 
 
 // Main
-import express, {  Request, Response } from 'express';
+import express, {  Request, Response } from 'express'
 // type
 import Wrn from '../../../type/wrn'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { WordPostWordsInput } from '../../../type/payloadType'
+import { WordPure } from '../../../type/resourceType'
 // Lambda
 import { generatedWrn, intoResource } from '../../../internal/compute/backendWambda'
 // Model
@@ -27,7 +28,7 @@ import * as OTM from '../../middleware/onlyToMdl'
 import { ctGateway } from '../../../internal/management/cloudTrail'
 // Router
 const router = express.Router();
-const EVENT_TYPE: EventType = "word:postWords";
+const EVENT_TYPE: EventType = "word:postWords"
 
 router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl)
 router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB)
@@ -35,36 +36,42 @@ router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  const RE = req.body as WordyEvent;
-  const pureWordArr = RE.requesterInputData as WordPostWordsInput;
-
+  const RE = req.body as WordyEvent
+  const pureWordBasic = RE.requesterInputData as WordPostWordsInput
   let errorFound = false
 
-  // ! I NEED TO ALTER SOME DATA, 
-
-  pureWordArr
+  // ! 1) Add some basic data 
+  const payload = pureWordBasic
+    .map(pureWordBasic => {
+      return {
+        imageWrn: [], // image cannot be uploaded right away this time
+        isFavorite: false,
+        ...pureWordBasic,
+      } as WordPure
+    })
+  
+  payload
     .map(pureWord => {
-      // ! 1) Encrypt all given data
+      // ! 2) Encrypt all given data
       const wordWrn: Wrn = generatedWrn(`wrn::word:${pureWord.sem}:mdb::`)
       return intoResource(pureWord, wordWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811")
     })
     .forEach(async (encryptedArr) => {
-      // ! 2) Save each encrypted data
+      // ! 3) Save each encrypted data
       await new WordModel(ResCheck(encryptedArr)).save()
         .catch(() => errorFound = true)
     })
 
-  // ! 3) Error handling
+  // ! 4) Error handling
   if (errorFound) {
     const sending = ctGateway(RE, "Denied");
-  return res.status(sending.status!).send(sending)
+    return res.status(sending.status!).send(sending)
   }
 
-  // ! 5) Send back accepted.
-  const sending = ctGateway(RE, "Accepted");
+  // ! 5) Send back accepted. 
+  RE.payload = payload
+  const sending = ctGateway(RE, "Accepted")
   return res.status(sending.status!).send(sending)
+})
 
-
-});
-
-export default router;
+export default router

@@ -22,15 +22,15 @@ const validate = (payload: WordsChunk): boolean => {
 
 // ! October, 2021
 // ! NOW, THIS ONLY APPLIES TO MINIMAL AMMOUNT, ONLY FRONT END
-export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const newlyModifyWordsMdl = ({dispatch} : any) => (next: any) => (action: any) => {
   next(action);
 
-  if (action.type === WORDS_ACTION.newlyModifyWords) {
+  if (action.type === WORDS_ACTION.NEWLY_MODIFY_WORDS) {
     const { type, data } = action.payload as NewlyModifyWords
 
     // ! Currently only supports CREATE
     if (type === 'create') {
-      savingHelper(convertWordsIntoLegacy(data))
+      dispatch(savingHelper(convertWordsIntoLegacy(data)))
       // dispatch(modifySupport({ newWordCnt })); // not required as server will modify for you
       dispatch(addSemNoDup(data[0].sem));
     }
@@ -234,6 +234,5 @@ export const wordsMdl = [
   deleteWordsMdl, 
   savingHelperMdl, 
   syncWordsMdl, 
-  mixWordsMdl, 
-  newlyModifyWordsMdl
+  mixWordsMdl
 ]
