@@ -25,7 +25,6 @@ import Button from '@mui/material/Button'
 import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // Components
-import WordCard from '../word_card/WordCard'
 import EncryptedWordCard from '../secured_wordcard/EncryptedWordCard'
 import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType'
 
@@ -185,10 +184,7 @@ const SearchResult: FC = () => {
         { matchingWord.slice(0, wordCardsMax)
         .sort((a, b) => b.order - a.order) // Second show by the order number
         .sort((a, b) => b.sem - a.sem) // First show the latest 
-        .map(word => word.isEncrypted
-          ? <EncryptedWordCard word={word} key={word._id} highlighted={support.searchData} />
-          : <WordCard word={word} key={word._id} highlighted={support.searchData}/>
-        )
+        .map(word => <EncryptedWordCard word={word} key={word.wrn} highlighted={support.searchData} />)
         }
       </Grid>
       { wordCardsMax < matchingWord.length && RenderMoreButton }
