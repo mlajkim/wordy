@@ -51,17 +51,17 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
   
   if (action.type === POST_WORDS) {
     // #1 Validate given data and Declare the necessary.
-    const {payload} = action;
-    const isDataValid = validate(payload);
+    const { data } = action.payload;
+    const isDataValid = validate(data);
     if (isDataValid === false) dispatch(setSnackbar('Invalid data given ', 'error')); // possibly temporary
     if (isDataValid === false) return;
     const {user, support}: State = getState(); // interesting (learn something)
-    const sem = (payload as WordsChunk)[0].sem;
+    const sem = (data as WordsChunk)[0].sem;
     // dispatch(getSupport()); // Update the support just in case // This line of code created a very light non-chagning bug
 
     // #2 Put some more necessary data
     let newWordCnt: number = support.newWordCnt;
-    const newWordsPayload = payload.map((word: Word) => {
+    const newWordsPayload = data.map((word: Word) => {
       newWordCnt += 1;
       return {
         ...word, ownerID: user.ID, isFavorite: false, order: newWordCnt, language: support.addWordLangPref,

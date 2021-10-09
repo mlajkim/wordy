@@ -33,10 +33,10 @@ export const setWords = (payload: any) => {
   }
 }
 
-export const postWords = (data: Required[]) => {
+export const postWords = (data: Required[], useLatestApigateway?: boolean) => {
   return {
     type: POST_WORDS,
-    payload: data
+    payload: { data, useLatestApigateway}
   }
 }
 
