@@ -2,7 +2,7 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // type
-import { Wrn } from '../../../type/availableType';
+import Wrn from '../../../type/wrn';
 import lec from '../../../type/LogicalErrorCode.json';
 import { CreateOkrObjectInput, CreateOkrObjectPayload } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';

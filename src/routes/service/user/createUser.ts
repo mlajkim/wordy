@@ -1,25 +1,26 @@
 // Main
-import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
+import express, { Request, Response } from 'express'
+import dotenv from 'dotenv'
 // type
-import { UserCreateUserPayload, UserCreateUserInput } from '../../../type/payloadType';
-import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { JwtData, Wrn } from '../../../type/availableType';
-import { Resource, UserPure } from '../../../type/resourceType';
-import { convertFederalProvider } from '../../../type/sharedWambda';
+import { UserCreateUserPayload, UserCreateUserInput } from '../../../type/payloadType'
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
+import Wrn from '../../../type/wrn'
+import { JwtData } from '../../../type/availableType'
+import { Resource, UserPure } from '../../../type/resourceType'
+import { convertFederalProvider } from '../../../type/sharedWambda'
 import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'
 import { GOOGLE_CLIENT_ID } from '../../../type/predefined'
 // Middleware
-import * as OTM from '../../middleware/onlyToMdl';
+import * as OTM from '../../middleware/onlyToMdl'
 // External Library
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client } from 'google-auth-library'
 // Mogno DB
-import { UserModel } from '../../../models/EncryptedResource';
+import { UserModel } from '../../../models/EncryptedResource'
 // Router
 const router = express.Router();
-const EVENT_TYPE: EventType = "user:createUser";
-dotenv.config();
-const TOKEN_DEFAULT_EXPIRING_IN = 1000 * 60 * 60 * 24 * 7; // 7 days
+const EVENT_TYPE: EventType = "user:createUser"
+dotenv.config()
+const TOKEN_DEFAULT_EXPIRING_IN = 1000 * 60 * 60 * 24 * 7 // 7 days
 // DECLARE
 const adminList = [
   {
@@ -29,9 +30,9 @@ const adminList = [
 ]
 
 // Who can use this router? Connects to MongoDB?
-router.use(pathFinder(EVENT_TYPE), OTM.openToPublic);
-router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB);
-router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.openToPublic)
+router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB)
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // declare 
@@ -48,9 +49,9 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     const ticket = await kimGoogleClient.verifyIdToken({
         idToken: requesterInputData.validatingToken,
         audience: GOOGLE_CLIENT_ID,  // Speci
-    });
+    })
     
-    return ticket;
+    return ticket
   };
   verify()
     .then(async (ticket) => {

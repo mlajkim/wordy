@@ -2,9 +2,10 @@
 import { 
   AvailableCmkWrn, 
   EncryptionMethod, 
-  EncryptedDek, Wrn, AvailableWpWrn,
+  EncryptedDek, AvailableWpWrn,
   OkrObjectType, AddableLn, AssignedIdentity
 } from './availableType';
+import Wrn from './wrn'
 
 export type Resource = {
   // finder data

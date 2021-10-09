@@ -1,24 +1,14 @@
 // Commented on Aug 8, 2021
 // This type is valid
 
+import Wrn from './wrn'
+
 export type HttpOnlyCookie = 'WordyAccessToken';
 export type AddableLn = "en" | "ko" | "ja" | "zh";
 export type DisplayableLn = "en" | "ko" | "ja"; // newer type, Aug 15, 2021 
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
 export type FederalProvider = 'anonymous' | 'google';
 export type EncryptedDek = string;
-
-// ==============
-// WRN (Oct 1, 2021)
-// ==============
-export type Wrn = `wrn::${string}:${string}:${WrnDatabase}:${string}:${string}`;
-export type WrnDatabase = 'mdb' | 'internal' | AwsTokyoS3
-
-// ==============
-// AWS Region Code (Oct 1, 2021)　
-// ==============
-type AwsTokyoS3 = 'ap-northeast-1-s3' 
-
 
 // gateway is used for returning W.E
 export type Gateway = 

@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 // type
 import { UserGoogleSignInInput } from '../../../type/payloadType';
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { JwtData, Wrn } from '../../../type/availableType';
+import { JwtData } from '../../../type/availableType';
+import Wrn from '../../../type/wrn'
 import { Resource, UserPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
 import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'

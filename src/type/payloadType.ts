@@ -5,11 +5,12 @@
 // Type
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
   OkrContainerPure, WordPure
-} from '../type/resourceType';
+} from '../type/resourceType'
 import { 
   AvailableWpWrn,
-  FederalProvider, Wrn
-} from './availableType';
+  FederalProvider
+} from './availableType'
+import Wrn from './wrn'
 
 // ===============
 // User service

@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 // Type
 import { OkrGetMyOkrInput, OkrGetMyOkrPayload } from '../../../type/payloadType';
-import { Wrn } from '../../../type/availableType';
+import Wrn from '../../../type/wrn'
 import { Resource, OkrLinkPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
 // Middleware

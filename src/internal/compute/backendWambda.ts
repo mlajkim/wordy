@@ -1,19 +1,20 @@
-import { Request } from 'express';
+import { Request } from 'express'
 // type
-import { WordyEvent } from '../../type/wordyEventType';
-import { Resource, PureResource } from '../../type/resourceType';
-import { AvailableWpWrn, Wrn } from '../../type/availableType';
+import { WordyEvent } from '../../type/wordyEventType'
+import { Resource, PureResource } from '../../type/resourceType'
+import { AvailableWpWrn } from '../../type/availableType'
+import Wrn from '../../type/wrn'
 // Library
-import geoip from 'geoip-lite';
-import { OAuth2Client } from 'google-auth-library';
-import jwt from 'jsonwebtoken';
-import Cryptr from 'cryptr';
-import cryptoRandomString from 'crypto-random-string';
-import moment from 'moment';
-import dotenv from "dotenv";
+import geoip from 'geoip-lite'
+import { OAuth2Client } from 'google-auth-library'
+import jwt from 'jsonwebtoken'
+import Cryptr from 'cryptr'
+import cryptoRandomString from 'crypto-random-string'
+import moment from 'moment'
+import dotenv from "dotenv"
 // internal
-import { kmsService } from '../security/kms';
-import { wpService } from '../security/wp';
+import { kmsService } from '../security/kms'
+import { wpService } from '../security/wp'
 // Declaare
 const LOGIN_TOKEN_EXPIRES_IN_DAYS = 5;
 

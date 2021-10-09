@@ -1,5 +1,6 @@
-import { Resource } from '../type/resourceType';
-import { Wrn, Gateway, JwtData, AssignedIdentity } from '../type/availableType';
+import { Resource } from '../type/resourceType'
+import { Gateway, JwtData, AssignedIdentity } from '../type/availableType'
+import Wrn from '../type/wrn'
 
 export type WordyEvent = {
   

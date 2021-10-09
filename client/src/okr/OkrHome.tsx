@@ -7,7 +7,7 @@ import {
   OkrDeleteOkrObjectInput
 } from '../type/payloadType';
 import { ResourceId, OkrObjectPure, OkrContainerPure } from '../type/resourceType';
-import { Wrn } from '../type/availableType';
+import Wrn from '../type/wrn';
 import { State } from '../types';
 // Library
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';

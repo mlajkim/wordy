@@ -16,10 +16,8 @@ export const convertFederalProvider = (federalProvider: FederalProvider) => {
   switch (federalProvider) {
     case "google":
       return "end_user";
-    case "anonymous":
-      return "anonymous";
     default:
-      return "THIS_SHOULD_NOT_HAPPEN";
+      return "anonymous";
   }
 };
 
