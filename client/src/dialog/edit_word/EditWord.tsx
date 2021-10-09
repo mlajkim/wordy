@@ -1,60 +1,71 @@
 // Mains
-import React, { Fragment, useState } from 'react';
-// Translations
-import tr from './edit_word.tr.json';
-import trAvailableLangs from '../../components/available_langs/available_langs.tr.json';
-import trAddWordsDialog from '../add_word/add_words_dialog.tr.json';
+import { FC, Fragment, useState } from 'react'
 // Types
 import { State, Word } from '../../types';
-import { AddableLanguage, ADDABLE_LANGUAGES_LIST } from '../../type/generalType';
-import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda';
+import { AddableLanguage, ADDABLE_LANGUAGES_LIST } from '../../type/generalType'
+import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
+// Translations
+import tr from './edit_word.tr.json'
+import trAvailableLangs from '../../components/available_langs/available_langs.tr.json'
+import trAddWordsDialog from '../add_word/add_words_dialog.tr.json'
 // shortcut
-import shortcut from '../../shortcut';
+import shortcut from '../../shortcut'
 // Material UI
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import TextField from '@material-ui/core/TextField'
 // Redux
-import store from '../../redux/store';
-import { useSelector } from 'react-redux';
+import store from '../../redux/store'
+import { useSelector } from 'react-redux'
 // Redux Actions
-import { modifySupport } from '../../redux/actions/supportAction';
-import { offDialog, setSnackbar } from '../../redux/actions';
-import { modifyWords } from '../../redux/actions/wordsAction';
+import { modifySupport } from '../../redux/actions/supportAction'
+import { offDialog, setSnackbar } from '../../redux/actions'
+import { modifyWords } from '../../redux/actions/wordsAction'
 // Material UI
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-// Components
-import TagsList from '../../components/tags_list/TagsList';
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
+// Component
+import TagsList from '../../components/tags_list/TagsList'
 // Within-component Types
 type CustomPayloadType = {prevWord: Word, sem: number, IDs: {ID: string}[] }
 
 // Export Default
-export default function EditDialog() {
+const EditDialog: FC = () => {
   // Redux states
-  const { language, dialog } = useSelector((state: State) => state);
-  const ln = language;
-  const { prevWord } = dialog.payload as CustomPayloadType;
-  const [word, setWord] = useState(prevWord.word);
-  const [editLanguage, setEditLanguage] = useState(prevWord.language);
-  const [pronun, setPronun] = useState(prevWord.pronun); 
-  const [meaning, setMeaning] = useState(prevWord.meaning); 
-  const [example, setExample] = useState(prevWord.example);
-  const [tags, setTags] = useState<string[]>(prevWord.tag);
+  const { language, dialog } = useSelector((state: State) => state)
+  const ln = language
+  const { prevWord } = dialog.payload as CustomPayloadType
+  const [word, setWord] = useState(prevWord.word)
+  const [editLanguage, setEditLanguage] = useState(prevWord.language)
+  const [pronun, setPronun] = useState(prevWord.pronun)
+  const [meaning, setMeaning] = useState(prevWord.meaning)
+  const [example, setExample] = useState(prevWord.example)
+  const [tags, setTags] = useState<string[]>(prevWord.tag)
   // AvailableLanguage
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // Methods
   const handleSave = () => {
     store.dispatch(modifySupport({ searchingBegins: true }, true));
     store.dispatch(offDialog());
     store.dispatch(setSnackbar(tr.editedMessage[ln], 'info'));
-    store.dispatch(modifyWords(prevWord.sem, [{wordID: prevWord._id, payload: {word, pronun, meaning, example, tag: tags, language: editLanguage}}]));
-  };
+    // Trim  (t stands for trimmed)
+    const tword = word ? word.trim() : word
+    const tpronun = pronun ? pronun.trim() : pronun
+    const tmeaning = meaning ? meaning.trim() : meaning
+    const texample = example ? example.trim() : example
+
+    store.dispatch(modifyWords(prevWord.sem, [{
+      wordID: prevWord._id, 
+      payload: {
+        word: tword, pronun: tpronun, meaning: tmeaning, example: texample, tag: tags, language: editLanguage
+      } 
+    }]))
+  }
 
   // TSX
   const menuItems = ADDABLE_LANGUAGES_LIST.map(lang => (
@@ -109,4 +120,6 @@ export default function EditDialog() {
       </Dialog>
     </Fragment>
   );
-};
+}
+
+export default EditDialog
