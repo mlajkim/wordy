@@ -91,10 +91,10 @@ export const wordSearchingAlgorithm = (searchData: string, words: Word[], condit
 // Sep 21, 2021 
 export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
   return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example, legacyId, legacyOwnerId } = found;
+    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example } = found;
     return {
-      _id: legacyId,
-      ownerID: legacyOwnerId,
+      _id: "",
+      ownerID: "",
       order: objectOrder ? objectOrder : 0, 
       dateAdded: dateAdded ? dateAdded : 0, 
       // Shared (the same)

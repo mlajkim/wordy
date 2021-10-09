@@ -22,17 +22,19 @@ const validate = (payload: WordsChunk): boolean => {
 
 // ! October, 2021
 // ! NOW, THIS ONLY APPLIES TO MINIMAL AMMOUNT, ONLY FRONT END
-export const newlyModifyWordsMdl = ({dispatch} : any) => (next: any) => (action: any) => {
+export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
   next(action);
 
   if (action.type === WORDS_ACTION.NEWLY_MODIFY_WORDS) {
     const { type, data } = action.payload as NewlyModifyWords
+    const { support } = getState()
+    const dataLength = data.length
 
     // ! Currently only supports CREATE
     if (type === 'create') {
       dispatch(savingHelper(convertWordsIntoLegacy(data)))
-      // dispatch(modifySupport({ newWordCnt })); // not required as server will modify for you
-      dispatch(addSemNoDup(data[0].sem));
+      dispatch(modifySupport({ newWordCnt: support.newWordCnt + dataLength }))
+      dispatch(addSemNoDup(data[0].sem))
     }
 
   }
@@ -44,9 +46,9 @@ export const getWordsMdl = ({dispatch, getState} : any) => (next: any) => (actio
   next(action);
 
   if (action.type === GET_WORDS) {
-    const { user }: State = getState();
-    const sem = action.payload;
-    dispatch(fetchy3('get', `/words/${user.ID}/${sem}`, null, setWords));
+    const { user }: State = getState()
+    const sem = action.payload
+    dispatch(fetchy3('get', `/words/${user.ID}/${sem}`, null, setWords))
   }
 };
 
