@@ -6,7 +6,7 @@ import { knuthShuffle } from 'knuth-shuffle';
 // actions
 import * as WORDS_ACTION from '../actions/wordsAction'
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS, MIX_ARRAY} from '../actions/wordsAction';
-import {modifySupport, addSemNoDup, deleteSem, getSupport} from '../actions/supportAction';
+import {modifySupport, addSemNoDup, deleteSem, getSupport, updateSupport} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
 import { getWords, setWords, savingHelper } from '../actions/wordsAction';
 import {setSnackbar} from '../actions';
@@ -27,15 +27,34 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
 
   if (action.type === WORDS_ACTION.NEWLY_MODIFY_WORDS) {
     const { type, data } = action.payload as NewlyModifyWords
-    const { support } = getState()
+    const { words, support }: State = getState()
     const dataLength = data.length
 
-    // ! Currently only supports CREATE
     if (type === 'create') {
       dispatch(savingHelper(convertWordsIntoLegacy(data)))
       dispatch(modifySupport({ newWordCnt: support.newWordCnt + dataLength }))
       dispatch(addSemNoDup(data[0].sem))
-    }
+    } // ! end of create
+
+    if (type === 'update') {
+
+    } // ! end of update
+
+    if (type === 'remove') {
+      dispatch(modifySupport({ deletedWordCnt: support.deletedWordCnt + dataLength }))
+      
+    const removedWordChunk = words
+      .filter(wordChunk => wordChunk
+      .filter(word => data.findIndex(el => el.wrn === word.wrn) !== -1))
+      .filter(wordChunk => wordChunk !== []) // smoothly remove semester
+
+    const sems = removedWordChunk.map(el => el[0].sem)
+    if (support.sems.length !== sems.length) dispatch(modifySupport({ sems }))
+
+    } // end of remove
+    
+  
+
 
   }
 }

@@ -57,6 +57,18 @@
    // temporary
  
    type Type = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart';
+
+   const hdlLike = () => {
+
+   }
+
+   const hdlDelete = () => {
+
+   }
+
+   const hdlEdit = () => {
+     
+   }
  
    const handleToolClick = (type: Type) => {
      switch(type) {
