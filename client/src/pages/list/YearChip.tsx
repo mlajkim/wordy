@@ -164,7 +164,7 @@ const YearChip: FC = () => {
   const renderMoreButton = (
     <Tooltip title={tr.expandMore[ln]} placement="bottom">
       <IconButton className={"ShowMoreButton"} color="inherit" aria-label="more" onClick={() => handleMoreClick()}>
-        <ExpandMoreIcon fontSize="small" style={{ color: support.isDarkMode ? buttonLight : buttonDark }} />
+        <ExpandMoreIcon fontSize="small" style={{ color: support.isDarkMode ? buttonDark : buttonLight }} />
       </IconButton>
     </Tooltip>
   )
@@ -240,7 +240,7 @@ const YearChip: FC = () => {
       {selectedSem !== 0 && filteredWordsList &&
         <Tooltip title={tr.toTopOfPage[ln]} placement="bottom">
           <IconButton className={"GoToTopOfPage"} color="inherit" aria-label="more" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-            <GoUpToTopPageIcon fontSize="small" style={{ color: support.isDarkMode ? buttonLight : buttonDark }} />
+            <GoUpToTopPageIcon fontSize="small" style={{ color: support.isDarkMode ? buttonDark : buttonLight }} />
           </IconButton>
         </Tooltip> 
       }

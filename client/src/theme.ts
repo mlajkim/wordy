@@ -3,8 +3,11 @@
  * 
  */
 
+const WHITE = "#FFF"
+const BLACK = "000"
+
 // Background page
-export const backgroundLight = '#ffffff';
+export const backgroundLight = WHITE;
 export const backgroundDark = '#2b3035';
 
 export const buttonColorNonHover = "#B5B5B5";
@@ -16,17 +19,11 @@ export const buttonColorHover = "#BDFBA3";
  * Just realized that fontLight should be #FFF for better readaiblity.
  * Yet since this is already depedent on many application I will ignore for now. 
  */
-export const fontLight = '#000000';
-export const fontDark = '#ffffff';
+export const fontLight = BLACK;
+export const fontDark = WHITE;
 
-/**
- * Commented on Jul 18, 2021 
- * Based on the mistake I made with the fontColor attribute above (change may apply due to the changing)
- * I decided to have a different value for buttons too.
- */
-
-export const buttonLight = "#B5B5B5"; // #FFF is too standing
-export const buttonDark = "#000000";
+export const buttonLight = BLACK;
+export const buttonDark = "#B5B5B5"; // #FFF is too standing
 
 // ! October, 2021
 export const encryptedButtonLight = "#17D117"
@@ -43,5 +40,5 @@ export const listLight = "#F2F2F2";
 export const listDark = "#333333";
 
 // Word Card Color
-export const wordCardLight = "#ffffff";
+export const wordCardLight = WHITE;
 export const wordCardDark = "#404040";

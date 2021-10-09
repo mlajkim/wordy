@@ -163,7 +163,7 @@ const SearchResult: React.FC = () => {
   const RenderMoreButton = matchingWord.length > DEFAULT_MORE_WORDS_AMOUNT && (
     <Tooltip title={trYearChip.expandMore[ln]} placement="bottom">
       <IconButton className={"ShowMoreButton"} color="inherit" aria-label="more" onClick={() => handleMoreClick()}>
-        <ExpandMoreIcon fontSize="small" style={{ color: support.isDarkMode ? buttonLight : buttonDark }} />
+        <ExpandMoreIcon fontSize="small" style={{ color: support.isDarkMode ? buttonDark : buttonLight}} />
       </IconButton>
     </Tooltip>
   );
@@ -190,7 +190,7 @@ const SearchResult: React.FC = () => {
       { wordCardsMax < matchingWord.length && RenderMoreButton }
       <Tooltip title={trYearChip.toTopOfPage[ln]} placement="bottom">
         <IconButton className={"GoToTopOfPage"} color="inherit" aria-label="more" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-          <GoUpToTopPageIcon fontSize="small" style={{ color: support.isDarkMode ? buttonLight : buttonDark }} />
+          <GoUpToTopPageIcon fontSize="small" style={{ color: support.isDarkMode ? buttonDark : buttonLight }} />
         </IconButton>
       </Tooltip> 
     </Fragment>

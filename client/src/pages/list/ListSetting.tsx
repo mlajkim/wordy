@@ -83,19 +83,19 @@ const ListSetting: FC<Props> = ({ selectedSem, handleSemChipClick }) => {
     switch (refreshStep) {
       case 0:
         return (
-          <IconButton disabled style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }}>
+          <IconButton disabled style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonDark : buttonLight}}>
             <CheckIcon />
           </IconButton>
         )
       case 1:
         return (
-          <IconButton disabled style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }}>
+          <IconButton disabled style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonDark : buttonLight }}>
             <CloudDoneIcon />
           </IconButton>
         )
       case 2:
         return (
-          <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => handleRefresh()}>
+          <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonDark : buttonLight }} onClick={() => handleRefresh()}>
             <Tooltip title={"Refresh"} placement="bottom">
               <RefreshIcon />
             </Tooltip>
@@ -108,13 +108,13 @@ const ListSetting: FC<Props> = ({ selectedSem, handleSemChipClick }) => {
 
   return (
     <Fragment>
-      <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => store.dispatch(setDialog('SettingDialog'))}>
+      <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonDark : buttonLight }} onClick={() => store.dispatch(setDialog('SettingDialog'))}>
         <Tooltip title={trAppbar.setting[ln]} placement="bottom">
           <SettingsIcon />
         </Tooltip>
       </IconButton>
       { support.sems.length >= 2 && selectedSem === 0 && (
-        <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => hdlRandomSem()}>
+        <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonDark : buttonLight }} onClick={() => hdlRandomSem()}>
         {
           <Tooltip title={tr.randomlyChooseSem[ln]} placement="bottom">
             <SurfingIcon />
@@ -123,7 +123,7 @@ const ListSetting: FC<Props> = ({ selectedSem, handleSemChipClick }) => {
       </IconButton>
       )}
       { selectedSem !== 0 && 
-        <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonLight : buttonDark }} onClick={() => hdlMixingWords()}>
+        <IconButton style={{ float:'right',textAlign:'right', color: support.isDarkMode ? buttonDark : buttonLight }} onClick={() => hdlMixingWords()}>
           {
             selectedSem === support.mixedSem
               ?
