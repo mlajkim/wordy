@@ -14,7 +14,7 @@ const initialState: Support = {
   newWordCnt: 0,
   deletedWordCnt: 0,
   sems: [],
-  wordOrderPref: 'asc',
+  wordOrderPref: 'desc',
   yearOrderPref: 'asc',
   wordDisplayPref: 'wordcard',
   lastTags: [],

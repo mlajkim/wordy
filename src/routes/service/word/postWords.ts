@@ -45,7 +45,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     .map(pureWordBasic => {
       return {
         imageWrn: [], // image cannot be uploaded right away this time
-        isFavorite: false,
+        isFavorite: false, isEncrypted: true,
         ...pureWordBasic,
       } as WordPure
     })

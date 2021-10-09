@@ -3,7 +3,8 @@ import Wrn from './wrn'
 
 export type LegacyPureWord = {
   // ! This will  be used to define if the data is encrypted or not!
-  wrn?: Wrn
+  wrn: Wrn,
+  isEncrypted: boolean,
   // ! Legacy below
   _id: string,
   ownerID: string,

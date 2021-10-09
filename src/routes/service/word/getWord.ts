@@ -66,6 +66,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return {
       imageWrn: [], // legacy word does not have imageWnr
       wrn: `wrn::word:${sem}:mdb:${_id}:`,
+      isEncrypted: false,
       ownerWrn: RE.requesterWrn!,
       objectOrder: order,
       // might add dateAdded;

@@ -73,6 +73,7 @@ export type WordPureBasic = {
 export type WordPure = WordPureBasic & {
   imageWrn: Wrn[] // ! NEW, image Wrn
   isFavorite: boolean
+  isEncrypted: boolean
 }
 
 // =============

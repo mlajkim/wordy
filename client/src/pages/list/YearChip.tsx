@@ -11,7 +11,7 @@ import { filteredSpecialTag, onlyBiggestThree } from '../../frontendWambda'
 // Translation
 import tr from './year_chip.tr.json'
 // Components
-// import WordCard from '../../components/word_card/WordCard'
+import WordCard from '../../components/word_card/WordCard'
 import EncryptedWordCard from '../../components/secured_wordcard/EncryptedWordCard'
 import ListSetting from './ListSetting'
 import WordList from '../../components/word_list/WordList'
@@ -246,7 +246,8 @@ const YearChip: FC = () => {
         : !filteredWordsList 
           ? <CircularProgress />
           : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
-                if (support.wordDisplayPref === 'wordcard') return <EncryptedWordCard key={datus.wrn} word={datus} />
+                if (support.wordDisplayPref === 'wordcard' && datus.isEncrypted) return <EncryptedWordCard key={datus.wrn} word={datus} />
+                else if (support.wordDisplayPref === 'wordcard' && !datus.isEncrypted) return <WordCard key={datus.wrn} word={datus} />
                 else if (support.wordDisplayPref === 'list') return <WordList key={datus.wrn} word={datus} idx={idx + 1} />
                 else return null;
             })
