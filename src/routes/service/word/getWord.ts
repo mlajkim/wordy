@@ -12,32 +12,31 @@
 
 
 // Main
-import express, {  Request, Response } from 'express';
+import express, {  Request, Response } from 'express'
 // type
-import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
-import { WordGetWordInput, WordGetWordPayload } from '../../../type/payloadType';
-import { LegacyPureWord } from '../../../type/legacyType';
-// import { Wrn } from '../../../type/availableType';
-import { Resource, ResourceId, WordPure } from '../../../type/resourceType';
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
+import { WordGetWordInput, WordGetWordPayload } from '../../../type/payloadType'
+import { LegacyPureWord } from '../../../type/legacyType'
+import { Resource, ResourceId, WordPure } from '../../../type/resourceType'
 // Lambda
-import { intoPayload } from '../../../internal/compute/backendWambda';
+import { intoPayload } from '../../../internal/compute/backendWambda'
 // Model
-import { WordModel } from '../../../models/EncryptedResource';
-import LegacyWordModel from '../../../models/Words';
+import { WordModel } from '../../../models/EncryptedResource'
+import LegacyWordModel from '../../../models/Words'
 // mdl
 import * as OTM from '../../middleware/onlyToMdl'
-// Gateway
-import { ctGateway } from '../../../internal/management/cloudTrail';
+// Gatewa
+import { ctGateway } from '../../../internal/management/cloudTrail'
 // Router
-const word = express.Router();
+const router = express.Router();
 const EVENT_TYPE: EventType = "word:getWord";
 
-word.use(pathFinder(EVENT_TYPE), OTM.onlyToAdminMdl);
-word.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService);
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl)
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 
-word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  const RE = req.body as WordyEvent;
-  const returningDecryptedData: WordGetWordPayload = [];
+router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
+  const RE = req.body as WordyEvent
+  const returningDecryptedData: WordGetWordPayload = []
 
   // Data validation
   const { sem, legacyMongoId } = RE.requesterInputData as WordGetWordInput;
@@ -48,21 +47,15 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const wrnWithoutPrivateId = `wrn::word:${sem}:mdb:`
   const encryptedWordResource = await WordModel.find({ 
     ownerWrn: RE.requesterWrn, wrn: { $regex: `${wrnWithoutPrivateId}.*`} 
-  }) as Resource[] | null;
-
-  // handle error, empty
-  if (!encryptedWordResource) {
-    const sending = ctGateway(RE, "LogicallyDenied", "Data not found");
-    return res.status(sending.status!).send(sending);
-  }
+  }) as Resource[] | null
 
   // handle apigateway data (Decrpyt)
   if (encryptedWordResource !== null) {
     for (const eachRes of encryptedWordResource) {
       const decryptedRes = intoPayload(eachRes, RE) as ResourceId & WordPure;
       returningDecryptedData.push(decryptedRes);
-    };
-  };
+    }
+  }
 
   // ! 2) GET Legacy Word & CONVERT INTO NEWLY FORMAT 
   // Get the legacy word data
@@ -90,6 +83,6 @@ word.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   RE.payload = returningDecryptedData; // Apply found payload
   const sending = ctGateway(RE, "Accepted")
   return res.status(sending.status!).send(sending)
-});
+})
 
-export default word;
+export default router

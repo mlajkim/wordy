@@ -1,12 +1,14 @@
 // Main
-import express from 'express';
-const router = express.Router();
+import express from 'express'
+const router = express.Router()
 // Imported Routers
-import getWord from './word/getWord';
-import word from './word/detectLanguage';
+import postWords from './word/postWords'
+import getWord from './word/getWord'
+import word from './word/detectLanguage'
 
 // Apply router
-router.use(getWord);
-router.use(word);
+router.use(postWords)
+router.use(getWord)
+router.use(word)
 
 export default router;
