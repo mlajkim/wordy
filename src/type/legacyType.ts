@@ -1,8 +1,9 @@
 import { AddableLanguage } from './generalType';
+import Wrn from './wrn'
 
 export type LegacyPureWord = {
   // ! This will  be used to define if the data is encrypted or not!
-  isEncrypted?: boolean
+  wrn?: Wrn
   // ! Legacy below
   _id: string,
   ownerID: string,
@@ -24,4 +25,4 @@ export type LegacyPureWord = {
   meaning: string,
   example: string,
   isPublic: boolean,
-}
+} 

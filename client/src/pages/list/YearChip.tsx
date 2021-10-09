@@ -2,8 +2,10 @@ import { Fragment, useState, useEffect, FC } from 'react'
 // Type
 import {convertSem, checkIfToday, checkIfThisDay} from '../../utils'
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
-import { State, WordsChunk, SpecialTag } from '../../types'
+import { State, WordsChunk, SpecialTag, Word } from '../../types'
 import { buttonLight, buttonDark } from '../../theme'
+import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType'
+import { convertWordsIntoLegacy } from '../../frontendWambda'
 // Library
 import { filteredSpecialTag, onlyBiggestThree } from '../../frontendWambda'
 // Translation
@@ -14,6 +16,8 @@ import EncryptedWordCard from '../../components/secured_wordcard/EncryptedWordCa
 import ListSetting from './ListSetting'
 import WordList from '../../components/word_list/WordList'
 import SearchResult from '../../components/searchResult/SearchResult'
+// Lambda
+import { throwEvent } from '../../frontendWambda'
 // MUI
 import Tooltip from '@material-ui/core/Tooltip'
 import Chip from '@material-ui/core/Chip'
@@ -28,7 +32,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import store from '../../redux/store'
 // Redux action
 import { useSelector } from 'react-redux'
-import { getWords } from '../../redux/actions/wordsAction'
+import { setWords } from '../../redux/actions/wordsAction'
 
 const ADDING_MORE_WORDS_AMOUNT = 50;
 const DEFAULT_MORE_WORDS_AMOUNT = 50;
@@ -36,7 +40,7 @@ const RENDERING_YEAR_CHIP_LIMIT = 3
 // @ MAIN
 const YearChip: FC = () => {
   // Redux states
-  const {language, support, words} = useSelector((state: State) => state);
+  const { language, support, words, user } = useSelector((state: State) => state);
   const ln = language;
   // Component state
   const [selectedSem, setSelectedSem] = useState<number>(0)
@@ -57,7 +61,7 @@ const YearChip: FC = () => {
     setSelectedNormalTags([]);
   };
   // ..Method
-  const handleSemChipClick = (sem: number) => {
+  const handleSemChipClick = async (sem: number) => {
     setWordCardsMax(DEFAULT_MORE_WORDS_AMOUNT); // Because if you click it, it just has to do it.
     reset();
     setNormalTags([]);
@@ -69,13 +73,24 @@ const YearChip: FC = () => {
     let found: boolean = false;
     if(words.length !== 0) 
       found = typeof words.find((datum: WordsChunk) => datum[0].sem === sem) !== "undefined" ? true : false;
-    // Not Found? Start Downloading.
-    if(found === false) {
-      // handle ownloading the data
-      store.dispatch(getWords(sem));
-      setDownloadedSems([...downloadedSems, sem]);
-    }
-  };
+
+    // Found? Do not download ...
+    if (found) return
+
+    // ! Start downloading here ...
+    await throwEvent("word:getWord", { sem, legacyMongoId: user.ID! } as WordGetWordInput)
+      .then(res => {
+        if (res.serverResponse !== "Accepted") return;
+        
+        // ! 1) Convert into legacy format
+        const foundWordChunk = res.payload as WordGetWordPayload;
+        const converted: Word[] = convertWordsIntoLegacy(foundWordChunk);
+
+        // ! 2) Apply frontend
+        store.dispatch(setWords(converted));
+        setDownloadedSems([...downloadedSems, sem]);
+      })
+  }
   
   // ..method
   const handleSpecialTags = (tag: SpecialTag) => {
@@ -231,8 +246,8 @@ const YearChip: FC = () => {
         : !filteredWordsList 
           ? <CircularProgress />
           : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
-                if (support.wordDisplayPref === 'wordcard') return <EncryptedWordCard key={datus._id} word={datus} />
-                else if (support.wordDisplayPref === 'list') return <WordList key={datus._id} word={datus} idx={idx + 1} />
+                if (support.wordDisplayPref === 'wordcard') return <EncryptedWordCard key={datus.wrn} word={datus} />
+                else if (support.wordDisplayPref === 'list') return <WordList key={datus.wrn} word={datus} idx={idx + 1} />
                 else return null;
             })
         }

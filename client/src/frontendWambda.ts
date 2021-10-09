@@ -91,8 +91,9 @@ export const wordSearchingAlgorithm = (searchData: string, words: Word[], condit
 // Sep 21, 2021 
 export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
   return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example } = found;
+    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example, wrn } = found;
     return {
+      wrn,
       _id: "",
       ownerID: "",
       order: objectOrder ? objectOrder : 0, 
