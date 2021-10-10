@@ -5,7 +5,7 @@ import { WordEditWordsInput, WordEditWordsPayload } from '../../../type/payloadT
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl'
 // Mogno DB
-import { OkrObjectModel } from '../../../models/EncryptedResource'
+import { WordModel } from '../../../models/EncryptedResource'
 import legacyWordModel from '../../../models/Words'
 // internalw
 import { ctGateway } from '../../../internal/management/cloudTrail'
@@ -37,7 +37,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
     // ! 3) Handle latest encrypted data
     const modifedEncryptedRes = intoResource(pureWordObject, pureWordObject.wrn, RE, pureWordObject.wpWrn)
-    await OkrObjectModel.findOneAndUpdate({ wrn: pureWordObject.wrn }, modifedEncryptedRes, { useFindAndModify: false })
+    await WordModel.findOneAndUpdate({ wrn: pureWordObject.wrn }, modifedEncryptedRes, { useFindAndModify: false })
   }
 
   RE.payload = editedWords as WordEditWordsPayload
