@@ -24,7 +24,7 @@
  import Chip from '@material-ui/core/Chip'
  // Icons
  import EncryptedIcon from '@mui/icons-material/Check'
- import LockOpenIcon from '@mui/icons-material/LockOpen';
+ import LockOpenIcon from '@mui/icons-material/LockOpen'
  import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
  import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
  import ArrowRightIcon from '@material-ui/icons/ArrowRight'

@@ -137,7 +137,7 @@ const YearChip: FC = () => {
       })
       .sort((a, b) => {
         if (support.mixedSem !== selectedSem) 
-          return support.wordOrderPref === 'desc' ? b.order - a.order : a.order - b.order;
+          return support.wordOrderPref === 'desc' ? b.dateAdded - a.dateAdded : a.dateAdded - b.dateAdded;
         else return 0;
       });
 
