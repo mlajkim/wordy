@@ -49,10 +49,13 @@ const EditDialog: FC = () => {
   const [example, setExample] = useState(editingTargetWord.example)
   const [tags, setTags] = useState<string[]>(editingTargetWord.tag)
   // AvailableLanguage
+  const [tempOpen, setTempOpen] = useState(true)
   const [open, setOpen] = useState(false);
 
   // Methods
   const handleSave = () => {
+    setTempOpen(false) // This is to make sure that it closes fast.
+
     // ! 1) Trim words
     const tword = word ? word.trim() : word
     const tpronun = pronun ? pronun.trim() : pronun
@@ -82,6 +85,7 @@ const EditDialog: FC = () => {
         store.dispatch(setSnackbar(tr.editedMessage[ln], 'info'));
         store.dispatch(offDialog());
       })
+      .catch(() => setTempOpen(true)) // When somehow server is down, end user can roll back.
   }
 
   // TSX
@@ -93,7 +97,7 @@ const EditDialog: FC = () => {
   return (
     <Fragment>
       <Dialog
-        open={true}
+        open={tempOpen}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

@@ -27,7 +27,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const editedWords = RE.requesterInputData as WordEditWordsInput;
 
   for (const pureWordObject of editedWords) {
-    console.log(pureWordObject)
+
     // if (legacy)
     if (!pureWordObject.isEncrypted) {
       const extractedLegacyId = pureWordObject.legacyId

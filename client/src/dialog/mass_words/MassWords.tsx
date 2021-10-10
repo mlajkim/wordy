@@ -63,6 +63,8 @@ const MassWords: React.FC = () => {
   const [detectTimer, setDetectTimer] = useState<number>(0);
   const [enableDetect, setEnableDetect] = useState<boolean>(false);
   const [detectingTarget, setDetectingTarget] = useState<string>('');
+  const [tempOpen, setTempOpen] = useState(true)
+
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
@@ -128,6 +130,8 @@ const MassWords: React.FC = () => {
 
   // ...Method
   const hdlAddMassWords = () => {
+    setTempOpen(false) // This exist to make the action faster.
+
     // ! 1) Error check: if data is empty
     if (massData.length === 0) 
       return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'));
@@ -186,16 +190,14 @@ const MassWords: React.FC = () => {
         store.dispatch(offDialog())
         store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
       })
-
-    
-
+      .catch(() => setTempOpen(true)) // Somehow if server is not responding
   }
 
   // Return
   return (
     <Fragment>
       <Dialog
-        open={true}
+        open={tempOpen}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         fullWidth
