@@ -1,15 +1,18 @@
 // types
 import { WordsChunk, Word, State } from '../../types'
 import { NewlyModifyWords } from '../reduxType'
+import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType';
 // libraries
 import { knuthShuffle } from 'knuth-shuffle';
+// Lambda
+import { throwEvent } from '../../frontendWambda';
 // actions
 import * as WORDS_ACTION from '../actions/wordsAction'
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS, MIX_ARRAY} from '../actions/wordsAction';
 import {modifySupport, addSemNoDup, deleteSem, getSupport, updateSupport} from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
 import { getWords, setWords, savingHelper } from '../actions/wordsAction';
-import {setSnackbar} from '../actions';
+import { setSnackbar } from '../actions';
 import { convertWordsIntoLegacy } from '../../frontendWambda';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -200,19 +203,36 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
   }
 };
 
-export const syncWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+export const syncWordsMdl = ({dispatch, getState} : any) => (next: any) => async (action: any) => {
   next(action);
   if(action.type === SYNC_WORDS) {
     // Payload and States
     const { syncTargetSem } = action.payload;
-    const { words }: State = getState();
-    // Sync others
+    const { user, words }: State = getState();
     dispatch(getSupport());
-    // Delete the sem
+
+    // ! 1) Delete previous data
     const newWordsList = words.filter(wordChunk => wordChunk[0].sem !== syncTargetSem);
     dispatch(updateWords(newWordsList));
-    // Get the fresh words from database
-    dispatch(getWords(syncTargetSem));
+
+    // 2) Start downloading here ...
+    await throwEvent("word:getWord", { sem: syncTargetSem, legacyMongoId: user.ID! } as WordGetWordInput)
+      .then(res => {
+        if (res.serverResponse !== "Accepted") return
+        
+        // ! 3) Convert into legacy forma
+        const foundWordChunk = res.payload as WordGetWordPayload
+        const converted: Word[] = convertWordsIntoLegacy(foundWordChunk)
+
+        // ! 4) Apply frontend
+        dispatch(setWords(converted))
+      })
+      .catch(() => {
+        // ! F-1) Failed. bring back what you already have.
+        dispatch(updateWords(words)) // Bring back, if it fails somehow
+      })
+
+    // dispatch(getWords(syncTargetSem)); // (Legacy)
   };
 };
 
