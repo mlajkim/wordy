@@ -3,7 +3,7 @@ import {
   AvailableCmkWrn, 
   EncryptionMethod, 
   EncryptedDek, AvailableWpWrn,
-  OkrObjectType, AddableLn, AssignedIdentity
+  OkrObjectType, AddableLn, 
 } from './availableType';
 import Wrn from './wrn'
 
@@ -26,15 +26,14 @@ export type Resource = {
 };
 
 export type ResourceId = {
-  wrn: Wrn;
-  ownerWrn: Wrn | AssignedIdentity;
+  wrn: Wrn
+  ownerWrn: Wrn
+  wpWrn?: AvailableWpWrn // this will be checked first, even before
   dateAdded?: number;
   // basic info
   objectOrder?: number;
   // Modifing data
   modifableUntil?: number; // unless specified, data can be modifed!!!
-  // wordy policy checker 
-  wpWrn?: AvailableWpWrn; // this will be checked first, even before
   // might add dateAdded;
   resoureAvailability?: "Visible" | "NotVisible";
   rejectedReason?: string;
@@ -60,6 +59,17 @@ export type PureResource = ResourceId & (
 // Word
 // =============
 
+export type WordPure = WordPureEditable & {
+  isEncrypted: boolean
+  // ! Legacy Word Pure data. do not delete below
+  legacyId?: string
+}
+
+export type WordPureEditable = WordPureBasic & {
+  imageWrn: Wrn[] // ! NEW, image Wrn
+  isFavorite: boolean
+}
+
 export type WordPureBasic = {
   sem: number
   language: AddableLn
@@ -68,12 +78,6 @@ export type WordPureBasic = {
   pronun: string
   meaning: string
   example: string
-}
-
-export type WordPure = WordPureBasic & {
-  imageWrn: Wrn[] // ! NEW, image Wrn
-  isFavorite: boolean
-  isEncrypted: boolean
 }
 
 // =============

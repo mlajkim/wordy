@@ -1,4 +1,3 @@
-
 type Wrn = `wrn:${FutureUsage}:${DataType}:${DataLocation}:${PublicId}:${PrivateId}`;
 
 

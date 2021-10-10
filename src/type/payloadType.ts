@@ -16,6 +16,11 @@ import Wrn from './wrn'
 // User service
 // ===============
 
+// word:EDIT_WORDS
+export type WordEditWordsInput = (ResourceId & WordPure)[]
+export type WordEditWordsPayload = (ResourceId & WordPure)[]
+
+
 // word:POST_WORDS
 export type WordPostWordsInput = WordPureBasic[]
 export type WordPostWordsPayload = (ResourceId & WordPure)[]

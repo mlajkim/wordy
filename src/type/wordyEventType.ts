@@ -61,6 +61,7 @@ type KmsService =
 
 type WordSerivce = 
   "*" | //all
+  "editWords" |
   "postWords" |
   "getWord" |
   "detectLanguage"

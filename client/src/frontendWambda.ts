@@ -2,7 +2,7 @@
 import { WordyEvent, pathFinder } from './type/wordyEventType'
 import { AvailableCookies } from './type/availableType'
 import { EventType } from './type/wordyEventType'
-import { ResourceId, WordPure } from './type/resourceType'
+import { ResourceId, WordPure, WordPureEditable } from './type/resourceType'
 import { WordsChunk, Word, SpecialTag, GoogleRes } from './types'
 import { AddableLanguage } from './type/generalType'
 // Library
@@ -14,6 +14,7 @@ import { knuthShuffle } from 'knuth-shuffle'
 import store from './redux/store'
 // Redux Action
 import { setSnackbar } from './redux/actions'
+import { LegacyPureWord } from './type/legacyType'
 
 
 // event Thrower
@@ -88,30 +89,6 @@ export const wordSearchingAlgorithm = (searchData: string, words: Word[], condit
   })
 }
 
-// Sep 21, 2021 
-export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
-  return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example, wrn, isEncrypted } = found;
-    return {
-      wrn,
-      isEncrypted,
-      _id: "",
-      ownerID: "",
-      order: objectOrder ? objectOrder : 0, 
-      dateAdded: dateAdded ? dateAdded : 0, 
-      // Shared (the same)
-      isFavorite, sem, language, tag: tags, word, pronun, meaning, example,
-      // Unused, but defined
-      lastReviewed: 0,
-      reviewdOn: [0], 
-      step: 0,
-      seederID: "", 
-      packageID: "", 
-      isPublic: false,
-    }
-  });
-}
-
 const getDayOff = (dateAdded: number): number => {
   const oneDayValue = 1000 * 60 * 60 * 24
   
@@ -183,3 +160,43 @@ export const cvtOneTapIntoGoogleRes = (
     tokenId: ""
   }
 }
+
+
+// Sep 21, 2021 
+export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
+  return words.map(found => {
+    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example, wrn, isEncrypted, imageWrn, ownerWrn, legacyId } = found;
+    return {
+      wrn, imageWrn, ownerWrn, legacyId: legacyId ? legacyId : "",
+      wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
+      isEncrypted,
+      _id: "",
+      ownerID: "",
+      order: objectOrder ? objectOrder : 0, 
+      dateAdded: dateAdded ? dateAdded : 0, 
+      // Shared (the same)
+      isFavorite, sem, language, tag: tags, word, pronun, meaning, example,
+      // Unused, but defined
+      lastReviewed: 0,
+      reviewdOn: [0], 
+      step: 0,
+      seederID: "", 
+      packageID: "", 
+      isPublic: false,
+    }
+  });
+}
+
+// ! October, 2021
+export const convertLegacyWordIntoPureWord = (editedData: WordPureEditable, originalData: LegacyPureWord): ResourceId & WordPure => {
+  const { wrn, ownerWrn, dateAdded, order, wpWrn, legacyId, isEncrypted } = originalData
+
+  return {
+    wrn, ownerWrn, dateAdded,
+    objectOrder: order, wpWrn,
+    isEncrypted, legacyId: legacyId ? legacyId : "",
+    ...editedData
+  }
+} 
+
+

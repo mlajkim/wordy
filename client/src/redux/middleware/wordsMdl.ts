@@ -40,7 +40,15 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
     } // ! end of create
 
     if (type === 'update') {
-
+      const alteredWords = words.map(wordChunk => {
+        return wordChunk.map(word => {
+          const idx = data.findIndex(el => el.wrn === word.wrn)
+          if (idx !== -1) return data[idx]
+          else return word
+        } )
+      })
+      dispatch(setWords(alteredWords))
+      
     } // ! end of update
 
     if (type === 'remove') {

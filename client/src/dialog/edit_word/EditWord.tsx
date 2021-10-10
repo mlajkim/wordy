@@ -3,6 +3,8 @@ import { FC, Fragment, useState } from 'react'
 // Types
 import { State, Word } from '../../types';
 import { AddableLanguage, ADDABLE_LANGUAGES_LIST } from '../../type/generalType'
+// Lambda
+import { convertLegacyWordIntoPureWord } from '../../frontendWambda'
 import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
 // Translations
 import tr from './edit_word.tr.json'
@@ -23,48 +25,65 @@ import { useSelector } from 'react-redux'
 // Redux Actions
 import { modifySupport } from '../../redux/actions/supportAction'
 import { offDialog, setSnackbar } from '../../redux/actions'
-import { modifyWords } from '../../redux/actions/wordsAction'
+import { modifyWords, newlyModifyWords } from '../../redux/actions/wordsAction'
 // Material UI
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 // Component
 import TagsList from '../../components/tags_list/TagsList'
-// Within-component Types
-type CustomPayloadType = {prevWord: Word, sem: number, IDs: {ID: string}[] }
+import { throwEvent } from '../../frontendWambda'
+import { WordEditWordsInput, WordPostWordsPayload } from '../../type/payloadType'
+import { LegacyPureWord } from '../../type/legacyType'
 
 // Export Default
 const EditDialog: FC = () => {
   // Redux states
   const { language, dialog } = useSelector((state: State) => state)
   const ln = language
-  const { prevWord } = dialog.payload as CustomPayloadType
-  const [word, setWord] = useState(prevWord.word)
-  const [editLanguage, setEditLanguage] = useState(prevWord.language)
-  const [pronun, setPronun] = useState(prevWord.pronun)
-  const [meaning, setMeaning] = useState(prevWord.meaning)
-  const [example, setExample] = useState(prevWord.example)
-  const [tags, setTags] = useState<string[]>(prevWord.tag)
+  const editingTargetWord: LegacyPureWord = dialog.payload as LegacyPureWord
+  const [word, setWord] = useState(editingTargetWord.word)
+  const [editLanguage, setEditLanguage] = useState(editingTargetWord.language)
+  const [pronun, setPronun] = useState(editingTargetWord.pronun)
+  const [meaning, setMeaning] = useState(editingTargetWord.meaning)
+  const [example, setExample] = useState(editingTargetWord.example)
+  const [tags, setTags] = useState<string[]>(editingTargetWord.tag)
   // AvailableLanguage
   const [open, setOpen] = useState(false);
 
   // Methods
   const handleSave = () => {
-    store.dispatch(modifySupport({ searchingBegins: true }, true));
-    store.dispatch(offDialog());
-    store.dispatch(setSnackbar(tr.editedMessage[ln], 'info'));
-    // Trim  (t stands for trimmed)
+    // ! 1) Trim words
     const tword = word ? word.trim() : word
     const tpronun = pronun ? pronun.trim() : pronun
     const tmeaning = meaning ? meaning.trim() : meaning
     const texample = example ? example.trim() : example
 
-    store.dispatch(modifyWords(prevWord.sem, [{
-      wordID: prevWord._id, 
-      payload: {
-        word: tword, pronun: tpronun, meaning: tmeaning, example: texample, tag: tags, language: editLanguage
-      } 
-    }]))
+    // ! 2) Apply edited one and convert into latest word model
+    const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
+      // Below is NOT changed here.
+      imageWrn: editingTargetWord.imageWrn, sem: editingTargetWord.sem,
+      // Below is changed by ender user
+      tags, word: tword, pronun: tpronun, meaning: tmeaning, example: texample, 
+      language: editLanguage, isFavorite: editingTargetWord.isFavorite
+    }, editingTargetWord)]
+
+    console.log(editingTargetWord)
+
+    throwEvent("word:editWords", input)
+      .then(RE => {
+        if (RE.serverResponse !== "Accepted") return
+
+        // ! 3) Edit front word
+        store.dispatch(newlyModifyWords({
+          type: "update", data: RE.payload as WordPostWordsPayload
+        })) 
+
+        // ! 4) Let ender user know
+        store.dispatch(modifySupport({ searchingBegins: true }, true)); //? The hell was that?
+        store.dispatch(setSnackbar(tr.editedMessage[ln], 'info'));
+        store.dispatch(offDialog());
+      })
   }
 
   // TSX

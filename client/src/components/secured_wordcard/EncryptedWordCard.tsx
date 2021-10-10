@@ -6,7 +6,8 @@
  import Highlighter from "react-highlight-words"
  import './wordCard.css'
  // Type
- import { State, Word } from '../../types'
+ import { State } from '../../types'
+ import { LegacyPureWord } from '../../type/legacyType'
  import { convertSem } from '../../utils'
  import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
  import { 
@@ -39,7 +40,7 @@
  import { setDialog } from '../../redux/actions'
  import { modifyWords } from '../../redux/actions/wordsAction'
  
- type Props = { word: Word, highlighted?: string };
+ type Props = { word: LegacyPureWord, highlighted?: string };
  // @ MAIN
  const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
    const { support, language } = useSelector((state: State) => state)
@@ -82,7 +83,7 @@
          break;
  
        case 'edit':
-         store.dispatch(setDialog('EditWord', {prevWord: word, sem: word.sem ,IDs: [{ID: word._id}]}));
+         store.dispatch(setDialog('EditWord', word));
          break;
        
        default:
