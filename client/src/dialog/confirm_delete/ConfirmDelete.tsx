@@ -1,35 +1,40 @@
 import React, {Fragment} from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { State } from '../../types';
+// Type
+import { LegacyPureWord } from '../../type/legacyType'
+// Lambda
+import { throwEvent } from '../../frontendWambda'
+// MUI
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import { State } from '../../types'
 // Translation
-import tr from './confirm_delete.tr.json';
+import tr from './confirm_delete.tr.json'
 // Redux
-import store from '../../redux/store';
-import { deleteWords } from '../../redux/actions/wordsAction';
+import store from '../../redux/store'
+import { deleteWords } from '../../redux/actions/wordsAction'
 // Redux Action
-import { modifySupport } from '../../redux/actions/supportAction';
-import { offDialog, setSnackbar } from '../../redux/actions';
-import { useSelector } from 'react-redux';
-
-type CustomPayloadType = { sem: number, IDs: {ID: string}[] } 
+import { modifySupport } from '../../redux/actions/supportAction'
+import { offDialog, setSnackbar } from '../../redux/actions'
+import { useSelector } from 'react-redux'
 
 const  ConfirmDelete:React.FC= () => {
   // Redux States
   const {language, dialog} = useSelector((state: State) => state);
   const ln = language;
-  const {sem, IDs} = dialog.payload as CustomPayloadType;
+  const deletingTargets = dialog.payload as LegacyPureWord[];
 
   // Methods
   const handleDelete = () => {
-    store.dispatch(modifySupport({ searchingBegins: true }, true));
-    store.dispatch(offDialog());
-    store.dispatch(setSnackbar(tr.deletedMessage[ln]));
-    store.dispatch(deleteWords(sem, IDs));
+
+    // ? legacy code
+    // store.dispatch(modifySupport({ searchingBegins: true }, true));
+    // store.dispatch(offDialog());
+    // store.dispatch(setSnackbar(tr.deletedMessage[ln]));
+    // store.dispatch(deleteWords(sem, IDs));
   }
   
   return (
@@ -43,7 +48,7 @@ const  ConfirmDelete:React.FC= () => {
         <DialogTitle id="alert-dialog-title">{tr.title[ln]}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-word-confirm">
-            {`${tr.tellNumberOfWords[ln]}: ${IDs.length}`}
+            {`${tr.tellNumberOfWords[ln]}: ${deletingTargets.length}`}
           </DialogContentText>
           <DialogContentText id="alert-dialog">
             {tr.ask[ln]}

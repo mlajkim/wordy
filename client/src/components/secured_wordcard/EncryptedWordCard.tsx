@@ -67,11 +67,11 @@
          break;
  
        case 'delete':
-         store.dispatch(setDialog('ConfirmDelete', {sem: word.sem ,IDs: [{ID: word._id}]}));
+         store.dispatch(setDialog('ConfirmDelete', [word]))
          break;
  
        case 'edit':
-         store.dispatch(setDialog('EditWord', word));
+         store.dispatch(setDialog('EditWord', word))
          break;
        
        default:
