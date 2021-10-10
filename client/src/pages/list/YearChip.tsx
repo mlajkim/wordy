@@ -148,7 +148,7 @@ const YearChip: FC = () => {
       const {language, tag} = word;
       const convertedLanguage = "#" + languageCodeIntoUserFriendlyFormat(language);
       if (normalTags.findIndex(elem => elem === convertedLanguage) === -1) setNormalTags([...normalTags, convertedLanguage])
-      tag.forEach(tag => {
+      if (tag) tag.forEach(tag => {
         if (typeof normalTags.find(elem => elem === `#${tag}`) === "undefined")  // 여기서 elem은 이미 # 태그가 붙어있음.
           setNormalTags([...normalTags, `#${tag}`]);
       })

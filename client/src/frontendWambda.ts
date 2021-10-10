@@ -163,9 +163,9 @@ export const cvtOneTapIntoGoogleRes = (
 
 
 // Sep 21, 2021 
-export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[] => {
+export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): LegacyPureWord[] => {
   return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tags, word, pronun, meaning, example, wrn, isEncrypted, imageWrn, ownerWrn, legacyId } = found;
+    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, wrn, isEncrypted, imageWrn, ownerWrn, legacyId } = found;
     return {
       wrn, imageWrn, ownerWrn, legacyId: legacyId ? legacyId : "",
       wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
@@ -175,7 +175,7 @@ export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Word[]
       order: objectOrder ? objectOrder : 0, 
       dateAdded: dateAdded ? dateAdded : 0, 
       // Shared (the same)
-      isFavorite, sem, language, tag: tags, word, pronun, meaning, example,
+      isFavorite, sem, language, tag, word, pronun, meaning, example,
       // Unused, but defined
       lastReviewed: 0,
       reviewdOn: [0], 

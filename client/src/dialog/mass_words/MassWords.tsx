@@ -169,7 +169,7 @@ const MassWords: React.FC = () => {
         pronun: pronun ? pronun : "", 
         meaning: meaning ? meaning : "", 
         example: example ? example : "",
-        language: support.addWordLangPref, tags: tag ? tag : []
+        language: support.addWordLangPref, tag: tag ? tag : []
       }
     })
 

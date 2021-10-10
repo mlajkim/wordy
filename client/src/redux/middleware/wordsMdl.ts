@@ -9,9 +9,9 @@ import { throwEvent } from '../../frontendWambda';
 // actions
 import * as WORDS_ACTION from '../actions/wordsAction'
 import {updateWords, POST_WORDS, SAVING_HELPER, SET_WORDS, GET_WORDS, MODIFY_WORDS, DELETE_WORDS, SYNC_WORDS, MIX_ARRAY} from '../actions/wordsAction';
-import {modifySupport, addSemNoDup, deleteSem, getSupport, updateSupport} from '../actions/supportAction';
+import { modifySupport, addSemNoDup, deleteSem, getSupport } from '../actions/supportAction';
 import { fetchy, fetchy3 } from '../actions/apiAction';
-import { getWords, setWords, savingHelper } from '../actions/wordsAction';
+import { setWords, savingHelper } from '../actions/wordsAction';
 import { setSnackbar } from '../actions';
 import { convertWordsIntoLegacy } from '../../frontendWambda';
 
@@ -39,6 +39,8 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
       dispatch(addSemNoDup(data[0].sem))
     } // ! end of create
 
+    
+
     if (type === 'update') {
       const alteredWords = words.map(wordChunk => {
         return wordChunk.map(word => {
@@ -47,7 +49,10 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
           else return word
         } )
       })
-      dispatch(setWords(alteredWords))
+
+      console.log(alteredWords)
+
+      dispatch(updateWords(alteredWords))
       
     } // ! end of update
 
@@ -63,10 +68,6 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
     if (support.sems.length !== sems.length) dispatch(modifySupport({ sems }))
 
     } // end of remove
-    
-  
-
-
   }
 }
 

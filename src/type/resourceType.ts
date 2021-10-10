@@ -73,7 +73,7 @@ export type WordPureEditable = WordPureBasic & {
 export type WordPureBasic = {
   sem: number
   language: AddableLn
-  tags: string[]
+  tag: string[]
   word: string
   pronun: string
   meaning: string

@@ -1,7 +1,7 @@
 // Mains
 import { FC, Fragment, useState } from 'react'
 // Types
-import { State, Word } from '../../types';
+import { State } from '../../types';
 import { AddableLanguage, ADDABLE_LANGUAGES_LIST } from '../../type/generalType'
 // Lambda
 import { convertLegacyWordIntoPureWord } from '../../frontendWambda'
@@ -25,7 +25,7 @@ import { useSelector } from 'react-redux'
 // Redux Actions
 import { modifySupport } from '../../redux/actions/supportAction'
 import { offDialog, setSnackbar } from '../../redux/actions'
-import { modifyWords, newlyModifyWords } from '../../redux/actions/wordsAction'
+import { newlyModifyWords } from '../../redux/actions/wordsAction'
 // Material UI
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -64,11 +64,9 @@ const EditDialog: FC = () => {
       // Below is NOT changed here.
       imageWrn: editingTargetWord.imageWrn, sem: editingTargetWord.sem,
       // Below is changed by ender user
-      tags, word: tword, pronun: tpronun, meaning: tmeaning, example: texample, 
+      tag: tags, word: tword, pronun: tpronun, meaning: tmeaning, example: texample, 
       language: editLanguage, isFavorite: editingTargetWord.isFavorite
     }, editingTargetWord)]
-
-    console.log(editingTargetWord)
 
     throwEvent("word:editWords", input)
       .then(RE => {
