@@ -34,7 +34,7 @@ export const newlyEncryptWordsMdl = ({dispatch, getState} : any) => (next: any) 
 
     // ! This assumes that legacy ID is still present!
     const alteredWords = words.map(wordChunk => {
-      wordChunk.map(word => {
+      return wordChunk.map(word => {
         const idx = data.findIndex(el => el.legacyId === word.legacyId)
         if (idx !== -1) return data[idx]
         else return word
