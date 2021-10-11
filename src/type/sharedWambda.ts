@@ -2,6 +2,7 @@
 import { WordyEvent } from './wordyEventType';
 import { FederalProvider, DisplayableLn } from './availableType';
 import { AddableLanguage } from './generalType';
+import Wrn from './wrn'
 // External
 import moment from 'moment';
 
@@ -147,4 +148,18 @@ export const CreateMyOkrUserNameRule = (name: string): "Passed" | "NotPassed" =>
 
   // by default
   return "Passed";
+}
+
+export const extractLegacyId = (type: "user", wrn: Wrn): { isSuccess: boolean, legacyId: string } => {
+  if (type === "user") {
+    // currently legacyIdWrn is converted in such
+    // wrn::user:end_user:mdb:${}
+    return { isSuccess: true, legacyId: wrn.split(":")[5] }
+  }
+
+  return { isSuccess: false, legacyId: "" }
+}
+
+export const removeArrayElementsFromArray = (original: any[], deleting: any[]) => {
+  return original.filter(el =>  deleting.findIndex(y => y === el) === -1)
 }
