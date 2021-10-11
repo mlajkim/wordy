@@ -137,8 +137,10 @@ export const modifyResource = (howModify: object, unmodifiedResource: Resource, 
   return wordyEncrypt(plainData, unmodifiedResource.wrn, RE, plainData.wpWrn);
 }
 
-export const wordyEncrypt = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any, modifableDate?: number): Resource => {
-  const dateAdded = moment().valueOf();
+export const wordyEncrypt = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any, modifableDate?: number, customizedResourceId?: {
+  dateAdded: number
+}): Resource => {
+  const dateAdded = customizedResourceId ? customizedResourceId.dateAdded : moment().valueOf()
   // objectOrder: dateAdded
   const kmsResult = kmsService("Encrypt", "");
   const { encrypt } = new Cryptr(kmsResult.plainkey);

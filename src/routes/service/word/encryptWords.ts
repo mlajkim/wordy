@@ -31,16 +31,18 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   for (const word of words) {
     // remove certain Data
-    const { legacyId } = word
+    const { _id, legacyId, dateAdded } = word
     word.isEncrypted = true
     word.imageWrn = []
+
+    const filteredId = legacyId === "" ? _id : legacyId
     
     const newWrn = generatedWrn(`wrn::word:${word.sem}:mdb::`)
-    const encrypted = wordyEncrypt(word,newWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811")
+    const encrypted = wordyEncrypt(word,newWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", undefined, undefined, { dateAdded })
 
     const saved = (await new WordModel(ResCheck(encrypted)).save()).toObject() as Resource | null
     if (saved) {
-      await legacyWordModel.findOneAndDelete({ _id: legacyId })
+      await legacyWordModel.findOneAndDelete({ _id: filteredId })
       convertedData.push(wordyDecrypt(saved, RE) as (ResourceId & WordPure))
     }
   }
