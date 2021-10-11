@@ -3,6 +3,8 @@ import { WordsChunk } from '../../types'
 import { NewlyModifyWords } from '../reduxType'
 // Actions
 export const NEWLY_MODIFY_WORDS = "[Newly] Modify Words"
+export const NEWLY_ENCRYPT_WRODS = "[Newly] Encrypt Words"
+// Legacy below
 export const UPDATE_WORDS="[WORDS] Update";
 export const POST_WORDS = "[WORDS] Post";
 export const GET_WORDS = '[WORDS] Get'
@@ -12,6 +14,15 @@ export const MODIFY_WORDS = "[WORDS] Modify";
 export const DELETE_WORDS = "[WORDS] Delete";
 export const SYNC_WORDS = "[WORDS] Sync";
 export const MIX_ARRAY = "[WORDS] Mixed one sem array"
+
+
+// ! APIGATEWAY October, 2021
+export const newlyEncryptWords = (data: any) => {
+  return {
+    type: NEWLY_ENCRYPT_WRODS,
+    payload: { data }
+  }
+}
 
 // ! APIGATEWAY October, 2021
 export const newlyModifyWords = ({ type, data, wrns }: NewlyModifyWords) => {

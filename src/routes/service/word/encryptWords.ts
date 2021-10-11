@@ -30,9 +30,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const convertedData: (ResourceId & WordPure)[] = []
 
   for (const word of words) {
-    // remove legacy data and everything .. here
+    // remove certain Data
     const { legacyId } = word
-    word.legacyId = ""
     word.isEncrypted = true
     word.imageWrn = []
     

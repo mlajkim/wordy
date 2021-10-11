@@ -14,6 +14,7 @@ import { fetchy, fetchy3 } from '../actions/apiAction';
 import { setWords, savingHelper } from '../actions/wordsAction';
 import { setSnackbar } from '../actions';
 import { convertWordsIntoLegacy } from '../../frontendWambda';
+import { ResourceId, WordPure } from '../../type/resourceType';
 
 const validate = (payload: WordsChunk): boolean => {
   // This validation requires every payload of words has to have the same sem value. 
@@ -22,6 +23,28 @@ const validate = (payload: WordsChunk): boolean => {
   const result = payload.filter((word: Word) => word.sem !== STANDARD_SEM);
   return result.length === 0 ? true : false;
 }
+
+// ! Ocotober 20201 
+export const newlyEncryptWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === WORDS_ACTION.NEWLY_ENCRYPT_WRODS) {
+    const { data } = action.payload as { data: (ResourceId & WordPure)[] }
+    const { words }: State = getState()
+
+    // ! This assumes that legacy ID is still present!
+    const alteredWords = words.map(wordChunk => {
+      wordChunk.map(word => {
+        const idx = data.findIndex(el => el.legacyId === word.legacyId)
+        if (idx !== -1) return data[idx]
+        else return word
+      })
+    })
+
+    dispatch(updateWords(alteredWords))
+  }
+}
+
 
 // ! October, 2021
 // ! NOW, THIS ONLY APPLIES TO MINIMAL AMMOUNT, ONLY FRONT END
@@ -278,7 +301,9 @@ export const mixWordsMdl = ({dispatch, getState} : any) => (next: any) => (actio
 };
 
 export const wordsMdl = [
+  newlyEncryptWordsMdl,
   newlyModifyWordsMdl, 
+  // Legacy below
   getWordsMdl, 
   setWordsMdl, 
   postWordsMdl, 

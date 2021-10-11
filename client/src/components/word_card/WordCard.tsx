@@ -43,7 +43,7 @@
  import { useSelector } from 'react-redux'
  // Redux Actions
  import { setDialog, setSnackbar } from '../../redux/actions'
- import { newlyModifyWords } from '../../redux/actions/wordsAction'
+ import { newlyModifyWords, newlyEncryptWords } from '../../redux/actions/wordsAction'
  
  type Props = { word: LegacyPureWord, highlighted?: string };
  // @ MAIN
@@ -112,9 +112,7 @@
         store.dispatch(setSnackbar("FAILED TO ENCRYPT", 'warning')); return
       }
 
-      store.dispatch(newlyModifyWords({
-        type: "update", data: latestFormatWords
-      }))
+      store.dispatch(newlyEncryptWords(latestFormatWords))
       setEncrypting(false)
     })
     
