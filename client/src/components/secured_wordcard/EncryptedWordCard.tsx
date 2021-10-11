@@ -14,6 +14,9 @@
    fontDark, fontLight, wordCardDark, wordCardLight, encryptedButtonLight, encryptedButtonDark,
    unencryptedButtonDark, unencryptedButtonLight } from '../../theme'
  import tr from './encrypted_word_card.tr.json'
+ import { WordEditWordsInput } from '../../type/payloadType'
+ // Lambda
+ import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
  // Material UI
  import Tooltip from '@mui/material/Tooltip'
  import Card from '@material-ui/core/Card'
@@ -36,9 +39,8 @@
  import store from '../../redux/store'
  import { useSelector } from 'react-redux'
  // Redux Actions
- import { modifySupport } from '../../redux/actions/supportAction'
  import { setDialog } from '../../redux/actions'
- import { modifyWords } from '../../redux/actions/wordsAction'
+ import { newlyModifyWords } from '../../redux/actions/wordsAction'
  
  type Props = { word: LegacyPureWord, highlighted?: string };
  // @ MAIN
@@ -62,9 +64,23 @@
    const handleToolClick = (type: Type) => {
      switch(type) {
        case 'like':
-         store.dispatch(modifySupport({ searchingBegins: true }, true));
-         store.dispatch(modifyWords(word.sem, [{wordID: word._id, payload: {isFavorite: !word.isFavorite}}]));
-         break;
+        const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
+          // BELOW is only chnaged
+          isFavorite: !word.isFavorite,
+          // Below is NOT changed here.
+          imageWrn: word.imageWrn, sem: word.sem,
+          tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, 
+          example: word.example, language: word.language,
+        }, word)]
+
+        // ! 1) Modify Front First for the speed!
+        store.dispatch(newlyModifyWords({
+          type: "update", data: input
+        })) 
+
+        // ! 2) Change the backend too!
+        throwEvent("word:editWords", input)
+        break;
  
        case 'delete':
          store.dispatch(setDialog('ConfirmDelete', [word]))
