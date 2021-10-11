@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import { FC, Fragment, useState } from 'react'
 // Type
 import { LegacyPureWord } from '../../type/legacyType'
 // Lambda
@@ -15,32 +15,46 @@ import { State } from '../../types'
 import tr from './confirm_delete.tr.json'
 // Redux
 import store from '../../redux/store'
-import { deleteWords } from '../../redux/actions/wordsAction'
+import { newlyModifyWords } from '../../redux/actions/wordsAction'
 // Redux Action
 import { modifySupport } from '../../redux/actions/supportAction'
 import { offDialog, setSnackbar } from '../../redux/actions'
 import { useSelector } from 'react-redux'
+import { WordDeleteWordsInput, WordDeleteWordsPayload } from '../../type/payloadType';
 
-const  ConfirmDelete:React.FC= () => {
-  // Redux States
-  const {language, dialog} = useSelector((state: State) => state);
-  const ln = language;
-  const deletingTargets = dialog.payload as LegacyPureWord[];
+const  ConfirmDelete: FC = () => {
+  // States
+  const {language, dialog} = useSelector((state: State) => state)
+  const ln = language
+  const deletingTargets = dialog.payload as LegacyPureWord[]
+  const [tempOpen, setTempOpen] = useState(true)
+  
 
   // Methods
   const handleDelete = () => {
+    setTempOpen(true)
 
-    // ? legacy code
-    // store.dispatch(modifySupport({ searchingBegins: true }, true));
-    // store.dispatch(offDialog());
-    // store.dispatch(setSnackbar(tr.deletedMessage[ln]));
+    const input: WordDeleteWordsInput = { deletingWrns: deletingTargets.map(el => el.wrn) }
+    throwEvent("word:deleteWords", input)
+    .then(HE => {
+      if (HE.serverResponse !== "Accepted") { setTempOpen(false); return }
+      const payload = HE.payload as WordDeleteWordsPayload
+
+      store.dispatch(newlyModifyWords({
+        type: "delete", data: deletingTargets, wrns: payload.deletedWrns
+      }))
+      store.dispatch(modifySupport({ searchingBegins: true }, true)) // ? Still do not understand wth this is lol ..
+      store.dispatch(setSnackbar(tr.deletedMessage[ln]))
+      store.dispatch(offDialog())
+    })
+
     // store.dispatch(deleteWords(sem, IDs));
   }
   
   return (
     <Fragment>
       <Dialog
-        open={true}
+        open={tempOpen}
         onClose={() => store.dispatch(offDialog())}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

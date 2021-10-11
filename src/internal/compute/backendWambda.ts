@@ -103,8 +103,7 @@ export const wordyDelete = (RE: WordyEvent, deletingWrns: Wrn[], dataType: DataT
       } else {
         // handle legacy
         const { legacyId } = extractLegacyId("user", wrn)
-        const respone = await legacyWordModel.findOneAndDelete({ _id: legacyId })
-        console.log(respone) // for test
+        const respone = await legacyWordModel.findOneAndDelete({ _id: legacyId }) // return null if, not exist
         if (!respone) { RP.failedCnt++; RP.failedWrns.push(wrn) }
         else RP.deletedWrns.push(wrn)
       }

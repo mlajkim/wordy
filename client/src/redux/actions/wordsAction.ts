@@ -14,10 +14,10 @@ export const SYNC_WORDS = "[WORDS] Sync";
 export const MIX_ARRAY = "[WORDS] Mixed one sem array"
 
 // ! APIGATEWAY October, 2021
-export const newlyModifyWords = ({ type, data }: NewlyModifyWords) => {
+export const newlyModifyWords = ({ type, data, wrns }: NewlyModifyWords) => {
   return {
     type: NEWLY_MODIFY_WORDS,
-    payload: { type , data }
+    payload: { type , data, wrns }
   }
 }
 

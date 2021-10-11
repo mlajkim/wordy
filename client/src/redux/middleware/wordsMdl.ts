@@ -56,20 +56,20 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
       
     } // ! end of update
 
-    if (type === 'remove') {
+    if (type === 'delete') {
       dispatch(modifySupport({ deletedWordCnt: support.deletedWordCnt + dataLength }))
       
-    const removedWordChunk = words
-      .filter(wordChunk => wordChunk
-      .filter(word => data.findIndex(el => el.wrn === word.wrn) !== -1))
-      .filter(wordChunk => wordChunk !== []) // smoothly remove semester
+      const removedWordChunk = words
+        .filter(wordChunk => wordChunk
+        .filter(word => data.findIndex(el => el.wrn === word.wrn) !== -1))
+        .filter(wordChunk => wordChunk !== []) // smoothly remove semester
 
-    dispatch(updateWords(removedWordChunk))
+      dispatch(updateWords(removedWordChunk))
 
-    const sems = removedWordChunk.map(el => el[0].sem)
-    if (support.sems.length !== sems.length) dispatch(modifySupport({ sems }))
+      const sems = removedWordChunk.map(el => el[0].sem)
+      if (support.sems.length !== sems.length) dispatch(modifySupport({ sems }))
 
-    } // end of remove
+      } // end of delete
   }
 }
 
