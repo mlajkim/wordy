@@ -148,7 +148,7 @@ const Appbar: FC = () => {
                 </Fragment>
              )
           }
-          { user.isSignedIn && <SearchBar /> }
+          { user.isSignedIn && support.sems && support.sems.length > 0 && <SearchBar /> }
           {user.isSignedIn && 
             <IconButton className={"addWordsButton"} color="inherit" aria-label="add-languages"
               onClick={() => handleAddWordClick()}>
