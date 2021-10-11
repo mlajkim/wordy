@@ -64,6 +64,40 @@ export const censorUserWrn = (wrn: string | undefined) => {
 export const generatedWrn = (input: Wrn): Wrn => 
  `${input}${cryptoRandomString({length: 32, type: 'hex'})}`; // change this
 
+
+// ! Octoboer, 2021
+// removeResource는 어떠한 wrn도 삭제해주는 종합 툴입니다
+// Requester의 WRN도 확인하여, 이 사람이 이 resource에대한 권한이 있는지 확인합니다.
+// 무엇인가를 지운다는 것은 매우 민감한 작업이므로, 다양한 보안을 종합적으로 제어합니다
+// removeResource는 반드시 데이터타입이 일치해야 합니다
+// GeneralDeletionPayload
+
+export const wordyDelete = (RE: WordyEvent, deletingWrns: Wrn[], dataType: DataType): GeneralDeletionPayload => {
+  const RP: GeneralDeletionPayload = {
+    totalCnt: deletingWrns.length, deletedCnt: 0, noPermissionCnt: 0, failedCnt:0,
+    totalWrns: deletingWrns, deletedWrns: [], noPermissionWrns: [], failedWrns: [],
+  }
+
+  // ! 1) Loop through each resource (And check if not allowed datatype exists)
+  deletingWrns
+  .filter(wrn => {
+    const didPass = validateWrn(wrn, dataType)
+    if (didPass !== "NotPassed") { RP.noPermissionCnt++; RP.noPermissionWrns.push(wrn) }
+    else return wrn
+  })
+  .map(async (wrn) => {
+    // ? Handle when its word data ...
+    if (dataType === "word:*") {
+      const ER = await WordModel.findOne({ wrn }) as Resource | null
+      if (ER !== null) {
+        const DR = wordyDecrypt(ER, RE)
+      }
+    }
+  })
+
+  return RP // Returning Payload
+}
+
 // ER: Encrypted Resource
 // RE: Requested Event
 // RP: Returning Payload
@@ -155,36 +189,5 @@ export const generateJwt = (data: any) => {
   return signedJwt;
 };
 
-// ! Octoboer, 2021
-// removeResource는 어떠한 wrn도 삭제해주는 종합 툴입니다
-// Requester의 WRN도 확인하여, 이 사람이 이 resource에대한 권한이 있는지 확인합니다.
-// 무엇인가를 지운다는 것은 매우 민감한 작업이므로, 다양한 보안을 종합적으로 제어합니다
-// removeResource는 반드시 데이터타입이 일치해야 합니다
-// GeneralDeletionPayload
 
-export const removeResources = (RE: WordyEvent, deletingWrns: Wrn[], dataType: DataType): GeneralDeletionPayload => {
-  const RP: GeneralDeletionPayload = {
-    totalCnt: deletingWrns.length, deletedCnt: 0, noPermissionCnt: 0, failedCnt:0,
-    totalWrns: deletingWrns, deletedWrns: [], noPermissionWrns: [], failedWrns: [],
-  }
-
-  // ! 1) Loop through each resource (And check if not allowed datatype exists)
-  deletingWrns
-  .filter(wrn => {
-    const didPass = validateWrn(wrn, dataType)
-    if (didPass !== "NotPassed") { RP.noPermissionCnt++; RP.noPermissionWrns.push(wrn) }
-    else return wrn
-  })
-  .map(async (wrn) => {
-    // ? Handle when its word data ...
-    if (dataType === "word:*") {
-      const ER = await WordModel.findOne({ wrn }) as Resource | null
-      if (ER !== null) {
-        const DR = wordyDecrypt(ER, RE)
-      }
-    }
-  })
-
-  return RP // Returning Payload
-}
 

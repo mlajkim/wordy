@@ -5,7 +5,7 @@ import Wrn, { DataType } from '../../../type/wrn'
 import { WordDeleteWordsInput, WordDeleteWordsPayload, GeneralDeletionPayload } from '../../../type/payloadType'
 // Lambda
 import { validateWrn } from '../../../type/sharedWambda'
-import { removeResources } from '../../../internal/compute/backendWambda'
+import { wordyDelete } from '../../../internal/compute/backendWambda'
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl'
 // Mogno DB
@@ -30,7 +30,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent;
   const { deletingWrns } = RE.requesterInputData as WordDeleteWordsInput;
 
-  RE.payload = removeResources(RE, deletingWrns, `word:*`) as WordDeleteWordsPayload
+  RE.payload = wordyDelete(RE, deletingWrns, `word:*`) as WordDeleteWordsPayload
   const sending = ctGateway(RE, "Accepted")
   return res.status(sending.status!).send(sending)
 })
