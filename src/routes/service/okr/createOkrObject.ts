@@ -14,7 +14,7 @@ import { OkrObjectModel, ResCheck, ContainerModel } from '../../../models/Encryp
 import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { generatedWrn, intoResource, getNow, intoPayload } from '../../../internal/compute/backendWambda';
+import { generatedWrn, wordyEncrypt, getNow, wordyDecrypt } from '../../../internal/compute/backendWambda';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:createOkrObject";
@@ -35,7 +35,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // First, prepare okr object data.
   const okrObjectWrn: Wrn = generatedWrn(`wrn::okr:okr_object:mdb:${type}:`);
   const newMyOkr: OkrObjectPure = { type, title, isDataSatisfied: "NotSatisfied" }; // NotSatisfied by default
-  const newMyOkrResource = intoResource(newMyOkr, okrObjectWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", undefined, getNow() + MODIFABLE_AFTER);
+  const newMyOkrResource = wordyEncrypt(newMyOkr, okrObjectWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", undefined, getNow() + MODIFABLE_AFTER);
 
   // Before creating the okr object, the container first must allow 
   // if it is addable or not. so it checks here following
@@ -53,13 +53,13 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return res.status(sending.status!).send(sending);
   };
 
-  const pureContainerRes = intoPayload(foundContainer, RE) as ResourceId & OkrContainerPure;
+  const pureContainerRes = wordyDecrypt(foundContainer, RE) as ResourceId & OkrContainerPure;
   if (pureContainerRes.addableUntil < getNow()) {
     const sending = ctGateway(RE, "LogicallyDenied", lec.NO_LONGER_ADDABLE_TO_THE_CONTAINER);
     return res.status(sending.status!).send(sending);
   };
   pureContainerRes.containingObject = pushDataEvenUndefined(okrObjectWrn, pureContainerRes.containingObject);
-  const modifiedContainerRes = intoResource(pureContainerRes, pureContainerRes.wrn, RE, pureContainerRes.wpWrn);
+  const modifiedContainerRes = wordyEncrypt(pureContainerRes, pureContainerRes.wrn, RE, pureContainerRes.wpWrn);
 
   // Finally save and respond
   await new OkrObjectModel(ResCheck(newMyOkrResource)).save()

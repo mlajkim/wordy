@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 // Mogno DB
 import { UserModel } from '../../../models/EncryptedResource';
 // internal
-import { intoPayload } from '../../../internal/compute/backendWambda';
+import { wordyDecrypt } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { Resource, UserPure } from '../../../type/resourceType';
@@ -27,7 +27,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   await UserModel.findOne({ wrn: RE.requesterWrn })
     .then((foundResource: Resource) => {
       // upload the payload
-      RE.payload = intoPayload(foundResource, RE) as UserPure; // apply the payload
+      RE.payload = wordyDecrypt(foundResource, RE) as UserPure; // apply the payload
 
       const sending = ctGateway(RE, "Accepted");
       return res.status(sending.status!).send(sending);

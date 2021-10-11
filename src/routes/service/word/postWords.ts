@@ -19,7 +19,7 @@ import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { WordPostWordsInput } from '../../../type/payloadType'
 import { WordPure, ResourceId } from '../../../type/resourceType'
 // Lambda
-import { generatedWrn, intoPayload, intoResource } from '../../../internal/compute/backendWambda'
+import { generatedWrn, wordyDecrypt, wordyEncrypt } from '../../../internal/compute/backendWambda'
 // Model
 import { WordModel, ResCheck } from '../../../models/EncryptedResource'
 // mdl
@@ -52,7 +52,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     .map(pureWord => {
       // ! 2) Encrypt all given data
       const wordWrn: Wrn = generatedWrn(`wrn::word:${pureWord.sem}:mdb::`)
-      return intoResource(pureWord, wordWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811")
+      return wordyEncrypt(pureWord, wordWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811")
     })
   
   encryptedPayload
@@ -69,7 +69,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   }
 
   // ! 5) Send back accepted. 
-  RE.payload = encryptedPayload.map(el => intoPayload(el, RE) as ResourceId & WordPure) 
+  RE.payload = encryptedPayload.map(el => wordyDecrypt(el, RE) as ResourceId & WordPure) 
   const sending = ctGateway(RE, "Accepted")
   return res.status(sending.status!).send(sending)
 })

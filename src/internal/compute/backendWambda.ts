@@ -67,7 +67,7 @@ export const generatedWrn = (input: Wrn): Wrn =>
 // ER: Encrypted Resource
 // RE: Requested Event
 // RP: Returning Payload
-export const intoPayload = (ER: Resource, RE: WordyEvent): PureResource => {
+export const wordyDecrypt = (ER: Resource, RE: WordyEvent): PureResource => {
   const { plainkey } = kmsService("Decrypt", ER.encryptedDek!);
   const { decrypt } = new Cryptr(plainkey);
   // Get the data from mongo, and see if it is okay to be revealed
@@ -79,12 +79,12 @@ export const intoPayload = (ER: Resource, RE: WordyEvent): PureResource => {
 
 // this can be used, only when you change the data of PURE DATA, not the other supproting data such as dek value
 export const modifyResource = (howModify: object, unmodifiedResource: Resource, RE: WordyEvent): Resource => {
-  let plainData = intoPayload(unmodifiedResource, RE) as PureResource;
+  let plainData = wordyDecrypt(unmodifiedResource, RE) as PureResource;
   plainData = { ...plainData, ...howModify }; // modify begins here
-  return intoResource(plainData, unmodifiedResource.wrn, RE, plainData.wpWrn);
+  return wordyEncrypt(plainData, unmodifiedResource.wrn, RE, plainData.wpWrn);
 }
 
-export const intoResource = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any, modifableDate?: number): Resource => {
+export const wordyEncrypt = (pureResource: any, newWrn: Wrn, RE: WordyEvent, wpWrn?: AvailableWpWrn, customized?: any, modifableDate?: number): Resource => {
   const dateAdded = moment().valueOf();
   // objectOrder: dateAdded
   const kmsResult = kmsService("Encrypt", "");
@@ -180,7 +180,7 @@ export const removeResources = (RE: WordyEvent, deletingWrns: Wrn[], dataType: D
     if (dataType === "word:*") {
       const ER = await WordModel.findOne({ wrn }) as Resource | null
       if (ER !== null) {
-        const DR = intoPayload(ER, RE)
+        const DR = wordyDecrypt(ER, RE)
       }
     }
   })

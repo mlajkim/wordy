@@ -8,7 +8,7 @@ import { JwtData } from '../../../type/availableType';
 import Wrn from '../../../type/wrn'
 import { Resource, UserPure } from '../../../type/resourceType';
 import { convertFederalProvider } from '../../../type/sharedWambda';
-import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'
+import { wordyEncrypt, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl';
 // Mogno DB
@@ -91,7 +91,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     lastName: familyName,
     adminName
   };
-  const newUserResource = intoResource(newResource, wrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", {
+  const newUserResource = wordyEncrypt(newResource, wrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", {
     // This must be specified, as new 
     ownerWrn: wrn, createdByWrn: wrn
   });

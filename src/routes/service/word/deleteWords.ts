@@ -13,7 +13,7 @@ import { WordModel } from '../../../models/EncryptedResource'
 import legacyWordModel from '../../../models/Words'
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail'
-import { intoResource } from '../../../internal/compute/backendWambda'
+import { wordyEncrypt } from '../../../internal/compute/backendWambda'
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 // Router

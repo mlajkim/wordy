@@ -19,7 +19,7 @@ import { WordGetWordInput, WordGetWordPayload } from '../../../type/payloadType'
 import { LegacyPureWord } from '../../../type/legacyType'
 import { Resource, ResourceId, WordPure } from '../../../type/resourceType'
 // Lambda
-import { intoPayload } from '../../../internal/compute/backendWambda'
+import { wordyDecrypt } from '../../../internal/compute/backendWambda'
 // Model
 import { WordModel } from '../../../models/EncryptedResource'
 import LegacyWordModel from '../../../models/Words'
@@ -52,7 +52,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // handle apigateway data (Decrpyt)
   if (encryptedWordResource !== null) {
     for (const eachRes of encryptedWordResource) {
-      const decryptedRes = intoPayload(eachRes, RE) as ResourceId & WordPure;
+      const decryptedRes = wordyDecrypt(eachRes, RE) as ResourceId & WordPure;
       returningDecryptedData.push(decryptedRes);
     }
   }

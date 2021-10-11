@@ -10,7 +10,7 @@ import * as OTM from '../../middleware/onlyToMdl';
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { intoPayload } from '../../../internal/compute/backendWambda';
+import { wordyDecrypt } from '../../../internal/compute/backendWambda';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:getOkrObject";
@@ -35,7 +35,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // Found the objects (Encrypted)
   // decrypt the data
-  RE.payload = okrObjects.map(el => intoPayload(el, RE)) as OkrGetOkrObjectPayload;
+  RE.payload = okrObjects.map(el => wordyDecrypt(el, RE)) as OkrGetOkrObjectPayload;
   const sending = ctGateway(RE, "Accepted");
   return res.status(sending.status!).send(sending);
   

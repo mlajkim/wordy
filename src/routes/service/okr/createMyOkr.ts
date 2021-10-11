@@ -9,7 +9,7 @@ import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { getToday, getNow } from '../../../internal/compute/backendWambda';
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { generatedWrn, intoResource, convertQuarterlyIntoMoment } from '../../../internal/compute/backendWambda';
+import { generatedWrn, wordyEncrypt, convertQuarterlyIntoMoment } from '../../../internal/compute/backendWambda';
 import { CreateMyOkrUserNameRule } from '../../../type/sharedWambda';
 // Mogno DB
 import { MyOkrModel, ContainerModel, ResCheck } from '../../../models/EncryptedResource';
@@ -58,7 +58,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     until: convertQuarterlyIntoMoment(quarterly),
     addableUntil: getAddableUntil()
   }
-  const newContainerResource = intoResource(newContainer, quarterlyContainerWrn, RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); //testing
+  const newContainerResource = wordyEncrypt(newContainer, quarterlyContainerWrn, RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); //testing
 
   // Data declration with generated Wrn
   const wrn = generatedWrn("wrn::okr:my_okr:mdb::");
@@ -71,7 +71,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     longtermContainers: [],
     joinedGroup: []
   };
-  const newMyOkrResource = intoResource(newMyOkr, wrn, RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); // testing purpose, will be wordyMember only
+  const newMyOkrResource = wordyEncrypt(newMyOkr, wrn, RE, "wrn::wp:pre_defined:backend:dangerously_public:210811"); // testing purpose, will be wordyMember only
 
   // Returning data
   await new MyOkrModel(ResCheck(newMyOkrResource)).save()

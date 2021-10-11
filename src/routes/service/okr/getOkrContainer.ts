@@ -11,7 +11,7 @@ import * as OTM from '../../middleware/onlyToMdl';
 import { ContainerModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { intoPayload } from '../../../internal/compute/backendWambda';
+import { wordyDecrypt } from '../../../internal/compute/backendWambda';
 // Router
 const router = express.Router();
 const EVENT_TYPE: EventType = "okr:getOkrContainer";
@@ -34,7 +34,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return res.status(sending.status!).send(sending); };
 
   RE.payload = {
-    foundContainerData: intoPayload(unrefinedResource, RE), 
+    foundContainerData: wordyDecrypt(unrefinedResource, RE), 
     doesBelongToRequester: RE.requesterWrn === unrefinedResource.ownerWrn
   } as OkrGetOkrContainerPayload
   const sending = ctGateway(RE, "Accepted");

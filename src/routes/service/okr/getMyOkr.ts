@@ -10,7 +10,7 @@ import { convertFederalProvider } from '../../../type/sharedWambda';
 import * as OTM from '../../middleware/onlyToMdl';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { intoPayload } from '../../../internal/compute/backendWambda';
+import { wordyDecrypt } from '../../../internal/compute/backendWambda';
 // Mogno DB
 import { MyOkrModel, CustomizedOkrLinkModel } from '../../../models/EncryptedResource';
 // type
@@ -49,7 +49,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     const customizedOkrLinkWrn: Wrn = `wrn::okr:custom_link:mdb::` 
     const foundRes = await CustomizedOkrLinkModel.findOne({ wrn: customizedOkrLinkWrn });
     if (foundRes) { // if such link exists
-      const { targetOwnerWrn } = intoPayload(foundRes, RE) as OkrLinkPure;
+      const { targetOwnerWrn } = wordyDecrypt(foundRes, RE) as OkrLinkPure;
       regexCondition = targetOwnerWrn;
     } 
     else regexCondition = `wrn::user:${convertFederalProvider('google')}:mdb:${userLink.slice(2)}:`;
@@ -62,7 +62,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   
   if (myOkrData) {
     // decrypt the data
-    RE.payload = { ...intoPayload(myOkrData, RE), userLink, tempAccessToken, isSignedInCheckedByBackend: true } as OkrGetMyOkrPayload
+    RE.payload = { ...wordyDecrypt(myOkrData, RE), userLink, tempAccessToken, isSignedInCheckedByBackend: true } as OkrGetMyOkrPayload
     const sending = ctGateway(RE, "Accepted");
     return res.status(sending.status!).send(sending);
   } else {

@@ -9,7 +9,7 @@ import { WordModel } from '../../../models/EncryptedResource'
 import legacyWordModel from '../../../models/Words'
 // internalw
 import { ctGateway } from '../../../internal/management/cloudTrail'
-import { intoResource } from '../../../internal/compute/backendWambda'
+import { wordyEncrypt } from '../../../internal/compute/backendWambda'
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 // Router
@@ -36,7 +36,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     }
 
     // ! 3) Handle latest encrypted data
-    const modifedEncryptedRes = intoResource(pureWordObject, pureWordObject.wrn, RE, pureWordObject.wpWrn)
+    const modifedEncryptedRes = wordyEncrypt(pureWordObject, pureWordObject.wrn, RE, pureWordObject.wpWrn)
     await WordModel.findOneAndUpdate({ wrn: pureWordObject.wrn }, modifedEncryptedRes, { useFindAndModify: false })
   }
 

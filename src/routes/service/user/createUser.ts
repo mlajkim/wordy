@@ -8,7 +8,7 @@ import Wrn from '../../../type/wrn'
 import { JwtData } from '../../../type/availableType'
 import { Resource, UserPure } from '../../../type/resourceType'
 import { convertFederalProvider } from '../../../type/sharedWambda'
-import { intoResource, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'
+import { wordyEncrypt, generatedWrn, generateJwt } from '../../../internal/compute/backendWambda'
 import { GOOGLE_CLIENT_ID } from '../../../type/predefined'
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl'
@@ -108,7 +108,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
         lastName: ticket.getPayload()!.family_name as string,
         adminName
       };
-      const newUserResource = intoResource(newResource, wrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", {
+      const newUserResource = wordyEncrypt(newResource, wrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", {
         // This must be specified, as new 
         ownerWrn: wrn, createdByWrn: wrn
       });

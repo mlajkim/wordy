@@ -5,7 +5,7 @@ import lec from '../../../type/LogicalErrorCode.json'
 import { OkrDeleteOkrObjectInput } from '../../../type/payloadType'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { sln } from '../../../type/sharedWambda';
-import { getNow, intoPayload } from '../../../internal/compute/backendWambda';
+import { getNow, wordyDecrypt } from '../../../internal/compute/backendWambda';
 // Mogno DB
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // Mdl
@@ -35,7 +35,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   
   // Decrypt the data and check if this resouce has 'modifableUntil' data and it rejects by default if it does not contain.
-  const pureOkrObjectResource = intoPayload(unrefinedResource, RE) as ResourceId & OkrObjectPure; 
+  const pureOkrObjectResource = wordyDecrypt(unrefinedResource, RE) as ResourceId & OkrObjectPure; 
 
   // Check if this resouce has or has not passed modifiable date
 // if modifableUntil is undefined. it is considered eternal resoruce

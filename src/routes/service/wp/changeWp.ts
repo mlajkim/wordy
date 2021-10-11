@@ -11,7 +11,7 @@ import * as OTM from '../../middleware/onlyToMdl';
 import { OkrObjectModel } from '../../../models/EncryptedResource';
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail';
-import { intoPayload, intoResource } from '../../../internal/compute/backendWambda';
+import { wordyDecrypt, wordyEncrypt } from '../../../internal/compute/backendWambda';
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType';
 import { sln } from '../../../type/sharedWambda';
@@ -46,8 +46,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     return res.status(sending.status!).send(sending);
   };
 
-  const plainData = intoPayload(foundResource, RE) as OkrObjectPure;
-  const encryptedResource = intoResource(plainData, foundResource.wrn, RE, modifyingWpWrn);
+  const plainData = wordyDecrypt(foundResource, RE) as OkrObjectPure;
+  const encryptedResource = wordyEncrypt(plainData, foundResource.wrn, RE, modifyingWpWrn);
 
   // finally modify
   await OkrObjectModel.findOneAndUpdate({ wrn:modifyingTarget, ownerWrn: RE.requesterWrn }, encryptedResource, { useFindAndModify: false });
