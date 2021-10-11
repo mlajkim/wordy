@@ -25,7 +25,7 @@ import Button from '@mui/material/Button'
 import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // Components
-import EncryptedWordCard from '../secured_wordcard/EncryptedWordCard'
+import EncryptedWordCard from '../word_card/WordCard'
 import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType'
 
 const ADDING_MORE_WORDS_AMOUNT = 50;

@@ -4,7 +4,7 @@
  */
  import { FC, useState } from 'react'
  import Highlighter from "react-highlight-words"
- import './wordCard.css'
+ import './wc.css'
  // Type
  import { State } from '../../types'
  import { LegacyPureWord } from '../../type/legacyType'

@@ -11,7 +11,7 @@ import { filteredSpecialTag, onlyBiggestThree } from '../../frontendWambda'
 // Translation
 import tr from './year_chip.tr.json'
 // Components
-import EncryptedWordCard from '../../components/secured_wordcard/EncryptedWordCard'
+import EncryptedWordCard from '../../components/word_card/WordCard'
 import ListSetting from './ListSetting'
 import WordList from '../../components/word_list/WordList'
 import SearchResult from '../../components/searchResult/SearchResult'
