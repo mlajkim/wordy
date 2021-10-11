@@ -32,13 +32,27 @@ const  ConfirmDelete: FC = () => {
 
   // Methods
   const handleDelete = () => {
-    setTempOpen(true)
+    setTempOpen(false)
+    const deleltingLength = deletingTargets.length
 
     const input: WordDeleteWordsInput = { deletingWrns: deletingTargets.map(el => el.wrn) }
     throwEvent("word:deleteWords", input)
     .then(HE => {
-      if (HE.serverResponse !== "Accepted") { setTempOpen(false); return }
+      if (HE.serverResponse !== "Accepted") { setTempOpen(true); return }
       const payload = HE.payload as WordDeleteWordsPayload
+
+      // if deletedCnt is not 1, then its fail...
+      console.log(deleltingLength)
+      console.log(payload.deleted.cnt)
+      if (payload.deleted.cnt !== deleltingLength) {
+        store.dispatch(setSnackbar(
+          `${tr.someNotDeletedFront[ln]}${deleltingLength}${tr.someNotDeletedBack[ln]}${payload.deleted.cnt}`, 
+          'warning'
+        ))
+        store.dispatch(offDialog())
+        return
+      }
+        
 
       store.dispatch(newlyModifyWords({
         type: "delete", data: deletingTargets, wrns: payload.deleted.wrns

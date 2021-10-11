@@ -33,5 +33,15 @@
     "ko": "삭제되었습니다",
     "en": "Deleted",
     "ja": "削除されました"
+  },
+  "someNotDeletedFront": {
+    "ko": "[오류] 기대치: ",
+    "en": "[Error] Expected: ",
+    "ja": "[エラー] 期待値: "
+  },
+  "someNotDeletedBack": {
+    "ko": " 실제값: ",
+    "en": " Actual:",
+    "ja": " 値: "
   }
 }
