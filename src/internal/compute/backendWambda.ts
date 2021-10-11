@@ -77,43 +77,43 @@ export const wordyDelete = (RE: WordyEvent, deletingWrns: Wrn[], dataType: DataT
   RP: GeneralDeletionPayload
 } => {
   const RP: GeneralDeletionPayload = {
-    totalCnt: deletingWrns.length, deletedCnt: 0, noPermissionCnt: 0, failedCnt:0,
-    totalWrns: deletingWrns, deletedWrns: [], noPermissionWrns: [], failedWrns: [],
+    total: { cnt: deletingWrns.length, wrns: deletingWrns },
+    deleted: { cnt: 0, wrns: [] },
+    failed: { cnt: 0, wrns: [] },
+    unauthorized: { cnt: 0, wrns: [] },
   }
 
   // ! 1) Loop through each resource (And check if not allowed datatype exists)
-  deletingWrns
+  const filteredWrns = deletingWrns
   .filter(wrn => {
-    const didPass = validateWrn(wrn, dataType)
-    if (didPass !== "NotPassed") { RP.noPermissionCnt++; RP.noPermissionWrns.push(wrn) }
+    const result = validateWrn(wrn, `wrn::${dataType}`)
+    if (result === "NotPassed") { RP.unauthorized.cnt++; RP.unauthorized.wrns.push(wrn)}
     else return wrn
   })
-  .map(async (wrn) => {
-    // ? Handle when its word data ...
+
+  filteredWrns.forEach(async (wrn) => {
     if (dataType === "word:*") {
       const ER = await WordModel.findOne({ wrn }) as Resource | null
       if (ER) {
         const DR = wordyDecrypt(ER, RE)
         if (DR.resoureAvailability !== "Visible") {
-          RP.noPermissionCnt++
-          RP.noPermissionWrns.push(DR.wrn)
+          // ? This data is not modifable by the requester
+          RP.unauthorized.cnt++
+          RP.unauthorized.wrns.push(wrn)
         } else {
-          RP.deletedWrns.push(wrn)
+          await WordModel.findOneAndDelete({ wrn })
+          .then(() => { RP.deleted.cnt++; RP.deleted.wrns.push(wrn)})
         }
       } else {
         // handle legacy
         const { legacyId } = extractLegacyId("user", wrn)
         const respone = await legacyWordModel.findOneAndDelete({ _id: legacyId }) // return null if, not exist
-        if (!respone) { RP.failedCnt++; RP.failedWrns.push(wrn) }
-        else RP.deletedWrns.push(wrn)
+        if (!respone) { RP.failed.cnt++; RP.failed.wrns.push(wrn) }
+        else RP.deleted.wrns.push(wrn)
       }
     }
-
-    // ? Anthing else..!? Add below here.
   })
 
-  // Finally
-  RP.deletedCnt = RP.totalCnt - RP.noPermissionCnt - RP.failedCnt
   return { RP } // Returning Payload
 }
 

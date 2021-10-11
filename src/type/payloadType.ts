@@ -13,14 +13,10 @@ import {
 import Wrn from './wrn'
 
 export type GeneralDeletionPayload = {
-  totalCnt: number // total target numbers
-  deletedCnt: number // actually deleted
-  noPermissionCnt: number // not enough permission to delete
-  failedCnt: number // else (such as mongo DB not listening..)
-  totalWrns: Wrn[]
-  deletedWrns: Wrn[]
-  noPermissionWrns: Wrn[]
-  failedWrns: Wrn[]
+  total: { cnt: number; wrns: Wrn[] }
+  deleted: { cnt: number; wrns: Wrn[] }
+  failed: { cnt: number; wrns: Wrn[] }
+  unauthorized: { cnt: number; wrns: Wrn[] }
 }
 
 // ===============

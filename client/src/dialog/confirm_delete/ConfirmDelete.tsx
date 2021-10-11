@@ -41,7 +41,7 @@ const  ConfirmDelete: FC = () => {
       const payload = HE.payload as WordDeleteWordsPayload
 
       store.dispatch(newlyModifyWords({
-        type: "delete", data: deletingTargets, wrns: payload.deletedWrns
+        type: "delete", data: deletingTargets, wrns: payload.deleted.wrns
       }))
       store.dispatch(modifySupport({ searchingBegins: true }, true)) // ? Still do not understand wth this is lol ..
       store.dispatch(setSnackbar(tr.deletedMessage[ln]))
