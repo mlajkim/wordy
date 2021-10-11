@@ -2,7 +2,7 @@
  * 
  * 오직 Encrpyted된 단어카드만 사진을 갖고있을 수 있음.
  */
- import { FC, useState } from 'react'
+ import { FC, useState, Fragment } from 'react'
  import Highlighter from "react-highlight-words"
  import './wc.css'
  // Type
@@ -14,10 +14,11 @@
    fontDark, fontLight, wordCardDark, wordCardLight, encryptedButtonLight, encryptedButtonDark,
    unencryptedButtonDark, unencryptedButtonLight } from '../../theme'
  import tr from './encrypted_word_card.tr.json'
+ import trEncrpytionProgress from './encryptionProgress.tr.json'
  import { WordEditWordsInput } from '../../type/payloadType'
  // Lambda
  import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
- // Material UI
+ // MUI
  import Tooltip from '@mui/material/Tooltip'
  import Card from '@material-ui/core/Card'
  import CardActions from '@material-ui/core/CardActions'
@@ -25,6 +26,8 @@
  import Typography from '@material-ui/core/Typography'
  import IconButton from '@material-ui/core/IconButton'
  import Chip from '@material-ui/core/Chip'
+ import Box from '@mui/material/Box';
+ import LinearProgress from '@mui/material/LinearProgress'
  // Icons
  import EncryptedIcon from '@mui/icons-material/Check'
  import LockOpenIcon from '@mui/icons-material/LockOpen'
@@ -48,6 +51,7 @@
    const { support, language } = useSelector((state: State) => state)
    const ln = language
    const [ open, setOpen ] = useState(false)
+   const [ isEncrypting, setEncrypting ] = useState(false)
  
    const tools = [
     // the disabled button is only temporary and will be deleted.
@@ -94,6 +98,10 @@
          return
      }
    };
+
+   const hdlEncryptionBeginHdl = () => {
+    setEncrypting(true)
+   }
  
    const targetWord = highlighted ? support.highlightSearched ? highlighted : "" : "" 
  
@@ -103,14 +111,20 @@
      : word.tag.map(tag => (
        <Chip key={tag} label={`#${tag}`} variant="outlined" size="small" />
      ));
- 
-   // Return
-   return (
-     <Card style={{width: '100%', marginBottom: 10, 
-       background: support.isDarkMode ? wordCardDark : wordCardLight, 
-       color: support.isDarkMode ? fontDark : fontLight 
-     }}>
-       <CardContent>
+
+    const RenderEncryptingStatus = (
+      <div style={{ display: 'flex', justifyContent: 'center' }} >
+        <Box sx={{ width: '80%', minHeight: 100 }}>
+          <Typography style={{ marginTop: 24, marginBottom: 14 }}>
+            {trEncrpytionProgress.encrypting[ln]}...
+          </Typography>
+          <LinearProgress />
+        </Box>
+      </div>
+    )
+    const RenderCardContents = (
+      <Fragment>
+        <CardContent>
          <Typography gutterBottom>
            {`${convertSem(word.sem).year}-${convertSem(word.sem).sem}`}
          </Typography>
@@ -154,8 +168,10 @@
           ? <Tooltip title={tr.thisDataIsEncrypted[ln]} placement="top">  
               <EncryptedIcon style={{ color: support.isDarkMode ? encryptedButtonDark : encryptedButtonLight }}/>
             </Tooltip>
-          : <Tooltip title={tr.notEncrypted[ln]} placement="top">  
-              <LockOpenIcon style={{ color: support.isDarkMode ? unencryptedButtonDark : unencryptedButtonLight }}/>
+          : <Tooltip title={tr.notEncrypted[ln]} placement="top">
+              <IconButton onClick={() => hdlEncryptionBeginHdl()}size="small" color="inherit" >
+                <LockOpenIcon style={{ color: support.isDarkMode ? unencryptedButtonDark : unencryptedButtonLight }}/>
+              </IconButton>  
             </Tooltip>
         }
          {!open && (
@@ -172,6 +188,16 @@
            ))
          }
        </CardActions>
+      </Fragment>
+    )
+ 
+   // Return
+   return (
+     <Card style={{width: '100%', marginBottom: 10, 
+       background: support.isDarkMode ? wordCardDark : wordCardLight, 
+       color: support.isDarkMode ? fontDark : fontLight 
+     }}>
+       { isEncrypting ? RenderEncryptingStatus : RenderCardContents }
      </Card>
    );
  }
