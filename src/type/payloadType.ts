@@ -6,6 +6,7 @@
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
   OkrContainerPure, WordPure, WordPureBasic
 } from '../type/resourceType'
+import { LegacyPureWord } from '../type/legacyType'
 import { 
   AvailableWpWrn,
   FederalProvider
@@ -22,6 +23,10 @@ export type GeneralDeletionPayload = {
 // ===============
 // User service
 // ===============
+
+// word:ENCRYPT_WORDS
+export type WordsEncryptWordsInput = { words: LegacyPureWord[] }
+export type WordsEncryptWordsPayload = { encryptedWords: (ResourceId & WordPure)[] }
 
 // word:DELETE_WORDS 
 export type WordDeleteWordsInput = { deletingWrns: Wrn[] }

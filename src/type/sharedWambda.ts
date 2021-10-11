@@ -3,8 +3,11 @@ import { WordyEvent } from './wordyEventType';
 import { FederalProvider, DisplayableLn } from './availableType';
 import { AddableLanguage } from './generalType';
 import Wrn from './wrn'
+import { WordPureEditable, ResourceId , WordPure} from './resourceType'
+import { LegacyPureWord } from './legacyType'
 // External
 import moment from 'moment';
+
 
 // language selector (sln = selcet language)
 export const sln = (RE: WordyEvent): DisplayableLn => {
@@ -75,16 +78,6 @@ export const readWrn = (wrn: string) => {
       privateId: groups!.privateId
     };
 }
-
-
-export const generateWrn = (
-  reservedForFutureUsage: string,
-  resourceGroup: string,
-  resourceType: string,
-  databaseCode: string,
-  publicId: string,
-  privateId: string
-) => `wrn:${reservedForFutureUsage}:${resourceGroup}:${resourceType}:${databaseCode}:${publicId}:${privateId}`;
 
 
 /**
@@ -163,3 +156,15 @@ export const extractLegacyId = (type: "user", wrn: Wrn): { isSuccess: boolean, l
 export const removeArrayElementsFromArray = (original: any[], deleting: any[]) => {
   return original.filter(el =>  deleting.findIndex(y => y === el) === -1)
 }
+
+// ! October, 2021
+export const convertLegacyWordIntoPureWord = (editedData: WordPureEditable, originalData: LegacyPureWord): ResourceId & WordPure => {
+  const { wrn, ownerWrn, dateAdded, order, wpWrn, legacyId, isEncrypted } = originalData
+
+  return {
+    wrn, ownerWrn, dateAdded,
+    objectOrder: order, wpWrn,
+    isEncrypted, legacyId: legacyId ? legacyId : "",
+    ...editedData
+  }
+} 

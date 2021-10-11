@@ -101,6 +101,8 @@
 
    const hdlEncryptionBeginHdl = () => {
     setEncrypting(true)
+
+    
    }
  
    const targetWord = highlighted ? support.highlightSearched ? highlighted : "" : "" 

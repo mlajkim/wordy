@@ -2,9 +2,10 @@
 import { WordyEvent, pathFinder } from './type/wordyEventType'
 import { AvailableCookies } from './type/availableType'
 import { EventType } from './type/wordyEventType'
-import { ResourceId, WordPure, WordPureEditable } from './type/resourceType'
+import { ResourceId, WordPure } from './type/resourceType'
 import { WordsChunk, Word, SpecialTag, GoogleRes } from './types'
 import { AddableLanguage } from './type/generalType'
+import { convertLegacyWordIntoPureWord as CLWIPW } from './type/sharedWambda'
 // Library
 import cookies from 'js-cookie'
 import axios from 'axios'
@@ -187,16 +188,7 @@ export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): Legacy
   });
 }
 
-// ! October, 2021
-export const convertLegacyWordIntoPureWord = (editedData: WordPureEditable, originalData: LegacyPureWord): ResourceId & WordPure => {
-  const { wrn, ownerWrn, dateAdded, order, wpWrn, legacyId, isEncrypted } = originalData
-
-  return {
-    wrn, ownerWrn, dateAdded,
-    objectOrder: order, wpWrn,
-    isEncrypted, legacyId: legacyId ? legacyId : "",
-    ...editedData
-  }
-} 
+// ! October, 2021 (Was moved to shared wambda)
+export const convertLegacyWordIntoPureWord = CLWIPW
 
 
