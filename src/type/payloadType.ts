@@ -12,9 +12,24 @@ import {
 } from './availableType'
 import Wrn from './wrn'
 
+export type GeneralDeletionPayload = {
+  totalCnt: number // total target numbers
+  deletedCnt: number // actually deleted
+  noPermissionCnt: number // not enough permission to delete
+  failedCnt: number // else (such as mongo DB not listening..)
+  totalWrns: Wrn[]
+  deletedWrns: Wrn[]
+  noPermissionWrns: Wrn[]
+  failedWrns: Wrn[]
+}
+
 // ===============
 // User service
 // ===============
+
+// word:DELETE_WORDS 
+export type WordDeleteWordsInput = { deletingWrns: Wrn[] }
+export type WordDeleteWordsPayload = GeneralDeletionPayload
 
 // word:EDIT_WORDS
 export type WordEditWordsInput = (ResourceId & WordPure)[]

@@ -4,7 +4,7 @@ type Wrn = `wrn:${FutureUsage}:${DataType}:${DataLocation}:${PublicId}:${Private
 // ==============
 // Future Usage
 // ==============
-type DataType = `user:${UserWrn}` | `okr:${OkrWrn}` | `word:${WordWrn}` | `wp:${WordyPolicy}` | `backend_assigned_identity:${ServerAssignedId}`
+export type DataType = `user:${UserWrn}` | `okr:${OkrWrn}` | `word:${WordWrn}` | `wp:${WordyPolicy}` | `backend_assigned_identity:${ServerAssignedId}`
 
 type UserWrn =
   "end_user" |
@@ -13,6 +13,7 @@ type UserWrn =
   "backend" // ! this should be internal, legacy code (temporary)
 
 type WordWrn = 
+  "*" |
   `${Semester}`
 type Semester = number
 
