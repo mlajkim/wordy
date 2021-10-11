@@ -26,7 +26,7 @@ export type GeneralDeletionPayload = {
 
 // word:ENCRYPT_WORDS
 export type WordsEncryptWordsInput = { words: LegacyPureWord[] }
-export type WordsEncryptWordsPayload = { encryptedWords: (ResourceId & WordPure)[] }
+export type WordsEncryptWordsPayload = (ResourceId & WordPure)[]
 
 // word:DELETE_WORDS 
 export type WordDeleteWordsInput = { deletingWrns: Wrn[] }

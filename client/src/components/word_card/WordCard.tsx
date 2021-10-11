@@ -15,7 +15,7 @@
    unencryptedButtonDark, unencryptedButtonLight } from '../../theme'
  import tr from './encrypted_word_card.tr.json'
  import trEncrpytionProgress from './encryptionProgress.tr.json'
- import { WordEditWordsInput } from '../../type/payloadType'
+ import { WordEditWordsInput, WordsEncryptWordsInput, WordsEncryptWordsPayload } from '../../type/payloadType'
  // Lambda
  import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
  // MUI
@@ -42,7 +42,7 @@
  import store from '../../redux/store'
  import { useSelector } from 'react-redux'
  // Redux Actions
- import { setDialog } from '../../redux/actions'
+ import { setDialog, setSnackbar } from '../../redux/actions'
  import { newlyModifyWords } from '../../redux/actions/wordsAction'
  
  type Props = { word: LegacyPureWord, highlighted?: string };
@@ -101,7 +101,22 @@
 
    const hdlEncryptionBeginHdl = () => {
     setEncrypting(true)
+    const input: WordsEncryptWordsInput = { words: [word]}
+    throwEvent("word:encryptWords", input)
+    .then(FE => {
+      const latestFormatWords = FE.payload as WordsEncryptWordsPayload
 
+      // The length should be one, for this word card
+      if (latestFormatWords.length !== 1) { 
+        setEncrypting(false)
+        store.dispatch(setSnackbar("FAILED TO ENCRYPT", 'warning')); return
+      }
+
+      store.dispatch(newlyModifyWords({
+        type: "update", data: latestFormatWords
+      }))
+      setEncrypting(false)
+    })
     
    }
  
