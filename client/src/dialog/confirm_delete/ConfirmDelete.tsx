@@ -27,24 +27,29 @@ const  ConfirmDelete: FC = () => {
   const {language, dialog} = useSelector((state: State) => state)
   const ln = language
   const deletingTargets = dialog.payload as LegacyPureWord[]
-  const [tempOpen, setTempOpen] = useState(true)
-  
 
   // Methods
   const handleDelete = () => {
-    setTempOpen(false)
+
+    // Frontend first
+    store.dispatch(offDialog())
+    store.dispatch(newlyModifyWords({
+      type: "delete", data: deletingTargets
+    }))
 
     const input: WordDeleteWordsInput = { words: deletingTargets }
     throwEvent("word:deleteWords", input)
     .then(HE => {
-      if (HE.serverResponse !== "Accepted") { setTempOpen(true); return }
+      if (HE.serverResponse !== "Accepted") { 
+        // Rollback, if fail
+        store.dispatch(newlyModifyWords({
+          type: "create", data: deletingTargets
+        }))
+        return
+       }
 
-      store.dispatch(newlyModifyWords({
-        type: "delete", data: deletingTargets
-      }))
       store.dispatch(modifySupport({ searchingBegins: true }, true)) // ? Still do not understand wth this is lol ..
       store.dispatch(setSnackbar(tr.deletedMessage[ln]))
-      store.dispatch(offDialog())
     })
 
     // store.dispatch(deleteWords(sem, IDs));
@@ -53,7 +58,7 @@ const  ConfirmDelete: FC = () => {
   return (
     <Fragment>
       <Dialog
-        open={tempOpen}
+        open={true}
         onClose={() => store.dispatch(offDialog())}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
