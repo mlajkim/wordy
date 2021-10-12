@@ -82,7 +82,7 @@ const DrawerComponent = (props: any) => {
           <Divider />
             {list}
             {/* below is the OKR page, that does not use page of Redux*/}
-            <ListItem button onClick={() => {document.location.href = "/okr"}}>
+            <ListItem button disabled onClick={() => {document.location.href = "/okr"}}>
               <ListItemIcon >< OkrIcon /></ListItemIcon>
               <ListItemText primary={"OKR"} />
             </ListItem>
