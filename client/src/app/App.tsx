@@ -106,6 +106,7 @@ const App: FC = () => {
       }}>
         <Router>
           <Switch>
+            {/* Disable OKR 
             <Route path="/okr">
               <AppbarNotice />
               <Appbar />
@@ -113,6 +114,7 @@ const App: FC = () => {
               <Dialog />
               <Okr />
             </Route>
+            */}
             <Route path="">
               { RenderOneTap }
               <AppbarNotice />
