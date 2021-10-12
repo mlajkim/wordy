@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react'
+import { FC, Fragment } from 'react'
 // Type
 import { LegacyPureWord } from '../../type/legacyType'
 // Lambda
@@ -20,7 +20,7 @@ import { newlyModifyWords } from '../../redux/actions/wordsAction'
 import { modifySupport } from '../../redux/actions/supportAction'
 import { offDialog, setSnackbar } from '../../redux/actions'
 import { useSelector } from 'react-redux'
-import { WordDeleteWordsInput, WordDeleteWordsPayload } from '../../type/payloadType';
+import { WordDeleteWordsInput } from '../../type/payloadType';
 
 const  ConfirmDelete: FC = () => {
   // States
@@ -31,23 +31,25 @@ const  ConfirmDelete: FC = () => {
   // Methods
   const handleDelete = () => {
 
-    // Frontend first
+    // ! 1) Delete front end
     store.dispatch(offDialog())
     store.dispatch(newlyModifyWords({
       type: "delete", data: deletingTargets
     }))
 
+    // ! 2) Request to the backend
     const input: WordDeleteWordsInput = { words: deletingTargets }
     throwEvent("word:deleteWords", input)
     .then(HE => {
       if (HE.serverResponse !== "Accepted") { 
-        // Rollback, if fail
+        // ! 2-F) Rollback, if fail
         store.dispatch(newlyModifyWords({
           type: "create", data: deletingTargets
         }))
         return
        }
 
+      // ! 3) Let user know it is successful
       store.dispatch(modifySupport({ searchingBegins: true }, true)) // ? Still do not understand wth this is lol ..
       store.dispatch(setSnackbar(tr.deletedMessage[ln]))
     })
