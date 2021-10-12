@@ -37,7 +37,8 @@ type ServerAssignedId =
 type DataLocation = 'mdb' | 'internal' | AwsTokyoS3
 type AwsTokyoS3 = 'tokyo-s3'
 type FutureUsage = ""
-type PublicId = string
+type PublicId = string 
+  | "sample-data" // sample data is used for sample data for new user!
 type PrivateId = string
 
 export default Wrn
