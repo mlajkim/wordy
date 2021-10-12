@@ -1,15 +1,17 @@
 // Main
 import express, { Request, Response } from 'express'
 // Type
-import { WordDeleteWordsInput, WordDeleteWordsPayload } from '../../../type/payloadType'
+import { Resource } from '../../../type/resourceType'
+import { WordDeleteWordsInput } from '../../../type/payloadType'
+import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
+import { WordModel } from '../../../models/EncryptedResource'
+import LegacyWordModel from '../../../models/Words'
 // Lambda
-import { wordyDelete } from '../../../internal/compute/backendWambda'
+import { wordyDecrypt } from '../../../internal/compute/backendWambda'
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl'
 // internal
 import { ctGateway } from '../../../internal/management/cloudTrail'
-// type
-import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 // Router
 const router = express.Router()
 const EVENT_TYPE: EventType = "word:deleteWords"
@@ -22,10 +24,22 @@ router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Declare + Save Record
   const RE = req.body as WordyEvent;
-  const { deletingWrns } = RE.requesterInputData as WordDeleteWordsInput;
-  const { RP } = wordyDelete(RE, deletingWrns, `word:*`)
+  const { words } = RE.requesterInputData as WordDeleteWordsInput;
+  const wrns = words.map(word => word.wrn)
+  
+  // ! 1) Handle Latest
+  const ER = await WordModel.find({ wrn: { $all: wrns }}) as Resource[] | null
+  if (ER) {
+    const modifableData = ER.map(el => wordyDecrypt(el, RE)).filter(el => el.resoureAvailability === "Visible")
+    await WordModel.deleteMany({ wrn: { $all: modifableData.map(el => el.wrn) } })
+  } 
 
-  RE.payload = RP as WordDeleteWordsPayload
+  // ! 2) Handle Legacy
+  const legacyIds = words.map(word => word.legacyId)
+  console.log(legacyIds)
+  await LegacyWordModel.deleteMany({ _id: { $all: legacyIds }})
+  
+  // Return
   const sending = ctGateway(RE, "Accepted")
   return res.status(sending.status!).send(sending)
 })

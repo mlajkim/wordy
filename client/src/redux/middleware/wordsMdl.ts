@@ -73,14 +73,14 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
         } )
       })
 
-      console.log(alteredWords)
-
       dispatch(updateWords(alteredWords))
       
     } // ! end of update
 
     if (type === 'delete') {
       dispatch(modifySupport({ deletedWordCnt: support.deletedWordCnt + dataLength }))
+      
+      console.log(data)
       
       const removedWordChunk = words
         .filter(wordChunk => wordChunk

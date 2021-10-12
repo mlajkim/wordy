@@ -19,7 +19,7 @@ import Appbar  from './Appbar'
 import * as API from '../API'
 import {handleCountryCode} from '../utils'
 // Pages
-import Okr from './Okr'
+// mport Okr from './Okr'
 import Dialog from './Dialog'
 import Page from './Page'
 import Snackbar from './Snackbar'
