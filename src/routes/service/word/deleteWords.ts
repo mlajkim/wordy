@@ -8,6 +8,7 @@ import { WordModel } from '../../../models/EncryptedResource'
 import LegacyWordModel from '../../../models/Words'
 // Lambda
 import { wordyDecrypt } from '../../../internal/compute/backendWambda'
+import { extractLegacyId } from '../../../type/sharedWambda'
 // Middleware
 import * as OTM from '../../middleware/onlyToMdl'
 // internal
@@ -35,7 +36,10 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   } 
 
   // ! 2) Handle Legacy
-  const legacyIds = words.map(word => word.legacyId)
+  const legacyIds = words
+  .filter(el => el.resoureAvailability === "NotVisible")
+  .map(word => extractLegacyId("word", word.wrn))
+
   console.log(legacyIds)
   await LegacyWordModel.deleteMany({ _id: { $all: legacyIds }})
   

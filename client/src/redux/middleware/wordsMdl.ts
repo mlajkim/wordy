@@ -83,9 +83,9 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
       console.log(data)
       
       const removedWordChunk = words
-        .filter(wordChunk => wordChunk
-        .filter(word => data.findIndex(el => el.wrn === word.wrn) !== -1))
-        .filter(wordChunk => wordChunk !== []) // smoothly remove semester
+        .map(wordChunk => wordChunk
+        .filter(word => data.findIndex(el => el.wrn === word.wrn) === -1))
+        .filter(wordChunk => wordChunk !== [])
 
       dispatch(updateWords(removedWordChunk))
 

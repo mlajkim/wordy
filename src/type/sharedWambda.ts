@@ -143,10 +143,16 @@ export const CreateMyOkrUserNameRule = (name: string): "Passed" | "NotPassed" =>
   return "Passed";
 }
 
-export const extractLegacyId = (type: "user", wrn: Wrn): { isSuccess: boolean, legacyId: string } => {
+export const extractLegacyId = (type: "user" | "word" , wrn: Wrn): { isSuccess: boolean, legacyId: string } => {
   if (type === "user") {
     // currently legacyIdWrn is converted in such
     // wrn::user:end_user:mdb:${}
+    return { isSuccess: true, legacyId: wrn.split(":")[5] }
+  }
+
+  else if (type === "word") {
+    // currently legacy word type is
+    //wrn::word:<semester_value>:mdb:${}:___
     return { isSuccess: true, legacyId: wrn.split(":")[5] }
   }
 
