@@ -3,12 +3,8 @@
 ##### Smartly and quickly add up terminology you've found for today.
 ##### And smartly review them to be special in the peers.
 
-Wordy-cloud uses an advanced encryption method for storing data (AES 256), which is the same encryption technology used by governments and military to keep information secure. 
-![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/aes256.jpeg)
-The communication between your device and our server is protected by the advanced security protocol TLS 1.2.
-![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/https.jpeg)
-
 ## Table of contents
+* [Security](#Security)
 * [Features](#Main-Features)
     * Support for any device
     * Search your data
@@ -17,7 +13,17 @@ The communication between your device and our server is protected by the advance
     * Darkmode
 * [Developer](#Developer)
 * [Tools](#Tools)
-* [Translation](#Translation (Order by its popularity & usage))
+* [Translation](#translation-order-by-its-popularity--usage)
+
+## Security
+Our first and the most important goal is to keep your data secret so that no one, even inclduing the developers of Wordy-cloud, are not capable of reading/modifying your data. We follow how the dominating global cloud provider [AWS](https://aws.amazon.com/free) and use the exactly same encryption method [AES-256](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) to prevent any security vulnerabilities.
+
+* The following is a sample data; Encrypted data is within 'ciphertextBlob' and each data has its own rule to whom it can be accssed to.
+![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/aes256.jpeg)
+
+* The communication between your device and our server is protected by the advanced security protocol TLS 1.2.
+![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/https.jpeg)
+
 
 ## Main Features
 1. Support for any device
