@@ -104,9 +104,10 @@
     const input: WordsEncryptWordsInput = { words: [word]}
     throwEvent("word:encryptWords", input)
     .then(FE => {
-      const latestFormatWords = FE.payload as WordsEncryptWordsPayload
+      if (FE.serverResponse !== "Accepted") { setEncrypting(false); return }
 
       // The length should be one, for this word card
+      const latestFormatWords = FE.payload as WordsEncryptWordsPayload
       if (latestFormatWords.length !== 1) { 
         setEncrypting(false)
         store.dispatch(setSnackbar("FAILED TO ENCRYPT", 'warning')); return
