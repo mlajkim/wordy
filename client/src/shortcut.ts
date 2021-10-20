@@ -14,6 +14,19 @@ const shortcut = {
       userFriendly: "Ctrl + Shift + S",
     }
   },
+  // This command is used for hidden usage. YET, backend will check your identity anyway. so No PROBLEM.
+  CMD_SHIFT_P: {
+    mac: {
+      textField: (event: KeyboardEvent) =>  event.metaKey && event.key   === 'p',
+      hotKey: "command+shift+p",
+      userFriendly: "⌘ + Shift + P"
+    },
+    windows: {
+      textField: (event: KeyboardEvent) =>  event.ctrlKey && event.key   === 'p',
+      hotKey: "ctrl+shift+p",
+      userFriendly: "Ctrl + Shift + P",
+    }
+  },
   CMD_ENTER: {
     mac: {
       textField: (event: KeyboardEvent) =>  event.metaKey && event.key   === 'Enter',
