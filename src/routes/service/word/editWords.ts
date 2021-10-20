@@ -28,7 +28,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   for (const pureWordObject of editedWords) {
 
-    // if (legacy)
+    // ! if (legacy)
     if (!pureWordObject.isEncrypted) {
       const extractedLegacyId = pureWordObject.legacyId
       await legacyWordModel.findOneAndUpdate({ _id: extractedLegacyId }, pureWordObject, {useFindAndModify: false})

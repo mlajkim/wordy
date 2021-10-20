@@ -27,7 +27,7 @@ import * as OTM from '../../middleware/onlyToMdl'
 // Gateway
 import { ctGateway } from '../../../internal/management/cloudTrail'
 // Router
-const router = express.Router();
+const router = express.Router()
 const EVENT_TYPE: EventType = "word:postWords"
 
 router.use(pathFinder(EVENT_TYPE), OTM.DISABLED_EVENT_MDL)
@@ -64,7 +64,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // ! 4) Error handling
   if (errorFound) {
-    const sending = ctGateway(RE, "Denied");
+    const sending = ctGateway(RE, "Denied")
     return res.status(sending.status!).send(sending)
   }
 
