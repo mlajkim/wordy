@@ -1,3 +1,11 @@
+
+/**
+ * ? Written on October, 2021 
+ * The encryption itself does not take so much time (usually 0.2~seconds)
+ * Yet, getting encrpyted words simply take too much time.
+ * I just checked that there is no problem, at least, with this event handling api and therefore will leave as it is for now.
+ */
+
 // Main
 import express, { Request, Response } from 'express'
 // Type
@@ -35,7 +43,8 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     word.isEncrypted = true
     word.imageWrn = []
 
-    const filteredId = legacyId === "" ? _id : legacyId
+    let filteredId = legacyId && legacyId !== "" ? legacyId : _id
+    filteredId = _id && _id !== "" ? _id : filteredId
     
     const newWrn = generatedWrn(`wrn::word:${word.sem}:mdb::`)
     const encrypted = wordyEncrypt(word,newWrn, RE, "wrn::wp:pre_defined:backend:only_owner:210811", undefined, undefined, { dateAdded })
