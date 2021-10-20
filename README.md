@@ -3,6 +3,11 @@
 ##### Smartly and quickly add up terminology you've found for today.
 ##### And smartly review them to be special in the peers.
 
+Wordy-cloud uses an advanced encryption method for storing data (AES 256), which is the same encryption technology used by governments and military to keep information secure. 
+![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/aes256.jpeg)
+The communication between your device and our server is protected by the advanced security protocol TLS 1.2.
+![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/https.jpeg)
+
 ## Table of contents
 * [Features](#Main-Features)
     * Support for any device
