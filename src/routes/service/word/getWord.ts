@@ -13,7 +13,7 @@
 
 // Main
 import express, {  Request, Response } from 'express'
-import moment from 'moment'
+// import moment from 'moment' // You may enable this to check the time
 // type
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
 import { WordGetWordInput, WordGetWordPayload } from '../../../type/payloadType'
@@ -53,14 +53,15 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // handle apigateway data (Decrpyt)
   // My Macbook Pro: took 3.85 seconds for converting 19 encrypted words
   // How about my Mac Mini?: ?.?? seconds for converting 19 encrypted words...
-  const before = moment().valueOf()
+
+  // * const before = moment().valueOf() // You may enable this to check the time
   if (encryptedWordResource !== null) {
     for (const eachRes of encryptedWordResource) {
       const decryptedRes = wordyDecrypt(eachRes, RE) as ResourceId & WordPure;
       returningDecryptedData.push(decryptedRes);
     }
   }
-  console.log(`Took ${(moment().valueOf() - before) / 1000} seconds..`)
+  // * console.log(`Took ${(moment().valueOf() - before) / 1000} seconds..`) // You may enable this to check the time
 
   // ! 2) GET Legacy Word & CONVERT INTO NEWLY FORMAT 
   // Get the legacy word data

@@ -27,7 +27,7 @@ const router = express.Router();
 const EVENT_TYPE: EventType = "word:encryptWords";
 
 // Only modifable to owner the resource
-router.use(pathFinder(EVENT_TYPE), OTM.onlyToWordyMemberMdl)
+router.use(pathFinder(EVENT_TYPE), OTM.DISABLED_EVENT_MDL)
 router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB)
 router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 
