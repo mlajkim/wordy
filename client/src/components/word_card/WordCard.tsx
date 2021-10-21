@@ -44,6 +44,7 @@ import { useSelector } from 'react-redux'
 // Redux Actions
 import { setDialog } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
+const isEncrypting = false
 
 type Props = { word: LegacyPureWord, highlighted?: string };
 // @ MAIN
@@ -51,8 +52,6 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   const { support, language } = useSelector((state: State) => state)
   const ln = language
   const [ open, setOpen ] = useState(false)
-  const [ isEncrypting, setEncrypting ] = useState(false)
-  setEncrypting(false) // This was simply used as "isEncrypting" is now banned.
 
   const tools = [
   // the disabled button is only temporary and will be deleted.
