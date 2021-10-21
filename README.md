@@ -19,12 +19,10 @@
 Our first and the most important goal is to keep your data secret so that no one, including the developers of Wordy-cloud, is not capable of reading/modifying your data. We follow how the dominating global cloud provider [AWS](https://aws.amazon.com/free) and use the exactly same encryption method [AES-256](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) to prevent any security vulnerabilities.
 
 * The following is a sample data; Encrypted data is within 'ciphertextBlob' and each data has its own rule to whom it can be accssed to.
-
-![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/aes256.jpeg)
+    * ![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/aes256.jpeg)
 
 * The communication between your device and our server is protected by the advanced security protocol TLS 1.2.
-
-![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/https.jpeg)
+    * ![](https://github.com/PeacefulHaru/wordy/blob/master/img/security/https.jpeg)
 
 
 ## Main Features
