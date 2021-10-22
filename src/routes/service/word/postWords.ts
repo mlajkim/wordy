@@ -30,7 +30,7 @@ import { ctGateway } from '../../../internal/management/cloudTrail'
 const router = express.Router()
 const EVENT_TYPE: EventType = "word:postWords"
 
-router.use(pathFinder(EVENT_TYPE), OTM.DISABLED_EVENT_MDL)
+router.use(pathFinder(EVENT_TYPE), OTM.onlyToAdminMdl)
 router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB)
 router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 

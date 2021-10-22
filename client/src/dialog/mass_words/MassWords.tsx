@@ -128,46 +128,7 @@ const MassWords: FC = () => {
     else store.dispatch(offDialog())
   }
 
-  // ? LEGACY adding words (without encryption)
-  const hdlAddMassWordsWithoutEncrpytion = () => {
-    // Data validation (cannot be empty)
-    if (massData.length === 0) 
-      return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'))
-    let chosenYear, chosenSem = ''
-    
-    // if year and semester has given
-    if (year !== '' || sem !== '') {
-      // Data validation check.
-      if (!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
-        store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
-        return
-      }
-      chosenYear = year
-      chosenSem = sem
-    } else {
-      chosenYear = today().year.toString()
-      chosenSem = today().sem.toString()
-    }
-
-    // length validator
-    if (massData.length > LETTERS_LIMITATION) {
-      store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5))
-      return
-    }
-
-    store.dispatch(offDialog())
-    const data = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
-    store.dispatch(postWords(data))
-    store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
-  }
-
-  // ...Method
-  // ! This method was first introduced in October, 2021
-  // ! Yet, getting words and encrpyting take too much time (around 3 seconds per 20 words)
-  // ! So currently decided to rollback and bring the old method
-  // ! Learned, never kill your old method. LOL ..
-  // ! This method, however, works smoothly without problem
-  const hdlEncryptAndAddMassWords = () => {
+  const hdlAddMassWords = (shouldEncrypt: boolean) => {
     setTempOpen(false) // This exist to make the action faster.
 
     // ! 1) Error check: if data is empty
@@ -215,20 +176,28 @@ const MassWords: FC = () => {
       }
     })
 
-    // ! 7) Throw Event
+    if (!shouldEncrypt) {
+      // Legacy Method
+      store.dispatch(postWords(parsedData))
+      store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
+      setTempOpen(false)
+      return
+    }
+    
+    // ! 8) Post with encrpytion
     throwEvent("word:postWords", payload)
-      .then(RE => {
-        // !) 6) Server denied the request
-        if (RE.serverResponse !== 'Accepted') return
+    .then(RE => {
+      // !) 6) Server denied the request
+      if (RE.serverResponse !== 'Accepted') return
 
-        // ! 7) Apply frontend
-        store.dispatch(newlyModifyWords({
-          type: "create", data: RE.payload as WordPostWordsPayload
-        })) 
-        store.dispatch(offDialog())
-        store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
-      })
-      .catch(() => setTempOpen(true)) // Somehow if server is not responding
+      // ! 7) Apply frontend
+      store.dispatch(newlyModifyWords({
+        type: "create", data: RE.payload as WordPostWordsPayload
+      })) 
+      store.dispatch(offDialog())
+      store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
+    })
+    .catch(() => setTempOpen(true)) // Somehow if server is not responding
   }
 
   // Return
@@ -279,10 +248,10 @@ const MassWords: FC = () => {
             autoFocus
             autoComplete={"off"}
             onKeyDown={(event) => {
-              if (shortcut.CMD_ENTER.mac.textField(event)) hdlAddMassWordsWithoutEncrpytion()
-              else if (shortcut.CMD_ENTER.windows.textField(event)) hdlAddMassWordsWithoutEncrpytion() // if you mix with the mac key, it somehow receives two enters
+              if (shortcut.CMD_ENTER.mac.textField(event)) hdlAddMassWords(false)
+              else if (shortcut.CMD_ENTER.windows.textField(event)) hdlAddMassWords(false) // if you mix with the mac key, it somehow receives two enters
               else if (shortcut.ESC.general.textField(event)) cancelAddingMassWords()
-              else if (shortcut.CMD_SHIFT_P.mac.textField(event)) hdlEncryptAndAddMassWords()
+              else if (shortcut.CMD_SHIFT_P.mac.textField(event)) hdlAddMassWords(true)
             }}
           />
         </DialogContent>
@@ -290,7 +259,7 @@ const MassWords: FC = () => {
           <Button onClick={() => cancelAddingMassWords()} color="secondary">
             {trAddWord.btnCancel[ln]}
           </Button>
-          <Button onClick={() => hdlAddMassWordsWithoutEncrpytion()} color="primary" variant="contained">
+          <Button onClick={() => hdlAddMassWords(false)} color="primary" variant="contained">
             {trAddWord.btnOkay[ln]}
           </Button>
         </DialogActions>
