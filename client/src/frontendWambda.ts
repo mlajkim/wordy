@@ -116,7 +116,7 @@ export const filteredSpecialTag = (wordChunk: WordsChunk | undefined): SpecialTa
       case -7: return 'weekAgo'
       case -14: return 'twoWeeksAgo'
       case -21: return 'threeWeeksAgo'
-      case -31: return 'monthAgo'
+      case -30: return 'monthAgo'
       default: return 'NotCatagorized'
     }
   }) 
