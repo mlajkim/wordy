@@ -37,12 +37,12 @@ Our first and the most important goal is to keep your data secret so that no one
 5. Security. Your data is encrypted using AES-256, the industry standard.
 Only you can encrypt/decrpyt your data in our database.
 
-6. And of course, Darkmode.
-if you ask me why, I mean, why not?
+6. Darkmode
 
 ## Developer
 - Aaron Jeongwoo Kim (AJ Kim)
 - Full stack programmer in Tokyo, Japan
+    * Mainly uses TypeScript, Python and AWS (ECS, Lambda...)
 - Born in Korea, Raised in America and Work in Japan
 - Speaks 4 languages: English, Chinese, Japanese and Korean (All business+)
 

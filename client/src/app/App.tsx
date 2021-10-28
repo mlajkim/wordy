@@ -86,7 +86,7 @@ const App: FC = () => {
       }
     };
 
-  const RenderOneTap = !user.isSignedIn && (
+  const RenderOneTap = user.isSignedIn !== true ? (
     <GoogleOneTapLogin 
       onError={(error: any) => console.log(error)}
       onSuccess={(response) => {
@@ -95,7 +95,7 @@ const App: FC = () => {
       }}
       googleAccountConfigs={{ client_id: GOOGLE_CLIENT_ID }} 
     />
-  )
+  ) : null
 
   return (
     <HotKeys keyMap={keyMap} handlers={hdlHotkey}>
