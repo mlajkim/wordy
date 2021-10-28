@@ -7,10 +7,14 @@ type Release = {
 const RELEASES: Release[] = [
   {
     version: "v0.5.4",
-    date: "Oct ?, 2021",
-    isFinished: false,
+    date: "Oct 28, 2021",
+    isFinished: true,
     majorUpdates: [
-      ""
+      "Editing word now has default trim() for each side",
+      "Encrypting words method is implemented, yet it is currently disabled as decrypting encrypted data takes too much time",
+      "Adding words now require WAT token",
+      "OKR is temporarily disabled",
+      "Fixed the bug where Google One Tap Signin sometimes appear randomly, when it should not"
     ]
   },
   {
