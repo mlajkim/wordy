@@ -129,7 +129,7 @@ const MassWords: FC = () => {
   }
 
   const hdlAddMassWords = (shouldEncrypt: boolean) => {
-    setTempOpen(false) // This exist to make the action faster.
+    setTempOpen(false) // This exist to make the action faster.0
 
     // ! 1) Error check: if data is empty
     if (massData.length === 0) 
@@ -180,7 +180,7 @@ const MassWords: FC = () => {
       // Legacy Method
       store.dispatch(postWords(parsedData))
       store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
-      setTempOpen(false)
+      store.dispatch(offDialog()) 
       return
     }
     
