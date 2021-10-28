@@ -61,3 +61,10 @@ Only you can encrypt/decrpyt your data in our database.
 - Japanese: ✔️
 - French: Planning..
 - Korean: ✔️
+
+
+### Version Goal
+- v0.6: Capable of Uploading Photos & Credit system is available
+     * Admin can generate code to generate free credit for trial of other members
+- v1.0: Payment system is now available; No longer Beta
+- v1.1: Encryption gets better and much faster
