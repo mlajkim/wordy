@@ -1,6 +1,6 @@
 // Types
 import { WordyEvent } from './wordyEventType';
-import { FederalProvider, DisplayableLn } from './availableType';
+import { FederalProvider, DisplayableLn, Version } from './availableType';
 import { AddableLanguage } from './generalType';
 import Wrn from './wrn'
 import { WordPureEditable, ResourceId , WordPure} from './resourceType'
@@ -174,3 +174,18 @@ export const convertLegacyWordIntoPureWord = (editedData: WordPureEditable, orig
     ...editedData
   }
 } 
+
+// ! October, 2021
+export const compareVersion = (isHigherVersion: Version, thanThisVersion: Version): 0 | 1 | -1 => {
+  const splitted1 = isHigherVersion.slice(1).split(".").map(el => Number(el))
+  const splitted2 = thanThisVersion.slice(1).split(".").map(el => Number(el))
+
+  for (let i = 0; i < 3; i++) {
+    if (splitted1[i] > splitted2[i]) return -1
+    else if (splitted1[i] < splitted2[i]) return 1
+  }
+
+  return 0 // they are the same
+  
+
+}

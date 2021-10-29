@@ -21,7 +21,7 @@ const initialState: Support = {
   recommandedTags: [],
   isDarkMode: false, // dark mode off by default.
   // ! Version related
-  lastReadVersion: "",
+  lastReadVersion: "v0.0.0",
   // personal setting
   displayingLnUserPref: ['en', 'zh', 'ja', 'ko'], // The order is from the size of the langauge
   extendedSearchBar: false,

@@ -1,6 +1,6 @@
-import { AvailableCookies } from './type/availableType';
-import { KeepStyleBtnProperty } from'./frontendTypes';
-import { LegacyPureWord } from './type/legacyType';
+import { AvailableCookies, Version } from './type/availableType'
+import { KeepStyleBtnProperty } from'./frontendTypes'
+import { LegacyPureWord } from './type/legacyType'
 
 export type State = {
   okrLoading: OkrLoading;
@@ -64,7 +64,7 @@ export type SnackbarState = {
 }
 
 export type Support = {
-  version: `v${string}`;
+  version: Version
   isBeta: boolean;
   versionDate: string;
   addWordLangPref: AddableLang;
@@ -80,7 +80,7 @@ export type Support = {
   wordDisplayPref: 'wordcard' | 'list';
   isDarkMode: boolean;
   // ! Version related
-  lastReadVersion: string
+  lastReadVersion: Version
   // Personal Setting
   extendedSearchBar: boolean;
   isYearQuadrantEnabled: boolean;

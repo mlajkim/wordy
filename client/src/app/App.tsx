@@ -11,6 +11,8 @@ import RELEASES from '../releases'
 import { backgroundDark, backgroundLight, fontDark, fontLight } from '../theme';
 import shortcut from '../shortcut'
 import { generateAccessToken } from '../components/google_sign_in/GoogleSignIn'
+// Lambda 
+import { compareVersion } from '../type/sharedWambda'
 // Library
 import { cvtOneTapIntoGoogleRes } from '../frontendWambda'
 // Component
@@ -64,27 +66,27 @@ const App: FC = () => {
 
   // ! PatchNote
   useEffect(() => {
-    if (!user.isSignedIn || support.lastReadVersion === RELEASES[RELEASES[0].isFinished ? 0 : 1].version) return
+    if (!user.isSignedIn || support.lastReadVersion === "v0.0.0") return
+    if (compareVersion(RELEASES[RELEASES[0].isFinished ? 0 : 1].version, support.lastReadVersion) !== 1) return
 
     store.dispatch(setDialog("PatchNote"))
-    
   }, [user.isSignedIn, support.lastReadVersion, support.version])
 
-    // Hotkey
-    const hdlHotkey = {
-      OPEN_ADDER: () => {
-        if (!dialog.isOpen) {
-          if (support.newWordAddingType === 'one') store.dispatch(setDialog('AddWordsDialog'));
-          else store.dispatch(setDialog('MassWordsDialog'));
-        }
-      },
-      BEGIN_SEARCH: () => {
-        // Slight logical bug as new html is generated but it fails to find the search bar id. (if you hit the command again, it works)
-        // if (!support.extendedSearchBar) store.dispatch(modifySupport({ extendedSearchBar: true }, true));
-        const foundSearchBar = document.getElementById(SEARCH_BAR_ID);
-        if (foundSearchBar) foundSearchBar.focus();
+  // Hotkey
+  const hdlHotkey = {
+    OPEN_ADDER: () => {
+      if (!dialog.isOpen) {
+        if (support.newWordAddingType === 'one') store.dispatch(setDialog('AddWordsDialog'));
+        else store.dispatch(setDialog('MassWordsDialog'));
       }
-    };
+    },
+    BEGIN_SEARCH: () => {
+      // Slight logical bug as new html is generated but it fails to find the search bar id. (if you hit the command again, it works)
+      // if (!support.extendedSearchBar) store.dispatch(modifySupport({ extendedSearchBar: true }, true));
+      const foundSearchBar = document.getElementById(SEARCH_BAR_ID);
+      if (foundSearchBar) foundSearchBar.focus();
+    }
+  };
 
   const RenderOneTap = user.isSignedIn !== true ? (
     <GoogleOneTapLogin 

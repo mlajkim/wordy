@@ -1,10 +1,20 @@
+import { Version } from "./type/availableType"
+
 type Release = {
-  version: `v${string}`
+  version: Version
   date: `${string}, ${string}`
   isFinished: boolean
   majorUpdates: string[]
 }
 const RELEASES: Release[] = [
+  {
+    version: "v0.5.5",
+    date: "Nov ?, 2021",
+    isFinished: false,
+    majorUpdates: [
+      
+    ]
+  },
   {
     version: "v0.5.4",
     date: "Oct 28, 2021",

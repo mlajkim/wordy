@@ -8,6 +8,7 @@ export type AddableLn = "en" | "ko" | "ja" | "zh";
 export type DisplayableLn = "en" | "ko" | "ja"; // newer type, Aug 15, 2021 
 export type AvailableCookies = 'WordyAnonymousAccesstoken' | 'WordyAccesstoken' | 'WordyRefreshtoken' | 'wordyRefreshToken' | 'wordyAccessToken' | 'login' | 'darkLightModeCookie' 
 export type FederalProvider = 'anonymous' | 'google';
+export type Version = `v${string}.${string}.${string}`
 export type EncryptedDek = string;
 
 // gateway is used for returning W.E
