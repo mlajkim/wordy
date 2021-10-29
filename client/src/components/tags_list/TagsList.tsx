@@ -15,41 +15,44 @@ import { useSelector } from 'react-redux';
 import { modifyRecommandedTags, modifySupport } from '../../redux/actions/supportAction';
 import { setSnackbar } from '../../redux/actions';
 // Type
-type PropsRequired = {tags: string[], setTags: React.Dispatch<React.SetStateAction<string[]>> };
+type PropsRequired = {tags: string[], setTags: React.Dispatch<React.SetStateAction<string[]>>, setChangeDetected: React.Dispatch<React.SetStateAction<boolean>> };
 
 // @ EXPORT DEFAULT React.FC
-const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
+const TagsList: React.FC <PropsRequired> = ({ tags, setTags, setChangeDetected }) => {
   const {language, support} = useSelector((state: State) => state);
   const ln = language;
 
   // Method
-  const handleAddTag = (tag: string) => {
-    const newTags = [...tags, tag];
-    setTags(newTags);
-    store.dispatch(modifyRecommandedTags(newTags)); // these two are different
-    store.dispatch(modifySupport({ lastTags: newTags })); // these two are different
+  const hdlAddTags = (tag: string) => {
+    setChangeDetected(true)
+    const newTags = [...tags, tag]
+    setTags(newTags)
+    store.dispatch(modifyRecommandedTags(newTags)) // these two are different
+    store.dispatch(modifySupport({ lastTags: newTags })) // these two are different
   }
   // ..Method
-  const handleDeleteTag = (index: number) => {
-    const length = tags.length;
-    const newTags = [...tags.slice(0, index), ...tags.slice(index + 1, length)];
-    setTags(newTags);
-    store.dispatch(modifySupport({ lastTags: newTags }));
+  const hdlDeleteTags = (index: number) => {
+    setChangeDetected(true)
+    const length = tags.length
+    const newTags = [...tags.slice(0, index), ...tags.slice(index + 1, length)]
+    setTags(newTags)
+    store.dispatch(modifySupport({ lastTags: newTags }))
   }
-  // ..Method
-  const handleRecTag = (tag: string) => {
+
+  const hdlClickRecommandedTags = (tag: string) => {
     if (tags.findIndex(datus => datus === tag) !== -1) {
-      store.dispatch(setSnackbar(tr.exists[ln], 'warning'));
+      store.dispatch(setSnackbar(tr.exists[ln], 'warning'))
     }
-    else handleAddTag(tag);
+    else { hdlAddTags(tag); setChangeDetected(true) }
   }
+
   // Render (Recomannded Chip)
   const recommandedChips = support.recommandedTags.length > 0 
     ? support.recommandedTags.map(tag => {
       return (
         <Chip
           key={tag}
-          onClick={() => handleRecTag(tag)}
+          onClick={() => hdlClickRecommandedTags(tag)}
           label={tag}
           color="primary"
           variant="outlined"
@@ -63,8 +66,8 @@ const TagsList: React.FC <PropsRequired> = ({ tags, setTags }) => {
       <ChipInput 
         label={tr.tag[ln]} 
         value={tags}
-        onAdd={(tag) => handleAddTag(tag)}
-        onDelete={(_tag, index) => handleDeleteTag(index)}
+        onAdd={(tag) => hdlAddTags(tag)}
+        onDelete={(_tag, index) => hdlDeleteTags(index)}
         fullWidth 
       />
       <div style={{ display: 'inline-flex', marginTop: 8 }}>

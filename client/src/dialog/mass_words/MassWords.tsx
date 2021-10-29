@@ -57,6 +57,8 @@ const MassWords: FC = () => {
   const [confirmCancel, setConfrimCancel] = useState<boolean>(false)
   const [year, setYear] = useState<string>('')
   const [sem, setSem] = useState<string>('')
+  const [ changeDetected, setChangeDetected ] = useState(false)
+
   // detectLanguage Timer
   const [detectedLanguage, setDetectedLanguage] = useState<string>('') // the language type 'en' | 'ja'
   const [detectApi, setDetectApi] = useState<"enabled" | "disabled">("enabled") // if true, detect no longer works
@@ -124,6 +126,8 @@ const MassWords: FC = () => {
 
   // ..Mehthod
   const cancelAddingMassWords = () => {
+    if (changeDetected) setChangeDetected(true) // useless code, just to escape compile error
+
     if (massData !== '' /* if not empty in the box*/) setConfrimCancel(true)
     else store.dispatch(offDialog())
   }
@@ -240,7 +244,7 @@ const MassWords: FC = () => {
               />
             </Fragment>
           }
-          <TagsList tags={tags} setTags={setTags} />
+          <TagsList tags={tags} setTags={setTags} setChangeDetected={setChangeDetected}/>
           <TextField required id="standard-required" label={`Data ${count}/${LETTERS_LIMITATION}`}
             style={{width: '100%', textAlign:'center'}} multiline minRows={5} maxRows={20}
             value={massData} onChange={(e) => handleMassDataChange(e)}

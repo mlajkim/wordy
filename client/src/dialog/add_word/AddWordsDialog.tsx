@@ -38,11 +38,12 @@ const AddWordsDialog: React.FC = () => {
   const { language, support } = useSelector((state: State) => state);
   const ln = language;
   // Component states
-  const [word, setWord] = useState('');
-  const [pronun, setPronun] = useState(''); 
-  const [meaning, setMeaning] = useState(''); 
-  const [example, setExample] = useState(''); 
-  const [tags, setTags] = useState<string[]>(support.lastTags);
+  const [word, setWord] = useState('')
+  const [pronun, setPronun] = useState('')
+  const [meaning, setMeaning] = useState('')
+  const [example, setExample] = useState('')
+  const [tags, setTags] = useState<string[]>(support.lastTags)
+  const [ changeDetected, setChangeDetected ] = useState(false)
   // detectLanguage Timer
   const [detectedLanguage, setDetectedLanguage] = useState<string>(''); // the language type 'en' | 'ja'
   const [detectApi, setDetectApi] = useState<"enabled" | "disabled">("enabled"); // if true, detect no longer works
@@ -101,7 +102,7 @@ const AddWordsDialog: React.FC = () => {
 
   return (
     <Fragment>
-      <Dialog open={true}>
+      <Dialog open={true} onClose={changeDetected ? undefined : () => store.dispatch(offDialog())}>
         <DialogTitle id="form-dialog-title">
           <span>{tr.title[ln]}</span>
           <IconButton size='small' style={{display: 'block', float:'right',textAlign:'right'}} 
@@ -128,7 +129,7 @@ const AddWordsDialog: React.FC = () => {
           <TextField margin="dense" id="example" label={tr.example[ln]} fullWidth value={example} onChange={(e) => setExample(e.target.value)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSavingWords()}}
           />
-          <TagsList tags={tags} setTags={setTags} />
+          <TagsList tags={tags} setTags={setTags} setChangeDetected={setChangeDetected}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => store.dispatch(offDialog())} color="secondary">

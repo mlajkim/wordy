@@ -44,10 +44,11 @@ const EditDialog: FC = () => {
   const editingTargetWord: LegacyPureWord = dialog.payload as LegacyPureWord
   const [word, setWord] = useState(editingTargetWord.word)
   const [editLanguage, setEditLanguage] = useState(editingTargetWord.language)
-  const [pronun, setPronun] = useState(editingTargetWord.pronun)
-  const [meaning, setMeaning] = useState(editingTargetWord.meaning)
-  const [example, setExample] = useState(editingTargetWord.example)
-  const [tags, setTags] = useState<string[]>(editingTargetWord.tag)
+  const [pronun, setPronun] = useState(editingTargetWord.pronun ? editingTargetWord.pronun : "")
+  const [meaning, setMeaning] = useState(editingTargetWord.meaning ? editingTargetWord.meaning : "")
+  const [example, setExample] = useState(editingTargetWord.example ? editingTargetWord.example : "")
+  const [tags, setTags] = useState<string[]>(editingTargetWord.tag ? editingTargetWord.tag : [""])
+  const [ changeDetected, setChangeDetected ] = useState(false)
   // AvailableLanguage
   const [tempOpen, setTempOpen] = useState(true)
   const [open, setOpen] = useState(false);
@@ -88,16 +89,31 @@ const EditDialog: FC = () => {
       .catch(() => setTempOpen(true)) // When somehow server is down, end user can roll back.
   }
 
+  const hdlChangeData = (e: any) => {
+    const { id, value } = e.target
+    if (!changeDetected) setChangeDetected(true)
+
+    switch (id) {
+      case "word": setWord(value); break
+      case "pronun": setPronun(value); break
+      case "meaning": setMeaning(value); break
+      case "example": setExample(value); break
+      default: break
+    }
+
+  }
+
   // TSX
   const menuItems = ADDABLE_LANGUAGES_LIST.map(lang => (
     <MenuItem key={lang} value={lang}>{ languageCodeIntoUserFriendlyFormat(lang) }</MenuItem>
-  ));
+  ))
 
   // Return
   return (
     <Fragment>
       <Dialog
         open={tempOpen}
+        onClose={changeDetected ? undefined : () => store.dispatch(offDialog())}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -118,19 +134,19 @@ const EditDialog: FC = () => {
               {menuItems}
             </Select>
           </div>
-          <TextField margin="dense" id='word' value={word} label={trAddWordsDialog.word[ln]} fullWidth onChange={(e) => setWord(e.target.value)} autoComplete={"off"}
+          <TextField margin="dense" id='word' value={word} label={trAddWordsDialog.word[ln]} fullWidth onChange={(e) => hdlChangeData(e)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
           />
-          <TextField margin="dense" id='pronun' value={pronun} label={trAddWordsDialog.pronun[ln]} fullWidth onChange={(e) => setPronun(e.target.value)} autoComplete={"off"}
+          <TextField margin="dense" id='pronun' value={pronun} label={trAddWordsDialog.pronun[ln]} fullWidth onChange={(e) => hdlChangeData(e)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
             />
-          <TextField margin="dense" id='meaning' value={meaning} label={trAddWordsDialog.meaning[ln]} fullWidth onChange={(e) => setMeaning(e.target.value)} autoComplete={"off"}
+          <TextField margin="dense" id='meaning' value={meaning} label={trAddWordsDialog.meaning[ln]} fullWidth onChange={(e) => hdlChangeData(e)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
             />
-          <TextField margin="dense" id='example' value={example} label={trAddWordsDialog.example[ln]} fullWidth onChange={(e) => setExample(e.target.value)} autoComplete={"off"}
+          <TextField margin="dense" id='example' value={example} label={trAddWordsDialog.example[ln]} fullWidth onChange={(e) => hdlChangeData(e)} autoComplete={"off"}
             onKeyDown={(event) => {if (shortcut.CMD_ENTER.mac.textField(event)) handleSave()}}
             />
-          <TagsList tags={tags} setTags={setTags} />
+          <TagsList tags={tags} setTags={setTags} setChangeDetected={setChangeDetected}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => store.dispatch(offDialog())} color="primary"> {trAddWordsDialog.btnCancel[ln]} </Button>

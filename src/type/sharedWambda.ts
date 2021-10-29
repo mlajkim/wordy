@@ -187,5 +187,4 @@ export const compareVersion = (isHigherVersion: Version, thanThisVersion: Versio
 
   return 0 // they are the same
   
-
 }
