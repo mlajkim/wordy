@@ -8,11 +8,21 @@ type Release = {
 }
 const RELEASES: Release[] = [
   {
-    version: "v0.5.5",
+    version: "v0.5.6",
     date: "Nov ?, 2021",
     isFinished: false,
     majorUpdates: [
-      
+      ""
+    ]
+  },
+  {
+    version: "v0.5.5",
+    date: "Oct 31, 2021",
+    isFinished: true,
+    majorUpdates: [
+      "There was a huge bug where it deleted your semester data, if not downloaded yet",
+      "Fixed the bug where when you have a higher version than the current one, it no longer shows",
+      "Fixed the bug where temporary close does not work as it is supposed to",
     ]
   },
   {
