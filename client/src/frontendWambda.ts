@@ -2,7 +2,6 @@
 import { WordyEvent, pathFinder } from './type/wordyEventType'
 import { AvailableCookies } from './type/availableType'
 import { EventType } from './type/wordyEventType'
-import { ResourceId, WordPure } from './type/resourceType'
 import { WordsChunk, Word, SpecialTag, GoogleRes } from './types'
 import { AddableLanguage } from './type/generalType'
 import { convertLegacyWordIntoPureWord as CLWIPW } from './type/sharedWambda'
@@ -15,7 +14,6 @@ import { knuthShuffle } from 'knuth-shuffle'
 import store from './redux/store'
 // Redux Action
 import { setSnackbar } from './redux/actions'
-import { LegacyPureWord } from './type/legacyType'
 
 
 // event Thrower
@@ -163,30 +161,7 @@ export const cvtOneTapIntoGoogleRes = (
 }
 
 
-// Sep 21, 2021 
-export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): LegacyPureWord[] => {
-  return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, wrn, isEncrypted, imageWrn, ownerWrn, legacyId } = found;
-    return {
-      wrn, imageWrn, ownerWrn, legacyId: legacyId ? legacyId : "",
-      wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
-      isEncrypted,
-      _id: "",
-      ownerID: "",
-      order: objectOrder ? objectOrder : 0, 
-      dateAdded: dateAdded ? dateAdded : 0, 
-      // Shared (the same)
-      isFavorite, sem, language, tag, word, pronun, meaning, example,
-      // Unused, but defined
-      lastReviewed: 0,
-      reviewdOn: [0], 
-      step: 0,
-      seederID: "", 
-      packageID: "", 
-      isPublic: false,
-    }
-  });
-}
+
 
 // ! October, 2021 (Was moved to shared wambda)
 export const convertLegacyWordIntoPureWord = CLWIPW

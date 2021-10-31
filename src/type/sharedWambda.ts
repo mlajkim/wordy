@@ -188,3 +188,28 @@ export const compareVersion = (isHigherVersion: Version, thanThisVersion: Versio
   return 0 // they are the same
   
 }
+
+// Sep 21, 2021 
+export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): LegacyPureWord[] => {
+  return words.map(found => {
+    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, wrn, isEncrypted, imageWrn, ownerWrn, legacyId } = found;
+    return {
+      wrn, imageWrn, ownerWrn, legacyId: legacyId ? legacyId : "",
+      wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
+      isEncrypted,
+      _id: "",
+      ownerID: "",
+      order: objectOrder ? objectOrder : 0, 
+      dateAdded: dateAdded ? dateAdded : 0, 
+      // Shared (the same)
+      isFavorite, sem, language, tag, word, pronun, meaning, example,
+      // Unused, but defined
+      lastReviewed: 0,
+      reviewdOn: [0], 
+      step: 0,
+      seederID: "", 
+      packageID: "", 
+      isPublic: false,
+    }
+  });
+}

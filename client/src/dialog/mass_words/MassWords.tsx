@@ -136,13 +136,17 @@ const MassWords: FC = () => {
     setTempOpen(false) // This exist to make the action faster.0
 
     // ! 1) Error check: if data is empty
-    if (massData.length === 0) 
+    if (massData.length === 0) {
+      setTempOpen(true)
       return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'))
+    }
+      
     let chosenYear, chosenSem = ''
 
     // ! 2) Error check: If YQ is enabled, but given data is empty..
     if (support.isYearQuadrantEnabled && (year === '' || sem === '')) {
       store.dispatch(setSnackbar(`${tr.mustFillYearOrSemFront[ln]}${trSetting.customizeSemesterFront[ln]}${tr.mustFillYearOrSemRear[ln]}`, 'warning'))
+      setTempOpen(true)
       return
     }
     
@@ -151,6 +155,7 @@ const MassWords: FC = () => {
       // Data validation check.
       if (!API.checkValidDataOfExtraYear(year, sem, VALID_YEAR_FROM, VALID_YEAR_TO)) {
         store.dispatch(setSnackbar(`INVALID YEAR RANGE (${VALID_YEAR_FROM}~${VALID_YEAR_TO}) OR SEM (1~4)`, 'warning', 5))
+        setTempOpen(true)
         return
       }
       chosenYear = year
@@ -162,6 +167,7 @@ const MassWords: FC = () => {
 
     // ! 5) Error check: if given data is too long
     if (massData.length > LETTERS_LIMITATION) {
+      setTempOpen(true)
       store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5))
       return
     }

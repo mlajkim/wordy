@@ -5,7 +5,8 @@ import { State, Word } from '../../types'
 import tr from './search_result.tr.json'
 import trYearChip from '../../pages/list/year_chip.tr.json'
 // Lambda
-import { throwEvent, wordSearchingAlgorithm, convertWordsIntoLegacy } from '../../frontendWambda'
+import { throwEvent, wordSearchingAlgorithm } from '../../frontendWambda'
+import { convertWordsIntoLegacy } from '../../type/sharedWambda'
 import { convertSem } from '../../utils'
 // Theme
 import { listDark, listLight, buttonLight, buttonDark } from '../../theme'

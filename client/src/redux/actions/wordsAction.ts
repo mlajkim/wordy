@@ -1,7 +1,9 @@
 // Types
 import { WordsChunk } from '../../types'
+import Wrn from '../../type/wrn'
 import { NewlyModifyWords } from '../reduxType'
 // Actions
+export const NEWLY_DELETE_WORDS = "[Newly] Delete Words"
 export const NEWLY_MODIFY_WORDS = "[Newly] Modify Words"
 export const NEWLY_ENCRYPT_WRODS = "[Newly] Encrypt Words"
 // Legacy below
@@ -15,6 +17,14 @@ export const DELETE_WORDS = "[WORDS] Delete";
 export const SYNC_WORDS = "[WORDS] Sync";
 export const MIX_ARRAY = "[WORDS] Mixed one sem array"
 
+
+// ! November, 2021
+export const newlyDeleteWords = (deletingSem: number, wrns: Wrn[] ) => {
+  return {
+    type: NEWLY_DELETE_WORDS,
+    payload: { deletingSem, wrns }
+  }
+}
 
 // ! APIGATEWAY October, 2021
 export const newlyEncryptWords = (data: any) => {
@@ -68,10 +78,10 @@ export const modifyWords = (sem: number, data: Data[])  => {
   }
 }
 
-export const deleteWords = (sem: number, IDs: {ID: string}[])  => {
+export const deleteWords = (sem: number, wrns: {wrn: Wrn}[])  => {
   return {
     type: DELETE_WORDS,
-    payload: {sem, IDs}
+    payload: { sem, wrns }
   }
 }
 

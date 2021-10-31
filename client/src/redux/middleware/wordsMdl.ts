@@ -1,6 +1,7 @@
 // types
 import { WordsChunk, Word, State } from '../../types'
 import { NewlyModifyWords } from '../reduxType'
+import Wrn from '../../type/wrn'
 import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType';
 // libraries
 import { knuthShuffle } from 'knuth-shuffle';
@@ -13,7 +14,7 @@ import { modifySupport, addSemNoDup, deleteSem, getSupport } from '../actions/su
 import { fetchy, fetchy3 } from '../actions/apiAction';
 import { setWords, savingHelper } from '../actions/wordsAction';
 import { setSnackbar } from '../actions';
-import { convertWordsIntoLegacy } from '../../frontendWambda';
+import { convertWordsIntoLegacy } from '../../type/sharedWambda'
 import { ResourceId, WordPure } from '../../type/resourceType';
 
 const validate = (payload: WordsChunk): boolean => {
@@ -22,6 +23,27 @@ const validate = (payload: WordsChunk): boolean => {
   const STANDARD_SEM = payload[0].sem;
   const result = payload.filter((word: Word) => word.sem !== STANDARD_SEM);
   return result.length === 0 ? true : false;
+}
+
+// ! November, 2021
+// ? 프론트 엔드만 삭제한다. 없으면 무시한다. 간단한 원리이다.
+export const newlyDeleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (action: any) => {
+  next(action);
+
+  if (action.type === WORDS_ACTION.NEWLY_DELETE_WORDS) {
+    const { deletingSem, wrns } = action.payload as { deletingSem: number; wrns: Wrn[] }
+    const { words }: State = getState()
+
+    // ! 1) Filtered wrns 
+    const removedWordChunk = words
+    .map(wordChunk => wordChunk.filter(word => !wrns.includes(word.wrn)))
+    .filter(wordChunk => wordChunk !== [])
+    dispatch(updateWords(removedWordChunk))
+
+    // ! 2) Delete semester, if required
+    if (removedWordChunk.findIndex(chunk => chunk[0].sem === deletingSem) !== 1) dispatch(deleteSem(deletingSem))
+
+  }
 }
 
 // ! Ocotober 20201 
@@ -83,14 +105,12 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
       console.log(data)
       
       const removedWordChunk = words
-        .map(wordChunk => wordChunk
-        .filter(word => data.findIndex(el => el.wrn === word.wrn) === -1))
+        .map(wordChunk => wordChunk.filter(word => data.findIndex(el => el.wrn === word.wrn) === -1))
         .filter(wordChunk => wordChunk !== [])
 
-      dispatch(updateWords(removedWordChunk))
+      console.log(removedWordChunk)
 
-      const sems = removedWordChunk.map(el => el[0].sem)
-      if (support.sems.length !== sems.length) dispatch(modifySupport({ sems }))
+      dispatch(updateWords(removedWordChunk))
 
       } // end of delete
   }
@@ -187,17 +207,16 @@ export const deleteWordsMdl = ({dispatch, getState} : any) => (next: any) => (ac
   next(action);
 
   if(action.type === DELETE_WORDS) {
-    const {sem, IDs}: {sem: number, IDs: {ID: string}[]} = action.payload;
+    const {sem, wrns}: {sem: number, wrns: {wrn: Wrn}[]} = action.payload;
     const {words, support}: State = getState();
-    const deletedWordCnt = support.deletedWordCnt + IDs.length;
+    const deletedWordCnt = support.deletedWordCnt + wrns.length;
 
-    dispatch(fetchy('delete', '/words', IDs));
-    const hasFound = (words as WordsChunk[]).find(datus => datus[0].sem === sem);
+    const hasFound = words.find(datus => datus[0].sem === sem);
     if (typeof hasFound !== "undefined") {
       const newChunk = hasFound.filter(word => {
-        const index = IDs.findIndex(datus => datus.ID === word._id);
+        const index = wrns.findIndex(datus => datus.wrn === word.wrn);
         if (index !== -1) {
-          IDs.splice(index, 1);
+          wrns.splice(index, 1);
           return false;
         }
         return true;
@@ -301,6 +320,7 @@ export const mixWordsMdl = ({dispatch, getState} : any) => (next: any) => (actio
 };
 
 export const wordsMdl = [
+  newlyDeleteWordsMdl,
   newlyEncryptWordsMdl,
   newlyModifyWordsMdl, 
   // Legacy below

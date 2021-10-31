@@ -37,10 +37,11 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 
   // ! 2) Handle Legacy
   const legacyIds = words
-  .filter(el => el.resoureAvailability === "NotVisible")
+  .filter(el => el.legacyId !== "")
   .map(word => extractLegacyId("word", word.wrn))
-
-  console.log(legacyIds)
+  .filter(data => data.isSuccess)
+  .map(data => data.legacyId)
+  
   await LegacyWordModel.deleteMany({ _id: { $all: legacyIds }})
   
   // Return

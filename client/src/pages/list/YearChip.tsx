@@ -5,7 +5,7 @@ import { languageCodeIntoUserFriendlyFormat } from '../../type/sharedWambda'
 import { State, WordsChunk, SpecialTag, Word } from '../../types'
 import { buttonLight, buttonDark } from '../../theme'
 import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType'
-import { convertWordsIntoLegacy } from '../../frontendWambda'
+import { convertWordsIntoLegacy } from '../../type/sharedWambda'
 // Library
 import { filteredSpecialTag, onlyBiggestThree } from '../../frontendWambda'
 // Translation

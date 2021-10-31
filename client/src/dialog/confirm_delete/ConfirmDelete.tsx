@@ -1,6 +1,7 @@
 import { FC, Fragment } from 'react'
 // Type
 import { LegacyPureWord } from '../../type/legacyType'
+import Wrn from '../../type/wrn'
 // Lambda
 import { throwEvent } from '../../frontendWambda'
 // MUI
@@ -19,8 +20,11 @@ import { newlyModifyWords } from '../../redux/actions/wordsAction'
 // Redux Action
 import { modifySupport } from '../../redux/actions/supportAction'
 import { offDialog, setSnackbar } from '../../redux/actions'
+import { deleteWords } from '../../redux/actions/wordsAction'
 import { useSelector } from 'react-redux'
 import { WordDeleteWordsInput } from '../../type/payloadType';
+
+// ! CURRENTLY ONLY DELETE ONE WORD ONLY... 
 
 const  ConfirmDelete: FC = () => {
   // States
@@ -33,9 +37,8 @@ const  ConfirmDelete: FC = () => {
 
     // ! 1) Delete front end
     store.dispatch(offDialog())
-    store.dispatch(newlyModifyWords({
-      type: "delete", data: deletingTargets
-    }))
+    const wrns: {wrn: Wrn}[] = [ {wrn: deletingTargets[0].wrn }]
+    store.dispatch(deleteWords(deletingTargets[0].sem, wrns));
 
     // ! 2) Request to the backend
     const input: WordDeleteWordsInput = { words: deletingTargets }
@@ -47,7 +50,7 @@ const  ConfirmDelete: FC = () => {
           type: "create", data: deletingTargets
         }))
         return
-       }
+      }
 
       // ! 3) Let user know it is successful
       store.dispatch(modifySupport({ searchingBegins: true }, true)) // ? Still do not understand wth this is lol ..

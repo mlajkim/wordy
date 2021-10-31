@@ -34,6 +34,7 @@ router.use(pathFinder(EVENT_TYPE), OTM.onlyToAdminMdl)
 router.use(pathFinder(EVENT_TYPE), OTM.connectToMongoDB)
 router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 
+// ! THIS ONLY WORKS FOR ENCRYPTED DATA ONLY>>>> 
 
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent
