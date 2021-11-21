@@ -85,7 +85,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
   }, [setImageLinks])
 
   const targetWord = highlighted ? support.highlightSearched ? highlighted : "" : ""
-
+  // Joins word and pronun, handles even when pronun does not exist.
   const wordAndPronun = `${word.word}${word.pronun ? ` [${word.pronun}]` : ""}`
 
   return (
@@ -98,10 +98,11 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
+          height="170"
           image={setImageLinks.length > 0 ? imageLinks[imageLinkIdx] : IMAGE_NOT_FOUND_PATH}
-          alt="green iguana"
+          alt={word.word}
         />
+      </CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             <Highlighter
@@ -110,7 +111,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
               searchWords={[targetWord]} autoEscape={true}
             />
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color={support.isDarkMode ? fontDark : fontLight}>
             <Highlighter
               textToHighlight={word.meaning ? word.meaning : ""} 
               highlightClassName="highlighted"
@@ -118,7 +119,6 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
             />
           </Typography>
         </CardContent>
-      </CardActionArea>
       <CardActions>
       <IconButton size="small" onClick={() => handleToolClick('like')} >
         {word.isFavorite
