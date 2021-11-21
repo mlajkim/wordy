@@ -1,4 +1,4 @@
-import { FC, useState, Fragment, useEffect } from 'react'
+import { FC, useState, useEffect } from 'react'
 // Type 
 import { LegacyPureWord } from '../../type/legacyType'
 import { State } from '../../types'
@@ -10,17 +10,16 @@ import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
 // Library
 import Highlighter from "react-highlight-words"
 // MUI
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea, CardActions, IconButton } from '@mui/material';
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Typography from '@mui/material/Typography'
+import { CardActionArea, CardActions, IconButton } from '@mui/material'
 // MUI Icons
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone'
 // Redux
 import store from '../../redux/store'
 // import store from '../../redux/store'
@@ -34,8 +33,7 @@ const IMAGE_NOT_FOUND_PATH = "/static/image_not_found.png"
 const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
   word, highlighted
 }) => {
-  const { support, language } = useSelector((state: State) => state)
-  const ln = language
+  const { support } = useSelector((state: State) => state)
 
   const [imageLinks, setImageLinks] = useState<string[]>([IMAGE_NOT_FOUND_PATH])
   const [imageLinkIdx, setImageLinkIdx] = useState<0>(0)
@@ -45,7 +43,6 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
     { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
-    { type: 'addImage', icon: <InsertPhotoIcon style={iconStyle} />, disabled: true }
   ];
 
   const handleToolClick = (type: WordActions) => {
