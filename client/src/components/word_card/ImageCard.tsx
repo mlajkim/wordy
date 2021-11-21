@@ -27,6 +27,7 @@ import { useSelector } from 'react-redux'
 // Redux Actions
 import { setDialog } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
+import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle'
 
 const IMAGE_NOT_FOUND_PATH = "/static/image_not_found.png"
 
@@ -36,6 +37,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
   const { support } = useSelector((state: State) => state)
 
   const [imageLinks, setImageLinks] = useState<string[]>([IMAGE_NOT_FOUND_PATH])
+  const [isLoading, setLoading] = useState<boolean>(true)
   const [imageLinkIdx, setImageLinkIdx] = useState<0>(0)
 
   // get_link
@@ -54,6 +56,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
       const { urls } = RE.payload as StaticGetStaticPayload
       setImageLinks(urls)
     })
+    .finally(() => setLoading(false))
 
   }, [word.wrn, word.imageWrns])
 
@@ -107,12 +110,16 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
       color: support.isDarkMode ? fontDark : fontLight
     }}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height="170"
-          image={imageLinks.length > 0 ? imageLinks[imageLinkIdx] : IMAGE_NOT_FOUND_PATH}
-          alt={word.word}
-        />
+        {
+          isLoading
+            ? <LoadingFbStyle />
+            : <CardMedia
+                component="img"
+                height="170"
+                image={imageLinks.length > 0 ? imageLinks[imageLinkIdx] : IMAGE_NOT_FOUND_PATH}
+                alt={word.word}
+              />
+        }
       </CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
