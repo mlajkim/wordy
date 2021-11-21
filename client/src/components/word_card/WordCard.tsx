@@ -41,6 +41,7 @@ import { useSelector } from 'react-redux'
 import { setDialog } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
 const isEncrypting = false
+export type WordActions = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart' | 'Photo'
 
 type Props = { word: LegacyPureWord, highlighted?: string };
 // @ MAIN
@@ -49,19 +50,20 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   const ln = language
   const [ open, setOpen ] = useState(false)
 
+  const iconStyle = { color: support.isDarkMode ? fontDark : fontLight }
   const tools = [
-  // the disabled button is only temporary and will be deleted.
-  { type: 'edit', icon: <EditIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>, disabled: false},
-  { type: 'delete', icon: <DeleteIcon style={{ color: support.isDarkMode ? fontDark : fontLight }} />, disabled: false},
-  { type: 'stat', icon: <StatIcon />, disabled: true},
-  { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
-];
+    // the disabled button is only temporary and will be deleted.
+    { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
+    { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
+    { type: 'stat', icon: <StatIcon />, disabled: true},
+    { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
+  ];
   
   // temporary
 
-  type Type = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart'
+  
 
-  const handleToolClick = (type: Type) => {
+  const handleToolClick = (type: WordActions) => {
     switch(type) {
       case 'like':
       const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
@@ -164,7 +166,7 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
         { open &&
           tools.map(tool => (
             // the disabled button is only temporary and will be deleted.
-            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type as Type)}>
+            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type as WordActions)}>
               {tool.icon}
             </IconButton>
           ))
