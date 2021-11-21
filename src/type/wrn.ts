@@ -4,7 +4,16 @@ type Wrn = `wrn:${FutureUsage}:${DataType}:${DataLocation}:${PublicId}:${Private
 // ==============
 // Future Usage
 // ==============
-export type DataType = `user:${UserWrn}` | `okr:${OkrWrn}` | `word:${WordWrn}` | `wp:${WordyPolicy}` | `backend_assigned_identity:${ServerAssignedId}`
+export type DataType = 
+  `static:${StaticWrn}` |
+  `user:${UserWrn}` | 
+  `okr:${OkrWrn}` | 
+  `word:${WordWrn}` | 
+  `wp:${WordyPolicy}` | 
+  `backend_assigned_identity:${ServerAssignedId}`
+
+type StaticWrn =
+  "image"
 
 type UserWrn =
   "end_user" |

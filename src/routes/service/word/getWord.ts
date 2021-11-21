@@ -67,10 +67,10 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   // Get the legacy word data
   const legacyWords = await LegacyWordModel.find({ ownerID: legacyMongoId, sem }) as LegacyPureWord[];
   const converted = legacyWords.map(foundWord => {
-    const { dateAdded, order, isFavorite, sem, language, tag, word, pronun, meaning, example, _id, ownerID } = foundWord;
+    const { dateAdded, order, isFavorite, sem, language, tag, word, pronun, meaning, example, _id, ownerID, imageWrns } = foundWord;
 
     return {
-      imageWrn: [], // legacy word does not have imageWnr
+      imageWrns,
       wrn: `wrn::word:${sem}:mdb:${_id}:`,
       isEncrypted: false,
       ownerWrn: RE.requesterWrn!,

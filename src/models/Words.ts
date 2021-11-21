@@ -6,6 +6,7 @@ const wordSchema = new Schema({
   ownerID: String, // who owns this?
   order: Number, // the order number
   dateAdded: Number, // 204 = 2020 year of 4th semester
+  imageWrns: Array,
   // Review System
   lastReviewed: Number,
   reviewdOn: Array, // contains like following .. [24, 15, 30, 24] => the last 24 will be the last Review Date's semester

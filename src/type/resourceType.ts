@@ -66,7 +66,7 @@ export type WordPure = WordPureEditable & {
 }
 
 export type WordPureEditable = WordPureBasic & {
-  imageWrn: Wrn[] // ! NEW, image Wrn
+  imageWrns: Wrn[] // ! NEW, image Wrn
   isFavorite: boolean
 }
 
