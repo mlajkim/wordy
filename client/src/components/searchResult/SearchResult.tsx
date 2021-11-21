@@ -27,6 +27,7 @@ import GoUpToTopPageIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // Components
 import EncryptedWordCard from '../word_card/WordCard'
+import ImageCard from '../word_card/ImageCard'
 import { WordGetWordInput, WordGetWordPayload } from '../../type/payloadType'
 
 const ADDING_MORE_WORDS_AMOUNT = 50;
@@ -185,8 +186,11 @@ const SearchResult: FC = () => {
         { matchingWord.slice(0, wordCardsMax)
         .sort((a, b) => b.order - a.order) // Second show by the order number
         .sort((a, b) => b.sem - a.sem) // First show the latest 
-        .map(word => <EncryptedWordCard word={word} key={word.wrn} highlighted={support.searchData} />)
-        }
+        .map(datus => {
+          return datus.imageWrns.length > 0
+            ? <ImageCard key={datus.wrn ? datus.wrn : datus._id} word={datus} highlighted={support.searchData}/>
+            : <EncryptedWordCard key={datus.wrn ? datus.wrn : datus._id} word={datus} highlighted={support.searchData}/>
+        })}
       </Grid>
       { wordCardsMax < matchingWord.length && RenderMoreButton }
       <Tooltip title={trYearChip.toTopOfPage[ln]} placement="bottom">

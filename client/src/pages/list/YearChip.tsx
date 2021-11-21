@@ -11,6 +11,7 @@ import { filteredSpecialTag, onlyBiggestThree } from '../../frontendWambda'
 // Translation
 import tr from './year_chip.tr.json'
 // Components
+import ImageCard from '../../components/word_card/ImageCard'
 import EncryptedWordCard from '../../components/word_card/WordCard'
 import ListSetting from './ListSetting'
 import WordList from '../../components/word_list/WordList'
@@ -114,7 +115,7 @@ const YearChip: FC = () => {
   };
 
   // Filtering Algorithm
-  const filterTargetWords = words.find((datus: WordsChunk) => datus[0].sem === selectedSem);
+  const filterTargetWords = words.find((datum: WordsChunk) => datum[0].sem === selectedSem);
   const filteredWordsList = typeof filterTargetWords !== "undefined" && filterTargetWords
       .filter(word => selectedSpecialTag === 'favorite' ? word.isFavorite : true)
       .filter(word => selectedSpecialTag === 'today' ? checkIfToday(word.dateAdded) : true)
@@ -245,7 +246,11 @@ const YearChip: FC = () => {
         : !filteredWordsList 
           ? <CircularProgress />
           : filteredWordsList.slice(0, wordCardsMax).map((datus, idx) => {
-                if (support.wordDisplayPref === 'wordcard') return <EncryptedWordCard key={datus.wrn ? datus.wrn : datus._id} word={datus} />
+                if (support.wordDisplayPref === 'wordcard') {
+                  return datus.imageWrns.length > 0
+                    ? <ImageCard key={datus.wrn ? datus.wrn : datus._id} word={datus} />
+                    : <EncryptedWordCard key={datus.wrn ? datus.wrn : datus._id} word={datus} />
+                }
                 else if (support.wordDisplayPref === 'list') return <WordList key={datus.wrn} word={datus} idx={idx + 1} />
                 else return null;
             })

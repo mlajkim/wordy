@@ -1,7 +1,3 @@
-/**
- * 
- * 오직 Encrpyted된 단어카드만 사진을 갖고있을 수 있음.
- */
 import { FC, useState, Fragment } from 'react'
 import Highlighter from "react-highlight-words"
 import './wc.css'
