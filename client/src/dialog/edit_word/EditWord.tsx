@@ -66,7 +66,7 @@ const EditDialog: FC = () => {
     // ! 2) Apply edited one and convert into latest word model
     const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
       // Below is NOT changed here.
-      imageWrn: editingTargetWord.imageWrn, sem: editingTargetWord.sem,
+      imageWrns: editingTargetWord.imageWrns, sem: editingTargetWord.sem,
       // Below is changed by ender user
       tag: tags, word: tword, pronun: tpronun, meaning: tmeaning, example: texample, 
       language: editLanguage, isFavorite: editingTargetWord.isFavorite

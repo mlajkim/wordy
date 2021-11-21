@@ -29,8 +29,8 @@ import Chip from '@material-ui/core/Chip'
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress'
 // Icons
-// import EncryptedIcon from '@mui/icons-material/Check' // used for encryption and decrpytion
-// import LockOpenIcon from '@mui/icons-material/LockOpen' // used for encryption and decrpytion
+// import EncryptedIcon from '@mui/icons-material/Check' // used for encryption and decryption
+// import LockOpenIcon from '@mui/icons-material/LockOpen' // used for encryption and decryption
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
@@ -72,7 +72,7 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
         // BELOW is only chnaged
         isFavorite: !word.isFavorite,
         // Below is NOT changed here.
-        imageWrn: word.imageWrn, sem: word.sem,
+        imageWrns: word.imageWrns, sem: word.sem,
         tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, 
         example: word.example, language: word.language,
       }, word)]
