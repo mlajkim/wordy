@@ -21,6 +21,19 @@ export type GeneralDeletionPayload = {
 }
 
 // ===============
+// Static service
+// ===============
+
+// static:GET_STATIC
+export type StaticGetStaticInput = {
+  objectWrn: Wrn
+  staticWrns: Wrn[]
+}
+export type StaticGetStaticPayload ={
+  urls: string[]
+}
+
+// ===============
 // User service
 // ===============
 

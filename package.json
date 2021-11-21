@@ -18,6 +18,7 @@
     "@material-ui/icons": "^4.11.2",
     "@paypal/checkout-server-sdk": "^1.0.2",
     "@types/moment": "^2.13.0",
+    "aws-sdk": "^2.1033.0",
     "axios": "^0.21.1",
     "bson": "^4.5.1",
     "chalk": "^4.1.2",

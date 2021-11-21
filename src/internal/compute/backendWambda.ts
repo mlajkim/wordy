@@ -2,8 +2,8 @@ import { Request } from 'express'
 // type
 import { WordyEvent } from '../../type/wordyEventType'
 import { Resource, PureResource } from '../../type/resourceType'
-import { AvailableWpWrn } from '../../type/availableType'
-import Wrn, { DataType } from '../../type/wrn'
+import { AvailableWpWrn, AssignedIdentity } from '../../type/availableType'
+import Wrn, { DataType, getPublicId } from '../../type/wrn'
 import { GeneralDeletionPayload } from '../../type/payloadType'
 import { validateWrn, extractLegacyId } from '../../type/sharedWambda'
 // Model
@@ -22,6 +22,30 @@ import { kmsService } from '../security/kms'
 import { wpService } from '../security/wp'
 // Declaare
 const LOGIN_TOKEN_EXPIRES_IN_DAYS = 5;
+
+
+//
+export const buildS3Url = (
+  ownerWrn: Wrn | AssignedIdentity, objectWrn: Wrn, staticWrn: Wrn, IS_DEV: boolean
+): {
+  bucketName: string, keyName: string
+} => {
+  // key
+  // image/dev/dev_ADMIN_AJ_KIM_google116355363420877047854/dev_214/dev_wrn::word:214:mdb:6199a2bdfdf24514d1bbfe61:/dev_wrn::static:image:tokyo-s3::gii4rhdufnsfsddfusfnsifsdjd.jpeg
+
+  const image = "image"
+  const devOrProd = IS_DEV ? "dev" : "prod"
+  const prefix = IS_DEV ? "dev_" : "prod_"
+  const ownerPath = `${prefix}ADMIN_AJ_KIM_google${getPublicId(ownerWrn)}`
+  const sem = `${prefix}214`
+  const belongingWrn = `${prefix}${objectWrn}`
+  const EXTENSION = 'jpeg'
+
+  return {
+    keyName: `${image}/${devOrProd}/${ownerPath}/${sem}/${belongingWrn}/${staticWrn}.${EXTENSION}`,
+    bucketName: "wordy-cloud"
+  }
+}
 
 
 // This function below is tested and verified on May 8, 2021
@@ -209,6 +233,5 @@ export const generateJwt = (data: any) => {
 
   return signedJwt;
 };
-
 
 

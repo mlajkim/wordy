@@ -50,4 +50,11 @@ type PublicId = string
   | "sample-data" // sample data is used for sample data for new user!
 type PrivateId = string
 
+
+export const getDataGroup = (wrn: Wrn) => wrn.split(":")[2]
+export const getSubGroup = (wrn: Wrn) => wrn.split(":")[3]
+export const getLocation = (wrn: Wrn) => wrn.split(":")[4]
+export const getPublicId = (wrn: Wrn) => wrn.split(":")[5]
+export const getPrivateId = (wrn: Wrn) => wrn.split(":")[6]
+
 export default Wrn

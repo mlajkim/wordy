@@ -4,7 +4,7 @@ import { LegacyPureWord } from '../../type/legacyType'
 import { State } from '../../types'
 import { WordActions } from './WordCard'
 import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme'
-import { WordEditWordsInput } from '../../type/payloadType'
+import { StaticGetStaticInput, StaticGetStaticPayload, WordEditWordsInput } from '../../type/payloadType'
 // Lambda
 import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
 // Library
@@ -37,6 +37,25 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
 
   const [imageLinks, setImageLinks] = useState<string[]>([IMAGE_NOT_FOUND_PATH])
   const [imageLinkIdx, setImageLinkIdx] = useState<0>(0)
+
+  // get_link
+  useEffect(() => {
+    if (word.imageWrns.length === 0) return
+
+    // currently only accept one image per word
+    const requesterInput: StaticGetStaticInput = {
+      objectWrn: word.wrn,
+      staticWrns: word.imageWrns
+    }
+    throwEvent("static:getStatic", requesterInput)
+    .then(RE => {
+      if (RE.serverResponse !== "Accepted") return
+
+      const { urls } = RE.payload as StaticGetStaticPayload
+      setImageLinks(urls)
+    })
+
+  }, [word.wrn, word.imageWrns])
 
   const iconStyle = { color: support.isDarkMode ? fontDark : fontLight }
   const tools = [
@@ -76,14 +95,6 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
     }
   };
 
-  // get_link
-  useEffect(() => {
-    if (word.imageWrns.length === 0) {
-    }
-    // currently only accept one image per word
-
-  }, [setImageLinks])
-
   const targetWord = highlighted ? support.highlightSearched ? highlighted : "" : ""
   // Joins word and pronun, handles even when pronun does not exist.
   const wordAndPronun = `${word.word}${word.pronun ? ` [${word.pronun}]` : ""}`
@@ -99,7 +110,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
         <CardMedia
           component="img"
           height="170"
-          image={setImageLinks.length > 0 ? imageLinks[imageLinkIdx] : IMAGE_NOT_FOUND_PATH}
+          image={imageLinks.length > 0 ? imageLinks[imageLinkIdx] : IMAGE_NOT_FOUND_PATH}
           alt={word.word}
         />
       </CardActionArea>
