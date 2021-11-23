@@ -39,10 +39,10 @@ export const buildS3Url = (
   const ownerPath = `${prefix}ADMIN_AJ_KIM_google${getPublicId(ownerWrn)}`
   const sem = `${prefix}214`
   const belongingWrn = `${prefix}${objectWrn}`
-  const EXTENSION = 'jpeg'
+  // const EXTENSION = 'jpeg'
 
   return {
-    keyName: `${image}/${devOrProd}/${ownerPath}/${sem}/${belongingWrn}/${staticWrn}.${EXTENSION}`,
+    keyName: `${image}/${devOrProd}/${ownerPath}/${sem}/${belongingWrn}/${staticWrn}`,
     bucketName: "wordy-cloud"
   }
 }

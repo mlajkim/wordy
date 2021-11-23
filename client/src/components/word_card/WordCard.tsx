@@ -56,7 +56,7 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   const tools = [
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
-    { type: 'uploadPhoto', icon: <ImageUpload iconStyle={iconStyle}/>, disabled: false },
+    { type: 'uploadPhoto', icon: <ImageUpload iconStyle={iconStyle} word={word}/>, disabled: false },
     { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
     { type: 'stat', icon: <StatIcon />, disabled: true},
     { type: 'reviewStart', icon: <StartReviewIcon />, disabled: true}

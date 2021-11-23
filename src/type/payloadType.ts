@@ -30,14 +30,18 @@ export type StaticAskPermissionForPostStaticInput = {
   totalFileSize: number
   numberOfFiles: number
 }
-
-export type StaticPostStaticInput = StaticAskPermissionForPostStaticInput & {
-  fileData: string[]
-}
-
 export type StaticAskPermissionForPostStaticPayload = {
   unauthorized: boolean
   error_code: PostStaticErrorCode
+}
+
+// static:POST_STATIC
+export type StaticPostStaticInput = StaticAskPermissionForPostStaticInput & {
+  objectWrn: Wrn
+  fileData: string[]
+}
+export type StaticPostStaticPayload = {
+  addedStaticWrns: Wrn[]
 }
 
 // static:GET_STATIC

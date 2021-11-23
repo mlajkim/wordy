@@ -1,18 +1,27 @@
 import { FC, useState, Fragment } from 'react'
 // Type
-import { StaticAskPermissionForPostStaticInput, StaticPostStaticInput } from '../../type/payloadType';
+import { StaticAskPermissionForPostStaticInput, StaticPostStaticInput, StaticPostStaticPayload } from '../../type/payloadType';
+import { LegacyPureWord } from '../../type/legacyType'
+import { ResourceId, WordPure } from '../../type/resourceType'
+// Lambda
+import { convertLegacyWordIntoPureWord } from '../../frontendWambda'
 // Library
 import ImageUploading, { ImageListType } from 'react-images-uploading'
 // MUI Icon
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { throwEvent } from '../../frontendWambda';
 import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle';
+// Redux
+import store from '../../redux/store'
+import { useSelector } from 'react-redux'
+// Redux Actions
+import { newlyModifyWords } from '../../redux/actions/wordsAction'
 
 const UPLOADING_ONCE_MAX_NUM = 1
 type ImageUploadProps = {
-  iconStyle: any
+  iconStyle: any, word: LegacyPureWord
 }
-const ImageUpload: FC<ImageUploadProps> = ({ iconStyle }) => {
+const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
     const [images, setImages] = useState<ImageListType>([])
     const [isLoading, setLoading] = useState(false)
 
@@ -31,16 +40,27 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle }) => {
 
       const postStaticInput: StaticPostStaticInput = {
         ...askPermissionForPostStaticInput,
-        // Put data 
+        // Put data
+        objectWrn: word.wrn, 
         fileData: imageList.map(image => image.dataURL ? image.dataURL : "").filter(data => data !== "")
       }
       throwEvent("static:postStatic", postStaticInput, setLoading)
       .then(RE => {
         if (RE.serverResponse !== "Accepted") return
-        
-      })
 
-      
+        const { addedStaticWrns } = RE.payload as StaticPostStaticPayload
+        convertLegacyWordIntoPureWord({
+          // Below is changed here.
+          imageWrns: [...word.imageWrns, ...addedStaticWrns], sem: word.sem,
+          // Below is NOT changed
+          tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, example: word.example, 
+          language: word.language, isFavorite: word.isFavorite
+        }, word)
+
+        store.dispatch(newlyModifyWords({
+          type: "update", data: RE.payload as (ResourceId & WordPure)[]
+        })) 
+      })
     };
     
 

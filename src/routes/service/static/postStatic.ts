@@ -6,11 +6,11 @@ import express, { Request, Response } from 'express'
 import Wrn from '../../../type/wrn'
 import { IS_DEV_MODE } from '../../../server'
 import { pathFinder, WordyEvent, EventType } from '../../../type/wordyEventType'
-import { StaticGetStaticInput, StaticGetStaticPayload, StaticPostStaticInput } from '../../../type/payloadType'
+import { StaticPostStaticPayload, StaticPostStaticInput } from '../../../type/payloadType'
 import { PostStaticErrorCode } from '../../../type/errorCode'
 import { StaticAskPermissionForPostStaticInput } from '../../../type/payloadType'
 // Lambda
-import { buildS3Url } from '../../../internal/compute/backendWambda'
+import { buildS3Url, generatedWrn } from '../../../internal/compute/backendWambda'
 // Library
 import AWS from 'aws-sdk'
 import dotenv from 'dotenv';
@@ -26,6 +26,45 @@ export const POST_STATIC_OTM_TYPE: OTM.OTM_TYPE = "ONLY_TO_ADMIN"
 
 const MAX_FILE_SIZE_MB = 5 * 1024 * 1024
 const MAX_FILE_NUMBERS = 1
+const MAX_FILE_NUMBERS_PER_WORD_DATA = 1
+
+router.use(pathFinder(EVENT_TYPE), OTM.returnOtmWithOtmType(POST_STATIC_OTM_TYPE))
+router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
+router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
+  const RE = req.body as WordyEvent
+  const { objectWrn, fileData } = RE.requesterInputData as StaticPostStaticInput
+  const ownerWrn = RE.requesterWrn as Wrn
+  const addedStaticWrns: Wrn[] = []
+
+  // AWS
+  const s3 = new AWS.S3({
+    accessKeyId: process.env["AWS_SDK_ID"],
+    secretAccessKey: process.env["AWS_SDK_SECRET"]
+  })
+
+  for (const datum of fileData) {
+    const staticDataWrn: Wrn = generatedWrn(`wrn::static:image:tokyo-s3::`);
+    const { bucketName, keyName } = buildS3Url(ownerWrn, objectWrn, staticDataWrn, IS_DEV_MODE)
+
+    try {
+      const hi = s3.upload({
+        Bucket: bucketName,
+        Key: keyName, // File name you want to save as in S3
+        Body: datum
+      })
+      addedStaticWrns.push(staticDataWrn)
+      console.log(hi)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+  RE.payload = { addedStaticWrns } as StaticPostStaticPayload
+  const sending = ctGateway(RE, "Accepted")
+  return res.status(sending.status!).send(sending)
+
+})
 
 export const uploadedFileValidation = (userInput: StaticAskPermissionForPostStaticInput): {
   unauthorized: boolean, postStaticErrorCode: PostStaticErrorCode
@@ -47,20 +86,5 @@ export const uploadedFileValidation = (userInput: StaticAskPermissionForPostStat
 
   return { unauthorized: false, postStaticErrorCode: "no_error" }
 }
-
-router.use(pathFinder(EVENT_TYPE), OTM.returnOtmWithOtmType(POST_STATIC_OTM_TYPE))
-router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
-
-router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
-  const RE = req.body as WordyEvent
-  const { fileData } = RE.requesterInputData as StaticPostStaticInput
-  const ownerWrn = RE.requesterWrn as Wrn
-
-  //
-
-  const sending = ctGateway(RE, "Accepted")
-  return res.status(sending.status!).send(sending)
-
-})
 
 export default router

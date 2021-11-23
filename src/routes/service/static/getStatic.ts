@@ -43,19 +43,13 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const urls = []
 
   // AWS
-  
-  const accessKeyId = process.env["AWS_SDK_ID"];
-  const accessKeySecret= process.env["AWS_SDK_SECRET"];
-
   const credentials = {
-    accessKeyId: accessKeyId,
-    secretAccessKey: accessKeySecret,
+    accessKeyId: process.env["AWS_SDK_ID"],
+    secretAccessKey: process.env["AWS_SDK_SECRET"],
     region: 'ap-northeast-1'
   }
-
   const s3 = new AWS.S3(credentials)
 
-  AWS.config.update({ accessKeyId, secretAccessKey: accessKeySecret })
   const signedUrlExpireSeconds = 60
 
   for (const staticWrn of staticWrns) {
