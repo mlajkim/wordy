@@ -240,7 +240,12 @@ const YearChip: FC = () => {
             </Fragment>
         }
       </Grid>
-      <Grid style={{ margin: 8 }}>
+      <Grid style={{ margin: 8 }}
+        container
+        direction="column"    
+        justifyContent="center"
+        alignItems="center"
+      >
         {selectedSem === 0
         ? <h3>{tr.chooseSem[ln]}</h3>
         : !filteredWordsList 

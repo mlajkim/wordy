@@ -104,7 +104,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
 
   return (
     <Card sx={{ 
-      maxWidth: 345,
+      minWidth: 345,
       marginBottom: 1, 
       background: support.isDarkMode ? wordCardDark : wordCardLight, 
       color: support.isDarkMode ? fontDark : fontLight
