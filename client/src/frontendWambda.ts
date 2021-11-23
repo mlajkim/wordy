@@ -6,6 +6,7 @@ import { WordsChunk, Word, SpecialTag, GoogleRes } from './types'
 import { AddableLanguage } from './type/generalType'
 import { convertLegacyWordIntoPureWord as CLWIPW } from './type/sharedWambda'
 // Library
+import { Dispatch, SetStateAction } from 'react'
 import cookies from 'js-cookie'
 import axios from 'axios'
 import moment from 'moment'
@@ -17,9 +18,15 @@ import { setSnackbar } from './redux/actions'
 
 
 // event Thrower
-export const throwEvent = async (eventType: EventType, requesterInputData?: any, tempAccessToken?: string) => {
+export const throwEvent = async (
+    eventType: EventType, 
+    requesterInputData?: any, 
+    setLoading?: Dispatch<SetStateAction<boolean>>,
+    tempAccessToken?: string, 
+  ) => {
   // Prepare for a new event
   // even if bad user modfies requesterWrn, it will be still validated forward, andtherefore it is okay.
+  if (setLoading) setLoading(true)
   const newEvent: WordyEvent = {
     eventVersion: "1.0.210731",
     eventType,
@@ -50,7 +57,10 @@ export const throwEvent = async (eventType: EventType, requesterInputData?: any,
     newEvent.serverResponse = "Denied";
     
     return newEvent;
-  });
+  })
+  .finally(() => {
+    if (setLoading) setLoading(false)
+  })
 
   return returningEvent;
 }; // end of throwEvent

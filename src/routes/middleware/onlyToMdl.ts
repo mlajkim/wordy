@@ -13,7 +13,7 @@ export type OTM_TYPE = "ONLY_TO_ADMIN"
 
 export const returnOtmWithOtmType = (type: OTM_TYPE) => {
   if (type === "ONLY_TO_ADMIN") return onlyToAdminMdl
-  else return onlyToAdminMdl
+  else return DISABLED_EVENT_MDL
 }
 
 export const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => {

@@ -30,6 +30,11 @@ export type StaticAskPermissionForPostStaticInput = {
   totalFileSize: number
   numberOfFiles: number
 }
+
+export type StaticPostStaticInput = StaticAskPermissionForPostStaticInput & {
+  fileData: string[]
+}
+
 export type StaticAskPermissionForPostStaticPayload = {
   unauthorized: boolean
   error_code: PostStaticErrorCode

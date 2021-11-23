@@ -20,7 +20,7 @@ router.use(pathFinder(EVENT_TYPE), OTM.addValidatedByThisService)
 router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const RE = req.body as WordyEvent
 
-  const { unauthorized, postStaticErrorCode } = postStatic.uploadedFileValidation(RE.payload as StaticAskPermissionForPostStaticInput)
+  const { unauthorized, postStaticErrorCode } = postStatic.uploadedFileValidation(RE.requesterInputData as StaticAskPermissionForPostStaticInput)
   RE.payload = { unauthorized, error_code: postStaticErrorCode } as StaticAskPermissionForPostStaticPayload
   
   if (unauthorized) {

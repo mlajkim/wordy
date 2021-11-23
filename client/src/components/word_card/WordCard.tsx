@@ -64,8 +64,6 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   
   // temporary
 
-  
-
   const handleToolClick = (type: WordActions) => {
     switch(type) {
       case 'like':

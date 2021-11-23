@@ -44,13 +44,13 @@ const Okr: React.FC = () => {
     };
 
     const callAsyncFunction = async () => {
-      const RE = await throwEvent("okr:getMyOkr", pathData, pathData.tempAccessToken) as WordyEvent;
+      const RE = await throwEvent("okr:getMyOkr", pathData, undefined, pathData.tempAccessToken) as WordyEvent;
       if (RE.serverResponse === "Accepted") {
         const okrData = RE.payload as OkrGetMyOkrPayload;
         setOkrData(okrData);
         // get the events 
         const userInput: OkrGetOkrContainerInput = { containerWrn: okrData.whichOneDownloadFirst };
-        const returnedGetOkrContainerEvent = await throwEvent("okr:getOkrContainer", userInput, pathData.tempAccessToken);
+        const returnedGetOkrContainerEvent = await throwEvent("okr:getOkrContainer", userInput, undefined, pathData.tempAccessToken);
 
         if (returnedGetOkrContainerEvent) {
           const { foundContainerData } = returnedGetOkrContainerEvent.payload as OkrGetOkrContainerPayload;
