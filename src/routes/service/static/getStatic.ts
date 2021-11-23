@@ -22,8 +22,8 @@ import { StaticGetStaticInput, StaticGetStaticPayload } from '../../../type/payl
 // Lambda
 import { buildS3Url } from '../../../internal/compute/backendWambda'
 // Library
-const AWS = require('aws-sdk')
-import dotenv from 'dotenv';
+import AWS from 'aws-sdk'
+import dotenv from 'dotenv'
 // mdl
 import * as OTM from '../../middleware/onlyToMdl'
 // Gateway
