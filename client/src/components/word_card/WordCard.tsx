@@ -15,7 +15,7 @@ import { WordEditWordsInput } from '../../type/payloadType'
 // Lambda
 import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
 // Component
-import ImageUpload from '../image_upload/ImageUpload'
+import ImageUploadIcon from '../image_upload/ImageUploadIcon'
 // MUI
 // import Tooltip from '@mui/material/Tooltip' // used for encryption and decrpytion
 import Card from '@material-ui/core/Card'
@@ -56,7 +56,7 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   const tools = [
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
-    { type: 'uploadPhoto', icon: <ImageUpload iconStyle={iconStyle} word={word}/>, disabled: false },
+    { type: 'uploadPhoto', icon: <ImageUploadIcon iconStyle={iconStyle} word={word}/>, disabled: false },
     { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
     { type: 'stat', icon: <StatIcon />, disabled: true},
     { type: 'reviewStart', icon: <StartReviewIcon />, disabled: true}
