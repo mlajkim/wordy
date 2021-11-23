@@ -5,7 +5,8 @@
 // Type
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
   OkrContainerPure, WordPure, WordPureBasic
-} from '../type/resourceType'
+} from './resourceType'
+import { PostStaticErrorCode } from './errorCode'
 import { LegacyPureWord } from '../type/legacyType'
 import { 
   AvailableWpWrn,
@@ -23,6 +24,16 @@ export type GeneralDeletionPayload = {
 // ===============
 // Static service
 // ===============
+
+// static:ASK_PERMISSION_FOR_POST_STATIC
+export type StaticAskPermissionForPostStaticInput = {
+  totalFileSize: number
+  numberOfFiles: number
+}
+export type StaticAskPermissionForPostStaticPayload = {
+  unauthorized: boolean
+  error_code: PostStaticErrorCode
+}
 
 // static:GET_STATIC
 export type StaticGetStaticInput = {

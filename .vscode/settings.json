@@ -14,4 +14,8 @@
         "editor.insertSpaces": true,
         "editor.tabSize": 2
     },
+    "[Typescript React]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
 }

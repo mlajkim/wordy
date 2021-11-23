@@ -29,7 +29,9 @@ export type EventType =  `static:${StaticService}` | `word:${WordSerivce}` | `ok
   | `wp:${WpService}` | `wss:${Wss}`;
 
 type StaticService = 
-  "getStatic"
+  "postStatic" |
+  "getStatic" |
+  "askPermissionForPostStatic"
 
 type Wss = // Wordy Signin Service
   "signOut"

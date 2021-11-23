@@ -14,6 +14,8 @@ import { WordEditWordsInput } from '../../type/payloadType'
 // import { WordsEncryptWordsInput, WordsEncryptWordsPayload } from '../../type/payloadType'
 // Lambda
 import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
+// Component
+import ImageUpload from '../image_upload/ImageUpload'
 // MUI
 // import Tooltip from '@mui/material/Tooltip' // used for encryption and decrpytion
 import Card from '@material-ui/core/Card'
@@ -33,7 +35,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import StatIcon from '@material-ui/icons/Equalizer'
-import StarReviewIocn from '@material-ui/icons/PlayArrow'
+import StartReviewIcon from '@material-ui/icons/PlayArrow'
 // Redux
 import store from '../../redux/store'
 import { useSelector } from 'react-redux'
@@ -41,7 +43,7 @@ import { useSelector } from 'react-redux'
 import { setDialog } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
 const isEncrypting = false
-export type WordActions = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart' | 'Photo'
+export type WordActions = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart' | 'uploadPhoto'
 
 type Props = { word: LegacyPureWord, highlighted?: string };
 // @ MAIN
@@ -54,9 +56,10 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   const tools = [
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
+    { type: 'uploadPhoto', icon: <ImageUpload iconStyle={iconStyle}/>, disabled: false },
     { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
     { type: 'stat', icon: <StatIcon />, disabled: true},
-    { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
+    { type: 'reviewStart', icon: <StartReviewIcon />, disabled: true}
   ];
   
   // temporary
