@@ -47,15 +47,14 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   for (const datum of fileData) {
     const staticDataWrn: Wrn = generatedWrn(`wrn::static:image:tokyo-s3::`);
     const { bucketName, keyName } = buildS3Url(ownerWrn, objectWrn, staticDataWrn, IS_DEV_MODE)
-    console.log(keyName)
 
     try {
-      const stored = await s3.upload({
+      await s3.upload({
         Bucket: bucketName,
         Key: keyName, // File name you want to save as in S3
         Body: datum
       }).promise()
-      console.log(stored)
+      addedStaticWrns.push(staticDataWrn)
     }
     catch (err) {
       console.log(err)
@@ -63,10 +62,9 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   }
 
   // Edit
-  
-  const editedWord = { ...word, imageWrns: [...word.imageWrns, ...addedStaticWrns ]}
-  console.log(editedWord)
-  await legacyWordModel.findOneAndUpdate({ _id: word.legacyId  }, editedWord, {useFindAndModify: false})
+  await legacyWordModel.findOneAndUpdate({ _id: word.legacyId  }, {
+    imageWrns: [...word.imageWrns, ...addedStaticWrns ]
+  }, {useFindAndModify: false})
 
   RE.payload = { addedStaticWrns } as StaticPostStaticPayload
   const sending = ctGateway(RE, "Accepted")
