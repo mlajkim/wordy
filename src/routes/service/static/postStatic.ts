@@ -49,15 +49,24 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     const { bucketName, keyName } = buildS3Url(ownerWrn, objectWrn, staticDataWrn, IS_DEV_MODE)
 
     try {
+      // const buf = Buffer.from(datum.replace(/^data:image\/\w+;base64,/, ""),'base64')
+      var data = {
+        Key: keyName,
+        Body: datum.replace(/^data:image\/\w+;base64,/, ""),
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpeg'
+      };
       await s3.upload({
         Bucket: bucketName,
         Key: keyName, // File name you want to save as in S3
-        Body: datum
+        Body: data,
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpeg'
       }).promise()
       addedStaticWrns.push(staticDataWrn)
     }
     catch (err) {
-      console.log(err)
+      console.log(`Error From AWS:: (Written by AJ Kim) ${err}`)
     }  
   }
 
@@ -75,7 +84,6 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
 export const uploadedFileValidation = (userInput: StaticAskPermissionForPostStaticInput): {
   unauthorized: boolean, postStaticErrorCode: PostStaticErrorCode
 } => {
-  console.log(userInput)
   const { totalFileSize, numberOfFiles } = userInput
 
   if (numberOfFiles === 0 || totalFileSize === 0) return {
