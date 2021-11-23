@@ -38,6 +38,7 @@ export type StaticAskPermissionForPostStaticPayload = {
 // static:POST_STATIC
 export type StaticPostStaticInput = StaticAskPermissionForPostStaticInput & {
   objectWrn: Wrn
+  word: ResourceId & WordPure
   fileData: string[]
 }
 export type StaticPostStaticPayload = {

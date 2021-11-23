@@ -2,9 +2,8 @@ import { FC, useState, Fragment } from 'react'
 // Type
 import { StaticAskPermissionForPostStaticInput, StaticPostStaticInput, StaticPostStaticPayload } from '../../type/payloadType';
 import { LegacyPureWord } from '../../type/legacyType'
-import { ResourceId, WordPure } from '../../type/resourceType'
 // Lambda
-import { convertLegacyWordIntoPureWord } from '../../frontendWambda'
+import { convertLegacyWordIntoPureWord } from '../../type/sharedWambda'
 // Library
 import ImageUploading, { ImageListType } from 'react-images-uploading'
 // MUI Icon
@@ -13,7 +12,6 @@ import { throwEvent } from '../../frontendWambda';
 import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle';
 // Redux
 import store from '../../redux/store'
-import { useSelector } from 'react-redux'
 // Redux Actions
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
 
@@ -41,15 +39,16 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
       const postStaticInput: StaticPostStaticInput = {
         ...askPermissionForPostStaticInput,
         // Put data
-        objectWrn: word.wrn, 
-        fileData: imageList.map(image => image.dataURL ? image.dataURL : "").filter(data => data !== "")
+        objectWrn: word.wrn,
+        word: word, 
+        fileData: imageList.map(image => image.data_url ? image.data_url : "").filter(data => data !== "")
       }
       throwEvent("static:postStatic", postStaticInput, setLoading)
       .then(RE => {
         if (RE.serverResponse !== "Accepted") return
 
         const { addedStaticWrns } = RE.payload as StaticPostStaticPayload
-        convertLegacyWordIntoPureWord({
+        const converted = convertLegacyWordIntoPureWord({
           // Below is changed here.
           imageWrns: [...word.imageWrns, ...addedStaticWrns], sem: word.sem,
           // Below is NOT changed
@@ -58,7 +57,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
         }, word)
 
         store.dispatch(newlyModifyWords({
-          type: "update", data: RE.payload as (ResourceId & WordPure)[]
+          type: "update", data: [converted]
         })) 
       })
     };

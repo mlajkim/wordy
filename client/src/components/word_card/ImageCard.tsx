@@ -38,7 +38,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
 
   const [imageLinks, setImageLinks] = useState<string[]>([IMAGE_NOT_FOUND_PATH])
   const [isLoading, setLoading] = useState<boolean>(true)
-  const [imageLinkIdx, setImageLinkIdx] = useState<0>(0)
+  const imageLinkIdx = 0 
 
   // get_link
   useEffect(() => {
