@@ -108,8 +108,6 @@ export const newlyModifyWordsMdl = ({dispatch, getState} : any) => (next: any) =
         .map(wordChunk => wordChunk.filter(word => data.findIndex(el => el.wrn === word.wrn) === -1))
         .filter(wordChunk => wordChunk !== [])
 
-      console.log(removedWordChunk)
-
       dispatch(updateWords(removedWordChunk))
 
       } // end of delete
@@ -164,7 +162,7 @@ export const postWordsMdl  = ({dispatch, getState} : any) => (next: any) => (act
       newWordCnt += 1;
       return {
         ...word, ownerID: user.ID, isFavorite: false, order: newWordCnt, language: support.addWordLangPref,
-        lastReviewed: word.dateAdded, reviewdOn: [], step: 5 //5 for myself and eventually 1 later.
+        lastReviewed: word.dateAdded, reviewdOn: [], step: 5, //5 for myself and eventually 1 later.
       } as Word
     });
 
@@ -236,7 +234,12 @@ export const savingHelperMdl = ({dispatch, getState} : any) => (next: any) => (a
   next(action);
 
   if(action.type === SAVING_HELPER) {
-    const newWords: WordsChunk = action.payload; // payload first
+    const gotWords: WordsChunk = action.payload; // payload first
+    const newWords: WordsChunk = gotWords.map(word => {
+      return {
+        ...word, wrn: `wrn::word:${word.sem}:mdb:${word._id}:`
+      }
+    })
     const {words: prevWords, support}: State = getState(); // global states next
     const semOfNewWords = newWords[0].sem;
     const sems = support.sems;
