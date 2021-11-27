@@ -23,18 +23,15 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
     const [images, setImages] = useState<ImageListType>([])
     const [isLoading, setLoading] = useState(false)
 
-    const onChange = (imageList: ImageListType) => {
+    const onChange = async (imageList: ImageListType) => {
       const askPermissionForPostStaticInput: StaticAskPermissionForPostStaticInput = {
         totalFileSize: imageList.reduce((total, image) => total + (image.file ? image.file.size : 0), 0),
         numberOfFiles: imageList.length
       }
 
-      throwEvent("static:askPermissionForPostStatic", askPermissionForPostStaticInput, setLoading)
-        .then(RE => {
-          if (RE.serverResponse !== "Accepted") return;
-            console.log(imageList)
-            setImages(imageList);
-        })
+      const res = await throwEvent("static:askPermissionForPostStatic", askPermissionForPostStaticInput, setLoading)
+      if (!res) return
+      if (res.serverResponse !== "Accepted") return
 
       const postStaticInput: StaticPostStaticInput = {
         ...askPermissionForPostStaticInput,
