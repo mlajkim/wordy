@@ -64,7 +64,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
   const tools = [
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
-    { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
+    { type: 'delete', icon: <DeleteIcon />, disabled: true },
   ];
 
   const handleToolClick = (type: WordActions) => {

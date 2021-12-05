@@ -44,11 +44,15 @@ const  ConfirmDelete: FC = () => {
     const input: WordDeleteWordsInput = { words: deletingTargets }
     throwEvent("word:deleteWords", input)
     .then(HE => {
-      if (HE.serverResponse !== "Accepted") { 
+      if (HE.serverResponse !== "Accepted") {
         // ! 2-F) Rollback, if fail
         store.dispatch(newlyModifyWords({
           type: "create", data: deletingTargets
         }))
+
+        const SERVER_MESSAGE = HE.serverMessage ? HE.serverMessage : ""
+        store.dispatch(setSnackbar(SERVER_MESSAGE, 'warning'))
+
         return
       }
 
