@@ -43,7 +43,7 @@ import { useSelector } from 'react-redux'
 import { setDialog } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
 const isEncrypting = false
-export type WordActions = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart' | 'uploadPhoto'
+export type WordActions = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart' | 'uploadPhoto' | 'deleteImage'
 
 type Props = { word: LegacyPureWord, highlighted?: string };
 // @ MAIN

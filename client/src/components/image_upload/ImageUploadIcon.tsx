@@ -20,7 +20,6 @@ type ImageUploadProps = {
   iconStyle: any, word: LegacyPureWord
 }
 const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
-    const [images, setImages] = useState<ImageListType>([])
     const [isLoading, setLoading] = useState(false)
 
     const onChange = async (imageList: ImageListType) => {
@@ -37,7 +36,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
         ...askPermissionForPostStaticInput,
         // Put data
         objectWrn: word.wrn,
-        word: word, 
+        word: word,
         fileData: imageList.map(image => image.data_url ? image.data_url : "").filter(data => data !== "")
       }
       throwEvent("static:postStatic", postStaticInput, setLoading)
@@ -49,22 +48,22 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
           // Below is changed here.
           imageWrns: [...word.imageWrns, ...addedStaticWrns], sem: word.sem,
           // Below is NOT changed
-          tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, example: word.example, 
+          tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, example: word.example,
           language: word.language, isFavorite: word.isFavorite
         }, word)
 
         store.dispatch(newlyModifyWords({
           type: "update", data: [converted]
-        })) 
+        }))
       })
     };
-    
+
 
     return (
       <Fragment>
         <ImageUploading
           multiple
-          value={images}
+          value={[]}
           onChange={onChange}
           maxNumber={UPLOADING_ONCE_MAX_NUM}
           dataURLKey="data_url"
@@ -82,7 +81,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ iconStyle, word }) => {
             <div className="upload__image-wrapper">
               {isLoading
                 ? <LoadingFbStyle />
-                : <InsertPhotoIcon 
+                : <InsertPhotoIcon
                     style={isDragging ? { color: 'red' } : {...iconStyle, size: "small", paddingTop: 5}}
                     onClick={onImageUpload}
                     {...dragProps}

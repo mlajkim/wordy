@@ -1,10 +1,10 @@
 import { FC, useState, useEffect } from 'react'
-// Type 
+// Type
 import { LegacyPureWord } from '../../type/legacyType'
 import { State } from '../../types'
 import { WordActions } from './WordCard'
 import { fontDark, fontLight, wordCardDark, wordCardLight } from '../../theme'
-import { StaticGetStaticInput, StaticGetStaticPayload, WordEditWordsInput } from '../../type/payloadType'
+import { StaticDeleteStaticInput, StaticGetStaticInput, StaticGetStaticPayload, WordEditWordsInput } from '../../type/payloadType'
 // Lambda
 import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
 // Library
@@ -20,12 +20,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone'
+import DeleteImageIcon from '@mui/icons-material/HideImage';
 // Redux
 import store from '../../redux/store'
 // import store from '../../redux/store'
 import { useSelector } from 'react-redux'
 // Redux Actions
-import { setDialog } from '../../redux/actions'
+import { setDialog, setSnackbar } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
 import LoadingFbStyle from '../loading_fbstyle/LoadingFbStyle'
 
@@ -38,7 +39,7 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
 
   const [imageLinks, setImageLinks] = useState<string[]>([IMAGE_NOT_FOUND_PATH])
   const [isLoading, setLoading] = useState<boolean>(true)
-  const imageLinkIdx = 0 
+  const imageLinkIdx = 0
 
   // get_link
   useEffect(() => {
@@ -64,10 +65,11 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
   const tools = [
     // the disabled button is only temporary and will be deleted.
     { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
-    { type: 'delete', icon: <DeleteIcon />, disabled: true },
+    { type: 'deleteImage', icon: <DeleteImageIcon style={iconStyle} />, disabled: false },
+    { type: 'delete', icon: <DeleteIcon />, disabled: false },
   ];
 
-  const handleToolClick = (type: WordActions) => {
+  const handleToolClick = async (type: WordActions) => {
     switch(type) {
       case 'like':
       const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
@@ -75,24 +77,50 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
         isFavorite: !word.isFavorite,
         // Below is NOT changed here.
         imageWrns: word.imageWrns, sem: word.sem,
-        tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, 
+        tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning,
         example: word.example, language: word.language,
       }, word)]
 
       store.dispatch(newlyModifyWords({
         type: "update", data: input
-      })) 
+      }))
       throwEvent("word:editWords", input)
-      break;
+      break
 
       case 'delete':
         store.dispatch(setDialog('ConfirmDelete', [word]))
-        break;
+        break
 
       case 'edit':
         store.dispatch(setDialog('EditWord', word))
-        break;
-      
+        break
+
+      case 'deleteImage':
+        const deleteStaticInput: StaticDeleteStaticInput = {
+          objectWrn: word.wrn,
+          staticWrn: word.imageWrns[0],
+        }
+        throwEvent("static:deleteStatic", deleteStaticInput)
+        .then(RE => {
+          if (RE.serverResponse !== "Accepted") return
+
+          const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
+            // BELOW is only chnaged
+            imageWrns: [],
+            // Below is NOT changed here.
+            isFavorite: word.isFavorite, sem: word.sem,
+            tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning,
+            example: word.example, language: word.language,
+          }, word)]
+
+          store.dispatch(newlyModifyWords({
+            type: "update", data: input
+          }))
+
+          store.dispatch(setSnackbar("Image deleted"))
+        })
+        break
+
       default:
         return
     }
@@ -103,10 +131,10 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
   const wordAndPronun = `${word.word}${word.pronun ? ` [${word.pronun}]` : ""}`
 
   return (
-    <Card sx={{ 
+    <Card sx={{
       minWidth: 345,
-      marginBottom: 1, 
-      background: support.isDarkMode ? wordCardDark : wordCardLight, 
+      marginBottom: 1,
+      background: support.isDarkMode ? wordCardDark : wordCardLight,
       color: support.isDarkMode ? fontDark : fontLight
     }}>
       <CardActionArea>
@@ -124,14 +152,14 @@ const ImageCard: FC<{ word: LegacyPureWord, highlighted?: string}> = ({
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             <Highlighter
-              textToHighlight={wordAndPronun} 
+              textToHighlight={wordAndPronun}
               highlightClassName="highlighted"
               searchWords={[targetWord]} autoEscape={true}
             />
           </Typography>
           <Typography variant="body2" color={support.isDarkMode ? fontDark : fontLight}>
             <Highlighter
-              textToHighlight={word.meaning ? word.meaning : ""} 
+              textToHighlight={word.meaning ? word.meaning : ""}
               highlightClassName="highlighted"
               searchWords={[targetWord]} autoEscape={true}
             />
