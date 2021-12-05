@@ -8,11 +8,11 @@ type Release = {
 }
 const RELEASES: Release[] = [
   {
-    version: "v0.5.6",
-    date: "Nov ?, 2021",
+    version: "v0.6.0",
+    date: "Dec 2, 2021",
     isFinished: false,
     majorUpdates: [
-      ""
+      "Now you can upload your photo for your word data! (Only available to admins at this point)"
     ]
   },
   {
