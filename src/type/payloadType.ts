@@ -25,6 +25,13 @@ export type GeneralDeletionPayload = {
 // Static service
 // ===============
 
+// static:deleteStatic
+export type StaticDeleteStaticInput = {
+  objectWrn: Wrn
+  staticWrn: Wrn
+}
+export type StaticDeleteStaticPayload = undefined
+
 // static:ASK_PERMISSION_FOR_POST_STATIC
 export type StaticAskPermissionForPostStaticInput = {
   totalFileSize: number
@@ -95,7 +102,7 @@ export type UserGoogleSignInInput = {
 }
 export type UserGoogleSignInPaylod = undefined
 
-// user:CREATE_USER 
+// user:CREATE_USER
 export type UserCreateUserInput = {
   federalProvider: FederalProvider;
   validatingToken: string;

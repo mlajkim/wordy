@@ -28,7 +28,8 @@ export type ServerResponse = "Denied" | "Accepted" | "LogicallyDenied";
 export type EventType =  `static:${StaticService}` | `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`
   | `wp:${WpService}` | `wss:${Wss}`;
 
-type StaticService = 
+type StaticService =
+  "deleteStatic" |
   "postStatic" |
   "getStatic" |
   "askPermissionForPostStatic"
