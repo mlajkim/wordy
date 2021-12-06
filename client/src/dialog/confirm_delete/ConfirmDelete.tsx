@@ -63,7 +63,7 @@ const  ConfirmDelete: FC = () => {
 
     // store.dispatch(deleteWords(sem, IDs));
   }
-  
+
   return (
     <Fragment>
       <Dialog

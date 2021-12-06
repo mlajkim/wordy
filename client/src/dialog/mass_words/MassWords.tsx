@@ -70,7 +70,7 @@ const MassWords: FC = () => {
   // Hook
   // When input is not blank then it prompts you to ask again before really leaving
   useBeforeunload((event: any) => {
-    if (massData !== '') 
+    if (massData !== '')
       event.preventDefault()
   })
 
@@ -100,7 +100,7 @@ const MassWords: FC = () => {
         }
         setDetectingTarget(currentInput)
         setEnableDetect(false) // turns off the loading after the time.
-        
+
       }, DETECT_LANGUAGE_TIMER * 1000)
       return () => clearInterval(interval)
     }
@@ -140,7 +140,7 @@ const MassWords: FC = () => {
       setTempOpen(true)
       return store.dispatch(setSnackbar(tr.cannotBeEmpty[ln], 'warning'))
     }
-      
+
     let chosenYear, chosenSem = ''
 
     // ! 2) Error check: If YQ is enabled, but given data is empty..
@@ -149,7 +149,7 @@ const MassWords: FC = () => {
       setTempOpen(true)
       return
     }
-    
+
     // ! 4) Error check: if data is empty
     if (year !== '' || sem !== '') {
       // Data validation check.
@@ -171,16 +171,16 @@ const MassWords: FC = () => {
       store.dispatch(setSnackbar(tr.cannotExceedLimit[ln], 'warning', 5))
       return
     }
-    
+
     // ! 6) Parse data
     const parsedData = ParsingAPI(massData, format_into_sem(parseInt(chosenYear), parseInt(chosenSem)), tags)
-    // Somehow convert here to 
+    // Somehow convert here to
     const payload: WordPostWordsInput = parsedData.map(eachWord => {
       const { sem, tag, word, pronun, meaning, example } = eachWord
       return {
-        sem, word, 
-        pronun: pronun ? pronun : "", 
-        meaning: meaning ? meaning : "", 
+        sem, word,
+        pronun: pronun ? pronun : "",
+        meaning: meaning ? meaning : "",
         example: example ? example : "",
         language: support.addWordLangPref, tag: tag ? tag : []
       }
@@ -190,10 +190,10 @@ const MassWords: FC = () => {
       // Legacy Method
       store.dispatch(postWords(parsedData))
       store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
-      store.dispatch(offDialog()) 
+      store.dispatch(offDialog())
       return
     }
-    
+
     // ! 8) Post with encrpytion
     throwEvent("word:postWords", payload)
     .then(RE => {
@@ -203,7 +203,7 @@ const MassWords: FC = () => {
       // ! 7) Apply frontend
       store.dispatch(newlyModifyWords({
         type: "create", data: RE.payload as WordPostWordsPayload
-      })) 
+      }))
       store.dispatch(offDialog())
       store.dispatch(setSnackbar(trAddWord.successAddWord[ln]))
     })
@@ -232,16 +232,16 @@ const MassWords: FC = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailableLangs 
+          <AvailableLangs
           enableDetect={enableDetect}
-            setDetectApi={setDetectApi} 
-            detectedLanguage={detectedLanguage} 
+            setDetectApi={setDetectApi}
+            detectedLanguage={detectedLanguage}
             detectApi={detectApi}
           />
           {support.isYearQuadrantEnabled &&
             <Fragment>
               <TextField margin="dense" label={trAddWord.year[ln]} 
-                fullWidth value={year} 
+                fullWidth value={year}
                 onChange={(e) => setYear(e.target.value)}
               />
               <TextField margin="dense" label={trAddWord.sem[ln]}  

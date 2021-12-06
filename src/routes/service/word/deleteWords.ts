@@ -28,13 +28,13 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
   const { words } = RE.requesterInputData as WordDeleteWordsInput;
   const wrns = words.map(word => word.wrn)
 
-  // for (const word of words) {
-  //   if (typeof word.imageWrns === "object" && word.imageWrns.length > 0) {
-  //     const ERROR_MESSAGE = "One or more received words data contain imageWrns, which should be deleted first."
-  //     const sending = ctGateway(RE, "LogicallyDenied", ERROR_MESSAGE)
-  //     return res.status(sending.status!).send(sending)
-  //   }
-  // }
+  for (const word of words) {
+    if (typeof word.imageWrns === "object" && word.imageWrns.length > 0) {
+      const ERROR_MESSAGE = "One or more received words data contain imageWrns, which should be deleted first."
+      const sending = ctGateway(RE, "LogicallyDenied", ERROR_MESSAGE)
+      return res.status(sending.status!).send(sending)
+    }
+  }
 
   // ! 1) Handle Latest
   const ER = await WordModel.find({ wrn: { $all: wrns }}) as Resource[] | null
