@@ -25,8 +25,14 @@ export type WordyEvent = {
 };
 
 export type ServerResponse = "Denied" | "Accepted" | "LogicallyDenied";
-export type EventType =  `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`
+export type EventType =  `static:${StaticService}` | `word:${WordSerivce}` | `okr:${OkrService}` | `kms:${KmsService}` | `user:${UserService}`
   | `wp:${WpService}` | `wss:${Wss}`;
+
+type StaticService =
+  "deleteStatic" |
+  "postStatic" |
+  "getStatic" |
+  "askPermissionForPostStatic"
 
 type Wss = // Wordy Signin Service
   "signOut"

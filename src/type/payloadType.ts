@@ -5,7 +5,8 @@
 // Type
 import { UserPure, MyOkrPure, OkrObjectHeader, OkrObjectPure, ResourceId,
   OkrContainerPure, WordPure, WordPureBasic
-} from '../type/resourceType'
+} from './resourceType'
+import { PostStaticErrorCode } from './errorCode'
 import { LegacyPureWord } from '../type/legacyType'
 import { 
   AvailableWpWrn,
@@ -18,6 +19,46 @@ export type GeneralDeletionPayload = {
   deleted: { cnt: number; wrns: Wrn[] }
   failed: { cnt: number; wrns: Wrn[] }
   unauthorized: { cnt: number; wrns: Wrn[] }
+}
+
+// ===============
+// Static service
+// ===============
+
+// static:deleteStatic
+export type StaticDeleteStaticInput = {
+  objectWrn: Wrn
+  staticWrn: Wrn
+}
+export type StaticDeleteStaticPayload = undefined
+
+// static:ASK_PERMISSION_FOR_POST_STATIC
+export type StaticAskPermissionForPostStaticInput = {
+  totalFileSize: number
+  numberOfFiles: number
+}
+export type StaticAskPermissionForPostStaticPayload = {
+  unauthorized: boolean
+  error_code: PostStaticErrorCode
+}
+
+// static:POST_STATIC
+export type StaticPostStaticInput = StaticAskPermissionForPostStaticInput & {
+  objectWrn: Wrn
+  word: ResourceId & WordPure
+  fileData: string[]
+}
+export type StaticPostStaticPayload = {
+  addedStaticWrns: Wrn[]
+}
+
+// static:GET_STATIC
+export type StaticGetStaticInput = {
+  objectWrn: Wrn
+  staticWrns: Wrn[]
+}
+export type StaticGetStaticPayload ={
+  urls: string[]
 }
 
 // ===============
@@ -61,7 +102,7 @@ export type UserGoogleSignInInput = {
 }
 export type UserGoogleSignInPaylod = undefined
 
-// user:CREATE_USER 
+// user:CREATE_USER
 export type UserCreateUserInput = {
   federalProvider: FederalProvider;
   validatingToken: string;

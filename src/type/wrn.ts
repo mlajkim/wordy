@@ -4,7 +4,16 @@ type Wrn = `wrn:${FutureUsage}:${DataType}:${DataLocation}:${PublicId}:${Private
 // ==============
 // Future Usage
 // ==============
-export type DataType = `user:${UserWrn}` | `okr:${OkrWrn}` | `word:${WordWrn}` | `wp:${WordyPolicy}` | `backend_assigned_identity:${ServerAssignedId}`
+export type DataType = 
+  `static:${StaticWrn}` |
+  `user:${UserWrn}` | 
+  `okr:${OkrWrn}` | 
+  `word:${WordWrn}` | 
+  `wp:${WordyPolicy}` | 
+  `backend_assigned_identity:${ServerAssignedId}`
+
+type StaticWrn =
+  "image"
 
 type UserWrn =
   "end_user" |
@@ -40,5 +49,12 @@ type FutureUsage = ""
 type PublicId = string 
   | "sample-data" // sample data is used for sample data for new user!
 type PrivateId = string
+
+
+export const getDataGroup = (wrn: Wrn) => wrn.split(":")[2]
+export const getSubGroup = (wrn: Wrn) => wrn.split(":")[3]
+export const getLocation = (wrn: Wrn) => wrn.split(":")[4]
+export const getPublicId = (wrn: Wrn) => wrn.split(":")[5]
+export const getPrivateId = (wrn: Wrn) => wrn.split(":")[6]
 
 export default Wrn

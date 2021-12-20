@@ -192,9 +192,9 @@ export const compareVersion = (isHigherVersion: Version, thanThisVersion: Versio
 // Sep 21, 2021 
 export const convertWordsIntoLegacy = (words: (ResourceId & WordPure)[]): LegacyPureWord[] => {
   return words.map(found => {
-    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, wrn, isEncrypted, imageWrn, ownerWrn, legacyId } = found;
+    const { dateAdded, objectOrder, isFavorite, sem, language, tag, word, pronun, meaning, example, wrn, isEncrypted, imageWrns, ownerWrn, legacyId } = found;
     return {
-      wrn, imageWrn, ownerWrn, legacyId: legacyId ? legacyId : "",
+      wrn, imageWrns, ownerWrn, legacyId: legacyId ? legacyId : "",
       wpWrn: "wrn::wp:pre_defined:backend:only_owner:210811",
       isEncrypted,
       _id: "",

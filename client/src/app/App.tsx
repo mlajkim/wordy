@@ -88,17 +88,6 @@ const App: FC = () => {
     }
   };
 
-  const RenderOneTap = user.isSignedIn !== true ? (
-    <GoogleOneTapLogin 
-      onError={(error: any) => console.log(error)}
-      onSuccess={(response) => {
-        const converted = cvtOneTapIntoGoogleRes(response)
-        generateAccessToken(converted, ln, true)
-      }}
-      googleAccountConfigs={{ client_id: GOOGLE_CLIENT_ID }} 
-    />
-  ) : null
-
   return (
     <HotKeys keyMap={keyMap} handlers={hdlHotkey}>
       <div style={{ 
@@ -118,7 +107,18 @@ const App: FC = () => {
             </Route>
             */}
             <Route path="">
-              { RenderOneTap }
+              { !user.isSignedIn &&
+                (
+                  <GoogleOneTapLogin 
+                    onError={(error: any) => console.log(error)}
+                    onSuccess={(response) => {
+                      const converted = cvtOneTapIntoGoogleRes(response)
+                      generateAccessToken(converted, ln, true)
+                    }}
+                    googleAccountConfigs={{ client_id: GOOGLE_CLIENT_ID }} 
+                  />
+                )              
+              }
               <AppbarNotice />
               <Appbar />
               <Snackbar />

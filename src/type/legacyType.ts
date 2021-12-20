@@ -7,7 +7,7 @@ export type LegacyPureWord = {
   wrn: Wrn,
   ownerWrn: Wrn,
   isEncrypted: boolean,
-  imageWrn: Wrn[],
+  imageWrns: Wrn[],
   wpWrn: AvailableWpWrn,
   legacyId: string,
   // ! Legacy below

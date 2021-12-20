@@ -2,6 +2,7 @@ import express from 'express';
 // library
 import { watGateway } from '../internal/security/wat';
 // Routeres
+import staticFile from './service/static'
 import wss from './service/wss';
 import word from './service/word';
 import user from './service/user';
@@ -24,11 +25,12 @@ apigateway.use((req: Request, _res: Response, next: NextFunction) => {
 apigateway.use(watGateway);
 
 // Apply
-apigateway.use(wss);
-apigateway.use(word);
-apigateway.use(user);
-apigateway.use(okr);
-apigateway.use(wp);
+apigateway.use(staticFile) // static is reserved word for JS
+apigateway.use(wss)
+apigateway.use(word)
+apigateway.use(user)
+apigateway.use(okr)
+apigateway.use(wp)
 
 
 // Finally

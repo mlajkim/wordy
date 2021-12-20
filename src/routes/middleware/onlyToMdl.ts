@@ -9,6 +9,13 @@ import { IS_DEV_MODE } from '../../server';
 // Library
 import mongoose from 'mongoose';
 
+export type OTM_TYPE = "ONLY_TO_ADMIN"
+
+export const returnOtmWithOtmType = (type: OTM_TYPE) => {
+  if (type === "ONLY_TO_ADMIN") return onlyToAdminMdl
+  else return DISABLED_EVENT_MDL
+}
+
 export const connectToMongoDB = (_req: Request, _res: Response, next: NextFunction) => {
   if (IS_DEV_MODE) {
     const url = process.env.LOCAL_MONGO_SERVER_URL as string

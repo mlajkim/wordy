@@ -1,7 +1,3 @@
-/**
- * 
- * 오직 Encrpyted된 단어카드만 사진을 갖고있을 수 있음.
- */
 import { FC, useState, Fragment } from 'react'
 import Highlighter from "react-highlight-words"
 import './wc.css'
@@ -18,6 +14,8 @@ import { WordEditWordsInput } from '../../type/payloadType'
 // import { WordsEncryptWordsInput, WordsEncryptWordsPayload } from '../../type/payloadType'
 // Lambda
 import { convertLegacyWordIntoPureWord, throwEvent } from '../../frontendWambda'
+// Component
+import ImageUploadIcon from '../image_upload/ImageUploadIcon'
 // MUI
 // import Tooltip from '@mui/material/Tooltip' // used for encryption and decrpytion
 import Card from '@material-ui/core/Card'
@@ -29,15 +27,15 @@ import Chip from '@material-ui/core/Chip'
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress'
 // Icons
-// import EncryptedIcon from '@mui/icons-material/Check' // used for encryption and decrpytion
-// import LockOpenIcon from '@mui/icons-material/LockOpen' // used for encryption and decrpytion
+// import EncryptedIcon from '@mui/icons-material/Check' // used for encryption and decryption
+// import LockOpenIcon from '@mui/icons-material/LockOpen' // used for encryption and decryption
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import StatIcon from '@material-ui/icons/Equalizer'
-import StarReviewIocn from '@material-ui/icons/PlayArrow'
+import StartReviewIcon from '@material-ui/icons/PlayArrow'
 // Redux
 import store from '../../redux/store'
 import { useSelector } from 'react-redux'
@@ -45,6 +43,7 @@ import { useSelector } from 'react-redux'
 import { setDialog } from '../../redux/actions'
 import { newlyModifyWords } from '../../redux/actions/wordsAction'
 const isEncrypting = false
+export type WordActions = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart' | 'uploadPhoto' | 'deleteImage'
 
 type Props = { word: LegacyPureWord, highlighted?: string };
 // @ MAIN
@@ -53,26 +52,26 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
   const ln = language
   const [ open, setOpen ] = useState(false)
 
+  const iconStyle = { color: support.isDarkMode ? fontDark : fontLight }
   const tools = [
-  // the disabled button is only temporary and will be deleted.
-  { type: 'edit', icon: <EditIcon style={{ color: support.isDarkMode ? fontDark : fontLight }}/>, disabled: false},
-  { type: 'delete', icon: <DeleteIcon style={{ color: support.isDarkMode ? fontDark : fontLight }} />, disabled: false},
-  { type: 'stat', icon: <StatIcon />, disabled: true},
-  { type: 'reviewStart', icon: <StarReviewIocn />, disabled: true}
-];
+    // the disabled button is only temporary and will be deleted.
+    { type: 'edit', icon: <EditIcon style={iconStyle}/>, disabled: false },
+    { type: 'uploadPhoto', icon: <ImageUploadIcon iconStyle={iconStyle} word={word}/>, disabled: false },
+    { type: 'delete', icon: <DeleteIcon style={iconStyle} />, disabled: false },
+    { type: 'stat', icon: <StatIcon />, disabled: true},
+    { type: 'reviewStart', icon: <StartReviewIcon />, disabled: true}
+  ];
   
   // temporary
 
-  type Type = 'like' | 'edit' | 'delete' | 'stat' | 'reviewStart'
-
-  const handleToolClick = (type: Type) => {
+  const handleToolClick = (type: WordActions) => {
     switch(type) {
       case 'like':
       const input: WordEditWordsInput = [convertLegacyWordIntoPureWord({
         // BELOW is only chnaged
         isFavorite: !word.isFavorite,
         // Below is NOT changed here.
-        imageWrn: word.imageWrn, sem: word.sem,
+        imageWrns: word.imageWrns, sem: word.sem,
         tag: word.tag, word: word.word, pronun: word.pronun, meaning: word.meaning, 
         example: word.example, language: word.language,
       }, word)]
@@ -168,7 +167,7 @@ const EncryptedWordCard: FC<Props> = ({ word, highlighted }) => {
         { open &&
           tools.map(tool => (
             // the disabled button is only temporary and will be deleted.
-            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type as Type)}>
+            <IconButton disabled={tool.disabled ? true : false} key={tool.type} size="small" color="inherit" onClick={() => handleToolClick(tool.type as WordActions)}>
               {tool.icon}
             </IconButton>
           ))

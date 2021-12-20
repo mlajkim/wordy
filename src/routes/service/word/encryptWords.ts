@@ -41,7 +41,7 @@ router.post(pathFinder(EVENT_TYPE), async (req: Request, res: Response) => {
     // remove certain Data
     const { _id, legacyId, dateAdded } = word
     word.isEncrypted = true
-    word.imageWrn = []
+    word.imageWrns = []
 
     let filteredId = legacyId && legacyId !== "" ? legacyId : _id
     filteredId = _id && _id !== "" ? _id : filteredId
