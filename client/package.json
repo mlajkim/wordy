@@ -82,7 +82,7 @@
     "@typescript-eslint/parser": "^4.22.1",
     "apollo-boost": "^0.4.9",
     "concurrently": "^6.2.1",
-    "electron": "^14.0.1",
+    "electron": "^18.3.7",
     "electron-is-dev": "^2.0.0",
     "react-apollo": "^3.1.5",
     "redux-devtools": "^3.7.0",
